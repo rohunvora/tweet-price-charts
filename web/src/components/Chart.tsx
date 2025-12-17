@@ -65,6 +65,13 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
       },
       rightPriceScale: {
         borderColor: '#30363D',
+        scaleMargins: {
+          top: 0.1,
+          bottom: 0.1,
+        },
+      },
+      localization: {
+        priceFormatter: (price: number) => price.toFixed(8),
       },
     });
 
@@ -122,15 +129,23 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
         console.log('Sample candle:', priceData.candles[0]);
         setCandles(priceData.candles);
         
-        if (seriesRef.current) {
+        if (seriesRef.current && chartRef.current && containerRef.current) {
           const chartData = toCandlestickData(priceData);
           console.log('Chart data sample:', JSON.stringify(chartData[0]));
           console.log('Chart data length:', chartData.length);
+          
+          // Ensure chart has correct dimensions before setting data
+          const width = containerRef.current.clientWidth;
+          const height = containerRef.current.clientHeight;
+          if (width > 0 && height > 0) {
+            chartRef.current.applyOptions({ width, height });
+          }
+          
           seriesRef.current.setData(chartData as CandlestickData<Time>[]);
-          chartRef.current?.timeScale().fitContent();
-          console.log('Data set on series, fitContent called');
+          chartRef.current.timeScale().fitContent();
+          console.log('Data set, final dimensions:', width, height);
         } else {
-          console.log('seriesRef is null!');
+          console.log('Refs missing:', !!seriesRef.current, !!chartRef.current, !!containerRef.current);
         }
       } catch (error) {
         console.error('Failed to load price data:', error);
@@ -183,8 +198,8 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
       <div className="relative flex-1 min-h-[450px]">
         <div ref={containerRef} className="absolute inset-0" />
         
-        {/* Marker overlay canvas */}
-        {!loading && candles.length > 0 && (
+        {/* Marker overlay canvas - temporarily disabled for debugging */}
+        {false && !loading && candles.length > 0 && (
           <MarkerCanvas
             tweetEvents={tweetEvents}
             candles={candles}
