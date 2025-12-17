@@ -194,8 +194,8 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
       </div>
 
       {/* Chart container */}
-      <div className="relative flex-1 min-h-[450px]">
-        <div ref={containerRef} className="absolute inset-0" />
+      <div className="flex-1 min-h-[450px]">
+        <div ref={containerRef} className="w-full h-full" style={{ minHeight: '450px' }} />
         
         {/* Marker overlay canvas - temporarily disabled for debugging */}
         {false && !loading && candles.length > 0 && (
