@@ -8,7 +8,6 @@ import {
   CandlestickData,
   Time,
   CrosshairMode,
-  CandlestickSeries,
 } from 'lightweight-charts';
 import { Timeframe, TweetEvent, Candle } from '@/lib/types';
 import { loadPrices, toCandlestickData, getTimeframeForRange } from '@/lib/dataLoader';
@@ -75,7 +74,7 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
       },
     });
 
-    const series = chart.addSeries(CandlestickSeries, {
+    const series = chart.addCandlestickSeries({
       upColor: '#3FB950',
       downColor: '#F85149',
       borderUpColor: '#3FB950',
