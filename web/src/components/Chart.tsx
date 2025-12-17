@@ -37,6 +37,8 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
     if (!containerRef.current) return;
 
     const chart = createChart(containerRef.current, {
+      width: containerRef.current.clientWidth,
+      height: containerRef.current.clientHeight || 450,
       layout: {
         background: { color: '#0D1117' },
         textColor: '#8B949E',
@@ -147,7 +149,7 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex flex-col">
+    <div className="relative w-full h-full min-h-[500px] flex flex-col">
       {/* Timeframe selector */}
       <div className="flex items-center gap-2 px-4 py-2 bg-[#161B22] border-b border-[#30363D]">
         <span className="text-sm text-[#8B949E] mr-2">Timeframe:</span>
@@ -170,7 +172,7 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
       </div>
 
       {/* Chart container */}
-      <div className="relative flex-1">
+      <div className="relative flex-1 min-h-[450px]">
         <div ref={containerRef} className="absolute inset-0" />
         
         {/* Marker overlay canvas */}
