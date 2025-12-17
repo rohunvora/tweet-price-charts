@@ -79,7 +79,7 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
 
     chartRef.current = chart;
     seriesRef.current = series;
-    console.log('Chart initialized, series created');
+    console.log('Chart initialized, dimensions:', containerRef.current?.clientWidth, containerRef.current?.clientHeight);
 
     // Track visible range for marker positioning
     chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
@@ -124,9 +124,11 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
         
         if (seriesRef.current) {
           const chartData = toCandlestickData(priceData);
-          console.log('Chart data sample:', chartData[0]);
+          console.log('Chart data sample:', JSON.stringify(chartData[0]));
+          console.log('Chart data length:', chartData.length);
           seriesRef.current.setData(chartData as CandlestickData<Time>[]);
           chartRef.current?.timeScale().fitContent();
+          console.log('Data set on series, fitContent called');
         } else {
           console.log('seriesRef is null!');
         }
