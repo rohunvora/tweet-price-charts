@@ -79,6 +79,7 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
 
     chartRef.current = chart;
     seriesRef.current = series;
+    console.log('Chart initialized, series created');
 
     // Track visible range for marker positioning
     chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
@@ -117,12 +118,17 @@ export default function Chart({ tweetEvents, onTimeframeChange }: ChartProps) {
       setLoading(true);
       try {
         const priceData = await loadPrices(timeframe);
+        console.log('Loaded price data:', timeframe, priceData.candles.length, 'candles');
+        console.log('Sample candle:', priceData.candles[0]);
         setCandles(priceData.candles);
         
         if (seriesRef.current) {
           const chartData = toCandlestickData(priceData);
+          console.log('Chart data sample:', chartData[0]);
           seriesRef.current.setData(chartData as CandlestickData<Time>[]);
           chartRef.current?.timeScale().fitContent();
+        } else {
+          console.log('seriesRef is null!');
         }
       } catch (error) {
         console.error('Failed to load price data:', error);
