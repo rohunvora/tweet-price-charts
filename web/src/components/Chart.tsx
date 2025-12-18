@@ -42,6 +42,7 @@ export default function Chart({ tweetEvents }: ChartProps) {
   const tweetEventsRef = useRef(tweetEvents);
   const showBubblesRef = useRef(showBubbles);
   const hoveredTweetRef = useRef(hoveredTweet);
+  const candleTimesRef = useRef<number[]>([]);
   
   // Keep refs in sync
   useEffect(() => { tweetEventsRef.current = tweetEvents; }, [tweetEvents]);
@@ -133,16 +134,19 @@ export default function Chart({ tweetEvents }: ChartProps) {
     // #region agent log
     if (visibleTweets.length > 0) {
       const sampleTweet = visibleTweets[0];
-      const sampleX = chart.timeScale().timeToCoordinate(sampleTweet.timestamp as Time);
+      const nearestTime = findNearestCandleTime(sampleTweet.timestamp);
+      const sampleX = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
       const sampleY = series.priceToCoordinate(sampleTweet.price_at_tweet!);
-      fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:coords',message:'Sample coordinate conversion',data:{sampleX,sampleY,sampleTs:sampleTweet.timestamp,samplePrice:sampleTweet.price_at_tweet,visibleCount:visibleTweets.length},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H4'})}).catch(()=>{});
+      fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:coords',message:'Sample coordinate conversion',data:{sampleX,sampleY,sampleTs:sampleTweet.timestamp,nearestTime,samplePrice:sampleTweet.price_at_tweet,visibleCount:visibleTweets.length,candleTimesCount:candleTimesRef.current.length},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H4',runId:'post-fix'})}).catch(()=>{});
     }
     // #endregion
 
     // Draw each tweet bubble
     let drawnCount = 0;
     for (const tweet of visibleTweets) {
-      const x = chart.timeScale().timeToCoordinate(tweet.timestamp as Time);
+      // Use nearest candle time for X coordinate (timeToCoordinate only works for exact candle times)
+      const nearestTime = findNearestCandleTime(tweet.timestamp);
+      const x = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
       const y = series.priceToCoordinate(tweet.price_at_tweet!);
 
       if (x === null || y === null) continue;
@@ -311,7 +315,8 @@ export default function Chart({ tweetEvents }: ChartProps) {
       for (const tweet of tweets) {
         if (!tweet.price_at_tweet) continue;
 
-        const tx = chart.timeScale().timeToCoordinate(tweet.timestamp as Time);
+        const nearestTime = findNearestCandleTime(tweet.timestamp);
+        const tx = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
         const ty = series.priceToCoordinate(tweet.price_at_tweet);
 
         if (tx === null || ty === null) continue;
@@ -344,7 +349,8 @@ export default function Chart({ tweetEvents }: ChartProps) {
       for (const tweet of tweets) {
         if (!tweet.price_at_tweet) continue;
 
-        const tx = chart.timeScale().timeToCoordinate(tweet.timestamp as Time);
+        const nearestTime = findNearestCandleTime(tweet.timestamp);
+        const tx = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
         const ty = series.priceToCoordinate(tweet.price_at_tweet);
 
         if (tx === null || ty === null) continue;
@@ -363,6 +369,35 @@ export default function Chart({ tweetEvents }: ChartProps) {
     };
   }, [drawMarkers]);
 
+  // Helper: find nearest candle time to a given timestamp (uses ref, no deps needed)
+  const findNearestCandleTime = (timestamp: number): number | null => {
+    const times = candleTimesRef.current;
+    if (times.length === 0) return null;
+    
+    // Binary search for nearest
+    let left = 0;
+    let right = times.length - 1;
+    
+    while (left < right) {
+      const mid = Math.floor((left + right) / 2);
+      if (times[mid] < timestamp) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    
+    // Check which is closer: left or left-1
+    if (left > 0) {
+      const diffLeft = Math.abs(times[left] - timestamp);
+      const diffPrev = Math.abs(times[left - 1] - timestamp);
+      if (diffPrev < diffLeft) {
+        return times[left - 1];
+      }
+    }
+    return times[left];
+  };
+
   // Load data when timeframe changes
   useEffect(() => {
     async function loadData() {
@@ -371,6 +406,9 @@ export default function Chart({ tweetEvents }: ChartProps) {
       
       try {
         const priceData = await loadPrices(timeframe);
+        
+        // Store candle times for coordinate lookup
+        candleTimesRef.current = priceData.candles.map(c => c.t);
         
         if (seriesRef.current && chartRef.current) {
           const chartData = toCandlestickData(priceData);
