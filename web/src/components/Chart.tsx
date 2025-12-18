@@ -227,7 +227,11 @@ export default function Chart({ tweetEvents }: ChartProps) {
 
     // Draw silence gap lines between clusters with labels at midpoint
     const GAP_THRESHOLD = 24 * 3600; // 24 hours minimum to show gap line
-    const showLabels = visibleSeconds < 86400 * 30; // Less than 30 days visible
+    
+    // Adaptive font sizing based on zoom level
+    const timeFontSize = Math.round(8 + 4 * zoomFactor); // 8-12px
+    const pctFontSize = Math.round(9 + 4 * zoomFactor);  // 9-13px
+    const labelSpacing = Math.round(6 + 4 * zoomFactor); // 6-10px
     
     ctx.setLineDash([6, 4]);
     ctx.lineWidth = 1.5;
@@ -251,32 +255,30 @@ export default function Chart({ tweetEvents }: ChartProps) {
         ctx.lineTo(endX, endY);
         ctx.stroke();
         
-        // Draw labels at midpoint of the gap line
-        if (showLabels) {
-          const midX = (startX + endX) / 2;
-          const midY = (startY + endY) / 2;
-          
-          ctx.setLineDash([]); // Reset for text
-          
-          // Time since previous (e.g., "3d")
-          if (curr.timeSincePrev > 3600) {
-            ctx.font = '10px system-ui, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#787B86';
-            ctx.fillText(formatTimeGap(curr.timeSincePrev), midX, midY - 8);
-          }
-          
-          // Price change (e.g., "-20.6%")
-          if (curr.pctSincePrev !== null) {
-            const pctColor = curr.pctSincePrev >= 0 ? '#26A69A' : '#EF5350';
-            ctx.font = 'bold 11px system-ui, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillStyle = pctColor;
-            ctx.fillText(formatPctChange(curr.pctSincePrev), midX, midY + 6);
-          }
-          
-          ctx.setLineDash([6, 4]); // Restore for next line
+        // Draw labels at midpoint of the gap line (always shown)
+        const midX = (startX + endX) / 2;
+        const midY = (startY + endY) / 2;
+        
+        ctx.setLineDash([]); // Reset for text
+        
+        // Time since previous (e.g., "3d")
+        if (curr.timeSincePrev > 3600) {
+          ctx.font = `${timeFontSize}px system-ui, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#787B86';
+          ctx.fillText(formatTimeGap(curr.timeSincePrev), midX, midY - labelSpacing);
         }
+        
+        // Price change (e.g., "-20.6%")
+        if (curr.pctSincePrev !== null) {
+          const pctColor = curr.pctSincePrev >= 0 ? '#26A69A' : '#EF5350';
+          ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = pctColor;
+          ctx.fillText(formatPctChange(curr.pctSincePrev), midX, midY + labelSpacing);
+        }
+        
+        ctx.setLineDash([6, 4]); // Restore for next line
       }
     }
     ctx.setLineDash([]);
