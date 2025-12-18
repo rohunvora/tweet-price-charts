@@ -619,16 +619,9 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         if (seriesRef.current && chartRef.current) {
           seriesRef.current.setData(toCandlestickData(priceData) as CandlestickData<Time>[]);
 
-          // Set initial view range from first tweet to latest data
-          const tweetsWithPrice = tweetEvents.filter(t => t.price_at_tweet !== null);
-          if (tweetsWithPrice.length > 0 && priceData.candles.length > 0) {
-            chartRef.current.timeScale().setVisibleRange({
-              from: tweetsWithPrice[0].timestamp as Time,
-              to: priceData.end as Time,
-            });
-          } else {
-            chartRef.current.timeScale().fitContent();
-          }
+          // Official best practice: fitContent() auto-scales both axes
+          // This resets X-axis to show all data and triggers Y-axis auto-scale
+          chartRef.current.timeScale().fitContent();
 
           setDataLoaded(true);
         }
