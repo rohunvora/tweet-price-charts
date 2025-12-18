@@ -38,14 +38,31 @@ export async function loadAssets(): Promise<Asset[]> {
   }
 
   log('Loading assets.json');
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadAssets:entry',message:'Starting loadAssets',data:{},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
+  // #endregion
+  
   const response = await fetch('/data/assets.json');
+  
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadAssets:response',message:'Fetch response',data:{ok:response.ok,status:response.status,statusText:response.statusText},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
+  // #endregion
   
   if (!response.ok) {
     throw new Error(`Failed to load assets.json: ${response.status} ${response.statusText}`);
   }
   
   const data = await response.json();
+  
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadAssets:parsed',message:'Parsed JSON',data:{hasAssets:!!data.assets,assetsLength:data.assets?.length,allAssets:data.assets?.map((a:Asset)=>({id:a.id,enabled:a.enabled}))},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3,H5'})}).catch(()=>{});
+  // #endregion
+  
   const enabledAssets = data.assets.filter((a: Asset) => a.enabled);
+  
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadAssets:filtered',message:'Filtered assets',data:{enabledCount:enabledAssets.length,enabledIds:enabledAssets.map((a:Asset)=>a.id)},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3'})}).catch(()=>{});
+  // #endregion
   
   log(`Loaded ${enabledAssets.length} enabled assets`, enabledAssets.map((a: Asset) => a.id));
   
