@@ -30,7 +30,7 @@ ASSETS_FILE = PROJECT_ROOT / "scripts" / "assets.json"
 
 # Static output paths (for frontend)
 WEB_DIR = PROJECT_ROOT / "web"
-PUBLIC_DATA_DIR = WEB_DIR / "public" / "data"
+PUBLIC_DATA_DIR = WEB_DIR / "public" / "static"
 AVATARS_DIR = WEB_DIR / "public" / "avatars"
 
 # Ensure directories exist

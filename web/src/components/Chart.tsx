@@ -621,7 +621,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
 
           // Official best practice: fitContent() auto-scales both axes
           // This resets X-axis to show all data and triggers Y-axis auto-scale
-          chartRef.current.timeScale().fitContent();
+            chartRef.current.timeScale().fitContent();
 
           setDataLoaded(true);
         }

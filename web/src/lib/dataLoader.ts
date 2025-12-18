@@ -39,7 +39,15 @@ export async function loadAssets(): Promise<Asset[]> {
 
   log('Loading assets.json');
 
-  const response = await fetch('/data/assets.json');
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadAssets:entry',message:'Fetching /static/assets.json',data:{url:'/static/assets.json'},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
+
+  const response = await fetch('/static/assets.json');
+
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadAssets:response',message:'assets.json response',data:{status:response.status,ok:response.ok,statusText:response.statusText,contentType:response.headers.get('content-type')},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
 
   if (!response.ok) {
     throw new Error(`Failed to load assets.json: ${response.status} ${response.statusText}`);
@@ -47,6 +55,10 @@ export async function loadAssets(): Promise<Asset[]> {
 
   const data = await response.json();
   const enabledAssets = data.assets.filter((a: Asset) => a.enabled);
+
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadAssets:success',message:'Assets loaded successfully',data:{count:enabledAssets.length,ids:enabledAssets.map((a:Asset)=>a.id)},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
 
   log(`Loaded ${enabledAssets.length} enabled assets`, enabledAssets.map((a: Asset) => a.id));
   
@@ -76,8 +88,17 @@ export async function loadPrices(timeframe: Timeframe, assetId: string): Promise
     return load1mPrices(assetId);
   }
   
-  const path = `/data/${assetId}/prices_${timeframe}.json`;
+  const path = `/static/${assetId}/prices_${timeframe}.json`;
+
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadPrices:entry',message:'Fetching prices',data:{assetId,timeframe,path},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'C'})}).catch(()=>{});
+  // #endregion
+
   const response = await fetch(path);
+
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadPrices:response',message:'prices response',data:{assetId,timeframe,path,status:response.status,ok:response.ok,contentType:response.headers.get('content-type')},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'C'})}).catch(()=>{});
+  // #endregion
   
   if (!response.ok) {
     // Graceful fallback for missing timeframe data (e.g., CoinGecko assets only have 1d)
@@ -111,7 +132,7 @@ async function load1mPrices(assetId: string): Promise<PriceData> {
   }
   
   // Load index
-  const indexPath = `/data/${assetId}/prices_1m_index.json`;
+  const indexPath = `/static/${assetId}/prices_1m_index.json`;
   log(`Loading 1m index from ${indexPath}`);
   
   const indexResponse = await fetch(indexPath);
@@ -134,7 +155,7 @@ async function load1mPrices(assetId: string): Promise<PriceData> {
   
   // Load all chunks in parallel
   const chunkPromises = index.chunks.map(async (chunk: { file: string }) => {
-    const chunkPath = `/data/${assetId}/${chunk.file}`;
+    const chunkPath = `/static/${assetId}/${chunk.file}`;
     log(`Loading chunk: ${chunkPath}`);
     
     const response = await fetch(chunkPath);
@@ -188,8 +209,17 @@ export async function loadTweetEvents(assetId: string): Promise<TweetEventsData>
   
   log(`Loading tweet events for ${assetId}`);
   
-  const path = `/data/${assetId}/tweet_events.json`;
+  const path = `/static/${assetId}/tweet_events.json`;
+
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadTweetEvents:entry',message:'Fetching tweet_events.json',data:{assetId,path},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B'})}).catch(()=>{});
+  // #endregion
+
   const response = await fetch(path);
+
+  // #region agent log
+  fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'dataLoader.ts:loadTweetEvents:response',message:'tweet_events.json response',data:{assetId,path,status:response.status,ok:response.ok,contentType:response.headers.get('content-type')},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B'})}).catch(()=>{});
+  // #endregion
   
   if (!response.ok) {
     throw new Error(`Missing tweet events: ${path} (${response.status} ${response.statusText})`);
@@ -213,7 +243,7 @@ export async function loadTweetEvents(assetId: string): Promise<TweetEventsData>
 export async function loadStats(assetId: string): Promise<Stats> {
   log(`Loading stats for ${assetId}`);
   
-  const path = `/data/${assetId}/stats.json`;
+  const path = `/static/${assetId}/stats.json`;
   const response = await fetch(path);
   
   if (!response.ok) {
