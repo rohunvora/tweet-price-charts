@@ -116,6 +116,8 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [dataLoaded, setDataLoaded] = useState(false);
   const [avatarLoaded, setAvatarLoaded] = useState(false);
+  const [availableTimeframes, setAvailableTimeframes] = useState<Set<Timeframe>>(new Set(['1d']));
+  const [noData, setNoData] = useState(false);
 
   // ---------------------------------------------------------------------------
   // Sync refs with state/props
@@ -553,24 +555,70 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   }, [drawMarkers, findNearestCandleTime]);
 
   // ---------------------------------------------------------------------------
+  // Detect available timeframes on asset change
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    async function detectTimeframes() {
+      const available = new Set<Timeframe>();
+
+      // Check each timeframe by trying to fetch it
+      for (const tf of ['1d', '1h', '15m', '1m'] as Timeframe[]) {
+        try {
+          const path = tf === '1m'
+            ? `/data/${asset.id}/prices_1m_index.json`
+            : `/data/${asset.id}/prices_${tf}.json`;
+          const response = await fetch(path, { method: 'HEAD' });
+          if (response.ok) {
+            available.add(tf);
+          }
+        } catch {
+          // Timeframe not available
+        }
+      }
+
+      // Always include 1d as fallback
+      if (available.size === 0) available.add('1d');
+
+      console.log(`[Chart] Available timeframes for ${asset.id}:`, [...available]);
+      setAvailableTimeframes(available);
+
+      // If current timeframe is not available, switch to 1d
+      if (!available.has(timeframe)) {
+        console.log(`[Chart] Timeframe ${timeframe} not available, switching to 1d`);
+        setTimeframe('1d');
+      }
+    }
+    detectTimeframes();
+  }, [asset.id]);
+
+  // ---------------------------------------------------------------------------
   // Load price data
   // ---------------------------------------------------------------------------
   useEffect(() => {
     async function loadData() {
       setLoading(true);
       setDataLoaded(false);
-      
+      setNoData(false);
+
       console.log(`[Chart] Loading ${timeframe} prices for ${asset.id}`);
-      
+
       try {
         const priceData = await loadPrices(timeframe, asset.id);
-        
+
+        // Handle empty data gracefully
+        if (priceData.candles.length === 0) {
+          console.warn(`[Chart] No candle data for ${asset.id} @ ${timeframe}`);
+          setNoData(true);
+          setLoading(false);
+          return;
+        }
+
         candlesRef.current = priceData.candles;
         candleTimesRef.current = priceData.candles.map(c => c.t);
-        
+
         if (seriesRef.current && chartRef.current) {
           seriesRef.current.setData(toCandlestickData(priceData) as CandlestickData<Time>[]);
-          
+
           // Set initial view range from first tweet to latest data
           const tweetsWithPrice = tweetEvents.filter(t => t.price_at_tweet !== null);
           if (tweetsWithPrice.length > 0 && priceData.candles.length > 0) {
@@ -581,12 +629,12 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
           } else {
             chartRef.current.timeScale().fitContent();
           }
-          
+
           setDataLoaded(true);
         }
       } catch (error) {
         console.error(`[Chart] Failed to load price data:`, error);
-        throw error; // Re-throw to bubble up - no fallbacks
+        setNoData(true);
       }
       setLoading(false);
     }
@@ -673,20 +721,28 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
 
       {/* Timeframe selector */}
       <div className="absolute bottom-2 left-2 flex items-center gap-1 z-20">
-        {TIMEFRAMES.map((tf) => (
-          <button
-            key={tf.value}
-            onClick={() => setTimeframe(tf.value)}
-            className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
-              timeframe === tf.value
-                ? 'text-white'
-                : 'text-[#787B86] hover:text-[#D1D4DC] hover:bg-[#2A2E39]'
-            }`}
-            style={timeframe === tf.value ? { backgroundColor: asset.color } : undefined}
-          >
-            {tf.label}
-          </button>
-        ))}
+        {TIMEFRAMES.map((tf) => {
+          const isAvailable = availableTimeframes.has(tf.value);
+          const isActive = timeframe === tf.value;
+          return (
+            <button
+              key={tf.value}
+              onClick={() => isAvailable && setTimeframe(tf.value)}
+              disabled={!isAvailable}
+              title={!isAvailable ? `${tf.label} data not available for ${asset.name}` : undefined}
+              className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+                isActive
+                  ? 'text-white'
+                  : isAvailable
+                    ? 'text-[#787B86] hover:text-[#D1D4DC] hover:bg-[#2A2E39]'
+                    : 'text-[#3A3E49] cursor-not-allowed'
+              }`}
+              style={isActive ? { backgroundColor: asset.color } : undefined}
+            >
+              {tf.label}
+            </button>
+          );
+        })}
         <span className="ml-3 text-[10px] text-[#555] select-none">
           Drag to pan • Scroll to zoom
         </span>
@@ -722,11 +778,31 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       {/* Loading indicator */}
       {loading && (
         <div className="absolute top-14 right-2 z-20 flex items-center gap-2 bg-[#1E222D] px-3 py-1 rounded">
-          <div 
+          <div
             className="w-3 h-3 border-2 border-t-transparent rounded-full animate-spin"
             style={{ borderColor: asset.color, borderTopColor: 'transparent' }}
           />
           <span className="text-xs text-[#787B86]">Loading {asset.name}...</span>
+        </div>
+      )}
+
+      {/* No data message */}
+      {noData && !loading && (
+        <div className="absolute inset-0 flex items-center justify-center z-20 bg-[#131722]/80">
+          <div className="text-center p-6 bg-[#1E222D] rounded-lg border border-[#2A2E39]">
+            <div className="text-4xl mb-3">📊</div>
+            <div className="text-[#D1D4DC] font-medium mb-1">No {timeframe} data available</div>
+            <div className="text-[#787B86] text-sm mb-3">
+              {asset.name} only has daily price data from CoinGecko
+            </div>
+            <button
+              onClick={() => setTimeframe('1d')}
+              className="px-4 py-2 text-sm font-medium text-white rounded transition-colors"
+              style={{ backgroundColor: asset.color }}
+            >
+              Switch to 1D
+            </button>
+          </div>
         </div>
       )}
 
