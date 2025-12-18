@@ -1,63 +1,71 @@
 /**
- * Founder-Normalized Tweet Heat Calculator
+ * Alpha Calculator for Market-Relative Performance
  * 
- * Calculates a "heat" value (0-1) based on how unusual the current gap is
- * relative to the founder's typical tweeting pattern.
+ * Computes "alpha" = PUMP return - SOL return
+ * This shows whether PUMP is outperforming or underperforming the market,
+ * independent of any assumptions about tweets.
  * 
- * This is ZOOM-INDEPENDENT: the same gap always produces the same color,
- * preserving fidelity at all timescales.
+ * Users can then overlay tweet bubbles and discover correlations themselves.
  */
 
-// Color gradient: Green (healthy/active) → Red (danger/silent)
-// This follows intuitive traffic light convention
-export const HEAT_GRADIENT = [
-  { stop: 1.0, color: '#00C853' },  // Bright Green (just tweeted)
-  { stop: 0.7, color: '#76FF03' },  // Light Green (very active)
-  { stop: 0.5, color: '#FFEB3B' },  // Yellow (getting quiet)
-  { stop: 0.3, color: '#FF9800' },  // Orange (unusual silence)
-  { stop: 0.15, color: '#FF5722' }, // Deep Orange (warning)
-  { stop: 0.0, color: '#D50000' },  // Red (danger zone)
+// Color gradient: Green (outperforming) → Gray (neutral) → Red (underperforming)
+export const ALPHA_GRADIENT = [
+  { stop: 1.0, color: '#00C853' },  // Deep Green (strong outperformance)
+  { stop: 0.7, color: '#69F0AE' },  // Light Green
+  { stop: 0.5, color: '#78909C' },  // Gray (neutral - tracking market)
+  { stop: 0.3, color: '#FF8A80' },  // Light Red
+  { stop: 0.0, color: '#D50000' },  // Deep Red (strong underperformance)
 ];
 
-// Founder-specific constants (pre-computed from historical data)
-// These should eventually come from a config/database per founder
-export const FOUNDER_STATS = {
-  alon: {
-    medianGapDays: 0.8,    // He typically tweets every ~19 hours
-    p90GapDays: 3.2,       // 90th percentile gap
-    p99GapDays: 8.8,       // 99th percentile gap
-    maxHistoricalGapDays: 12.1,  // Before current silence
-  }
-};
+// For backwards compatibility, export as HEAT_GRADIENT too
+export const HEAT_GRADIENT = ALPHA_GRADIENT;
 
 /**
- * Calculate heat value normalized by founder's typical tweet frequency
+ * Calculate alpha (excess return vs market)
  * 
- * The formula: heat = exp(-gap / medianGap * k)
- * 
- * This means:
- * - At 0 days: heat = 1.0 (green)
- * - At median gap (0.8 days): heat ≈ 0.61 (green-yellow)
- * - At 3x median (2.4 days): heat ≈ 0.22 (orange)
- * - At 10x median (8 days): heat ≈ 0.007 (deep red)
- * 
- * @param daysSinceTweet - Days since the last tweet
- * @param _visibleRangeDays - IGNORED (kept for API compatibility, will be removed)
- * @returns Heat value from 0 (danger/silent) to 1 (healthy/active)
+ * @param pumpReturn - PUMP's return over the period (e.g., 0.05 = 5%)
+ * @param solReturn - SOL's return over the period
+ * @returns Alpha value (positive = outperforming, negative = underperforming)
  */
-export function calculateHeat(daysSinceTweet: number, _visibleRangeDays?: number): number {
-  const { medianGapDays } = FOUNDER_STATS.alon;
+export function calculateAlpha(pumpReturn: number, solReturn: number): number {
+  return pumpReturn - solReturn;
+}
+
+/**
+ * Normalize alpha to a 0-1 scale for color mapping
+ * 
+ * We use historical volatility to normalize:
+ * - ±5% alpha in a single candle is significant
+ * - Scale so ±10% maps to the extremes
+ * 
+ * @param alpha - Raw alpha value
+ * @param scale - Scaling factor (default: 0.10 = 10% is extreme)
+ * @returns Normalized value from 0 (very negative) to 1 (very positive)
+ */
+export function normalizeAlpha(alpha: number, scale: number = 0.10): number {
+  // Map alpha to [-1, 1] range using scale
+  const normalized = alpha / scale;
   
-  // Decay constant - tuned so that:
-  // - At median gap: heat ≈ 0.61 (still healthy green-yellow)
-  // - At 3x median: heat ≈ 0.22 (orange warning)
-  // - At 5x median: heat ≈ 0.08 (deep orange/red)
-  const k = 0.5;
-  
-  const normalizedGap = daysSinceTweet / medianGapDays;
-  const heat = Math.exp(-normalizedGap * k);
-  
-  return Math.max(0, Math.min(1, heat));
+  // Clamp to [-1, 1] then map to [0, 1]
+  const clamped = Math.max(-1, Math.min(1, normalized));
+  return (clamped + 1) / 2;
+}
+
+/**
+ * Combined function: calculate and normalize alpha for color mapping
+ * 
+ * @param pumpReturn - PUMP's return
+ * @param solReturn - SOL's return  
+ * @param scale - Scaling factor for normalization
+ * @returns Value from 0 (underperforming) to 1 (outperforming)
+ */
+export function calculateNormalizedAlpha(
+  pumpReturn: number, 
+  solReturn: number,
+  scale: number = 0.10
+): number {
+  const alpha = calculateAlpha(pumpReturn, solReturn);
+  return normalizeAlpha(alpha, scale);
 }
 
 /**
@@ -98,97 +106,82 @@ function lerpColor(color1: string, color2: string, t: number): string {
 }
 
 /**
- * Interpolate color based on heat value
+ * Interpolate color based on normalized alpha value
  * 
- * @param heat - Heat value from 0 (cold) to 1 (hot)
+ * @param normalizedAlpha - Value from 0 (red/underperforming) to 1 (green/outperforming)
  * @returns Hex color string
  */
-export function interpolateColor(heat: number): string {
-  // Clamp heat to [0, 1]
-  const h = Math.max(0, Math.min(1, heat));
+export function interpolateColor(normalizedAlpha: number): string {
+  const value = Math.max(0, Math.min(1, normalizedAlpha));
   
   // Find the two gradient stops to interpolate between
-  let lowerStop = HEAT_GRADIENT[HEAT_GRADIENT.length - 1];
-  let upperStop = HEAT_GRADIENT[0];
+  let lowerStop = ALPHA_GRADIENT[ALPHA_GRADIENT.length - 1];
+  let upperStop = ALPHA_GRADIENT[0];
   
-  for (let i = 0; i < HEAT_GRADIENT.length - 1; i++) {
-    if (h <= HEAT_GRADIENT[i].stop && h >= HEAT_GRADIENT[i + 1].stop) {
-      upperStop = HEAT_GRADIENT[i];
-      lowerStop = HEAT_GRADIENT[i + 1];
+  for (let i = 0; i < ALPHA_GRADIENT.length - 1; i++) {
+    if (value <= ALPHA_GRADIENT[i].stop && value >= ALPHA_GRADIENT[i + 1].stop) {
+      upperStop = ALPHA_GRADIENT[i];
+      lowerStop = ALPHA_GRADIENT[i + 1];
       break;
     }
   }
   
-  // Interpolate between the two stops
   const range = upperStop.stop - lowerStop.stop;
   if (range === 0) return upperStop.color;
   
-  const t = (h - lowerStop.stop) / range;
+  const t = (value - lowerStop.stop) / range;
   return lerpColor(lowerStop.color, upperStop.color, t);
 }
 
 /**
- * Find days since last tweet for a given timestamp
- * Uses binary search for efficiency
- * 
- * @param timestamp - Unix timestamp to check
- * @param sortedTweetTimestamps - Sorted array of tweet timestamps
- * @returns Days since the last tweet before this timestamp (or Infinity if no prior tweets)
+ * Get human-readable label for current alpha state
+ */
+export function getAlphaLabel(alpha: number): { label: string; emoji: string } {
+  if (alpha > 0.05) return { label: 'Outperforming', emoji: '🟢' };
+  if (alpha > 0.01) return { label: 'Beating Market', emoji: '🟢' };
+  if (alpha > -0.01) return { label: 'Tracking Market', emoji: '⚪' };
+  if (alpha > -0.05) return { label: 'Underperforming', emoji: '🔴' };
+  return { label: 'Lagging Market', emoji: '🔴' };
+}
+
+// ============================================
+// LEGACY EXPORTS (for backwards compatibility)
+// ============================================
+
+/**
+ * @deprecated Use calculateNormalizedAlpha instead
+ * Kept for backwards compatibility during transition
+ */
+export function calculateHeat(daysSinceTweet: number, _visibleRangeDays?: number): number {
+  // This function is deprecated - Chart.tsx should use alpha-based calculation
+  // Return 0.5 (neutral) as fallback
+  console.warn('calculateHeat is deprecated. Use calculateNormalizedAlpha instead.');
+  return 0.5;
+}
+
+/**
+ * @deprecated Use getAlphaLabel instead
+ */
+export function getHeatLabel(daysSinceTweet: number): { label: string; emoji: string } {
+  return { label: 'N/A', emoji: '⚪' };
+}
+
+/**
+ * @deprecated Not needed for alpha calculation
  */
 export function findDaysSinceLastTweet(
   timestamp: number,
   sortedTweetTimestamps: number[]
 ): number {
-  if (sortedTweetTimestamps.length === 0) return Infinity;
-  
-  // Binary search for the largest tweet timestamp <= timestamp
-  let left = 0;
-  let right = sortedTweetTimestamps.length - 1;
-  let lastTweetBefore = -1;
-  
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    if (sortedTweetTimestamps[mid] <= timestamp) {
-      lastTweetBefore = mid;
-      left = mid + 1;
-    } else {
-      right = mid - 1;
-    }
-  }
-  
-  // No tweet before this timestamp
-  if (lastTweetBefore === -1) {
-    // Use first tweet as reference (show as fully cold before any tweets)
-    return Infinity;
-  }
-  
-  const lastTweetTs = sortedTweetTimestamps[lastTweetBefore];
-  const daysSince = (timestamp - lastTweetTs) / 86400; // Convert seconds to days
-  
-  return Math.max(0, daysSince);
+  return 0;
 }
 
-/**
- * Get human-readable label for the current heat state
- * Based on multiples of the founder's median gap
- */
-export function getHeatLabel(daysSinceTweet: number): { label: string; emoji: string } {
-  const { medianGapDays, p90GapDays, p99GapDays, maxHistoricalGapDays } = FOUNDER_STATS.alon;
-  
-  // Labels based on how unusual this gap is
-  if (daysSinceTweet < medianGapDays) {
-    return { label: 'Active', emoji: '🟢' };
+// Export founder stats for potential future use
+export const FOUNDER_STATS = {
+  alon: {
+    medianGapDays: 0.8,
+    p90GapDays: 3.2,
+    p99GapDays: 8.8,
+    maxHistoricalGapDays: 12.1,
   }
-  if (daysSinceTweet < p90GapDays) {
-    return { label: 'Normal', emoji: '🟢' };
-  }
-  if (daysSinceTweet < p99GapDays) {
-    return { label: 'Quiet', emoji: '🟡' };
-  }
-  if (daysSinceTweet < maxHistoricalGapDays) {
-    return { label: 'Warning', emoji: '🟠' };
-  }
-  // Beyond historical max = unprecedented
-  return { label: 'Danger Zone', emoji: '🔴' };
-}
-
+};

@@ -11,13 +11,19 @@ import {
   MouseEventParams,
 } from 'lightweight-charts';
 import { Timeframe, TweetEvent, Candle } from '@/lib/types';
-import { loadPrices, toCandlestickData, getSortedTweetTimestamps } from '@/lib/dataLoader';
 import { 
-  calculateHeat, 
+  loadPrices, 
+  loadSolPrices,
+  toCandlestickData, 
+  getSortedTweetTimestamps,
+  findClosestSolCandle,
+  calculateReturn,
+} from '@/lib/dataLoader';
+import { 
+  calculateNormalizedAlpha,
   interpolateColor, 
-  findDaysSinceLastTweet,
-  getHeatLabel,
-  HEAT_GRADIENT 
+  getAlphaLabel,
+  ALPHA_GRADIENT 
 } from '@/lib/heatCalculator';
 
 interface ChartProps {
@@ -36,43 +42,38 @@ export default function Chart({ tweetEvents }: ChartProps) {
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
   const markersCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const heatCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const alphaCanvasRef = useRef<HTMLCanvasElement | null>(null);
   
-  // Default to 1D to show full history (user hasn't tweeted in 42+ days)
+  // Default to 1D to show full history
   const [timeframe, setTimeframe] = useState<Timeframe>('1d');
   const [loading, setLoading] = useState(true);
   const [showBubbles, setShowBubbles] = useState(true);
-  const [showHeat, setShowHeat] = useState(true);
+  const [showAlpha, setShowAlpha] = useState(true);
   const [hoveredTweet, setHoveredTweet] = useState<TweetEvent | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [currentDaysSinceTweet, setCurrentDaysSinceTweet] = useState<number>(0);
+  const [currentAlpha, setCurrentAlpha] = useState<number>(0);
+  const [showMethodology, setShowMethodology] = useState(false);
   
   // Store latest values in refs to avoid stale closures
   const tweetEventsRef = useRef(tweetEvents);
   const showBubblesRef = useRef(showBubbles);
-  const showHeatRef = useRef(showHeat);
+  const showAlphaRef = useRef(showAlpha);
   const hoveredTweetRef = useRef(hoveredTweet);
   const candleTimesRef = useRef<number[]>([]);
   const candlesRef = useRef<Candle[]>([]);
+  const solCandlesRef = useRef<Candle[]>([]);
   const sortedTweetTimestampsRef = useRef<number[]>([]);
   
   // Keep refs in sync
   useEffect(() => { tweetEventsRef.current = tweetEvents; }, [tweetEvents]);
   useEffect(() => { showBubblesRef.current = showBubbles; }, [showBubbles]);
-  useEffect(() => { showHeatRef.current = showHeat; }, [showHeat]);
+  useEffect(() => { showAlphaRef.current = showAlpha; }, [showAlpha]);
   useEffect(() => { hoveredTweetRef.current = hoveredTweet; }, [hoveredTweet]);
   
-  // Compute sorted tweet timestamps for binary search
+  // Compute sorted tweet timestamps
   useEffect(() => {
     sortedTweetTimestampsRef.current = getSortedTweetTimestamps(tweetEvents);
-    
-    // Calculate current days since last tweet
-    if (sortedTweetTimestampsRef.current.length > 0) {
-      const lastTweetTs = sortedTweetTimestampsRef.current[sortedTweetTimestampsRef.current.length - 1];
-      const now = Date.now() / 1000;
-      setCurrentDaysSinceTweet((now - lastTweetTs) / 86400);
-    }
   }, [tweetEvents]);
   
   // Avatar
@@ -90,22 +91,21 @@ export default function Chart({ tweetEvents }: ChartProps) {
     };
     img.onerror = () => {
       console.error('Failed to load avatar');
-      setAvatarLoaded(true); // Continue without avatar
+      setAvatarLoaded(true);
     };
   }, []);
 
-  // Draw heat-colored price line
-  const drawHeatLine = useCallback(() => {
+  // Draw alpha-colored price line (market-relative performance)
+  const drawAlphaLine = useCallback(() => {
     const chart = chartRef.current;
     const series = seriesRef.current;
-    const canvas = heatCanvasRef.current;
+    const canvas = alphaCanvasRef.current;
     const container = containerRef.current;
     const candles = candlesRef.current;
-    const tweetTimestamps = sortedTweetTimestampsRef.current;
-    const showHeatVal = showHeatRef.current;
+    const solCandles = solCandlesRef.current;
+    const showAlphaVal = showAlphaRef.current;
 
-    if (!canvas || !container || !chart || !series || !showHeatVal) {
-      // Clear canvas if heat is disabled
+    if (!canvas || !container || !chart || !series || !showAlphaVal) {
       if (canvas && container) {
         const ctx = canvas.getContext('2d');
         if (ctx) {
@@ -117,7 +117,6 @@ export default function Chart({ tweetEvents }: ChartProps) {
       return;
     }
 
-    // Set canvas size with device pixel ratio
     const dpr = window.devicePixelRatio || 1;
     const width = container.clientWidth;
     const height = container.clientHeight;
@@ -133,39 +132,50 @@ export default function Chart({ tweetEvents }: ChartProps) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, width, height);
 
-    // Get visible range
     const visibleRange = chart.timeScale().getVisibleRange();
     if (!visibleRange) return;
 
     const rangeFrom = visibleRange.from as number;
     const rangeTo = visibleRange.to as number;
 
-    // Filter candles in visible range (with some padding)
     const padding = (rangeTo - rangeFrom) * 0.1;
     const visibleCandles = candles.filter(c => 
       c.t >= rangeFrom - padding && c.t <= rangeTo + padding
     );
 
-    if (visibleCandles.length === 0) return;
+    if (visibleCandles.length < 2 || solCandles.length < 2) return;
 
-    // Draw heat-colored dots along the close price
+    // Determine lookback window based on timeframe
+    // Use ~24h worth of data for smoothing
+    const lookbackCandles = timeframe === '1m' ? 60 : 
+                            timeframe === '15m' ? 4 : 
+                            timeframe === '1h' ? 1 : 1;
+
     const DOT_SIZE = 3;
     
-    for (const candle of visibleCandles) {
-      const x = chart.timeScale().timeToCoordinate(candle.t as Time);
-      const y = series.priceToCoordinate(candle.c);
+    // Draw alpha-colored line
+    for (let i = lookbackCandles; i < visibleCandles.length; i++) {
+      const curr = visibleCandles[i];
+      const prev = visibleCandles[i - lookbackCandles];
+      
+      const x = chart.timeScale().timeToCoordinate(curr.t as Time);
+      const y = series.priceToCoordinate(curr.c);
 
       if (x === null || y === null) continue;
 
-      // Calculate days since last tweet at this candle's time
-      const daysSinceTweet = findDaysSinceLastTweet(candle.t, tweetTimestamps);
-      
-      // Skip candles before any tweets (show as no data)
-      if (daysSinceTweet === Infinity) continue;
-      
-      // Calculate heat and get color (zoom-independent)
-      const heat = calculateHeat(daysSinceTweet);
-      const color = interpolateColor(heat);
+      // Find corresponding SOL candles
+      const currSol = findClosestSolCandle(curr.t, solCandles, 300);
+      const prevSol = findClosestSolCandle(prev.t, solCandles, 300);
+
+      if (!currSol || !prevSol) continue;
+
+      // Calculate returns
+      const pumpReturn = calculateReturn(curr.c, prev.c);
+      const solReturn = calculateReturn(currSol.c, prevSol.c);
+
+      // Calculate normalized alpha for color
+      const normalizedAlpha = calculateNormalizedAlpha(pumpReturn, solReturn, 0.10);
+      const color = interpolateColor(normalizedAlpha);
 
       // Draw dot
       ctx.beginPath();
@@ -174,11 +184,12 @@ export default function Chart({ tweetEvents }: ChartProps) {
       ctx.fill();
     }
 
-    // Draw connecting line with gradient segments
+    // Draw connecting lines
     ctx.lineWidth = 2;
-    for (let i = 1; i < visibleCandles.length; i++) {
+    for (let i = lookbackCandles + 1; i < visibleCandles.length; i++) {
       const prev = visibleCandles[i - 1];
       const curr = visibleCandles[i];
+      const lookback = visibleCandles[i - lookbackCandles];
 
       const x1 = chart.timeScale().timeToCoordinate(prev.t as Time);
       const y1 = series.priceToCoordinate(prev.c);
@@ -187,11 +198,15 @@ export default function Chart({ tweetEvents }: ChartProps) {
 
       if (x1 === null || y1 === null || x2 === null || y2 === null) continue;
 
-      const daysSinceTweet = findDaysSinceLastTweet(curr.t, tweetTimestamps);
-      if (daysSinceTweet === Infinity) continue;
+      const currSol = findClosestSolCandle(curr.t, solCandles, 300);
+      const lookbackSol = findClosestSolCandle(lookback.t, solCandles, 300);
 
-      const heat = calculateHeat(daysSinceTweet);
-      const color = interpolateColor(heat);
+      if (!currSol || !lookbackSol) continue;
+
+      const pumpReturn = calculateReturn(curr.c, lookback.c);
+      const solReturn = calculateReturn(currSol.c, lookbackSol.c);
+      const normalizedAlpha = calculateNormalizedAlpha(pumpReturn, solReturn, 0.10);
+      const color = interpolateColor(normalizedAlpha);
 
       ctx.beginPath();
       ctx.moveTo(x1, y1);
@@ -199,9 +214,9 @@ export default function Chart({ tweetEvents }: ChartProps) {
       ctx.strokeStyle = color;
       ctx.stroke();
     }
-  }, []);
+  }, [timeframe]);
 
-  // Draw markers function - using refs to always get latest values
+  // Draw tweet markers
   const drawMarkers = useCallback(() => {
     const chart = chartRef.current;
     const series = seriesRef.current;
@@ -214,7 +229,6 @@ export default function Chart({ tweetEvents }: ChartProps) {
 
     if (!canvas || !container) return;
 
-    // Set canvas size with device pixel ratio for sharp rendering
     const dpr = window.devicePixelRatio || 1;
     const width = container.clientWidth;
     const height = container.clientHeight;
@@ -235,20 +249,16 @@ export default function Chart({ tweetEvents }: ChartProps) {
     const BUBBLE_SIZE = 32;
     const BUBBLE_RADIUS = BUBBLE_SIZE / 2;
 
-    // Get visible range
     const visibleRange = chart.timeScale().getVisibleRange();
     if (!visibleRange) return;
 
-    // Filter tweets in visible range with price data
     const visibleTweets = tweets.filter(tweet => {
       if (!tweet.price_at_tweet) return false;
       const time = tweet.timestamp;
       return time >= (visibleRange.from as number) && time <= (visibleRange.to as number);
     });
 
-    // Draw each tweet bubble
     for (const tweet of visibleTweets) {
-      // Use nearest candle time for X coordinate (timeToCoordinate only works for exact candle times)
       const nearestTime = findNearestCandleTime(tweet.timestamp);
       const x = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
       const y = series.priceToCoordinate(tweet.price_at_tweet!);
@@ -257,7 +267,6 @@ export default function Chart({ tweetEvents }: ChartProps) {
 
       const isHovered = hovered?.tweet_id === tweet.tweet_id;
 
-      // Draw glow effect for hovered
       if (isHovered) {
         ctx.beginPath();
         ctx.arc(x, y, BUBBLE_RADIUS + 6, 0, Math.PI * 2);
@@ -265,29 +274,20 @@ export default function Chart({ tweetEvents }: ChartProps) {
         ctx.fill();
       }
 
-      // Draw white/blue circle border
       ctx.beginPath();
       ctx.arc(x, y, BUBBLE_RADIUS + 2, 0, Math.PI * 2);
       ctx.strokeStyle = isHovered ? '#2962FF' : '#FFFFFF';
       ctx.lineWidth = isHovered ? 3 : 2;
       ctx.stroke();
 
-      // Draw avatar or fallback
       if (avatar) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(x, y, BUBBLE_RADIUS, 0, Math.PI * 2);
         ctx.clip();
-        ctx.drawImage(
-          avatar,
-          x - BUBBLE_RADIUS,
-          y - BUBBLE_RADIUS,
-          BUBBLE_SIZE,
-          BUBBLE_SIZE
-        );
+        ctx.drawImage(avatar, x - BUBBLE_RADIUS, y - BUBBLE_RADIUS, BUBBLE_SIZE, BUBBLE_SIZE);
         ctx.restore();
       } else {
-        // Fallback: blue circle with "A"
         ctx.beginPath();
         ctx.arc(x, y, BUBBLE_RADIUS, 0, Math.PI * 2);
         ctx.fillStyle = '#2962FF';
@@ -322,18 +322,8 @@ export default function Chart({ tweetEvents }: ChartProps) {
       },
       crosshair: {
         mode: CrosshairMode.Normal,
-        vertLine: {
-          color: '#758696',
-          width: 1,
-          style: 0,
-          labelBackgroundColor: '#2A2E39',
-        },
-        horzLine: {
-          color: '#758696',
-          width: 1,
-          style: 0,
-          labelBackgroundColor: '#2A2E39',
-        },
+        vertLine: { color: '#758696', width: 1, style: 0, labelBackgroundColor: '#2A2E39' },
+        horzLine: { color: '#758696', width: 1, style: 0, labelBackgroundColor: '#2A2E39' },
       },
       timeScale: {
         borderColor: '#2A2E39',
@@ -344,17 +334,9 @@ export default function Chart({ tweetEvents }: ChartProps) {
       },
       rightPriceScale: {
         borderColor: '#2A2E39',
-        scaleMargins: {
-          top: 0.1,
-          bottom: 0.2,
-        },
+        scaleMargins: { top: 0.1, bottom: 0.2 },
       },
-      handleScroll: {
-        mouseWheel: true,
-        pressedMouseMove: true,
-        horzTouchDrag: true,
-        vertTouchDrag: true,
-      },
+      handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: true },
       handleScale: {
         axisPressedMouseMove: { time: true, price: true },
         axisDoubleClickReset: { time: true, price: true },
@@ -370,7 +352,6 @@ export default function Chart({ tweetEvents }: ChartProps) {
       },
     });
 
-    // Muted candlestick colors (30% opacity effect) - heat line is the primary visual
     const series = chart.addCandlestickSeries({
       upColor: 'rgba(38, 166, 154, 0.3)',
       downColor: 'rgba(239, 83, 80, 0.3)',
@@ -383,24 +364,21 @@ export default function Chart({ tweetEvents }: ChartProps) {
     chartRef.current = chart;
     seriesRef.current = series;
 
-    // Handle resize
     const resizeObserver = new ResizeObserver(() => {
       const { width, height } = container.getBoundingClientRect();
       if (width > 0 && height > 0) {
         chart.applyOptions({ width, height });
-        drawHeatLine();
+        drawAlphaLine();
         drawMarkers();
       }
     });
     resizeObserver.observe(container);
 
-    // Redraw on visible range change (zoom/pan)
     chart.timeScale().subscribeVisibleTimeRangeChange(() => {
-      drawHeatLine();
+      drawAlphaLine();
       drawMarkers();
     });
 
-    // Subscribe to crosshair move for hover detection
     chart.subscribeCrosshairMove((param: MouseEventParams) => {
       if (!param.point) {
         setHoveredTweet(null);
@@ -440,7 +418,6 @@ export default function Chart({ tweetEvents }: ChartProps) {
       }
     });
 
-    // Subscribe to click events
     chart.subscribeClick((param: MouseEventParams) => {
       if (!param.point) return;
 
@@ -469,14 +446,12 @@ export default function Chart({ tweetEvents }: ChartProps) {
       resizeObserver.disconnect();
       chart.remove();
     };
-  }, [drawMarkers, drawHeatLine]);
+  }, [drawMarkers, drawAlphaLine]);
 
-  // Helper: find nearest candle time to a given timestamp (uses ref, no deps needed)
   const findNearestCandleTime = (timestamp: number): number | null => {
     const times = candleTimesRef.current;
     if (times.length === 0) return null;
     
-    // Binary search for nearest
     let left = 0;
     let right = times.length - 1;
     
@@ -489,13 +464,10 @@ export default function Chart({ tweetEvents }: ChartProps) {
       }
     }
     
-    // Check which is closer: left or left-1
     if (left > 0) {
       const diffLeft = Math.abs(times[left] - timestamp);
       const diffPrev = Math.abs(times[left - 1] - timestamp);
-      if (diffPrev < diffLeft) {
-        return times[left - 1];
-      }
+      if (diffPrev < diffLeft) return times[left - 1];
     }
     return times[left];
   };
@@ -507,17 +479,36 @@ export default function Chart({ tweetEvents }: ChartProps) {
       setDataLoaded(false);
       
       try {
-        const priceData = await loadPrices(timeframe);
+        // Load PUMP and SOL prices in parallel
+        const [priceData, solPriceData] = await Promise.all([
+          loadPrices(timeframe),
+          loadSolPrices(timeframe),
+        ]);
         
-        // Store candle data for heat calculation and coordinate lookup
         candlesRef.current = priceData.candles;
         candleTimesRef.current = priceData.candles.map(c => c.t);
+        solCandlesRef.current = solPriceData.candles;
+        
+        // Calculate recent alpha for the badge
+        if (priceData.candles.length > 1 && solPriceData.candles.length > 1) {
+          const recentPump = priceData.candles.slice(-24);
+          const firstPump = recentPump[0];
+          const lastPump = recentPump[recentPump.length - 1];
+          
+          const firstSol = findClosestSolCandle(firstPump.t, solPriceData.candles, 3600);
+          const lastSol = findClosestSolCandle(lastPump.t, solPriceData.candles, 3600);
+          
+          if (firstSol && lastSol) {
+            const pumpReturn = calculateReturn(lastPump.c, firstPump.c);
+            const solReturn = calculateReturn(lastSol.c, firstSol.c);
+            setCurrentAlpha(pumpReturn - solReturn);
+          }
+        }
         
         if (seriesRef.current && chartRef.current) {
           const chartData = toCandlestickData(priceData);
           seriesRef.current.setData(chartData as CandlestickData<Time>[]);
           
-          // Smart initial positioning: show from first tweet with price to now
           const tweetsWithPrice = tweetEvents.filter(t => t.price_at_tweet !== null);
           if (tweetsWithPrice.length > 0 && priceData.candles.length > 0) {
             const firstTweetTime = tweetsWithPrice[0].timestamp;
@@ -541,19 +532,17 @@ export default function Chart({ tweetEvents }: ChartProps) {
     loadData();
   }, [timeframe, tweetEvents]);
 
-  // Redraw when relevant state changes
+  // Redraw when state changes
   useEffect(() => {
     if (dataLoaded) {
-      // Small delay to ensure chart is ready
       const timer = setTimeout(() => {
-        drawHeatLine();
+        drawAlphaLine();
         drawMarkers();
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [dataLoaded, showBubbles, showHeat, hoveredTweet, avatarLoaded, drawMarkers, drawHeatLine]);
+  }, [dataLoaded, showBubbles, showAlpha, hoveredTweet, avatarLoaded, drawMarkers, drawAlphaLine]);
 
-  // Jump to last tweet period
   const jumpToLastTweet = useCallback(() => {
     if (!chartRef.current || tweetEvents.length === 0) return;
     
@@ -574,42 +563,38 @@ export default function Chart({ tweetEvents }: ChartProps) {
     chartRef.current?.timeScale().fitContent();
   }, []);
 
-  // Get current heat label (zoom-independent, based on founder's typical behavior)
-  const heatLabel = getHeatLabel(currentDaysSinceTweet);
-  const currentHeat = calculateHeat(currentDaysSinceTweet);
-  const currentHeatColor = interpolateColor(currentHeat);
+  const alphaLabel = getAlphaLabel(currentAlpha);
+  const normalizedCurrentAlpha = calculateNormalizedAlpha(currentAlpha, 0, 0.10);
+  const currentAlphaColor = interpolateColor(normalizedCurrentAlpha);
 
   return (
     <div className="relative w-full h-full bg-[#131722]">
-      {/* Chart container */}
       <div ref={containerRef} className="absolute inset-0" />
       
-      {/* Heat line canvas overlay */}
       <canvas
-        ref={heatCanvasRef}
+        ref={alphaCanvasRef}
         className="absolute inset-0"
         style={{ zIndex: 5, pointerEvents: 'none' }}
       />
       
-      {/* Tweet markers canvas overlay */}
       <canvas
         ref={markersCanvasRef}
         className="absolute inset-0"
         style={{ zIndex: 10, pointerEvents: 'none' }}
       />
 
-      {/* Top controls bar */}
+      {/* Top controls */}
       <div className="absolute top-2 left-2 z-20 flex items-center gap-2">
         <button
-          onClick={() => setShowHeat(!showHeat)}
+          onClick={() => setShowAlpha(!showAlpha)}
           className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-colors ${
-            showHeat 
+            showAlpha 
               ? 'bg-[#2A2E39] text-white border border-[#3A3E49]' 
               : 'bg-[#2A2E39] text-[#787B86] hover:text-[#D1D4DC]'
           }`}
         >
-          <span>🔥</span>
-          <span>Heat</span>
+          <span>📊</span>
+          <span>vs Market</span>
         </button>
         
         <button
@@ -640,23 +625,50 @@ export default function Chart({ tweetEvents }: ChartProps) {
         </div>
       </div>
       
-      {/* Heat indicator badge (top right) */}
-      <div className="absolute top-2 right-2 z-20 flex items-center gap-3">
+      {/* Alpha badge (top right) */}
+      <div className="absolute top-2 right-2 z-20 flex items-center gap-2">
         <div 
-          className="flex items-center gap-2 px-3 py-2 rounded-lg"
-          style={{ backgroundColor: 'rgba(30, 34, 45, 0.9)', border: `2px solid ${currentHeatColor}` }}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer"
+          style={{ backgroundColor: 'rgba(30, 34, 45, 0.9)', border: `2px solid ${currentAlphaColor}` }}
+          onClick={() => setShowMethodology(!showMethodology)}
         >
-          <span className="text-lg">{heatLabel.emoji}</span>
+          <span className="text-lg">{alphaLabel.emoji}</span>
           <div className="flex flex-col">
-            <span className="text-xs font-semibold" style={{ color: currentHeatColor }}>
-              {heatLabel.label}
+            <span className="text-xs font-semibold" style={{ color: currentAlphaColor }}>
+              {alphaLabel.label}
             </span>
             <span className="text-[10px] text-[#787B86]">
-              {Math.floor(currentDaysSinceTweet)}d {Math.floor((currentDaysSinceTweet % 1) * 24)}h silent
+              {currentAlpha >= 0 ? '+' : ''}{(currentAlpha * 100).toFixed(1)}% vs SOL (24h)
             </span>
           </div>
+          <span className="text-[10px] text-[#555] ml-1">ⓘ</span>
         </div>
       </div>
+
+      {/* Methodology tooltip */}
+      {showMethodology && (
+        <div className="absolute top-16 right-2 z-30 bg-[#1E222D] border border-[#2A2E39] rounded-lg p-4 shadow-xl max-w-sm">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-sm font-semibold text-[#D1D4DC]">How to read this chart</h3>
+            <button 
+              onClick={() => setShowMethodology(false)}
+              className="text-[#787B86] hover:text-white"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="space-y-2 text-xs text-[#B0B0B0]">
+            <p>🟢 <span className="text-[#00C853]">Green</span> = PUMP is beating the crypto market (SOL)</p>
+            <p>🔴 <span className="text-[#D50000]">Red</span> = PUMP is losing to the crypto market</p>
+            <p>🐦 <span className="text-white">Bubbles</span> = Alon tweeted here</p>
+            <div className="border-t border-[#2A2E39] pt-2 mt-2">
+              <p className="text-[#787B86] italic">
+                Do green periods cluster around tweets? Do red periods happen during silence? You decide.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Timeframe selector */}
       <div className="absolute bottom-2 left-2 flex items-center gap-1 z-20">
@@ -678,29 +690,29 @@ export default function Chart({ tweetEvents }: ChartProps) {
         </span>
       </div>
       
-      {/* Heat gradient legend */}
-      {showHeat && (
+      {/* Alpha legend */}
+      {showAlpha && (
         <div className="absolute bottom-2 right-2 z-20 flex items-center gap-2 bg-[#1E222D]/90 px-3 py-1.5 rounded">
-          <span className="text-[10px] text-[#DC143C]">🔴 Danger</span>
+          <span className="text-[10px] text-[#D50000]">Losing</span>
           <div 
             className="w-24 h-2 rounded"
             style={{
-              background: `linear-gradient(to right, ${HEAT_GRADIENT.map(g => g.color).reverse().join(', ')})`
+              background: `linear-gradient(to right, ${ALPHA_GRADIENT.map(g => g.color).reverse().join(', ')})`
             }}
           />
-          <span className="text-[10px] text-[#1DA1F2]">Active 🐦</span>
+          <span className="text-[10px] text-[#00C853]">Winning</span>
         </div>
       )}
 
       {/* Loading indicator */}
       {loading && (
-        <div className="absolute top-2 right-2 z-20 flex items-center gap-2 bg-[#1E222D] px-3 py-1 rounded">
+        <div className="absolute top-14 right-2 z-20 flex items-center gap-2 bg-[#1E222D] px-3 py-1 rounded">
           <div className="w-3 h-3 border-2 border-[#2962FF] border-t-transparent rounded-full animate-spin" />
           <span className="text-xs text-[#787B86]">Loading...</span>
         </div>
       )}
 
-      {/* Tooltip */}
+      {/* Tweet tooltip */}
       {hoveredTweet && (
         <div
           className="absolute z-30 pointer-events-none bg-[#1E222D] border border-[#2A2E39] rounded-lg p-3 shadow-xl max-w-xs"
