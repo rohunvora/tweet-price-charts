@@ -1,6 +1,12 @@
 """
 DuckDB database management for tweet-price analytics.
 Single source of truth for all assets, tweets, and price data.
+
+v2.0 Changes:
+- Added data_source tracking for prices (provenance)
+- Added token_mint column to assets
+- Optimized tweet_events with pre-computed price lookups
+- Added gap detection and data quality views
 """
 import json
 import duckdb
@@ -26,7 +32,7 @@ def get_connection(db_path: Path = ANALYTICS_DB) -> duckdb.DuckDBPyConnection:
 def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
     """Initialize the database schema."""
     
-    # Assets table
+    # Assets table (v2: added token_mint, backfill_source)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS assets (
             id VARCHAR PRIMARY KEY,
@@ -34,8 +40,10 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
             founder VARCHAR NOT NULL,
             network VARCHAR,
             pool_address VARCHAR,
+            token_mint VARCHAR,
             coingecko_id VARCHAR,
             price_source VARCHAR NOT NULL,
+            backfill_source VARCHAR,
             launch_date TIMESTAMP NOT NULL,
             color VARCHAR,
             enabled BOOLEAN DEFAULT true,
@@ -43,6 +51,13 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
             updated_at TIMESTAMP DEFAULT now()
         )
     """)
+    
+    # Add new columns if they don't exist (migration)
+    try:
+        conn.execute("ALTER TABLE assets ADD COLUMN IF NOT EXISTS token_mint VARCHAR")
+        conn.execute("ALTER TABLE assets ADD COLUMN IF NOT EXISTS backfill_source VARCHAR")
+    except:
+        pass
     
     # Tweets table
     conn.execute("""
@@ -60,7 +75,7 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
         )
     """)
     
-    # Prices table
+    # Prices table (v2: added data_source for provenance tracking)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS prices (
             asset_id VARCHAR NOT NULL,
@@ -71,11 +86,18 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
             low DOUBLE,
             close DOUBLE,
             volume DOUBLE,
+            data_source VARCHAR DEFAULT 'unknown',
             fetched_at TIMESTAMP DEFAULT now(),
             PRIMARY KEY (asset_id, timeframe, timestamp),
             FOREIGN KEY (asset_id) REFERENCES assets(id)
         )
     """)
+    
+    # Add data_source column if it doesn't exist (migration)
+    try:
+        conn.execute("ALTER TABLE prices ADD COLUMN IF NOT EXISTS data_source VARCHAR DEFAULT 'unknown'")
+    except:
+        pass
     
     # Ingestion state for incremental fetching
     conn.execute("""
@@ -90,7 +112,7 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
         )
     """)
     
-    # Create indexes
+    # Create indexes for performance
     conn.execute("""
         CREATE INDEX IF NOT EXISTS idx_tweets_asset_ts 
         ON tweets(asset_id, timestamp)
@@ -103,51 +125,82 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
         CREATE INDEX IF NOT EXISTS idx_prices_asset_tf_ts 
         ON prices(asset_id, timeframe, timestamp)
     """)
+    conn.execute("""
+        CREATE INDEX IF NOT EXISTS idx_prices_source 
+        ON prices(data_source)
+    """)
     
-    # Create tweet_events view with launch_date filter
+    # Create optimized tweet_events view with timeframe fallback
+    # Uses 1m data if available, falls back to 1h, then 1d
     conn.execute("""
         CREATE OR REPLACE VIEW tweet_events AS
+        WITH tweet_base AS (
+            SELECT 
+                t.id AS tweet_id,
+                t.asset_id,
+                a.name AS asset_name,
+                a.founder,
+                a.color AS asset_color,
+                t.timestamp,
+                t.text,
+                t.likes,
+                t.retweets,
+                t.replies,
+                t.impressions
+            FROM tweets t
+            JOIN assets a ON t.asset_id = a.id
+            WHERE a.enabled = true
+              AND t.timestamp >= a.launch_date
+        ),
+        -- Get best available price at tweet time (prefer 1m > 1h > 1d)
+        price_at_tweet AS (
+            SELECT DISTINCT ON (tb.tweet_id)
+                tb.tweet_id,
+                p.close AS price_at_tweet
+            FROM tweet_base tb
+            LEFT JOIN prices p ON p.asset_id = tb.asset_id 
+                AND p.timeframe IN ('1m', '1h', '1d')
+                AND p.timestamp <= tb.timestamp
+            ORDER BY tb.tweet_id, 
+                CASE p.timeframe WHEN '1m' THEN 1 WHEN '1h' THEN 2 WHEN '1d' THEN 3 END,
+                p.timestamp DESC
+        ),
+        -- Get price 1 hour later
+        price_1h AS (
+            SELECT DISTINCT ON (tb.tweet_id)
+                tb.tweet_id,
+                p.close AS price_1h
+            FROM tweet_base tb
+            LEFT JOIN prices p ON p.asset_id = tb.asset_id 
+                AND p.timeframe IN ('1m', '1h', '1d')
+                AND p.timestamp <= tb.timestamp + INTERVAL '1 hour'
+            ORDER BY tb.tweet_id,
+                CASE p.timeframe WHEN '1m' THEN 1 WHEN '1h' THEN 2 WHEN '1d' THEN 3 END,
+                p.timestamp DESC
+        ),
+        -- Get price 24 hours later
+        price_24h AS (
+            SELECT DISTINCT ON (tb.tweet_id)
+                tb.tweet_id,
+                p.close AS price_24h
+            FROM tweet_base tb
+            LEFT JOIN prices p ON p.asset_id = tb.asset_id 
+                AND p.timeframe IN ('1m', '1h', '1d')
+                AND p.timestamp <= tb.timestamp + INTERVAL '24 hours'
+            ORDER BY tb.tweet_id,
+                CASE p.timeframe WHEN '1m' THEN 1 WHEN '1h' THEN 2 WHEN '1d' THEN 3 END,
+                p.timestamp DESC
+        )
         SELECT 
-            t.id AS tweet_id,
-            t.asset_id,
-            a.name AS asset_name,
-            a.founder,
-            a.color AS asset_color,
-            t.timestamp,
-            t.text,
-            t.likes,
-            t.retweets,
-            t.replies,
-            t.impressions,
-            -- Price at tweet time (find closest 1m candle before tweet)
-            (SELECT p.close 
-             FROM prices p 
-             WHERE p.asset_id = t.asset_id 
-               AND p.timeframe = '1m'
-               AND p.timestamp <= t.timestamp
-             ORDER BY p.timestamp DESC 
-             LIMIT 1) AS price_at_tweet,
-            -- Price 1 hour later
-            (SELECT p.close 
-             FROM prices p 
-             WHERE p.asset_id = t.asset_id 
-               AND p.timeframe = '1m'
-               AND p.timestamp <= t.timestamp + INTERVAL '1 hour'
-             ORDER BY p.timestamp DESC 
-             LIMIT 1) AS price_1h,
-            -- Price 24 hours later
-            (SELECT p.close 
-             FROM prices p 
-             WHERE p.asset_id = t.asset_id 
-               AND p.timeframe = '1m'
-               AND p.timestamp <= t.timestamp + INTERVAL '24 hours'
-             ORDER BY p.timestamp DESC 
-             LIMIT 1) AS price_24h
-        FROM tweets t
-        JOIN assets a ON t.asset_id = a.id
-        WHERE a.enabled = true
-          AND t.timestamp >= a.launch_date
-        ORDER BY t.timestamp
+            tb.*,
+            pat.price_at_tweet,
+            p1h.price_1h,
+            p24h.price_24h
+        FROM tweet_base tb
+        LEFT JOIN price_at_tweet pat ON tb.tweet_id = pat.tweet_id
+        LEFT JOIN price_1h p1h ON tb.tweet_id = p1h.tweet_id
+        LEFT JOIN price_24h p24h ON tb.tweet_id = p24h.tweet_id
+        ORDER BY tb.timestamp
     """)
     
     # Fallback view using daily prices for assets without 1m data
@@ -195,6 +248,63 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
           AND t.timestamp >= a.launch_date
         ORDER BY t.timestamp
     """)
+    
+    # Data quality view: detect gaps in price data
+    conn.execute("""
+        CREATE OR REPLACE VIEW price_gaps AS
+        WITH price_with_prev AS (
+            SELECT 
+                asset_id,
+                timeframe,
+                timestamp,
+                LAG(timestamp) OVER (
+                    PARTITION BY asset_id, timeframe 
+                    ORDER BY timestamp
+                ) AS prev_timestamp
+            FROM prices
+        ),
+        expected_intervals AS (
+            SELECT 
+                asset_id,
+                timeframe,
+                timestamp,
+                prev_timestamp,
+                CASE timeframe
+                    WHEN '1m' THEN 60
+                    WHEN '15m' THEN 900
+                    WHEN '1h' THEN 3600
+                    WHEN '1d' THEN 86400
+                END AS expected_seconds
+            FROM price_with_prev
+            WHERE prev_timestamp IS NOT NULL
+        )
+        SELECT 
+            asset_id,
+            timeframe,
+            prev_timestamp AS gap_start,
+            timestamp AS gap_end,
+            EXTRACT(EPOCH FROM (timestamp - prev_timestamp)) AS actual_seconds,
+            expected_seconds,
+            EXTRACT(EPOCH FROM (timestamp - prev_timestamp)) / expected_seconds AS missing_candles
+        FROM expected_intervals
+        WHERE EXTRACT(EPOCH FROM (timestamp - prev_timestamp)) > expected_seconds * 2
+        ORDER BY asset_id, timeframe, gap_start
+    """)
+    
+    # Data source summary view
+    conn.execute("""
+        CREATE OR REPLACE VIEW data_source_summary AS
+        SELECT 
+            asset_id,
+            timeframe,
+            data_source,
+            COUNT(*) AS candle_count,
+            MIN(timestamp) AS earliest,
+            MAX(timestamp) AS latest
+        FROM prices
+        GROUP BY asset_id, timeframe, data_source
+        ORDER BY asset_id, timeframe, data_source
+    """)
 
 
 def load_assets_from_json(conn: duckdb.DuckDBPyConnection, assets_file: Path = ASSETS_FILE) -> int:
@@ -208,16 +318,19 @@ def load_assets_from_json(conn: duckdb.DuckDBPyConnection, assets_file: Path = A
     count = 0
     for asset in config.get("assets", []):
         conn.execute("""
-            INSERT INTO assets (id, name, founder, network, pool_address, 
-                               coingecko_id, price_source, launch_date, color, enabled, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())
+            INSERT INTO assets (id, name, founder, network, pool_address, token_mint,
+                               coingecko_id, price_source, backfill_source, launch_date, 
+                               color, enabled, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())
             ON CONFLICT (id) DO UPDATE SET
                 name = EXCLUDED.name,
                 founder = EXCLUDED.founder,
                 network = EXCLUDED.network,
                 pool_address = EXCLUDED.pool_address,
+                token_mint = EXCLUDED.token_mint,
                 coingecko_id = EXCLUDED.coingecko_id,
                 price_source = EXCLUDED.price_source,
+                backfill_source = EXCLUDED.backfill_source,
                 launch_date = EXCLUDED.launch_date,
                 color = EXCLUDED.color,
                 enabled = EXCLUDED.enabled,
@@ -228,8 +341,10 @@ def load_assets_from_json(conn: duckdb.DuckDBPyConnection, assets_file: Path = A
             asset["founder"],
             asset.get("network"),
             asset.get("pool_address"),
+            asset.get("token_mint"),
             asset.get("coingecko_id"),
             asset["price_source"],
+            asset.get("backfill_source"),
             asset["launch_date"],
             asset.get("color"),
             asset.get("enabled", True),
@@ -242,8 +357,8 @@ def load_assets_from_json(conn: duckdb.DuckDBPyConnection, assets_file: Path = A
 def get_asset(conn: duckdb.DuckDBPyConnection, asset_id: str) -> Optional[Dict[str, Any]]:
     """Get a single asset by ID."""
     result = conn.execute("""
-        SELECT id, name, founder, network, pool_address, coingecko_id,
-               price_source, launch_date, color, enabled
+        SELECT id, name, founder, network, pool_address, token_mint, coingecko_id,
+               price_source, backfill_source, launch_date, color, enabled
         FROM assets WHERE id = ?
     """, [asset_id]).fetchone()
     
@@ -256,19 +371,21 @@ def get_asset(conn: duckdb.DuckDBPyConnection, asset_id: str) -> Optional[Dict[s
         "founder": result[2],
         "network": result[3],
         "pool_address": result[4],
-        "coingecko_id": result[5],
-        "price_source": result[6],
-        "launch_date": result[7],
-        "color": result[8],
-        "enabled": result[9],
+        "token_mint": result[5],
+        "coingecko_id": result[6],
+        "price_source": result[7],
+        "backfill_source": result[8],
+        "launch_date": result[9],
+        "color": result[10],
+        "enabled": result[11],
     }
 
 
 def get_enabled_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
     """Get all enabled assets."""
     results = conn.execute("""
-        SELECT id, name, founder, network, pool_address, coingecko_id,
-               price_source, launch_date, color, enabled
+        SELECT id, name, founder, network, pool_address, token_mint, coingecko_id,
+               price_source, backfill_source, launch_date, color, enabled
         FROM assets WHERE enabled = true
         ORDER BY name
     """).fetchall()
@@ -280,11 +397,13 @@ def get_enabled_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
             "founder": r[2],
             "network": r[3],
             "pool_address": r[4],
-            "coingecko_id": r[5],
-            "price_source": r[6],
-            "launch_date": r[7],
-            "color": r[8],
-            "enabled": r[9],
+            "token_mint": r[5],
+            "coingecko_id": r[6],
+            "price_source": r[7],
+            "backfill_source": r[8],
+            "launch_date": r[9],
+            "color": r[10],
+            "enabled": r[11],
         }
         for r in results
     ]
@@ -293,8 +412,8 @@ def get_enabled_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
 def get_all_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
     """Get all assets (including disabled)."""
     results = conn.execute("""
-        SELECT id, name, founder, network, pool_address, coingecko_id,
-               price_source, launch_date, color, enabled
+        SELECT id, name, founder, network, pool_address, token_mint, coingecko_id,
+               price_source, backfill_source, launch_date, color, enabled
         FROM assets
         ORDER BY name
     """).fetchall()
@@ -306,11 +425,13 @@ def get_all_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
             "founder": r[2],
             "network": r[3],
             "pool_address": r[4],
-            "coingecko_id": r[5],
-            "price_source": r[6],
-            "launch_date": r[7],
-            "color": r[8],
-            "enabled": r[9],
+            "token_mint": r[5],
+            "coingecko_id": r[6],
+            "price_source": r[7],
+            "backfill_source": r[8],
+            "launch_date": r[9],
+            "color": r[10],
+            "enabled": r[11],
         }
         for r in results
     ]
@@ -401,11 +522,19 @@ def insert_prices(
     conn: duckdb.DuckDBPyConnection,
     asset_id: str,
     timeframe: str,
-    candles: List[Dict[str, Any]]
+    candles: List[Dict[str, Any]],
+    data_source: str = "unknown"
 ) -> int:
     """
     Insert price candles into database.
     Returns number of candles inserted.
+    
+    Args:
+        conn: Database connection
+        asset_id: Asset identifier
+        timeframe: Timeframe (1m, 15m, 1h, 1d)
+        candles: List of candle dicts with timestamp_epoch, open, high, low, close, volume
+        data_source: Source of data (geckoterminal, birdeye, hyperliquid, coingecko)
     """
     if not candles:
         return 0
@@ -421,19 +550,21 @@ def insert_prices(
             c.get("low"),
             c.get("close"),
             c.get("volume"),
+            data_source,
         )
         for c in candles
     ]
     
     conn.executemany("""
-        INSERT INTO prices (asset_id, timeframe, timestamp, open, high, low, close, volume, fetched_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())
+        INSERT INTO prices (asset_id, timeframe, timestamp, open, high, low, close, volume, data_source, fetched_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now())
         ON CONFLICT (asset_id, timeframe, timestamp) DO UPDATE SET
             open = EXCLUDED.open,
             high = EXCLUDED.high,
             low = EXCLUDED.low,
             close = EXCLUDED.close,
             volume = EXCLUDED.volume,
+            data_source = EXCLUDED.data_source,
             fetched_at = now()
     """, data)
     
@@ -506,6 +637,70 @@ def get_tweet_events(
     return events
 
 
+def get_price_gaps(
+    conn: duckdb.DuckDBPyConnection,
+    asset_id: Optional[str] = None,
+    timeframe: Optional[str] = None
+) -> List[Dict[str, Any]]:
+    """
+    Get gaps in price data for quality monitoring.
+    
+    Args:
+        asset_id: Filter by asset (optional)
+        timeframe: Filter by timeframe (optional)
+    
+    Returns list of gaps with start, end, and missing candle count.
+    """
+    query = "SELECT * FROM price_gaps WHERE 1=1"
+    params = []
+    
+    if asset_id:
+        query += " AND asset_id = ?"
+        params.append(asset_id)
+    if timeframe:
+        query += " AND timeframe = ?"
+        params.append(timeframe)
+    
+    query += " ORDER BY asset_id, timeframe, gap_start"
+    
+    results = conn.execute(query, params).fetchall()
+    
+    return [
+        {
+            "asset_id": r[0],
+            "timeframe": r[1],
+            "gap_start": r[2].isoformat() if hasattr(r[2], 'isoformat') else r[2],
+            "gap_end": r[3].isoformat() if hasattr(r[3], 'isoformat') else r[3],
+            "actual_seconds": r[4],
+            "expected_seconds": r[5],
+            "missing_candles": int(r[6]) if r[6] else 0,
+        }
+        for r in results
+    ]
+
+
+def get_data_source_summary(conn: duckdb.DuckDBPyConnection) -> Dict[str, Any]:
+    """Get summary of data sources used for each asset/timeframe."""
+    results = conn.execute("SELECT * FROM data_source_summary").fetchall()
+    
+    summary = {}
+    for r in results:
+        asset_id, timeframe, data_source, count, earliest, latest = r
+        
+        if asset_id not in summary:
+            summary[asset_id] = {}
+        if timeframe not in summary[asset_id]:
+            summary[asset_id][timeframe] = {}
+        
+        summary[asset_id][timeframe][data_source] = {
+            "count": count,
+            "earliest": earliest.isoformat() if earliest else None,
+            "latest": latest.isoformat() if latest else None,
+        }
+    
+    return summary
+
+
 def get_db_stats(conn: duckdb.DuckDBPyConnection) -> Dict[str, Any]:
     """Get overall database statistics."""
     stats = {}
@@ -548,6 +743,20 @@ def get_db_stats(conn: duckdb.DuckDBPyConnection) -> Dict[str, Any]:
             "count": r[5],
         }
     
+    # Data source summary
+    stats["data_sources"] = get_data_source_summary(conn)
+    
+    # Gap summary
+    gap_summary = conn.execute("""
+        SELECT asset_id, timeframe, COUNT(*) as gap_count, SUM(missing_candles) as total_missing
+        FROM price_gaps
+        GROUP BY asset_id, timeframe
+    """).fetchall()
+    stats["gaps"] = {
+        f"{r[0]}_{r[1]}": {"gap_count": r[2], "total_missing": int(r[3]) if r[3] else 0}
+        for r in gap_summary
+    }
+    
     return stats
 
 
@@ -571,6 +780,8 @@ def main():
         print("  sync-assets   - Sync assets from JSON to database")
         print("  stats         - Show database statistics")
         print("  list-assets   - List all assets")
+        print("  gaps          - Show price data gaps")
+        print("  sources       - Show data source summary")
         sys.exit(1)
     
     command = sys.argv[1]
@@ -587,6 +798,7 @@ def main():
     elif command == "sync-assets":
         print("Syncing assets from JSON...")
         conn = get_connection()
+        init_schema(conn)
         count = load_assets_from_json(conn)
         print(f"Synced {count} assets")
         conn.close()
@@ -611,11 +823,38 @@ def main():
         conn = get_connection()
         init_schema(conn)
         assets = get_all_assets(conn)
-        print(f"\n{'ID':<12} {'Name':<12} {'Founder':<18} {'Network':<12} {'Source':<14} {'Enabled'}")
-        print("-" * 90)
+        print(f"\n{'ID':<12} {'Name':<12} {'Founder':<18} {'Network':<12} {'Source':<14} {'Backfill':<10} {'Enabled'}")
+        print("-" * 100)
         for a in assets:
             enabled = "✓" if a["enabled"] else "✗"
-            print(f"{a['id']:<12} {a['name']:<12} {a['founder']:<18} {a['network'] or 'N/A':<12} {a['price_source']:<14} {enabled}")
+            backfill = a.get("backfill_source") or "-"
+            print(f"{a['id']:<12} {a['name']:<12} {a['founder']:<18} {a['network'] or 'N/A':<12} {a['price_source']:<14} {backfill:<10} {enabled}")
+        conn.close()
+    
+    elif command == "gaps":
+        conn = get_connection()
+        init_schema(conn)
+        gaps = get_price_gaps(conn)
+        if not gaps:
+            print("No gaps detected in price data!")
+        else:
+            print(f"\nDetected {len(gaps)} gaps in price data:")
+            for g in gaps[:20]:  # Show first 20
+                print(f"  {g['asset_id']}/{g['timeframe']}: {g['gap_start'][:19]} → {g['gap_end'][:19]} ({g['missing_candles']} missing)")
+            if len(gaps) > 20:
+                print(f"  ... and {len(gaps) - 20} more")
+        conn.close()
+    
+    elif command == "sources":
+        conn = get_connection()
+        init_schema(conn)
+        summary = get_data_source_summary(conn)
+        print("\nData source summary:")
+        for asset_id, timeframes in summary.items():
+            print(f"\n  {asset_id}:")
+            for tf, sources in timeframes.items():
+                for source, info in sources.items():
+                    print(f"    {tf}/{source}: {info['count']:,} candles")
         conn.close()
     
     else:
@@ -625,5 +864,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

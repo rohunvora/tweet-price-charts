@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "generated_at": "2025-12-18T19:05:29.734498Z",
+  "version": "2.0.0",
+  "generated_at": "2025-12-18T20:38:06.306094Z",
   "assets": [
     {
       "id": "pump",
@@ -8,7 +8,8 @@
       "founder": "a1lon9",
       "network": "solana",
       "launch_date": "2025-07-14T00:00:00Z",
-      "color": "#9945FF"
+      "color": "#9945FF",
+      "enabled": true
     },
     {
       "id": "hype",
@@ -16,7 +17,8 @@
       "founder": "chameleon_jeff",
       "network": "hyperliquid",
       "launch_date": "2024-11-29T00:00:00Z",
-      "color": "#00D1FF"
+      "color": "#00D1FF",
+      "enabled": true
     },
     {
       "id": "aster",
@@ -24,7 +26,8 @@
       "founder": "cz_binance",
       "network": "bsc",
       "launch_date": "2025-09-21T00:00:00Z",
-      "color": "#F0B90B"
+      "color": "#F0B90B",
+      "enabled": true
     },
     {
       "id": "believe",
@@ -32,7 +35,8 @@
       "founder": "pasternak",
       "network": "solana",
       "launch_date": "2025-01-28T00:00:00Z",
-      "color": "#FF6B6B"
+      "color": "#FF6B6B",
+      "enabled": true
     },
     {
       "id": "jup",
@@ -40,7 +44,8 @@
       "founder": "weremeow",
       "network": "solana",
       "launch_date": "2024-01-31T00:00:00Z",
-      "color": "#19FB9B"
+      "color": "#19FB9B",
+      "enabled": true
     },
     {
       "id": "monad",
@@ -48,7 +53,8 @@
       "founder": "keoneHD",
       "network": "monad",
       "launch_date": "2025-11-24T00:00:00Z",
-      "color": "#836EF9"
+      "color": "#836EF9",
+      "enabled": true
     },
     {
       "id": "useless",
@@ -56,7 +62,8 @@
       "founder": "theunipcs",
       "network": "solana",
       "launch_date": "2025-05-23T00:00:00Z",
-      "color": "#FF4081"
+      "color": "#FF4081",
+      "enabled": true
     }
   ]
 }

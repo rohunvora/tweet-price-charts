@@ -81,16 +81,7 @@ function ChartPageContent() {
       console.log(`[ChartPage] Initializing with asset: ${assetId}`);
       
       try {
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'chart/page.tsx:init:start',message:'ChartPage init starting',data:{assetId},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H4'})}).catch(()=>{});
-        // #endregion
-        
         const loadedAssets = await loadAssets();
-        
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'chart/page.tsx:init:assetsLoaded',message:'Assets loaded in page',data:{count:loadedAssets.length,ids:loadedAssets.map(a=>a.id)},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H4'})}).catch(()=>{});
-        // #endregion
-        
         setAssets(loadedAssets);
         
         // Validate asset exists

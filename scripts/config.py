@@ -49,3 +49,14 @@ TIMEFRAME_TO_GT = {
     "1h": ("hour", 1),
     "1d": ("day", 1),
 }
+
+# Birdeye API key (for Solana token historical data)
+BIRDEYE_API_KEY = os.getenv("BIRDEYE_API_KEY")
+
+# Birdeye timeframe mapping
+TIMEFRAME_TO_BIRDEYE = {
+    "1m": "1m",
+    "15m": "15m",
+    "1h": "1H",
+    "1d": "1D",
+}

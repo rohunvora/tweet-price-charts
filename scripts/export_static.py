@@ -35,15 +35,31 @@ from db import (
 def export_prices_for_asset(
     conn,
     asset_id: str,
-    output_dir: Path
+    output_dir: Path,
+    skip_1m_if_older_than_days: int = 180
 ) -> Dict[str, int]:
     """
     Export price data for a single asset.
+    
+    Args:
+        skip_1m_if_older_than_days: Skip 1m export if asset launched > N days ago (reduces bloat)
     
     Returns dict of timeframe -> candle count.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
     stats = {}
+    
+    # Get asset launch date to check if we should skip 1m
+    asset_info = conn.execute("""
+        SELECT launch_date FROM assets WHERE id = ?
+    """, [asset_id]).fetchone()
+    
+    skip_1m = False
+    if asset_info and asset_info[0]:
+        days_old = (datetime.utcnow() - asset_info[0]).days
+        if days_old > skip_1m_if_older_than_days:
+            skip_1m = True
+            print(f"    (Skipping 1m data - asset is {days_old} days old)")
     
     # Get available timeframes for this asset
     timeframes = conn.execute("""
@@ -55,6 +71,8 @@ def export_prices_for_asset(
     
     for tf in timeframes:
         if tf == "1m":
+            if skip_1m:
+                continue
             # Export 1m data chunked by month
             count = export_1m_chunked(conn, asset_id, output_dir)
         else:
@@ -207,26 +225,47 @@ def export_tweet_events_for_asset(
     conn,
     asset_id: str,
     output_dir: Path,
-    use_daily_fallback: bool = False
+    use_daily_fallback: bool = False,
+    filter_no_price: bool = True
 ) -> int:
     """
     Export tweet events for a single asset.
     
+    Args:
+        filter_no_price: If True, exclude tweets without price data
+    
     Returns count of events exported.
     """
-    # Check if asset has 1m price data
+    # Check if asset has 1m price data, otherwise try 1h
     has_1m = conn.execute("""
         SELECT COUNT(*) FROM prices 
         WHERE asset_id = ? AND timeframe = '1m'
     """, [asset_id]).fetchone()[0] > 0
     
-    # Use daily fallback if no 1m data
-    if not has_1m:
+    has_1h = conn.execute("""
+        SELECT COUNT(*) FROM prices 
+        WHERE asset_id = ? AND timeframe = '1h'
+    """, [asset_id]).fetchone()[0] > 0
+    
+    # Use daily fallback if no 1m or 1h data
+    if not has_1m and not has_1h:
         use_daily_fallback = True
     
     events = get_tweet_events(conn, asset_id, use_daily_fallback=use_daily_fallback)
     
     if not events:
+        return 0
+    
+    # Filter out tweets without price data
+    original_count = len(events)
+    if filter_no_price:
+        events = [e for e in events if e.get("price_at_tweet") is not None]
+        filtered_count = original_count - len(events)
+        if filtered_count > 0:
+            print(f"    (Filtered {filtered_count} tweets without price data)")
+    
+    if not events:
+        print(f"    Tweet events: 0 events (all filtered - no price data)")
         return 0
     
     # Get asset info for metadata
@@ -324,6 +363,7 @@ def export_assets_json():
                 "network": asset.get("network"),
                 "launch_date": asset["launch_date"],
                 "color": asset.get("color"),
+                "enabled": True,  # All exported assets are enabled
             })
     
     output = {

@@ -3,10 +3,9 @@
 import { Suspense, useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { loadTweetEvents, loadStats, loadAssets } from '@/lib/dataLoader';
-import { TweetEvent, Stats, Asset } from '@/lib/types';
+import { loadTweetEvents, loadAssets } from '@/lib/dataLoader';
+import { TweetEvent, Asset } from '@/lib/types';
 import DataTable from '@/components/DataTable';
-import StatsPanel from '@/components/StatsPanel';
 import AssetSelector from '@/components/AssetSelector';
 
 /**
@@ -61,7 +60,6 @@ function DataPageContent() {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
   const [tweetEvents, setTweetEvents] = useState<TweetEvent[]>([]);
-  const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,13 +86,8 @@ function DataPageContent() {
         setSelectedAsset(asset);
         
         // Load data for this asset
-        const [eventsData, statsData] = await Promise.all([
-          loadTweetEvents(assetId),
-          loadStats(assetId),
-        ]);
-        
+        const eventsData = await loadTweetEvents(assetId);
         setTweetEvents(eventsData.events);
-        setStats(statsData);
         
         console.log(`[DataPage] Loaded ${eventsData.events.length} tweets for ${asset.name}`);
         
@@ -189,9 +182,6 @@ function DataPageContent() {
           </div>
         </div>
       </header>
-
-      {/* Stats Panel */}
-      {stats && <StatsPanel stats={stats} founderName={selectedAsset.founder} />}
 
       {/* Data Table */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6">

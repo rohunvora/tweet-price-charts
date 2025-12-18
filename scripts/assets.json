@@ -1,6 +1,6 @@
 {
   "$schema": "./assets.schema.json",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "assets": [
     {
       "id": "pump",
@@ -8,8 +8,10 @@
       "founder": "a1lon9",
       "network": "solana",
       "pool_address": "2uF4Xh61rDwxnG9woyxsVQP7zuA6kLFpb3NvnRQeoiSd",
+      "token_mint": "pumpCmXqMfrsAkQ5r49WcJnRayYRqmXz6ae8H7H9Dfn",
       "coingecko_id": null,
       "price_source": "geckoterminal",
+      "backfill_source": "birdeye",
       "launch_date": "2025-07-14T00:00:00Z",
       "color": "#9945FF",
       "enabled": true
@@ -20,8 +22,10 @@
       "founder": "chameleon_jeff",
       "network": "hyperliquid",
       "pool_address": null,
+      "token_mint": null,
       "coingecko_id": "hyperliquid",
       "price_source": "hyperliquid",
+      "backfill_source": null,
       "launch_date": "2024-11-29T00:00:00Z",
       "color": "#00D1FF",
       "enabled": true
@@ -32,8 +36,10 @@
       "founder": "cz_binance",
       "network": "bsc",
       "pool_address": "0x7e58f160b5b77b8b24cd9900c09a3e730215ac47",
+      "token_mint": null,
       "coingecko_id": "aster-defi",
       "price_source": "geckoterminal",
+      "backfill_source": null,
       "launch_date": "2025-09-21T00:00:00Z",
       "color": "#F0B90B",
       "enabled": true
@@ -44,8 +50,10 @@
       "founder": "pasternak",
       "network": "solana",
       "pool_address": "YrrUStgPugDp8BbfosqDeFssen6sA75ZS1QJvgnHtmY",
+      "token_mint": "Ey59PH7Z4BFU4HjyKnyMdWt5GGN76KazTAwQihoUXRnk",
       "coingecko_id": "launchcoin",
       "price_source": "geckoterminal",
+      "backfill_source": "birdeye",
       "launch_date": "2025-01-28T00:00:00Z",
       "color": "#FF6B6B",
       "enabled": true
@@ -56,8 +64,10 @@
       "founder": "weremeow",
       "network": "solana",
       "pool_address": "C1MgLojNLWBKADvu9BHdtgzz1oZX4dZ5zGdGcgvvW8Wz",
+      "token_mint": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
       "coingecko_id": "jupiter-exchange-solana",
       "price_source": "geckoterminal",
+      "backfill_source": "birdeye",
       "launch_date": "2024-01-31T00:00:00Z",
       "color": "#19FB9B",
       "enabled": true
@@ -68,8 +78,10 @@
       "founder": "keoneHD",
       "network": "monad",
       "pool_address": null,
+      "token_mint": null,
       "coingecko_id": "monad",
       "price_source": "coingecko",
+      "backfill_source": null,
       "launch_date": "2025-11-24T00:00:00Z",
       "color": "#836EF9",
       "enabled": true
@@ -80,8 +92,10 @@
       "founder": "theunipcs",
       "network": "solana",
       "pool_address": "Q2sPHPdUWFMg7M7wwrQKLrn619cAucfRsmhVJffodSp",
+      "token_mint": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
       "coingecko_id": null,
       "price_source": "geckoterminal",
+      "backfill_source": "birdeye",
       "launch_date": "2025-05-23T00:00:00Z",
       "color": "#FF4081",
       "enabled": true
@@ -92,13 +106,13 @@
       "founder": "LucaNetz",
       "network": "solana",
       "pool_address": null,
+      "token_mint": null,
       "coingecko_id": "pudgy-penguins",
       "price_source": "coingecko",
+      "backfill_source": null,
       "launch_date": "2024-12-17T00:00:00Z",
       "color": "#5B9BD5",
       "enabled": false
     }
   ]
 }
-
-

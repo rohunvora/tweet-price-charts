@@ -1,38 +1,50 @@
 """
-Fetch multi-timeframe price data from GeckoTerminal, CoinGecko, or Hyperliquid.
-Store in unified DuckDB database.
+Fetch multi-timeframe price data from multiple sources.
+Store in unified DuckDB database with data provenance tracking.
 
-Supports:
-- Multi-asset fetching via --asset argument
-- GeckoTerminal for DEX pools (1m, 15m, 1h, 1d data)
-- CoinGecko for listed tokens (daily data only)
-- Hyperliquid for perps/spot (1m, 15m, 1h, 1d data)
-- Incremental fetching from last known timestamp
+Supported Sources:
+- GeckoTerminal: DEX pools (Solana, BSC, ETH) - 180 day limit on free tier
+- Birdeye: Solana tokens - FULL historical access with API key
+- CoinGecko: Listed tokens - daily OHLC only
+- Hyperliquid: HYPE perp/spot - limited retention
+
+Strategy:
+1. Use primary source (price_source) for recent/ongoing data
+2. Use backfill_source (birdeye) to fill historical gaps
+3. Track data_source for each candle for provenance
 
 Usage:
     python fetch_prices.py                      # Fetch all enabled assets
     python fetch_prices.py --asset pump         # Fetch specific asset
-    python fetch_prices.py --asset pump --full  # Full refetch
+    python fetch_prices.py --asset jup --backfill  # Backfill from Birdeye
+    python fetch_prices.py --gaps               # Show data gaps
 """
 import argparse
 import httpx
 import time
-from datetime import datetime
+import os
+from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any, Tuple
 
 from config import TIMEFRAMES, TIMEFRAME_TO_GT, DATA_DIR
 from db import (
     get_connection, init_schema, get_asset, get_enabled_assets,
-    get_ingestion_state, update_ingestion_state, insert_prices
+    get_ingestion_state, update_ingestion_state, insert_prices,
+    get_price_gaps, load_assets_from_json
 )
 
 # API endpoints
 GT_API = "https://api.geckoterminal.com/api/v2"
 CG_API = "https://api.coingecko.com/api/v3"
 HL_API = "https://api.hyperliquid.xyz/info"
+BE_API = "https://public-api.birdeye.so"
+
+# Birdeye API key from environment
+BIRDEYE_API_KEY = os.getenv("BIRDEYE_API_KEY", "d344aab8d70546d681fa3d1247b93bb9")
 
 MAX_CANDLES_PER_REQUEST = 1000
 HL_MAX_CANDLES = 5000  # Hyperliquid limit
+BE_MAX_CANDLES = 1000  # Birdeye limit
 RATE_LIMIT_DELAY = 0.5  # Be nice to the APIs
 
 # Hyperliquid interval mapping
@@ -43,6 +55,175 @@ HL_INTERVALS = {
     "1d": "1d",
 }
 
+# Birdeye interval mapping
+BE_INTERVALS = {
+    "1m": "1m",
+    "15m": "15m",
+    "1h": "1H",
+    "1d": "1D",
+}
+
+
+def fetch_with_retry(fetch_fn, max_retries=5, base_delay=1.0):
+    """Execute fetch function with exponential backoff retry."""
+    import random
+    
+    for attempt in range(max_retries):
+        try:
+            return fetch_fn()
+        except Exception as e:
+            if "429" in str(e) or "rate" in str(e).lower():
+                wait = (2 ** attempt) + random.uniform(0, 1)
+                print(f"      Rate limited, waiting {wait:.1f}s (attempt {attempt+1}/{max_retries})")
+                time.sleep(wait)
+            else:
+                raise
+    
+    raise Exception(f"Max retries ({max_retries}) exceeded")
+
+
+# =============================================================================
+# BIRDEYE FETCHER (NEW)
+# =============================================================================
+
+def fetch_birdeye_ohlcv(
+    token_mint: str,
+    timeframe: str,
+    time_from: int,
+    time_to: int,
+    chain: str = "solana"
+) -> List[Dict]:
+    """
+    Fetch OHLCV data from Birdeye API.
+    
+    Args:
+        token_mint: Token mint address (NOT pool address)
+        timeframe: One of '1m', '15m', '1h', '1d'
+        time_from: Start timestamp (Unix seconds)
+        time_to: End timestamp (Unix seconds)
+        chain: Blockchain (default: solana)
+    
+    Returns list of candles.
+    """
+    be_type = BE_INTERVALS.get(timeframe, "1m")
+    url = f"{BE_API}/defi/ohlcv"
+    
+    params = {
+        "address": token_mint,
+        "type": be_type,
+        "time_from": time_from,
+        "time_to": time_to,
+    }
+    
+    headers = {
+        "X-API-KEY": BIRDEYE_API_KEY,
+        "x-chain": chain,
+    }
+    
+    with httpx.Client(timeout=30.0) as client:
+        response = client.get(url, params=params, headers=headers)
+        
+        if response.status_code == 429:
+            print("      Rate limited by Birdeye, waiting 60s...")
+            time.sleep(60)
+            return fetch_birdeye_ohlcv(token_mint, timeframe, time_from, time_to, chain)
+        
+        if response.status_code != 200:
+            print(f"      Birdeye error {response.status_code}: {response.text[:200]}")
+            return []
+        
+        data = response.json()
+        items = data.get("data", {}).get("items", [])
+        
+        if not items:
+            return []
+        
+        candles = []
+        for item in items:
+            candles.append({
+                "timestamp_epoch": int(item["unixTime"]),
+                "open": float(item["o"]),
+                "high": float(item["h"]),
+                "low": float(item["l"]),
+                "close": float(item["c"]),
+                "volume": float(item["v"]) if item.get("v") else 0.0,
+            })
+        
+        return candles
+
+
+def fetch_birdeye_all_timeframes(
+    token_mint: str,
+    launch_timestamp: int,
+    timeframes: List[str] = None,
+    chain: str = "solana"
+) -> Dict[str, List[Dict]]:
+    """
+    Fetch all timeframes for a token from Birdeye.
+    
+    Args:
+        token_mint: Token mint address
+        launch_timestamp: Launch date as Unix timestamp (seconds)
+        timeframes: List of timeframes to fetch (default: all)
+        chain: Blockchain
+    
+    Returns dict of timeframe -> candles.
+    """
+    if timeframes is None:
+        timeframes = TIMEFRAMES
+    
+    now_ts = int(datetime.utcnow().timestamp())
+    results = {}
+    
+    for tf in timeframes:
+        print(f"    Fetching {tf} data from Birdeye...")
+        
+        all_candles = []
+        
+        # Calculate window size based on timeframe (Birdeye returns max 1000 candles)
+        window_seconds = {
+            "1m": 1000 * 60,           # ~16.6 hours
+            "15m": 1000 * 15 * 60,     # ~10 days
+            "1h": 1000 * 60 * 60,      # ~41 days
+            "1d": 1000 * 24 * 60 * 60, # ~2.7 years
+        }.get(tf, 1000 * 60 * 60)
+        
+        current_from = launch_timestamp
+        
+        while current_from < now_ts:
+            current_to = min(current_from + window_seconds, now_ts)
+            
+            candles = fetch_birdeye_ohlcv(
+                token_mint, tf, current_from, current_to, chain
+            )
+            
+            if candles:
+                all_candles.extend(candles)
+                oldest = datetime.utcfromtimestamp(candles[0]["timestamp_epoch"]).strftime("%Y-%m-%d")
+                newest = datetime.utcfromtimestamp(candles[-1]["timestamp_epoch"]).strftime("%Y-%m-%d")
+                print(f"      Fetched {len(candles)} candles ({oldest} to {newest})")
+            
+            current_from = current_to
+            time.sleep(RATE_LIMIT_DELAY)
+        
+        if all_candles:
+            # Sort and deduplicate
+            seen = set()
+            unique_candles = []
+            for c in sorted(all_candles, key=lambda x: x["timestamp_epoch"]):
+                if c["timestamp_epoch"] not in seen:
+                    seen.add(c["timestamp_epoch"])
+                    unique_candles.append(c)
+            
+            results[tf] = unique_candles
+            print(f"      Total: {len(unique_candles):,} candles")
+    
+    return results
+
+
+# =============================================================================
+# GECKOTERMINAL FETCHER (EXISTING)
+# =============================================================================
 
 def fetch_geckoterminal_ohlcv(
     network: str,
@@ -81,6 +262,11 @@ def fetch_geckoterminal_ohlcv(
             time.sleep(60)
             return fetch_geckoterminal_ohlcv(network, pool_address, timeframe, before_timestamp)
         
+        if response.status_code == 401:
+            # 180-day paywall hit
+            print(f"      GeckoTerminal 401 - likely hit 180-day paywall")
+            return [], None
+        
         if response.status_code != 200:
             print(f"      Error {response.status_code}: {response.text[:200]}")
             return [], None
@@ -110,19 +296,70 @@ def fetch_geckoterminal_ohlcv(
         return candles, oldest_ts
 
 
+def fetch_geckoterminal_all_timeframes(
+    network: str,
+    pool_address: str,
+    timeframes: List[str] = None,
+    max_pages: Dict[str, int] = None
+) -> Dict[str, List[Dict]]:
+    """Fetch all timeframes for a GeckoTerminal pool."""
+    if timeframes is None:
+        timeframes = TIMEFRAMES
+    
+    if max_pages is None:
+        max_pages = {
+            "1m": 100,
+            "15m": 50,
+            "1h": 30,
+            "1d": 10,
+        }
+    
+    results = {}
+    
+    for tf in timeframes:
+        print(f"    Fetching {tf} data from GeckoTerminal...")
+        
+        all_candles = []
+        before_ts = None
+        max_pg = max_pages.get(tf, 20)
+        
+        for page in range(max_pg):
+            candles, oldest_ts = fetch_geckoterminal_ohlcv(
+                network, pool_address, tf, before_ts
+            )
+            
+            if not candles:
+                if page == 0:
+                    print(f"      No data available")
+                break
+            
+            all_candles.extend(candles)
+            oldest_date = datetime.utcfromtimestamp(oldest_ts).strftime("%Y-%m-%d")
+            print(f"      Page {page + 1}: {len(candles)} candles (oldest: {oldest_date})")
+            
+            if len(candles) < MAX_CANDLES_PER_REQUEST:
+                break
+            
+            before_ts = oldest_ts
+            time.sleep(RATE_LIMIT_DELAY)
+        
+        if all_candles:
+            all_candles.sort(key=lambda x: x["timestamp_epoch"])
+            results[tf] = all_candles
+            print(f"      Total: {len(all_candles):,} candles")
+    
+    return results
+
+
+# =============================================================================
+# COINGECKO FETCHER (EXISTING)
+# =============================================================================
+
 def fetch_coingecko_daily(
     coingecko_id: str,
     days: int = 365
 ) -> List[Dict]:
-    """
-    Fetch daily OHLCV data from CoinGecko.
-    
-    Args:
-        coingecko_id: CoinGecko token ID (e.g., 'bitcoin', 'jupiter-exchange-solana')
-        days: Number of days of history to fetch
-    
-    Returns list of daily candles.
-    """
+    """Fetch daily OHLCV data from CoinGecko."""
     url = f"{CG_API}/coins/{coingecko_id}/ohlc"
     params = {
         "vs_currency": "usd",
@@ -148,7 +385,6 @@ def fetch_coingecko_daily(
         
         candles = []
         for candle in ohlc_data:
-            # CoinGecko returns [timestamp_ms, open, high, low, close]
             ts_ms, o, h, l, c = candle
             candles.append({
                 "timestamp_epoch": int(ts_ms / 1000),
@@ -156,11 +392,63 @@ def fetch_coingecko_daily(
                 "high": float(h),
                 "low": float(l),
                 "close": float(c),
-                "volume": 0.0,  # CoinGecko OHLC doesn't include volume
+                "volume": 0.0,
             })
         
         return candles
 
+
+def fetch_coingecko_hourly(
+    coingecko_id: str,
+    days: int = 30
+) -> List[Dict]:
+    """
+    Fetch hourly price data from CoinGecko market_chart endpoint.
+    Free tier: up to 30 days of hourly data.
+    """
+    url = f"{CG_API}/coins/{coingecko_id}/market_chart"
+    params = {
+        "vs_currency": "usd",
+        "days": days,
+    }
+    
+    with httpx.Client(timeout=30.0) as client:
+        response = client.get(url, params=params)
+        
+        if response.status_code == 429:
+            print("      Rate limited, waiting 60s...")
+            time.sleep(60)
+            return fetch_coingecko_hourly(coingecko_id, days)
+        
+        if response.status_code != 200:
+            print(f"      Error {response.status_code}: {response.text[:200]}")
+            return []
+        
+        data = response.json()
+        prices = data.get("prices", [])
+        
+        if not prices:
+            return []
+        
+        # market_chart returns [timestamp_ms, price] pairs
+        # We'll create pseudo-OHLC candles (all same since it's just price)
+        candles = []
+        for ts_ms, price in prices:
+            candles.append({
+                "timestamp_epoch": int(ts_ms / 1000),
+                "open": float(price),
+                "high": float(price),
+                "low": float(price),
+                "close": float(price),
+                "volume": 0.0,
+            })
+        
+        return candles
+
+
+# =============================================================================
+# HYPERLIQUID FETCHER (EXISTING)
+# =============================================================================
 
 def fetch_hyperliquid_ohlcv(
     coin: str,
@@ -168,17 +456,7 @@ def fetch_hyperliquid_ohlcv(
     start_time: int,
     end_time: int
 ) -> List[Dict]:
-    """
-    Fetch OHLCV data from Hyperliquid API.
-
-    Args:
-        coin: Coin symbol (e.g., 'HYPE', 'BTC')
-        timeframe: One of '1m', '15m', '1h', '1d'
-        start_time: Start timestamp in milliseconds
-        end_time: End timestamp in milliseconds
-
-    Returns list of candles.
-    """
+    """Fetch OHLCV data from Hyperliquid API."""
     interval = HL_INTERVALS.get(timeframe, "1d")
 
     payload = {
@@ -227,16 +505,7 @@ def fetch_hyperliquid_all_timeframes(
     launch_timestamp: int,
     timeframes: List[str] = None
 ) -> Dict[str, List[Dict]]:
-    """
-    Fetch all timeframes for a Hyperliquid coin.
-
-    Args:
-        coin: Coin symbol
-        launch_timestamp: Launch date as Unix timestamp (seconds)
-        timeframes: List of timeframes to fetch (default: all)
-
-    Returns dict of timeframe -> candles.
-    """
+    """Fetch all timeframes for a Hyperliquid coin."""
     if timeframes is None:
         timeframes = TIMEFRAMES
 
@@ -250,13 +519,11 @@ def fetch_hyperliquid_all_timeframes(
 
         all_candles = []
 
-        # Hyperliquid returns max 5000 candles per request
-        # We need to paginate by time windows
         window_size_ms = {
-            "1m": 5000 * 60 * 1000,       # 5000 minutes
-            "15m": 5000 * 15 * 60 * 1000,  # 5000 * 15 minutes
-            "1h": 5000 * 60 * 60 * 1000,   # 5000 hours
-            "1d": 5000 * 24 * 60 * 60 * 1000,  # 5000 days
+            "1m": 5000 * 60 * 1000,
+            "15m": 5000 * 15 * 60 * 1000,
+            "1h": 5000 * 60 * 60 * 1000,
+            "1d": 5000 * 24 * 60 * 60 * 1000,
         }.get(tf, 5000 * 24 * 60 * 60 * 1000)
 
         current_start = launch_ms
@@ -276,7 +543,6 @@ def fetch_hyperliquid_all_timeframes(
             time.sleep(RATE_LIMIT_DELAY)
 
         if all_candles:
-            # Sort and deduplicate by timestamp
             seen = set()
             unique_candles = []
             for c in sorted(all_candles, key=lambda x: x["timestamp_epoch"]):
@@ -290,78 +556,15 @@ def fetch_hyperliquid_all_timeframes(
     return results
 
 
-def fetch_geckoterminal_all_timeframes(
-    network: str,
-    pool_address: str,
-    timeframes: List[str] = None,
-    max_pages: Dict[str, int] = None
-) -> Dict[str, List[Dict]]:
-    """
-    Fetch all timeframes for a GeckoTerminal pool.
-    
-    Args:
-        network: Network name
-        pool_address: Pool address
-        timeframes: List of timeframes to fetch (default: all)
-        max_pages: Dict of timeframe -> max pages to fetch
-    
-    Returns dict of timeframe -> candles.
-    """
-    if timeframes is None:
-        timeframes = TIMEFRAMES
-    
-    if max_pages is None:
-        max_pages = {
-            "1m": 100,   # ~100k candles
-            "15m": 50,   # ~50k candles  
-            "1h": 30,    # ~30k candles
-            "1d": 10,    # ~10k candles
-        }
-    
-    results = {}
-    
-    for tf in timeframes:
-        print(f"    Fetching {tf} data...")
-        
-        all_candles = []
-        before_ts = None
-        max_pg = max_pages.get(tf, 20)
-        
-        for page in range(max_pg):
-            candles, oldest_ts = fetch_geckoterminal_ohlcv(
-                network, pool_address, tf, before_ts
-            )
-            
-            if not candles:
-                if page == 0:
-                    print(f"      No data available")
-                break
-            
-            all_candles.extend(candles)
-            oldest_date = datetime.utcfromtimestamp(oldest_ts).strftime("%Y-%m-%d")
-            print(f"      Page {page + 1}: {len(candles)} candles (oldest: {oldest_date})")
-            
-            # Check if we got fewer than max (end of data)
-            if len(candles) < MAX_CANDLES_PER_REQUEST:
-                break
-            
-            # Paginate backwards
-            before_ts = oldest_ts
-            time.sleep(RATE_LIMIT_DELAY)
-        
-        if all_candles:
-            # Sort by timestamp (oldest first)
-            all_candles.sort(key=lambda x: x["timestamp_epoch"])
-            results[tf] = all_candles
-            print(f"      Total: {len(all_candles):,} candles")
-    
-    return results
-
+# =============================================================================
+# UNIFIED FETCH ORCHESTRATOR
+# =============================================================================
 
 def fetch_for_asset(
     asset_id: str,
     full_fetch: bool = False,
-    timeframes: List[str] = None
+    timeframes: List[str] = None,
+    backfill: bool = False
 ) -> Dict[str, Any]:
     """
     Fetch prices for a specific asset.
@@ -370,13 +573,14 @@ def fetch_for_asset(
         asset_id: Asset ID from assets.json
         full_fetch: If True, fetch all history (ignore last_timestamp)
         timeframes: Specific timeframes to fetch (default: based on price_source)
+        backfill: If True, use backfill_source (Birdeye) for historical data
     
     Returns fetch result stats.
     """
     conn = get_connection()
     init_schema(conn)
+    load_assets_from_json(conn)
     
-    # Get asset config
     asset = get_asset(conn, asset_id)
     if not asset:
         conn.close()
@@ -389,14 +593,62 @@ def fetch_for_asset(
     print(f"\n{'='*60}")
     print(f"Fetching prices for {asset['name']}")
     print(f"{'='*60}")
-    print(f"    Source: {asset['price_source']}")
+    
+    # Determine which source to use
+    if backfill and asset.get("backfill_source") == "birdeye" and asset.get("token_mint"):
+        price_source = "birdeye"
+        print(f"    Mode: BACKFILL from Birdeye")
+        print(f"    Token mint: {asset['token_mint']}")
+    else:
+        price_source = asset["price_source"]
+        print(f"    Source: {price_source}")
+    
     print(f"    Network: {asset['network']}")
     
-    price_source = asset["price_source"]
-    results = {"status": "success", "timeframes": {}}
+    results = {"status": "success", "timeframes": {}, "source": price_source}
     
-    if price_source == "geckoterminal":
-        # GeckoTerminal - need pool_address and network
+    # Get launch timestamp
+    launch_date = asset.get("launch_date")
+    if launch_date:
+        if hasattr(launch_date, 'timestamp'):
+            launch_ts = int(launch_date.timestamp())
+        else:
+            launch_ts = int(datetime.fromisoformat(launch_date.replace('Z', '+00:00')).timestamp())
+    else:
+        launch_ts = int(datetime.utcnow().timestamp()) - (365 * 24 * 3600)
+    
+    print(f"    Launch: {datetime.utcfromtimestamp(launch_ts).strftime('%Y-%m-%d')}")
+    
+    # Fetch based on source
+    if price_source == "birdeye":
+        token_mint = asset.get("token_mint")
+        if not token_mint:
+            conn.close()
+            return {"status": "error", "reason": "No token_mint configured for Birdeye"}
+        
+        if timeframes is None:
+            timeframes = TIMEFRAMES
+        
+        price_data = fetch_birdeye_all_timeframes(
+            token_mint, launch_ts, timeframes, chain=asset.get("network", "solana")
+        )
+        
+        for tf, candles in price_data.items():
+            if candles:
+                inserted = insert_prices(conn, asset_id, tf, candles, data_source="birdeye")
+                
+                latest_ts = max(c["timestamp_epoch"] for c in candles)
+                update_ingestion_state(
+                    conn, asset_id, f"prices_{tf}",
+                    last_timestamp=datetime.utcfromtimestamp(latest_ts)
+                )
+                
+                results["timeframes"][tf] = {
+                    "count": inserted,
+                    "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
+                }
+    
+    elif price_source == "geckoterminal":
         pool_address = asset.get("pool_address")
         network = asset.get("network")
         
@@ -406,7 +658,6 @@ def fetch_for_asset(
         
         print(f"    Pool: {pool_address}")
         
-        # Fetch all timeframes
         if timeframes is None:
             timeframes = TIMEFRAMES
         
@@ -414,12 +665,10 @@ def fetch_for_asset(
             network, pool_address, timeframes
         )
         
-        # Insert into database
         for tf, candles in price_data.items():
             if candles:
-                inserted = insert_prices(conn, asset_id, tf, candles)
+                inserted = insert_prices(conn, asset_id, tf, candles, data_source="geckoterminal")
                 
-                # Update ingestion state
                 latest_ts = max(c["timestamp_epoch"] for c in candles)
                 update_ingestion_state(
                     conn, asset_id, f"prices_{tf}",
@@ -432,7 +681,6 @@ def fetch_for_asset(
                 }
     
     elif price_source == "coingecko":
-        # CoinGecko - need coingecko_id
         coingecko_id = asset.get("coingecko_id")
         
         if not coingecko_id:
@@ -441,56 +689,54 @@ def fetch_for_asset(
         
         print(f"    CoinGecko ID: {coingecko_id}")
         
-        # CoinGecko only provides daily OHLC
+        # Fetch daily data
         print(f"    Fetching daily data...")
-        candles = fetch_coingecko_daily(coingecko_id, days=365)
+        candles = fetch_coingecko_daily(coingecko_id, days=90)
         
         if candles:
-            inserted = insert_prices(conn, asset_id, "1d", candles)
-    
-            # Update ingestion state
+            inserted = insert_prices(conn, asset_id, "1d", candles, data_source="coingecko")
             latest_ts = max(c["timestamp_epoch"] for c in candles)
             update_ingestion_state(
                 conn, asset_id, "prices_1d",
                 last_timestamp=datetime.utcfromtimestamp(latest_ts)
             )
-            
             results["timeframes"]["1d"] = {
                 "count": inserted,
                 "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
             }
             print(f"      Inserted {inserted} daily candles")
-        else:
-            print(f"      No data available")
+        
+        # Also fetch hourly data (30 days max on free tier)
+        print(f"    Fetching hourly data (30 days)...")
+        hourly_candles = fetch_coingecko_hourly(coingecko_id, days=30)
+        
+        if hourly_candles:
+            inserted = insert_prices(conn, asset_id, "1h", hourly_candles, data_source="coingecko")
+            latest_ts = max(c["timestamp_epoch"] for c in hourly_candles)
+            update_ingestion_state(
+                conn, asset_id, "prices_1h",
+                last_timestamp=datetime.utcfromtimestamp(latest_ts)
+            )
+            results["timeframes"]["1h"] = {
+                "count": inserted,
+                "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
+            }
+            print(f"      Inserted {inserted} hourly candles")
 
     elif price_source == "hyperliquid":
-        # Hyperliquid - use asset name as coin symbol
         coin = asset.get("name", asset_id.upper())
-        launch_date = asset.get("launch_date")
-
-        if launch_date:
-            if hasattr(launch_date, 'timestamp'):
-                launch_ts = int(launch_date.timestamp())
-            else:
-                launch_ts = int(datetime.fromisoformat(launch_date.replace('Z', '+00:00')).timestamp())
-        else:
-            launch_ts = int(datetime.utcnow().timestamp()) - (365 * 24 * 3600)
 
         print(f"    Coin: {coin}")
-        print(f"    Launch: {datetime.utcfromtimestamp(launch_ts).strftime('%Y-%m-%d')}")
 
-        # Fetch all timeframes
         if timeframes is None:
             timeframes = TIMEFRAMES
 
         price_data = fetch_hyperliquid_all_timeframes(coin, launch_ts, timeframes)
 
-        # Insert into database
         for tf, candles in price_data.items():
             if candles:
-                inserted = insert_prices(conn, asset_id, tf, candles)
+                inserted = insert_prices(conn, asset_id, tf, candles, data_source="hyperliquid")
 
-                # Update ingestion state
                 latest_ts = max(c["timestamp_epoch"] for c in candles)
                 update_ingestion_state(
                     conn, asset_id, f"prices_{tf}",
@@ -512,7 +758,8 @@ def fetch_for_asset(
 
 def fetch_all_assets(
     full_fetch: bool = False,
-    timeframes: List[str] = None
+    timeframes: List[str] = None,
+    backfill: bool = False
 ) -> Dict[str, Any]:
     """
     Fetch prices for all enabled assets.
@@ -520,27 +767,31 @@ def fetch_all_assets(
     Args:
         full_fetch: If True, fetch all history
         timeframes: Specific timeframes to fetch
+        backfill: If True, use backfill source for historical data
     
     Returns dict of asset_id -> result.
     """
     conn = get_connection()
     init_schema(conn)
+    load_assets_from_json(conn)
     
     assets = get_enabled_assets(conn)
     conn.close()
     
     print(f"\nFetching prices for {len(assets)} enabled assets...")
+    if backfill:
+        print("Mode: BACKFILL (using Birdeye for Solana tokens)")
     
     results = {}
     for asset in assets:
         result = fetch_for_asset(
             asset["id"], 
             full_fetch=full_fetch,
-            timeframes=timeframes
+            timeframes=timeframes,
+            backfill=backfill
         )
         results[asset["id"]] = result
         
-        # Be nice to APIs between assets
         time.sleep(1)
     
     # Print summary
@@ -550,16 +801,47 @@ def fetch_all_assets(
     
     for asset_id, result in results.items():
         status = result.get("status", "unknown")
+        source = result.get("source", "?")
         if status == "success":
             tf_summary = ", ".join(
                 f"{tf}:{info['count']}" 
                 for tf, info in result.get("timeframes", {}).items()
             )
-            print(f"  {asset_id}: {tf_summary or 'no data'}")
+            print(f"  {asset_id} ({source}): {tf_summary or 'no data'}")
         else:
             print(f"  {asset_id}: {status} - {result.get('reason', '')}")
     
     return results
+
+
+def show_gaps():
+    """Show price data gaps."""
+    conn = get_connection()
+    init_schema(conn)
+    
+    gaps = get_price_gaps(conn)
+    conn.close()
+    
+    if not gaps:
+        print("No gaps detected in price data!")
+        return
+    
+    print(f"\nDetected {len(gaps)} gaps in price data:\n")
+    
+    # Group by asset
+    by_asset = {}
+    for g in gaps:
+        key = g["asset_id"]
+        if key not in by_asset:
+            by_asset[key] = []
+        by_asset[key].append(g)
+    
+    for asset_id, asset_gaps in by_asset.items():
+        print(f"{asset_id}:")
+        for g in asset_gaps[:5]:
+            print(f"  {g['timeframe']}: {g['gap_start'][:19]} → {g['gap_end'][:19]} ({g['missing_candles']} missing)")
+        if len(asset_gaps) > 5:
+            print(f"  ... and {len(asset_gaps) - 5} more gaps")
 
 
 def main():
@@ -583,8 +865,22 @@ def main():
         action="append",
         help="Specific timeframe(s) to fetch (can use multiple times)"
     )
+    parser.add_argument(
+        "--backfill", "-b",
+        action="store_true",
+        help="Use backfill source (Birdeye) for historical data"
+    )
+    parser.add_argument(
+        "--gaps", "-g",
+        action="store_true",
+        help="Show price data gaps"
+    )
     
     args = parser.parse_args()
+    
+    if args.gaps:
+        show_gaps()
+        return
     
     timeframes = args.timeframe if args.timeframe else None
     
@@ -592,12 +888,14 @@ def main():
         fetch_for_asset(
             args.asset, 
             full_fetch=args.full,
-            timeframes=timeframes
+            timeframes=timeframes,
+            backfill=args.backfill
         )
     else:
         fetch_all_assets(
             full_fetch=args.full,
-            timeframes=timeframes
+            timeframes=timeframes,
+            backfill=args.backfill
         )
 
 
