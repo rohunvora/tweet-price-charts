@@ -177,7 +177,8 @@ export default function Chart({ tweetEvents }: ChartProps) {
   /**
    * Format duration in human readable form
    */
-  const formatDuration = (seconds: number): string => {
+  const formatDuration = useCallback((seconds: number): string => {
+    if (!seconds || !isFinite(seconds)) return '';
     const days = Math.floor(seconds / (24 * 60 * 60));
     const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
     const minutes = Math.floor((seconds % (60 * 60)) / 60);
@@ -186,7 +187,7 @@ export default function Chart({ tweetEvents }: ChartProps) {
     if (hours > 0) return `${hours}h`;
     if (minutes > 0) return `${minutes}m`;
     return '<1m';
-  };
+  }, []);
 
   /**
    * Draw tweet markers (clusters or individual bubbles)
@@ -200,7 +201,6 @@ export default function Chart({ tweetEvents }: ChartProps) {
     const showTweets = showBubblesRef.current;
     const hovered = hoveredClusterRef.current;
     const avatar = avatarRef.current;
-    const tf = timeframeRef.current;
 
     if (!canvas || !container) return;
 
@@ -221,11 +221,18 @@ export default function Chart({ tweetEvents }: ChartProps) {
 
     if (!chart || !series || !showTweets || clusters.length === 0) return;
 
-    const visibleRange = chart.timeScale().getVisibleRange();
+    let visibleRange;
+    try {
+      visibleRange = chart.timeScale().getVisibleRange();
+    } catch {
+      return;
+    }
     if (!visibleRange) return;
 
     const rangeFrom = visibleRange.from as number;
     const rangeTo = visibleRange.to as number;
+    
+    if (!isFinite(rangeFrom) || !isFinite(rangeTo)) return;
 
     // Filter to visible clusters
     const visibleClusters = clusters.filter(cluster => 
@@ -582,16 +589,27 @@ export default function Chart({ tweetEvents }: ChartProps) {
           const chartData = toCandlestickData(priceData);
           seriesRef.current.setData(chartData as CandlestickData<Time>[]);
           
-          const tweetsWithPrice = tweetEvents.filter(t => t.price_at_tweet !== null);
-          if (tweetsWithPrice.length > 0 && priceData.candles.length > 0) {
-            const firstTweetTime = tweetsWithPrice[0].timestamp;
-            const lastDataTime = priceData.end;
-            
-            chartRef.current.timeScale().setVisibleRange({
-              from: firstTweetTime as Time,
-              to: lastDataTime as Time,
-            });
-          } else {
+          // Set visible range with validation
+          try {
+            const tweetsWithPrice = tweetEvents.filter(t => t.price_at_tweet !== null);
+            if (tweetsWithPrice.length > 0 && priceData.candles.length > 0) {
+              const firstTweetTime = tweetsWithPrice[0].timestamp;
+              const lastDataTime = priceData.end;
+              
+              // Validate the range values
+              if (firstTweetTime && lastDataTime && firstTweetTime < lastDataTime) {
+                chartRef.current.timeScale().setVisibleRange({
+                  from: firstTweetTime as Time,
+                  to: lastDataTime as Time,
+                });
+              } else {
+                chartRef.current.timeScale().fitContent();
+              }
+            } else {
+              chartRef.current.timeScale().fitContent();
+            }
+          } catch (rangeError) {
+            console.warn('Failed to set visible range, using fitContent:', rangeError);
             chartRef.current.timeScale().fitContent();
           }
           
