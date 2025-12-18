@@ -184,7 +184,7 @@ function ChartPageContent() {
 
       {/* Chart area */}
       <div className="flex-1 relative">
-        <Chart tweetEvents={tweetEvents} asset={selectedAsset} />
+        <Chart key={selectedAsset.id} tweetEvents={tweetEvents} asset={selectedAsset} />
       </div>
 
       {/* Bottom bar */}
