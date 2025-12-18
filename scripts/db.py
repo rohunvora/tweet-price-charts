@@ -132,6 +132,10 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
     
     # Create optimized tweet_events view with timeframe fallback
     # Uses 1m data if available, falls back to 1h, then 1d
+    # IMPORTANT: Each timeframe has a staleness limit to prevent using stale data:
+    #   - 1m: max 1 hour old (prevents old 1m data from overriding fresh 1h/1d)
+    #   - 1h: max 24 hours old
+    #   - 1d: max 7 days old
     conn.execute("""
         CREATE OR REPLACE VIEW tweet_events AS
         WITH tweet_base AS (
@@ -153,40 +157,53 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
               AND t.timestamp >= a.launch_date
         ),
         -- Get best available price at tweet time (prefer 1m > 1h > 1d)
+        -- Only use data if fresh enough for its timeframe
         price_at_tweet AS (
             SELECT DISTINCT ON (tb.tweet_id)
                 tb.tweet_id,
                 p.close AS price_at_tweet
             FROM tweet_base tb
             LEFT JOIN prices p ON p.asset_id = tb.asset_id 
-                AND p.timeframe IN ('1m', '1h', '1d')
                 AND p.timestamp <= tb.timestamp
+                AND (
+                    (p.timeframe = '1m' AND tb.timestamp - p.timestamp <= INTERVAL '1 hour')
+                    OR (p.timeframe = '1h' AND tb.timestamp - p.timestamp <= INTERVAL '24 hours')
+                    OR (p.timeframe = '1d' AND tb.timestamp - p.timestamp <= INTERVAL '7 days')
+                )
             ORDER BY tb.tweet_id, 
                 CASE p.timeframe WHEN '1m' THEN 1 WHEN '1h' THEN 2 WHEN '1d' THEN 3 END,
                 p.timestamp DESC
         ),
-        -- Get price 1 hour later
+        -- Get price 1 hour later (with same staleness checks)
         price_1h AS (
             SELECT DISTINCT ON (tb.tweet_id)
                 tb.tweet_id,
                 p.close AS price_1h
             FROM tweet_base tb
             LEFT JOIN prices p ON p.asset_id = tb.asset_id 
-                AND p.timeframe IN ('1m', '1h', '1d')
                 AND p.timestamp <= tb.timestamp + INTERVAL '1 hour'
+                AND (
+                    (p.timeframe = '1m' AND (tb.timestamp + INTERVAL '1 hour') - p.timestamp <= INTERVAL '1 hour')
+                    OR (p.timeframe = '1h' AND (tb.timestamp + INTERVAL '1 hour') - p.timestamp <= INTERVAL '24 hours')
+                    OR (p.timeframe = '1d' AND (tb.timestamp + INTERVAL '1 hour') - p.timestamp <= INTERVAL '7 days')
+                )
             ORDER BY tb.tweet_id,
                 CASE p.timeframe WHEN '1m' THEN 1 WHEN '1h' THEN 2 WHEN '1d' THEN 3 END,
                 p.timestamp DESC
         ),
-        -- Get price 24 hours later
+        -- Get price 24 hours later (with same staleness checks)
         price_24h AS (
             SELECT DISTINCT ON (tb.tweet_id)
                 tb.tweet_id,
                 p.close AS price_24h
             FROM tweet_base tb
             LEFT JOIN prices p ON p.asset_id = tb.asset_id 
-                AND p.timeframe IN ('1m', '1h', '1d')
                 AND p.timestamp <= tb.timestamp + INTERVAL '24 hours'
+                AND (
+                    (p.timeframe = '1m' AND (tb.timestamp + INTERVAL '24 hours') - p.timestamp <= INTERVAL '1 hour')
+                    OR (p.timeframe = '1h' AND (tb.timestamp + INTERVAL '24 hours') - p.timestamp <= INTERVAL '24 hours')
+                    OR (p.timeframe = '1d' AND (tb.timestamp + INTERVAL '24 hours') - p.timestamp <= INTERVAL '7 days')
+                )
             ORDER BY tb.tweet_id,
                 CASE p.timeframe WHEN '1m' THEN 1 WHEN '1h' THEN 2 WHEN '1d' THEN 3 END,
                 p.timestamp DESC

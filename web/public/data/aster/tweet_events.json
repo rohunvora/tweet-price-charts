@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-18T20:38:10.183381Z",
+  "generated_at": "2025-12-18T21:48:22.439200Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -5569,9 +5569,9 @@
       "impressions": 544881,
       "price_at_tweet": 0.694213105638913,
       "price_1h": 0.687271525565695,
-      "price_24h": 0.690081515101142,
+      "price_24h": 0.687182128613777,
       "change_1h_pct": -1.0,
-      "change_24h_pct": -0.6
+      "change_24h_pct": -1.01
     },
     {
       "tweet_id": "2001721575998095732",
@@ -5588,9 +5588,9 @@
       "impressions": 199493,
       "price_at_tweet": 0.691043106959964,
       "price_1h": 0.690081515101142,
-      "price_24h": 0.690081515101142,
+      "price_24h": 0.687182128613777,
       "change_1h_pct": -0.14,
-      "change_24h_pct": -0.14
+      "change_24h_pct": -0.56
     }
   ]
 }

@@ -1,11 +1,30 @@
 {
-  "generated_at": "2025-12-18T20:38:12.677855Z",
+  "generated_at": "2025-12-18T21:48:23.579847Z",
   "asset": "hype",
   "asset_name": "HYPE",
   "founder": "chameleon_jeff",
   "price_definition": "candle close at minute boundary",
-  "count": 34,
+  "count": 35,
   "events": [
+    {
+      "tweet_id": "1862885996846805222",
+      "asset_id": "hype",
+      "asset_name": "HYPE",
+      "founder": "chameleon_jeff",
+      "asset_color": "#00D1FF",
+      "timestamp": 1732981607,
+      "timestamp_iso": "2024-11-30T10:46:47Z",
+      "text": "It's inspiring to see tens of thousands of community members secure life-changing wealth as part of the Hyperliquid genesis event. Importantly, none of these people were insiders. They:\n\n1) believed in the vision for a better financial system when no one else would\n2) acted on",
+      "likes": 5655,
+      "retweets": 1165,
+      "replies": 998,
+      "impressions": 903242,
+      "price_at_tweet": null,
+      "price_1h": null,
+      "price_24h": null,
+      "change_1h_pct": null,
+      "change_24h_pct": null
+    },
     {
       "tweet_id": "1876837450405879810",
       "asset_id": "hype",
@@ -380,11 +399,11 @@
       "retweets": 501,
       "replies": 489,
       "impressions": 420364,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 38.899,
+      "price_1h": 38.872,
+      "price_24h": 40.964,
+      "change_1h_pct": -0.07,
+      "change_24h_pct": 5.31
     },
     {
       "tweet_id": "1954125933885173895",
@@ -399,11 +418,11 @@
       "retweets": 252,
       "replies": 296,
       "impressions": 251271,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 41.921,
+      "price_1h": 42.672,
+      "price_24h": 43.704,
+      "change_1h_pct": 1.79,
+      "change_24h_pct": 4.25
     },
     {
       "tweet_id": "1954125935512559953",
@@ -418,11 +437,11 @@
       "retweets": 3,
       "replies": 25,
       "impressions": 96125,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 41.921,
+      "price_1h": 42.672,
+      "price_24h": 43.704,
+      "change_1h_pct": 1.79,
+      "change_24h_pct": 4.25
     },
     {
       "tweet_id": "1970481506570375642",
@@ -437,11 +456,11 @@
       "retweets": 641,
       "replies": 736,
       "impressions": 529012,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 48.043,
+      "price_1h": 48.169,
+      "price_24h": 44.535,
+      "change_1h_pct": 0.26,
+      "change_24h_pct": -7.3
     },
     {
       "tweet_id": "1977066751717429516",
@@ -456,11 +475,11 @@
       "retweets": 1067,
       "replies": 843,
       "impressions": 1182215,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 38.6,
+      "price_1h": 38.31,
+      "price_24h": 37.182,
+      "change_1h_pct": -0.75,
+      "change_24h_pct": -3.67
     },
     {
       "tweet_id": "1977067705258873280",
@@ -475,11 +494,11 @@
       "retweets": 61,
       "replies": 25,
       "impressions": 112073,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 38.6,
+      "price_1h": 38.31,
+      "price_24h": 37.182,
+      "change_1h_pct": -0.75,
+      "change_24h_pct": -3.67
     },
     {
       "tweet_id": "1977578610329534958",
@@ -494,11 +513,11 @@
       "retweets": 1405,
       "replies": 1072,
       "impressions": 2092014,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 39.616,
+      "price_1h": 39.525,
+      "price_24h": 42.423,
+      "change_1h_pct": -0.23,
+      "change_24h_pct": 7.09
     },
     {
       "tweet_id": "1977578870766448894",
@@ -513,11 +532,11 @@
       "retweets": 44,
       "replies": 31,
       "impressions": 98182,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 39.616,
+      "price_1h": 39.525,
+      "price_24h": 42.423,
+      "change_1h_pct": -0.23,
+      "change_24h_pct": 7.09
     },
     {
       "tweet_id": "1979591612704723253",
@@ -532,11 +551,11 @@
       "retweets": 534,
       "replies": 477,
       "impressions": 402561,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 35.676,
+      "price_1h": 35.23,
+      "price_24h": 37.309,
+      "change_1h_pct": -1.25,
+      "change_24h_pct": 4.58
     },
     {
       "tweet_id": "1981236176247017606",
@@ -551,11 +570,11 @@
       "retweets": 247,
       "replies": 203,
       "impressions": 262499,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 37.834,
+      "price_1h": 38.445,
+      "price_24h": 40.024,
+      "change_1h_pct": 1.61,
+      "change_24h_pct": 5.79
     },
     {
       "tweet_id": "1981236178541302255",
@@ -570,11 +589,11 @@
       "retweets": 27,
       "replies": 20,
       "impressions": 51180,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 37.834,
+      "price_1h": 38.445,
+      "price_24h": 40.024,
+      "change_1h_pct": 1.61,
+      "change_24h_pct": 5.79
     },
     {
       "tweet_id": "1989388141044830540",
@@ -589,11 +608,11 @@
       "retweets": 467,
       "replies": 347,
       "impressions": 238068,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 36.696,
+      "price_1h": 36.874,
+      "price_24h": 38.779,
+      "change_1h_pct": 0.49,
+      "change_24h_pct": 5.68
     },
     {
       "tweet_id": "1992608580730839281",
@@ -608,11 +627,11 @@
       "retweets": 176,
       "replies": 141,
       "impressions": 259314,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 31.541,
+      "price_1h": 31.392,
+      "price_24h": 31.543,
+      "change_1h_pct": -0.47,
+      "change_24h_pct": 0.01
     },
     {
       "tweet_id": "1993339777811169357",
@@ -627,11 +646,11 @@
       "retweets": 616,
       "replies": 613,
       "impressions": 556849,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 32.736,
+      "price_1h": 32.552,
+      "price_24h": 33.782,
+      "change_1h_pct": -0.56,
+      "change_24h_pct": 3.2
     },
     {
       "tweet_id": "1998567869848891699",
@@ -646,11 +665,11 @@
       "retweets": 521,
       "replies": 592,
       "impressions": 547861,
-      "price_at_tweet": 38.412,
-      "price_1h": 38.412,
-      "price_24h": 38.412,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 28.194,
+      "price_1h": 27.788,
+      "price_24h": 29.227,
+      "change_1h_pct": -1.44,
+      "change_24h_pct": 3.66
     }
   ]
 }

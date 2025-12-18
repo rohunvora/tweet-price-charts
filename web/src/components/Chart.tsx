@@ -232,10 +232,6 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       .filter(t => t.price_at_tweet && t.timestamp >= rangeFrom && t.timestamp <= rangeTo)
       .sort((a, b) => a.timestamp - b.timestamp);
 
-    // #region agent log
-    console.log('[DEBUG] Visible tweets:', {assetId:currentAsset.id,totalTweets:tweets.length,visibleCount:visibleTweets.length,samplePrices:visibleTweets.slice(0,5).map(t=>({id:t.tweet_id,price:t.price_at_tweet}))});
-    // #endregion
-
     if (visibleTweets.length === 0) return;
 
     // -------------------------------------------------------------------------
@@ -269,18 +265,12 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     }
 
     // Calculate time gaps and price changes between clusters
-    // #region agent log
-    console.log('[DEBUG] Clusters built:', {assetId:currentAsset.id,clusterCount:clusters.length,clusterPrices:clusters.map(c=>({avgPrice:c.avgPrice,tweetCount:c.tweets.length}))});
-    // #endregion
     for (let i = 1; i < clusters.length; i++) {
       const prev = clusters[i - 1];
       const curr = clusters[i];
       curr.timeSincePrev = curr.avgTimestamp - prev.avgTimestamp;
       if (prev.avgPrice > 0) {
         curr.pctSincePrev = ((curr.avgPrice - prev.avgPrice) / prev.avgPrice) * 100;
-        // #region agent log
-        console.log('[DEBUG] pctSincePrev:', {assetId:currentAsset.id,idx:i,prevPrice:prev.avgPrice,currPrice:curr.avgPrice,pctSincePrev:curr.pctSincePrev});
-        // #endregion
       }
     }
 
@@ -411,11 +401,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     series: ISeriesApi<'Candlestick'>,
     clusters: TweetClusterDisplay[]
   ) {
-    const prices = tweets.map(t => t.price_at_tweet || 0);
-    const avgPrice = prices.reduce((sum, p) => sum + p, 0) / tweets.length;
-    // #region agent log
-    console.log('[DEBUG] emitCluster:', {tweetCount:tweets.length,prices:prices,avgPrice:avgPrice,x:x});
-    // #endregion
+    const avgPrice = tweets.reduce((sum, t) => sum + (t.price_at_tweet || 0), 0) / tweets.length;
     const avgTimestamp = tweets.reduce((sum, t) => sum + t.timestamp, 0) / tweets.length;
     const changes = tweets.filter(t => t.change_24h_pct !== null).map(t => t.change_24h_pct!);
     const avgChange = changes.length > 0 ? changes.reduce((a, b) => a + b, 0) / changes.length : null;
