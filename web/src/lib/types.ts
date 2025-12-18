@@ -86,7 +86,7 @@ export interface Stats {
 }
 
 // Timeframe options
-export type Timeframe = '1m' | '15m' | '1h' | '1d';
+export type Timeframe = '15m' | '1h' | '4h' | '1d';
 
 // Chart marker for tweet bubbles
 export interface TweetMarker {
