@@ -78,6 +78,10 @@ export default function Chart({ tweetEvents }: ChartProps) {
     const hovered = hoveredTweetRef.current;
     const avatar = avatarRef.current;
 
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:entry',message:'drawMarkers called',data:{hasChart:!!chart,hasSeries:!!series,hasCanvas:!!canvas,hasContainer:!!container,tweetsCount:tweets?.length,showTweets,hasAvatar:!!avatar},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
+    // #endregion
+
     if (!canvas || !container) return;
 
     // Set canvas size with device pixel ratio for sharp rendering
@@ -85,6 +89,10 @@ export default function Chart({ tweetEvents }: ChartProps) {
     const width = container.clientWidth;
     const height = container.clientHeight;
     
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:canvas',message:'Canvas dimensions',data:{width,height,dpr,canvasWidth:canvas.width,canvasHeight:canvas.height},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H5'})}).catch(()=>{});
+    // #endregion
+
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     canvas.style.width = `${width}px`;
@@ -103,21 +111,42 @@ export default function Chart({ tweetEvents }: ChartProps) {
 
     // Get visible range
     const visibleRange = chart.timeScale().getVisibleRange();
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:visibleRange',message:'Visible range check',data:{visibleRange,hasVisibleRange:!!visibleRange},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H2'})}).catch(()=>{});
+    // #endregion
+    
     if (!visibleRange) return;
 
     // Filter tweets in visible range with price data
+    const tweetsWithPrice = tweets.filter(t => t.price_at_tweet !== null);
     const visibleTweets = tweets.filter(tweet => {
       if (!tweet.price_at_tweet) return false;
       const time = tweet.timestamp;
       return time >= (visibleRange.from as number) && time <= (visibleRange.to as number);
     });
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:filter',message:'Tweet filtering',data:{totalTweets:tweets.length,tweetsWithPrice:tweetsWithPrice.length,visibleTweetsCount:visibleTweets.length,rangeFrom:visibleRange.from,rangeTo:visibleRange.to,sampleTweetTs:tweetsWithPrice[0]?.timestamp},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3'})}).catch(()=>{})
+    // #endregion
+
+    // #region agent log
+    if (visibleTweets.length > 0) {
+      const sampleTweet = visibleTweets[0];
+      const sampleX = chart.timeScale().timeToCoordinate(sampleTweet.timestamp as Time);
+      const sampleY = series.priceToCoordinate(sampleTweet.price_at_tweet!);
+      fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:coords',message:'Sample coordinate conversion',data:{sampleX,sampleY,sampleTs:sampleTweet.timestamp,samplePrice:sampleTweet.price_at_tweet,visibleCount:visibleTweets.length},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H4'})}).catch(()=>{});
+    }
+    // #endregion
 
     // Draw each tweet bubble
+    let drawnCount = 0;
     for (const tweet of visibleTweets) {
       const x = chart.timeScale().timeToCoordinate(tweet.timestamp as Time);
       const y = series.priceToCoordinate(tweet.price_at_tweet!);
 
       if (x === null || y === null) continue;
+      drawnCount++;
 
       const isHovered = hovered?.tweet_id === tweet.tweet_id;
 
@@ -163,6 +192,10 @@ export default function Chart({ tweetEvents }: ChartProps) {
         ctx.fillText('A', x, y);
       }
     }
+    
+    // #region agent log
+    fetch('http://127.0.0.1:7243/ingest/ea7ab7a2-1b4f-4bbc-9332-76465fb6da64',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Chart.tsx:drawMarkers:complete',message:'Draw loop complete',data:{drawnCount,visibleTweetsCount:visibleTweets.length},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H4'})}).catch(()=>{});
+    // #endregion
   }, []);
 
   // Initialize chart
