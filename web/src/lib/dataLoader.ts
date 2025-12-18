@@ -1,4 +1,4 @@
-import { PriceData, TweetEventsData, Stats, Timeframe, Candle } from './types';
+import { PriceData, TweetEventsData, Stats, Timeframe, Candle, TweetEvent } from './types';
 
 // Cache for loaded data
 const priceCache = new Map<string, PriceData>();
@@ -118,4 +118,60 @@ export function filterCandlesToRange(
   return candles.filter(c => c.t >= startTime && c.t <= endTime);
 }
 
+/**
+ * Get sorted array of tweet timestamps for binary search
+ */
+export function getSortedTweetTimestamps(tweets: TweetEvent[]): number[] {
+  return tweets
+    .filter(t => t.price_at_tweet !== null)
+    .map(t => t.timestamp)
+    .sort((a, b) => a - b);
+}
+
+/**
+ * Find the closest SOL candle to a given timestamp
+ */
+export function findClosestSolCandle(
+  timestamp: number,
+  solCandles: Candle[],
+  maxDiffSeconds: number
+): Candle | null {
+  if (solCandles.length === 0) return null;
+  
+  // Binary search for closest candle
+  let left = 0;
+  let right = solCandles.length - 1;
+  
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+    if (solCandles[mid].t < timestamp) {
+      left = mid + 1;
+    } else {
+      right = mid;
+    }
+  }
+  
+  // Check neighbors for closest
+  let closest = solCandles[left];
+  let minDiff = Math.abs(closest.t - timestamp);
+  
+  if (left > 0) {
+    const prevDiff = Math.abs(solCandles[left - 1].t - timestamp);
+    if (prevDiff < minDiff) {
+      closest = solCandles[left - 1];
+      minDiff = prevDiff;
+    }
+  }
+  
+  if (minDiff > maxDiffSeconds) return null;
+  return closest;
+}
+
+/**
+ * Calculate return between two prices
+ */
+export function calculateReturn(current: number, previous: number): number {
+  if (previous === 0) return 0;
+  return (current - previous) / previous;
+}
 
