@@ -3,25 +3,32 @@
   "timeframe": "1m",
   "chunks": [
     {
+      "month": "2025-09",
+      "file": "prices_1m_2025-09.json",
+      "count": 17217,
+      "start": 1758258120,
+      "end": 1759291140
+    },
+    {
       "month": "2025-10",
       "file": "prices_1m_2025-10.json",
-      "count": 35559,
-      "start": 1759806900,
+      "count": 44638,
+      "start": 1759291200,
       "end": 1761969540
     },
     {
       "month": "2025-11",
       "file": "prices_1m_2025-11.json",
-      "count": 41694,
+      "count": 43200,
       "start": 1761969600,
       "end": 1764565140
     },
     {
       "month": "2025-12",
       "file": "prices_1m_2025-12.json",
-      "count": 22716,
+      "count": 25812,
       "start": 1764565200,
-      "end": 1766101260
+      "end": 1766113860
     }
   ]
 }

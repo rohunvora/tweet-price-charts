@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-18T21:48:22.439200Z",
+  "generated_at": "2025-12-18T22:16:14.024362Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -19,11 +19,11 @@
       "retweets": 1829,
       "replies": 2609,
       "impressions": 2204223,
-      "price_at_tweet": 1.79866510007957,
-      "price_1h": 1.9191641225368,
-      "price_24h": 1.4062768859991,
-      "change_1h_pct": 6.7,
-      "change_24h_pct": -21.82
+      "price_at_tweet": 1.7948624961133386,
+      "price_1h": 1.9437891435460395,
+      "price_24h": 1.4478627129237023,
+      "change_1h_pct": 8.3,
+      "change_24h_pct": -19.33
     },
     {
       "tweet_id": "1969750006711161097",
@@ -38,11 +38,11 @@
       "retweets": 573,
       "replies": 3118,
       "impressions": 1476709,
-      "price_at_tweet": 1.54377321918262,
-      "price_1h": 1.64372828860943,
-      "price_24h": 1.50618497996237,
-      "change_1h_pct": 6.47,
-      "change_24h_pct": -2.43
+      "price_at_tweet": 1.5377229631165883,
+      "price_1h": 1.5418584285607213,
+      "price_24h": 1.5642429488338716,
+      "change_1h_pct": 0.27,
+      "change_24h_pct": 1.72
     },
     {
       "tweet_id": "1969750793529303122",
@@ -57,11 +57,11 @@
       "retweets": 906,
       "replies": 1817,
       "impressions": 1397275,
-      "price_at_tweet": 1.54377321918262,
-      "price_1h": 1.64372828860943,
-      "price_24h": 1.50618497996237,
-      "change_1h_pct": 6.47,
-      "change_24h_pct": -2.43
+      "price_at_tweet": 1.5473944036440956,
+      "price_1h": 1.5550231431048962,
+      "price_24h": 1.5781434922612034,
+      "change_1h_pct": 0.49,
+      "change_24h_pct": 1.99
     },
     {
       "tweet_id": "1969783303101128994",
@@ -76,11 +76,11 @@
       "retweets": 497,
       "replies": 1167,
       "impressions": 2903774,
-      "price_at_tweet": 1.59767957868222,
-      "price_1h": 1.42233080372053,
-      "price_24h": 1.38209317282013,
-      "change_1h_pct": -10.98,
-      "change_24h_pct": -13.49
+      "price_at_tweet": 1.7014009272214066,
+      "price_1h": 1.5744144910238682,
+      "price_24h": 1.3111821827791614,
+      "change_1h_pct": -7.46,
+      "change_24h_pct": -22.94
     },
     {
       "tweet_id": "1969809229662863762",
@@ -95,11 +95,11 @@
       "retweets": 264,
       "replies": 844,
       "impressions": 1102314,
-      "price_at_tweet": 1.46260120683882,
-      "price_1h": 1.45448599760897,
-      "price_24h": 1.42806043110312,
-      "change_1h_pct": -0.55,
-      "change_24h_pct": -2.36
+      "price_at_tweet": 1.3755782348220769,
+      "price_1h": 1.4676169516569058,
+      "price_24h": 1.3969650281512915,
+      "change_1h_pct": 6.69,
+      "change_24h_pct": 1.55
     },
     {
       "tweet_id": "1969839272808313203",
@@ -114,11 +114,11 @@
       "retweets": 659,
       "replies": 2073,
       "impressions": 915643,
-      "price_at_tweet": 1.42045693099302,
-      "price_1h": 1.48322405796077,
-      "price_24h": 1.43992048603801,
-      "change_1h_pct": 4.42,
-      "change_24h_pct": 1.37
+      "price_at_tweet": 1.4599736282755265,
+      "price_1h": 1.4179565853639955,
+      "price_24h": 1.3903961579228188,
+      "change_1h_pct": -2.88,
+      "change_24h_pct": -4.77
     },
     {
       "tweet_id": "1969970609179271330",
@@ -133,11 +133,11 @@
       "retweets": 883,
       "replies": 1701,
       "impressions": 2911470,
-      "price_at_tweet": 1.48317839479128,
-      "price_1h": 1.45741978767427,
-      "price_24h": 1.57998355788799,
-      "change_1h_pct": -1.74,
-      "change_24h_pct": 6.53
+      "price_at_tweet": 1.4149521296806251,
+      "price_1h": 1.5219530240853516,
+      "price_24h": 1.5600122572473856,
+      "change_1h_pct": 7.56,
+      "change_24h_pct": 10.25
     },
     {
       "tweet_id": "1969979560084279429",
@@ -152,11 +152,11 @@
       "retweets": 4144,
       "replies": 5067,
       "impressions": 3913993,
-      "price_at_tweet": 1.45741978767427,
-      "price_1h": 1.4062768859991,
-      "price_24h": 1.63356310781957,
-      "change_1h_pct": -3.51,
-      "change_24h_pct": 12.09
+      "price_at_tweet": 1.5200148146235661,
+      "price_1h": 1.4688803368827494,
+      "price_24h": 1.5881612233718545,
+      "change_1h_pct": -3.36,
+      "change_24h_pct": 4.48
     },
     {
       "tweet_id": "1970170371010658741",
@@ -171,11 +171,11 @@
       "retweets": 383,
       "replies": 965,
       "impressions": 893436,
-      "price_at_tweet": 1.39412346836863,
-      "price_1h": 1.42806043110312,
-      "price_24h": 2.06417755610423,
-      "change_1h_pct": 2.43,
-      "change_24h_pct": 48.06
+      "price_at_tweet": 1.3964159903074247,
+      "price_1h": 1.4194260212176468,
+      "price_24h": 2.0849363548577213,
+      "change_1h_pct": 1.65,
+      "change_24h_pct": 49.31
     },
     {
       "tweet_id": "1970174242869387531",
@@ -190,11 +190,11 @@
       "retweets": 1183,
       "replies": 2121,
       "impressions": 1874387,
-      "price_at_tweet": 1.42806043110312,
-      "price_1h": 1.37853042916009,
-      "price_24h": 2.00331682643094,
-      "change_1h_pct": -3.47,
-      "change_24h_pct": 40.28
+      "price_at_tweet": 1.3750349390915155,
+      "price_1h": 1.3899631526051144,
+      "price_24h": 2.0429671901801263,
+      "change_1h_pct": 1.09,
+      "change_24h_pct": 48.58
     },
     {
       "tweet_id": "1970177939929960720",
@@ -209,11 +209,11 @@
       "retweets": 577,
       "replies": 1942,
       "impressions": 1600235,
-      "price_at_tweet": 1.42806043110312,
-      "price_1h": 1.37853042916009,
-      "price_24h": 2.00331682643094,
-      "change_1h_pct": -3.47,
-      "change_24h_pct": 40.28
+      "price_at_tweet": 1.4464932476701455,
+      "price_1h": 1.4344793020164333,
+      "price_24h": 2.124150397714331,
+      "change_1h_pct": -0.83,
+      "change_24h_pct": 46.85
     },
     {
       "tweet_id": "1970358398760952106",
@@ -228,11 +228,11 @@
       "retweets": 988,
       "replies": 2819,
       "impressions": 1212955,
-      "price_at_tweet": 1.7469883469075,
-      "price_1h": 1.72462557953883,
-      "price_24h": 2.11396927525298,
-      "change_1h_pct": -1.28,
-      "change_24h_pct": 21.01
+      "price_at_tweet": 1.6820612833235922,
+      "price_1h": 1.7089328361702512,
+      "price_24h": 2.071763271117534,
+      "change_1h_pct": 1.6,
+      "change_24h_pct": 23.17
     },
     {
       "tweet_id": "1970397669899280412",
@@ -247,11 +247,11 @@
       "retweets": 675,
       "replies": 1542,
       "impressions": 1088013,
-      "price_at_tweet": 1.72517132458278,
-      "price_1h": 1.70580856168683,
-      "price_24h": 2.23464765368096,
-      "change_1h_pct": -1.12,
-      "change_24h_pct": 29.53
+      "price_at_tweet": 1.7306383189513268,
+      "price_1h": 1.7173420995232753,
+      "price_24h": 2.2414143764343395,
+      "change_1h_pct": -0.77,
+      "change_24h_pct": 29.51
     },
     {
       "tweet_id": "1970427247157723647",
@@ -266,11 +266,11 @@
       "retweets": 1561,
       "replies": 1824,
       "impressions": 1614593,
-      "price_at_tweet": 1.64261645385222,
-      "price_1h": 1.71354918113233,
-      "price_24h": 2.27791098924796,
+      "price_at_tweet": 1.6537646355925106,
+      "price_1h": 1.7252505438609484,
+      "price_24h": 2.2794033399687925,
       "change_1h_pct": 4.32,
-      "change_24h_pct": 38.68
+      "change_24h_pct": 37.83
     },
     {
       "tweet_id": "1970427441740173451",
@@ -285,11 +285,11 @@
       "retweets": 121,
       "replies": 558,
       "impressions": 293407,
-      "price_at_tweet": 1.64261645385222,
-      "price_1h": 1.71354918113233,
-      "price_24h": 2.27791098924796,
-      "change_1h_pct": 4.32,
-      "change_24h_pct": 38.68
+      "price_at_tweet": 1.6565049551841953,
+      "price_1h": 1.7145553847711252,
+      "price_24h": 2.2876323569737793,
+      "change_1h_pct": 3.5,
+      "change_24h_pct": 38.1
     },
     {
       "tweet_id": "1970505770719727649",
@@ -304,11 +304,11 @@
       "retweets": 893,
       "replies": 1426,
       "impressions": 809060,
-      "price_at_tweet": 1.970814059605,
-      "price_1h": 2.06417755610423,
-      "price_24h": 2.26976985194321,
-      "change_1h_pct": 4.74,
-      "change_24h_pct": 15.17
+      "price_at_tweet": 1.9830254626361556,
+      "price_1h": 1.9797073722076246,
+      "price_24h": 2.2927016490820873,
+      "change_1h_pct": -0.17,
+      "change_24h_pct": 15.62
     },
     {
       "tweet_id": "1970509927597662625",
@@ -323,11 +323,11 @@
       "retweets": 904,
       "replies": 1433,
       "impressions": 1567237,
-      "price_at_tweet": 1.970814059605,
-      "price_1h": 2.06417755610423,
-      "price_24h": 2.26976985194321,
-      "change_1h_pct": 4.74,
-      "change_24h_pct": 15.17
+      "price_at_tweet": 1.9916188572757905,
+      "price_1h": 2.051892381580631,
+      "price_24h": 2.3028611616005423,
+      "change_1h_pct": 3.03,
+      "change_24h_pct": 15.63
     },
     {
       "tweet_id": "1970542181967335472",
@@ -342,11 +342,11 @@
       "retweets": 462,
       "replies": 1287,
       "impressions": 1541134,
-      "price_at_tweet": 2.00331682643094,
-      "price_1h": 1.92590728470731,
-      "price_24h": 2.32679676242316,
-      "change_1h_pct": -3.86,
-      "change_24h_pct": 16.15
+      "price_at_tweet": 2.0925474835614777,
+      "price_1h": 1.9693854309635415,
+      "price_24h": 2.349368611507209,
+      "change_1h_pct": -5.89,
+      "change_24h_pct": 12.27
     },
     {
       "tweet_id": "1970802490989064405",
@@ -361,11 +361,11 @@
       "retweets": 639,
       "replies": 1137,
       "impressions": 1512541,
-      "price_at_tweet": 2.37261758870901,
-      "price_1h": 2.27072022863119,
-      "price_24h": 2.02025074462215,
-      "change_1h_pct": -4.29,
-      "change_24h_pct": -14.85
+      "price_at_tweet": 2.3578882770248204,
+      "price_1h": 2.292914795222303,
+      "price_24h": 2.0350712793386547,
+      "change_1h_pct": -2.76,
+      "change_24h_pct": -13.69
     },
     {
       "tweet_id": "1970805413387059703",
@@ -380,11 +380,11 @@
       "retweets": 1279,
       "replies": 2169,
       "impressions": 3196286,
-      "price_at_tweet": 2.27072022863119,
-      "price_1h": 2.30015912530267,
-      "price_24h": 1.94782771324736,
-      "change_1h_pct": 1.3,
-      "change_24h_pct": -14.22
+      "price_at_tweet": 2.373155093826056,
+      "price_1h": 2.2715508920659833,
+      "price_24h": 2.041392074310543,
+      "change_1h_pct": -4.28,
+      "change_24h_pct": -13.98
     },
     {
       "tweet_id": "1970851758848290949",
@@ -399,11 +399,11 @@
       "retweets": 492,
       "replies": 1055,
       "impressions": 763722,
-      "price_at_tweet": 2.27947828216903,
-      "price_1h": 2.26976985194321,
-      "price_24h": 1.99528677934976,
-      "change_1h_pct": -0.43,
-      "change_24h_pct": -12.47
+      "price_at_tweet": 2.239398377832037,
+      "price_1h": 2.297307346705417,
+      "price_24h": 1.971267627560782,
+      "change_1h_pct": 2.59,
+      "change_24h_pct": -11.97
     },
     {
       "tweet_id": "1970891787662393486",
@@ -418,11 +418,11 @@
       "retweets": 3848,
       "replies": 8516,
       "impressions": 5817759,
-      "price_at_tweet": 2.36307529211297,
-      "price_1h": 2.32679676242316,
-      "price_24h": 1.92127600508106,
-      "change_1h_pct": -1.54,
-      "change_24h_pct": -18.7
+      "price_at_tweet": 2.3581681470908866,
+      "price_1h": 2.345054740006457,
+      "price_24h": 1.9412737815769605,
+      "change_1h_pct": -0.56,
+      "change_24h_pct": -17.68
     },
     {
       "tweet_id": "1971427455140495534",
@@ -437,11 +437,11 @@
       "retweets": 693,
       "replies": 1676,
       "impressions": 1556135,
-      "price_at_tweet": 1.810317225305,
-      "price_1h": 1.79612338660222,
-      "price_24h": 2.0451332435437,
-      "change_1h_pct": -0.78,
-      "change_24h_pct": 12.97
+      "price_at_tweet": 1.8346985357087267,
+      "price_1h": 1.8384233353333694,
+      "price_24h": 1.97734993916686,
+      "change_1h_pct": 0.2,
+      "change_24h_pct": 7.78
     },
     {
       "tweet_id": "1971650114638041326",
@@ -456,11 +456,11 @@
       "retweets": 1507,
       "replies": 2382,
       "impressions": 1470376,
-      "price_at_tweet": 2.11629332315414,
-      "price_1h": 2.04895683893191,
-      "price_24h": 2.03451449366194,
-      "change_1h_pct": -3.18,
-      "change_24h_pct": -3.86
+      "price_at_tweet": 2.095444127101764,
+      "price_1h": 2.0504812019605025,
+      "price_24h": 2.046607381187426,
+      "change_1h_pct": -2.15,
+      "change_24h_pct": -2.33
     },
     {
       "tweet_id": "1972018483304321384",
@@ -475,11 +475,11 @@
       "retweets": 1164,
       "replies": 1432,
       "impressions": 1122728,
-      "price_at_tweet": 1.95893483084189,
-      "price_1h": 1.96247168952796,
-      "price_24h": 1.87883874591444,
-      "change_1h_pct": 0.18,
-      "change_24h_pct": -4.09
+      "price_at_tweet": 1.98229974955335,
+      "price_1h": 1.97184777964597,
+      "price_24h": 1.852268870220224,
+      "change_1h_pct": -0.53,
+      "change_24h_pct": -6.56
     },
     {
       "tweet_id": "1972353896661316046",
@@ -494,11 +494,11 @@
       "retweets": 987,
       "replies": 2185,
       "impressions": 1555742,
-      "price_at_tweet": 1.81804958389178,
-      "price_1h": 1.86434148473384,
-      "price_24h": 1.82986895326824,
-      "change_1h_pct": 2.55,
-      "change_24h_pct": 0.65
+      "price_at_tweet": 1.7965216465215654,
+      "price_1h": 1.854719463659154,
+      "price_24h": 1.7950992932979106,
+      "change_1h_pct": 3.24,
+      "change_24h_pct": -0.08
     },
     {
       "tweet_id": "1972356197501358430",
@@ -513,11 +513,11 @@
       "retweets": 596,
       "replies": 1461,
       "impressions": 655885,
-      "price_at_tweet": 1.81804958389178,
-      "price_1h": 1.86434148473384,
-      "price_24h": 1.82986895326824,
-      "change_1h_pct": 2.55,
-      "change_24h_pct": 0.65
+      "price_at_tweet": 1.8150482825304217,
+      "price_1h": 1.8477707453464247,
+      "price_24h": 1.8047150694288232,
+      "change_1h_pct": 1.8,
+      "change_24h_pct": -0.57
     },
     {
       "tweet_id": "1972532097421377601",
@@ -532,11 +532,11 @@
       "retweets": 309,
       "replies": 992,
       "impressions": 319506,
-      "price_at_tweet": 1.91433383802239,
-      "price_1h": 1.93879076461255,
-      "price_24h": 1.86776827835717,
-      "change_1h_pct": 1.28,
-      "change_24h_pct": -2.43
+      "price_at_tweet": 1.9192785990457621,
+      "price_1h": 1.9342987897474173,
+      "price_24h": 1.8637841073380812,
+      "change_1h_pct": 0.78,
+      "change_24h_pct": -2.89
     },
     {
       "tweet_id": "1972536571204157702",
@@ -551,11 +551,11 @@
       "retweets": 1856,
       "replies": 3006,
       "impressions": 1910862,
-      "price_at_tweet": 1.91433383802239,
-      "price_1h": 1.93879076461255,
-      "price_24h": 1.86776827835717,
-      "change_1h_pct": 1.28,
-      "change_24h_pct": -2.43
+      "price_at_tweet": 1.9187165672152469,
+      "price_1h": 1.9438208283623029,
+      "price_24h": 1.8675098052571824,
+      "change_1h_pct": 1.31,
+      "change_24h_pct": -2.67
     },
     {
       "tweet_id": "1972640316479197247",
@@ -570,11 +570,11 @@
       "retweets": 1278,
       "replies": 1429,
       "impressions": 1150555,
-      "price_at_tweet": 1.85203304259341,
-      "price_1h": 1.87770368299373,
-      "price_24h": 1.76158462635053,
-      "change_1h_pct": 1.39,
-      "change_24h_pct": -4.88
+      "price_at_tweet": 1.9044980378327114,
+      "price_1h": 1.8119495493120004,
+      "price_24h": 1.7881808829740817,
+      "change_1h_pct": -4.86,
+      "change_24h_pct": -6.11
     },
     {
       "tweet_id": "1972720037149466775",
@@ -589,11 +589,11 @@
       "retweets": 801,
       "replies": 1252,
       "impressions": 1733864,
-      "price_at_tweet": 1.82986895326824,
-      "price_1h": 1.84210249960081,
-      "price_24h": 1.63620044554529,
-      "change_1h_pct": 0.67,
-      "change_24h_pct": -10.58
+      "price_at_tweet": 1.814723624059167,
+      "price_1h": 1.818271183187537,
+      "price_24h": 1.6399003403746062,
+      "change_1h_pct": 0.2,
+      "change_24h_pct": -9.63
     },
     {
       "tweet_id": "1972729090332406173",
@@ -608,11 +608,11 @@
       "retweets": 184,
       "replies": 870,
       "impressions": 847652,
-      "price_at_tweet": 1.84210249960081,
-      "price_1h": 1.85512342271773,
-      "price_24h": 1.6250060110451,
-      "change_1h_pct": 0.71,
-      "change_24h_pct": -11.79
+      "price_at_tweet": 1.8234552421058934,
+      "price_1h": 1.8422524825087543,
+      "price_24h": 1.638754706046413,
+      "change_1h_pct": 1.03,
+      "change_24h_pct": -10.13
     },
     {
       "tweet_id": "1972966220979962039",
@@ -627,11 +627,11 @@
       "retweets": 3074,
       "replies": 3186,
       "impressions": 5415914,
-      "price_at_tweet": 1.80108459555484,
-      "price_1h": 1.79342178565785,
-      "price_24h": 1.69042063811409,
-      "change_1h_pct": -0.43,
-      "change_24h_pct": -6.14
+      "price_at_tweet": 1.8168299218056199,
+      "price_1h": 1.8011685692709352,
+      "price_24h": 1.70622113738142,
+      "change_1h_pct": -0.86,
+      "change_24h_pct": -6.09
     },
     {
       "tweet_id": "1973069828605829475",
@@ -646,11 +646,11 @@
       "retweets": 536,
       "replies": 1686,
       "impressions": 1094919,
-      "price_at_tweet": 1.56767866869157,
-      "price_1h": 1.63620044554529,
-      "price_24h": 1.656271777829,
-      "change_1h_pct": 4.37,
-      "change_24h_pct": 5.65
+      "price_at_tweet": 1.560854844349918,
+      "price_1h": 1.6418338661167158,
+      "price_24h": 1.658237850645354,
+      "change_1h_pct": 5.19,
+      "change_24h_pct": 6.24
     },
     {
       "tweet_id": "1973082116389814761",
@@ -665,11 +665,11 @@
       "retweets": 254,
       "replies": 752,
       "impressions": 515325,
-      "price_at_tweet": 1.63620044554529,
-      "price_1h": 1.6250060110451,
-      "price_24h": 1.63994704961228,
-      "change_1h_pct": -0.68,
-      "change_24h_pct": 0.23
+      "price_at_tweet": 1.640534403266928,
+      "price_1h": 1.6147901987726931,
+      "price_24h": 1.6639864804529099,
+      "change_1h_pct": -1.57,
+      "change_24h_pct": 1.43
     },
     {
       "tweet_id": "1973083589462851962",
@@ -684,11 +684,11 @@
       "retweets": 354,
       "replies": 869,
       "impressions": 619817,
-      "price_at_tweet": 1.63620044554529,
-      "price_1h": 1.6250060110451,
-      "price_24h": 1.63994704961228,
-      "change_1h_pct": -0.68,
-      "change_24h_pct": 0.23
+      "price_at_tweet": 1.646543392248427,
+      "price_1h": 1.6191077981458148,
+      "price_24h": 1.6424303872530779,
+      "change_1h_pct": -1.67,
+      "change_24h_pct": -0.25
     },
     {
       "tweet_id": "1973238274241208690",
@@ -703,11 +703,11 @@
       "retweets": 868,
       "replies": 926,
       "impressions": 1453783,
-      "price_at_tweet": 1.51030168449811,
-      "price_1h": 1.54529800055531,
-      "price_24h": 1.67217880130621,
-      "change_1h_pct": 2.32,
-      "change_24h_pct": 10.72
+      "price_at_tweet": 1.5521309483408134,
+      "price_1h": 1.5412649865991062,
+      "price_24h": 1.6942529297815416,
+      "change_1h_pct": -0.7,
+      "change_24h_pct": 9.16
     },
     {
       "tweet_id": "1973244626531192968",
@@ -722,11 +722,11 @@
       "retweets": 1193,
       "replies": 1015,
       "impressions": 1093348,
-      "price_at_tweet": 1.51030168449811,
-      "price_1h": 1.54529800055531,
-      "price_24h": 1.67217880130621,
-      "change_1h_pct": 2.32,
-      "change_24h_pct": 10.72
+      "price_at_tweet": 1.5683762157237826,
+      "price_1h": 1.5355726321059244,
+      "price_24h": 1.6818656390091355,
+      "change_1h_pct": -2.09,
+      "change_24h_pct": 7.24
     },
     {
       "tweet_id": "1973262111212962092",
@@ -741,11 +741,11 @@
       "retweets": 184,
       "replies": 526,
       "impressions": 856689,
-      "price_at_tweet": 1.54529800055531,
-      "price_1h": 1.56577317208604,
-      "price_24h": 1.66612145958417,
-      "change_1h_pct": 1.32,
-      "change_24h_pct": 7.82
+      "price_at_tweet": 1.555717748900733,
+      "price_1h": 1.5907345220521987,
+      "price_24h": 1.647368886803228,
+      "change_1h_pct": 2.25,
+      "change_24h_pct": 5.89
     },
     {
       "tweet_id": "1973277279699738763",
@@ -760,11 +760,11 @@
       "retweets": 338,
       "replies": 820,
       "impressions": 1049596,
-      "price_at_tweet": 1.56577317208604,
-      "price_1h": 1.641435202134,
-      "price_24h": 1.71640304172106,
-      "change_1h_pct": 4.83,
-      "change_24h_pct": 9.62
+      "price_at_tweet": 1.5907345220521987,
+      "price_1h": 1.618826567244946,
+      "price_24h": 1.6953088714238531,
+      "change_1h_pct": 1.77,
+      "change_24h_pct": 6.57
     },
     {
       "tweet_id": "1973277893246722117",
@@ -779,11 +779,11 @@
       "retweets": 22,
       "replies": 80,
       "impressions": 170636,
-      "price_at_tweet": 1.56577317208604,
-      "price_1h": 1.641435202134,
-      "price_24h": 1.71640304172106,
-      "change_1h_pct": 4.83,
-      "change_24h_pct": 9.62
+      "price_at_tweet": 1.5819621783115438,
+      "price_1h": 1.6150002240528114,
+      "price_24h": 1.6840763721383514,
+      "change_1h_pct": 2.09,
+      "change_24h_pct": 6.45
     },
     {
       "tweet_id": "1973282892961947823",
@@ -798,11 +798,11 @@
       "retweets": 2588,
       "replies": 2508,
       "impressions": 1711013,
-      "price_at_tweet": 1.641435202134,
-      "price_1h": 1.66260559825962,
-      "price_24h": 1.72560622677942,
-      "change_1h_pct": 1.29,
-      "change_24h_pct": 5.13
+      "price_at_tweet": 1.5798244833416122,
+      "price_1h": 1.6220936032568996,
+      "price_24h": 1.7069898570221982,
+      "change_1h_pct": 2.68,
+      "change_24h_pct": 8.05
     },
     {
       "tweet_id": "1973315445810692519",
@@ -817,11 +817,11 @@
       "retweets": 740,
       "replies": 1272,
       "impressions": 1488393,
-      "price_at_tweet": 1.72377932352657,
-      "price_1h": 1.69042063811409,
-      "price_24h": 1.76411793085004,
-      "change_1h_pct": -1.94,
-      "change_24h_pct": 2.34
+      "price_at_tweet": 1.6797217013812553,
+      "price_1h": 1.6840043159027982,
+      "price_24h": 1.7480818784045642,
+      "change_1h_pct": 0.25,
+      "change_24h_pct": 4.07
     },
     {
       "tweet_id": "1973319288246423767",
@@ -836,11 +836,11 @@
       "retweets": 673,
       "replies": 1703,
       "impressions": 2264062,
-      "price_at_tweet": 1.72377932352657,
-      "price_1h": 1.69042063811409,
-      "price_24h": 1.76411793085004,
-      "change_1h_pct": -1.94,
-      "change_24h_pct": 2.34
+      "price_at_tweet": 1.706664864630333,
+      "price_1h": 1.6913882354132128,
+      "price_24h": 1.7632758806920716,
+      "change_1h_pct": -0.9,
+      "change_24h_pct": 3.32
     },
     {
       "tweet_id": "1973413862914339080",
@@ -855,11 +855,11 @@
       "retweets": 611,
       "replies": 1279,
       "impressions": 621281,
-      "price_at_tweet": 1.64138855369832,
-      "price_1h": 1.656271777829,
-      "price_24h": 1.7797321227911,
-      "change_1h_pct": 0.91,
-      "change_24h_pct": 8.43
+      "price_at_tweet": 1.658369824645532,
+      "price_1h": 1.6932015219726395,
+      "price_24h": 1.7777413593165812,
+      "change_1h_pct": 2.1,
+      "change_24h_pct": 7.2
     },
     {
       "tweet_id": "1973735848987488543",
@@ -874,11 +874,11 @@
       "retweets": 869,
       "replies": 1680,
       "impressions": 1426407,
-      "price_at_tweet": 1.78386254025509,
-      "price_1h": 1.73224568466713,
-      "price_24h": 1.91950514814186,
-      "change_1h_pct": -2.89,
-      "change_24h_pct": 7.6
+      "price_at_tweet": 1.824074595423069,
+      "price_1h": 1.789966529412382,
+      "price_24h": 1.9051982540108425,
+      "change_1h_pct": -1.87,
+      "change_24h_pct": 4.45
     },
     {
       "tweet_id": "1973752495206957506",
@@ -893,11 +893,11 @@
       "retweets": 471,
       "replies": 1191,
       "impressions": 982475,
-      "price_at_tweet": 1.73224568466713,
-      "price_1h": 1.7797321227911,
-      "price_24h": 1.92399898949872,
-      "change_1h_pct": 2.74,
-      "change_24h_pct": 11.07
+      "price_at_tweet": 1.7829919623336694,
+      "price_1h": 1.7678345839027785,
+      "price_24h": 1.9214524780550688,
+      "change_1h_pct": -0.85,
+      "change_24h_pct": 7.77
     },
     {
       "tweet_id": "1973754618552488159",
@@ -912,11 +912,11 @@
       "retweets": 1476,
       "replies": 2456,
       "impressions": 1188019,
-      "price_at_tweet": 1.73224568466713,
-      "price_1h": 1.7797321227911,
-      "price_24h": 1.92399898949872,
-      "change_1h_pct": 2.74,
-      "change_24h_pct": 11.07
+      "price_at_tweet": 1.7672395090833313,
+      "price_1h": 1.7642745982448298,
+      "price_24h": 1.8828688352796552,
+      "change_1h_pct": -0.17,
+      "change_24h_pct": 6.54
     },
     {
       "tweet_id": "1973799364544840119",
@@ -931,11 +931,11 @@
       "retweets": 651,
       "replies": 1688,
       "impressions": 872740,
-      "price_at_tweet": 1.83434997172461,
-      "price_1h": 1.85021491227296,
-      "price_24h": 1.93967748604182,
-      "change_1h_pct": 0.86,
-      "change_24h_pct": 5.74
+      "price_at_tweet": 1.8417620968926296,
+      "price_1h": 1.859550212153936,
+      "price_24h": 1.9407924092255942,
+      "change_1h_pct": 0.97,
+      "change_24h_pct": 5.38
     },
     {
       "tweet_id": "1974040624111182078",
@@ -950,11 +950,11 @@
       "retweets": 221,
       "replies": 646,
       "impressions": 431327,
-      "price_at_tweet": 1.91240667388399,
-      "price_1h": 1.93065931989619,
-      "price_24h": 2.06439441914212,
-      "change_1h_pct": 0.95,
-      "change_24h_pct": 7.95
+      "price_at_tweet": 1.9274164952515322,
+      "price_1h": 1.9204306424690039,
+      "price_24h": 2.092443033036453,
+      "change_1h_pct": -0.36,
+      "change_24h_pct": 8.56
     },
     {
       "tweet_id": "1974042525175329266",
@@ -969,11 +969,11 @@
       "retweets": 573,
       "replies": 3733,
       "impressions": 930449,
-      "price_at_tweet": 1.91240667388399,
-      "price_1h": 1.93065931989619,
-      "price_24h": 2.06439441914212,
-      "change_1h_pct": 0.95,
-      "change_24h_pct": 7.95
+      "price_at_tweet": 1.939331307610952,
+      "price_1h": 1.9003081408740299,
+      "price_24h": 2.0857559151914074,
+      "change_1h_pct": -2.01,
+      "change_24h_pct": 7.55
     },
     {
       "tweet_id": "1974091600973398296",
@@ -988,11 +988,11 @@
       "retweets": 793,
       "replies": 4265,
       "impressions": 2290393,
-      "price_at_tweet": 1.92903963924579,
-      "price_1h": 1.91950514814186,
-      "price_24h": 1.99272012656296,
-      "change_1h_pct": -0.49,
-      "change_24h_pct": 3.3
+      "price_at_tweet": 1.9243532457575172,
+      "price_1h": 1.9446464748153265,
+      "price_24h": 2.0412397836995138,
+      "change_1h_pct": 1.05,
+      "change_24h_pct": 6.07
     },
     {
       "tweet_id": "1974152898851582050",
@@ -1007,11 +1007,11 @@
       "retweets": 3312,
       "replies": 4606,
       "impressions": 3096131,
-      "price_at_tweet": 1.94254466652363,
-      "price_1h": 1.93967748604182,
-      "price_24h": 2.11575706447438,
-      "change_1h_pct": -0.15,
-      "change_24h_pct": 8.92
+      "price_at_tweet": 1.9179605131816297,
+      "price_1h": 1.9657722049360737,
+      "price_24h": 2.0485984209700328,
+      "change_1h_pct": 2.49,
+      "change_24h_pct": 6.81
     },
     {
       "tweet_id": "1974184757400645790",
@@ -1026,11 +1026,11 @@
       "retweets": 783,
       "replies": 2165,
       "impressions": 941532,
-      "price_at_tweet": 2.06339294071674,
-      "price_1h": 2.06154880401125,
-      "price_24h": 2.08665555276505,
-      "change_1h_pct": -0.09,
-      "change_24h_pct": 1.13
+      "price_at_tweet": 2.0748796798258744,
+      "price_1h": 2.057646873580463,
+      "price_24h": 2.0814296958421794,
+      "change_1h_pct": -0.83,
+      "change_24h_pct": 0.32
     },
     {
       "tweet_id": "1974333644904022030",
@@ -1045,11 +1045,11 @@
       "retweets": 960,
       "replies": 1454,
       "impressions": 2394189,
-      "price_at_tweet": 2.15996907602868,
-      "price_1h": 2.25791665952751,
-      "price_24h": 2.05243815429095,
-      "change_1h_pct": 4.53,
-      "change_24h_pct": -4.98
+      "price_at_tweet": 2.135870886432393,
+      "price_1h": 2.2603269652229367,
+      "price_24h": 2.0104513627802016,
+      "change_1h_pct": 5.83,
+      "change_24h_pct": -5.87
     },
     {
       "tweet_id": "1974335265830547961",
@@ -1064,11 +1064,11 @@
       "retweets": 403,
       "replies": 1554,
       "impressions": 972139,
-      "price_at_tweet": 2.15996907602868,
-      "price_1h": 2.25791665952751,
-      "price_24h": 2.05243815429095,
-      "change_1h_pct": 4.53,
-      "change_24h_pct": -4.98
+      "price_at_tweet": 2.149908132541911,
+      "price_1h": 2.241801969513008,
+      "price_24h": 2.0097340979670397,
+      "change_1h_pct": 4.27,
+      "change_24h_pct": -6.52
     },
     {
       "tweet_id": "1974504358739169406",
@@ -1083,11 +1083,11 @@
       "retweets": 385,
       "replies": 923,
       "impressions": 1439696,
-      "price_at_tweet": 2.03500382749221,
-      "price_1h": 2.11575706447438,
-      "price_24h": 1.83153932259972,
-      "change_1h_pct": 3.97,
-      "change_24h_pct": -10.0
+      "price_at_tweet": 2.0279610592175663,
+      "price_1h": 2.1230731827167846,
+      "price_24h": 1.841783147892717,
+      "change_1h_pct": 4.69,
+      "change_24h_pct": -9.18
     },
     {
       "tweet_id": "1974504860818329926",
@@ -1102,11 +1102,11 @@
       "retweets": 458,
       "replies": 1569,
       "impressions": 1009059,
-      "price_at_tweet": 2.11575706447438,
-      "price_1h": 2.07637366631819,
-      "price_24h": 1.87173922167955,
-      "change_1h_pct": -1.86,
-      "change_24h_pct": -11.53
+      "price_at_tweet": 2.036684058925403,
+      "price_1h": 2.1109667653066975,
+      "price_24h": 1.8362805647059803,
+      "change_1h_pct": 3.65,
+      "change_24h_pct": -9.84
     },
     {
       "tweet_id": "1974679761596428769",
@@ -1121,11 +1121,11 @@
       "retweets": 655,
       "replies": 2017,
       "impressions": 2024620,
-      "price_at_tweet": 1.97963967548856,
-      "price_1h": 2.05243815429095,
-      "price_24h": 1.90385781376055,
-      "change_1h_pct": 3.68,
-      "change_24h_pct": -3.83
+      "price_at_tweet": 2.0154811155990138,
+      "price_1h": 2.006740573847087,
+      "price_24h": 1.8966517508858922,
+      "change_1h_pct": -0.43,
+      "change_24h_pct": -5.9
     },
     {
       "tweet_id": "1974689756954169743",
@@ -1140,11 +1140,11 @@
       "retweets": 3414,
       "replies": 1941,
       "impressions": 1884652,
-      "price_at_tweet": 2.05243815429095,
-      "price_1h": 2.06376371458265,
-      "price_24h": 1.847286954948,
-      "change_1h_pct": 0.55,
-      "change_24h_pct": -10.0
+      "price_at_tweet": 1.987586278487279,
+      "price_1h": 2.0544090880969197,
+      "price_24h": 1.8506573208412913,
+      "change_1h_pct": 3.36,
+      "change_24h_pct": -6.89
     },
     {
       "tweet_id": "1974690909943173617",
@@ -1159,11 +1159,11 @@
       "retweets": 320,
       "replies": 1014,
       "impressions": 742623,
-      "price_at_tweet": 2.05243815429095,
-      "price_1h": 2.06376371458265,
-      "price_24h": 1.847286954948,
-      "change_1h_pct": 0.55,
-      "change_24h_pct": -10.0
+      "price_at_tweet": 1.9812514064451099,
+      "price_1h": 2.0429053231235073,
+      "price_24h": 1.8516131099645627,
+      "change_1h_pct": 3.11,
+      "change_24h_pct": -6.54
     },
     {
       "tweet_id": "1975028351871136215",
@@ -1178,11 +1178,11 @@
       "retweets": 710,
       "replies": 6995,
       "impressions": 2525748,
-      "price_at_tweet": 1.9176886852479,
-      "price_1h": 1.90385781376055,
-      "price_24h": 2.04832995817642,
-      "change_1h_pct": -0.72,
-      "change_24h_pct": 6.81
+      "price_at_tweet": 1.8776259036271896,
+      "price_1h": 1.9095240061256642,
+      "price_24h": 2.047215021507192,
+      "change_1h_pct": 1.7,
+      "change_24h_pct": 9.03
     },
     {
       "tweet_id": "1975159585016000912",
@@ -1197,11 +1197,11 @@
       "retweets": 1610,
       "replies": 3247,
       "impressions": 1593010,
-      "price_at_tweet": 2.06501891395454,
-      "price_1h": 2.14363843818811,
-      "price_24h": 2.03654376234626,
-      "change_1h_pct": 3.81,
-      "change_24h_pct": -1.38
+      "price_at_tweet": 2.0457231675210603,
+      "price_1h": 2.1075166026394982,
+      "price_24h": 2.033138244970318,
+      "change_1h_pct": 3.02,
+      "change_24h_pct": -0.62
     },
     {
       "tweet_id": "1975248223615799303",
@@ -1216,11 +1216,11 @@
       "retweets": 1235,
       "replies": 3910,
       "impressions": 2059008,
-      "price_at_tweet": 2.08838626345843,
-      "price_1h": 2.04993753762262,
-      "price_24h": 2.01741672890314,
-      "change_1h_pct": -1.84,
-      "change_24h_pct": -3.4
+      "price_at_tweet": 2.0986345973261513,
+      "price_1h": 2.0990474900861655,
+      "price_24h": 2.0293082396469164,
+      "change_1h_pct": 0.02,
+      "change_24h_pct": -3.3
     },
     {
       "tweet_id": "1975268028096163875",
@@ -1235,11 +1235,11 @@
       "retweets": 840,
       "replies": 2021,
       "impressions": 1514049,
-      "price_at_tweet": 2.04993753762262,
-      "price_1h": 2.12943300169143,
-      "price_24h": 2.04872905976988,
-      "change_1h_pct": 3.88,
-      "change_24h_pct": -0.06
+      "price_at_tweet": 2.069254672784947,
+      "price_1h": 2.0904099622325427,
+      "price_24h": 2.042065178674674,
+      "change_1h_pct": 1.02,
+      "change_24h_pct": -1.31
     },
     {
       "tweet_id": "1975280864595746911",
@@ -1254,11 +1254,11 @@
       "retweets": 2938,
       "replies": 9576,
       "impressions": 3205493,
-      "price_at_tweet": 2.12943300169143,
-      "price_1h": 2.09003658382237,
-      "price_24h": 2.0452899452979,
-      "change_1h_pct": -1.85,
-      "change_24h_pct": -3.95
+      "price_at_tweet": 2.06508160692783,
+      "price_1h": 2.119795790789345,
+      "price_24h": 2.0492285425087027,
+      "change_1h_pct": 2.65,
+      "change_24h_pct": -0.77
     },
     {
       "tweet_id": "1975421903927222526",
@@ -1273,11 +1273,11 @@
       "retweets": 952,
       "replies": 3568,
       "impressions": 2407802,
-      "price_at_tweet": 2.02374732003734,
-      "price_1h": 2.06695318041047,
-      "price_24h": 1.94283520119918,
-      "change_1h_pct": 2.13,
-      "change_24h_pct": -4.0
+      "price_at_tweet": 2.0208196398130096,
+      "price_1h": 2.0567635947110725,
+      "price_24h": 1.9507492892081266,
+      "change_1h_pct": 1.78,
+      "change_24h_pct": -3.47
     },
     {
       "tweet_id": "1975543411940991066",
@@ -1292,11 +1292,11 @@
       "retweets": 282,
       "replies": 1922,
       "impressions": 808637,
-      "price_at_tweet": 2.06138644342783,
-      "price_1h": 2.102602204326,
-      "price_24h": 2.06234804816547,
-      "change_1h_pct": 2.0,
-      "change_24h_pct": 0.05
+      "price_at_tweet": 2.0588350982654977,
+      "price_1h": 2.090894228640026,
+      "price_24h": 2.0601103356410846,
+      "change_1h_pct": 1.56,
+      "change_24h_pct": 0.06
     },
     {
       "tweet_id": "1975547308344570265",
@@ -1311,11 +1311,11 @@
       "retweets": 1507,
       "replies": 4804,
       "impressions": 1592803,
-      "price_at_tweet": 2.07695106712142,
-      "price_1h": 2.12851520963278,
-      "price_24h": 2.04244006478552,
-      "change_1h_pct": 2.48,
-      "change_24h_pct": -1.66
+      "price_at_tweet": 2.0793249876448794,
+      "price_1h": 2.1369080596028365,
+      "price_24h": 2.041777197617758,
+      "change_1h_pct": 2.77,
+      "change_24h_pct": -1.81
     },
     {
       "tweet_id": "1975595775540257262",
@@ -1330,11 +1330,11 @@
       "retweets": 2637,
       "replies": 7121,
       "impressions": 3707531,
-      "price_at_tweet": 2.02764450954904,
-      "price_1h": 2.01741672890314,
-      "price_24h": 1.97763753087555,
-      "change_1h_pct": -0.5,
-      "change_24h_pct": -2.47
+      "price_at_tweet": 2.0271814474816985,
+      "price_1h": 2.0287075016367355,
+      "price_24h": 1.9727562872252324,
+      "change_1h_pct": 0.08,
+      "change_24h_pct": -2.68
     },
     {
       "tweet_id": "1975636314432413719",
@@ -1349,11 +1349,11 @@
       "retweets": 1263,
       "replies": 8699,
       "impressions": 2749432,
-      "price_at_tweet": 2.0469701840931,
-      "price_1h": 2.04397772746671,
-      "price_24h": 2.01262475979373,
-      "change_1h_pct": -0.15,
-      "change_24h_pct": -1.68
+      "price_at_tweet": 2.040223961795381,
+      "price_1h": 2.050912911170008,
+      "price_24h": 2.0092476150829426,
+      "change_1h_pct": 0.52,
+      "change_24h_pct": -1.52
     },
     {
       "tweet_id": "1975775650914222589",
@@ -1368,11 +1368,11 @@
       "retweets": 1817,
       "replies": 5535,
       "impressions": 3066705,
-      "price_at_tweet": 1.93019786968483,
-      "price_1h": 1.94234187638436,
-      "price_24h": 1.84329986730859,
-      "change_1h_pct": 0.63,
-      "change_24h_pct": -4.5
+      "price_at_tweet": 1.938388867737262,
+      "price_1h": 1.9584294187352282,
+      "price_24h": 1.8438304059786903,
+      "change_1h_pct": 1.03,
+      "change_24h_pct": -4.88
     },
     {
       "tweet_id": "1975910796346712467",
@@ -1387,11 +1387,11 @@
       "retweets": 763,
       "replies": 2783,
       "impressions": 1325040,
-      "price_at_tweet": 2.04251855925223,
-      "price_1h": 2.02966692662814,
-      "price_24h": 1.83048905025577,
-      "change_1h_pct": -0.63,
-      "change_24h_pct": -10.38
+      "price_at_tweet": 2.0317871477199048,
+      "price_1h": 2.028235877164206,
+      "price_24h": 1.8280938363722707,
+      "change_1h_pct": -0.17,
+      "change_24h_pct": -10.03
     },
     {
       "tweet_id": "1975946812671533060",
@@ -1406,11 +1406,11 @@
       "retweets": 537,
       "replies": 2146,
       "impressions": 1008746,
-      "price_at_tweet": 1.98198289633024,
-      "price_1h": 1.96472141473742,
-      "price_24h": 1.66324766431847,
-      "change_1h_pct": -0.87,
-      "change_24h_pct": -16.08
+      "price_at_tweet": 1.9743623832759276,
+      "price_1h": 1.9664406398643053,
+      "price_24h": 1.6725564225941456,
+      "change_1h_pct": -0.4,
+      "change_24h_pct": -15.29
     },
     {
       "tweet_id": "1976043768219656235",
@@ -1425,11 +1425,11 @@
       "retweets": 556,
       "replies": 2484,
       "impressions": 1420094,
-      "price_at_tweet": 1.93679599395553,
-      "price_1h": 1.92442632266419,
-      "price_24h": 1.66186049680724,
-      "change_1h_pct": -0.64,
-      "change_24h_pct": -14.2
+      "price_at_tweet": 1.9456462187783587,
+      "price_1h": 1.921506090419962,
+      "price_24h": 1.6697370137895486,
+      "change_1h_pct": -1.24,
+      "change_24h_pct": -14.18
     },
     {
       "tweet_id": "1976155508634497407",
@@ -1444,11 +1444,11 @@
       "retweets": 1380,
       "replies": 4204,
       "impressions": 1180638,
-      "price_at_tweet": 1.88199544571772,
-      "price_1h": 1.88411684907396,
-      "price_24h": 1.54159714149995,
-      "change_1h_pct": 0.11,
-      "change_24h_pct": -18.09
+      "price_at_tweet": 1.878331529266117,
+      "price_1h": 1.8833438558485027,
+      "price_24h": 1.5453749430310109,
+      "change_1h_pct": 0.27,
+      "change_24h_pct": -17.73
     },
     {
       "tweet_id": "1976165937146413323",
@@ -1463,11 +1463,11 @@
       "retweets": 1036,
       "replies": 1513,
       "impressions": 2469358,
-      "price_at_tweet": 1.87372777930619,
-      "price_1h": 1.84710137887844,
-      "price_24h": 1.58559421312664,
-      "change_1h_pct": -1.42,
-      "change_24h_pct": -15.38
+      "price_at_tweet": 1.8760732999307599,
+      "price_1h": 1.8480150937930262,
+      "price_24h": 1.5816938967158434,
+      "change_1h_pct": -1.5,
+      "change_24h_pct": -15.69
     },
     {
       "tweet_id": "1976170952347222203",
@@ -1482,11 +1482,11 @@
       "retweets": 342,
       "replies": 1520,
       "impressions": 1209660,
-      "price_at_tweet": 1.88702588935705,
-      "price_1h": 1.85930308849627,
-      "price_24h": 1.57386709503316,
-      "change_1h_pct": -1.47,
-      "change_24h_pct": -16.6
+      "price_at_tweet": 1.883228663549419,
+      "price_1h": 1.86001356821454,
+      "price_24h": 1.5760986481019228,
+      "change_1h_pct": -1.23,
+      "change_24h_pct": -16.31
     },
     {
       "tweet_id": "1976172706606579853",
@@ -1501,11 +1501,11 @@
       "retweets": 1835,
       "replies": 2637,
       "impressions": 2406188,
-      "price_at_tweet": 1.87691762154702,
-      "price_1h": 1.8227954934539,
-      "price_24h": 1.55376563402788,
-      "change_1h_pct": -2.88,
-      "change_24h_pct": -17.22
+      "price_at_tweet": 1.8866570641529168,
+      "price_1h": 1.8263576410937186,
+      "price_24h": 1.5553353875292237,
+      "change_1h_pct": -3.2,
+      "change_24h_pct": -17.56
     },
     {
       "tweet_id": "1976193689337901201",
@@ -1520,11 +1520,11 @@
       "retweets": 343,
       "replies": 2039,
       "impressions": 1099668,
-      "price_at_tweet": 1.83606523165324,
-      "price_1h": 1.78920977309988,
-      "price_24h": 1.56181953667417,
-      "change_1h_pct": -2.55,
-      "change_24h_pct": -14.94
+      "price_at_tweet": 1.839993839134462,
+      "price_1h": 1.7759288228855006,
+      "price_24h": 1.5676806556565648,
+      "change_1h_pct": -3.48,
+      "change_24h_pct": -14.8
     },
     {
       "tweet_id": "1976278947479375998",
@@ -1539,11 +1539,11 @@
       "retweets": 760,
       "replies": 2486,
       "impressions": 1084107,
-      "price_at_tweet": 1.81353460117483,
-      "price_1h": 1.72933682373148,
-      "price_24h": 1.65365916927763,
-      "change_1h_pct": -4.64,
-      "change_24h_pct": -8.82
+      "price_at_tweet": 1.8163136645673925,
+      "price_1h": 1.7289333328857035,
+      "price_24h": 1.6510499221204002,
+      "change_1h_pct": -4.81,
+      "change_24h_pct": -9.1
     },
     {
       "tweet_id": "1976300138504065421",
@@ -1558,11 +1558,11 @@
       "retweets": 1380,
       "replies": 72,
       "impressions": 2831344,
-      "price_at_tweet": 1.65632930721118,
-      "price_1h": 1.66491621159072,
-      "price_24h": 1.58052333408194,
-      "change_1h_pct": 0.52,
-      "change_24h_pct": -4.58
+      "price_at_tweet": 1.6648123971093414,
+      "price_1h": 1.6731693765686881,
+      "price_24h": 1.5810374099140252,
+      "change_1h_pct": 0.5,
+      "change_24h_pct": -5.03
     },
     {
       "tweet_id": "1976315983125151893",
@@ -1577,11 +1577,11 @@
       "retweets": 224,
       "replies": 1697,
       "impressions": 1068702,
-      "price_at_tweet": 1.66047974353027,
-      "price_1h": 1.62354298324542,
-      "price_24h": 1.5496922330795,
-      "change_1h_pct": -2.22,
-      "change_24h_pct": -6.67
+      "price_at_tweet": 1.6606320914934454,
+      "price_1h": 1.6236086519039354,
+      "price_24h": 1.5436612199813813,
+      "change_1h_pct": -2.23,
+      "change_24h_pct": -7.04
     },
     {
       "tweet_id": "1976503555918795236",
@@ -1596,11 +1596,11 @@
       "retweets": 382,
       "replies": 1268,
       "impressions": 1351216,
-      "price_at_tweet": 1.60574324645925,
-      "price_1h": 1.53115301162969,
-      "price_24h": 1.35686168536362,
-      "change_1h_pct": -4.65,
-      "change_24h_pct": -15.5
+      "price_at_tweet": 1.6070417626917457,
+      "price_1h": 1.5280904607393928,
+      "price_24h": 1.3527430789364088,
+      "change_1h_pct": -4.91,
+      "change_24h_pct": -15.82
     },
     {
       "tweet_id": "1976505324300312835",
@@ -1615,11 +1615,11 @@
       "retweets": 830,
       "replies": 1853,
       "impressions": 1862500,
-      "price_at_tweet": 1.60936464636524,
-      "price_1h": 1.54717677337004,
-      "price_24h": 1.36143565649105,
-      "change_1h_pct": -3.86,
-      "change_24h_pct": -15.41
+      "price_at_tweet": 1.6066267730594337,
+      "price_1h": 1.5455742995695767,
+      "price_24h": 1.3626219343179635,
+      "change_1h_pct": -3.8,
+      "change_24h_pct": -15.19
     },
     {
       "tweet_id": "1976508825227157887",
@@ -1634,11 +1634,11 @@
       "retweets": 932,
       "replies": 2514,
       "impressions": 1671997,
-      "price_at_tweet": 1.57963112294758,
-      "price_1h": 1.55629927156569,
-      "price_24h": 1.33563588300001,
-      "change_1h_pct": -1.48,
-      "change_24h_pct": -15.45
+      "price_at_tweet": 1.5788308441232224,
+      "price_1h": 1.5626285778911408,
+      "price_24h": 1.333616891372637,
+      "change_1h_pct": -1.03,
+      "change_24h_pct": -15.53
     },
     {
       "tweet_id": "1976512166132863070",
@@ -1653,11 +1653,11 @@
       "retweets": 233,
       "replies": 1594,
       "impressions": 841109,
-      "price_at_tweet": 1.55913518386435,
-      "price_1h": 1.58323387893267,
-      "price_24h": 1.35372322471652,
-      "change_1h_pct": 1.55,
-      "change_24h_pct": -13.17
+      "price_at_tweet": 1.5611387739332903,
+      "price_1h": 1.5914578128742756,
+      "price_24h": 1.3521155621412355,
+      "change_1h_pct": 1.94,
+      "change_24h_pct": -13.39
     },
     {
       "tweet_id": "1976595446849007748",
@@ -1672,11 +1672,11 @@
       "retweets": 357,
       "replies": 1479,
       "impressions": 898296,
-      "price_at_tweet": 1.60807425334553,
-      "price_1h": 1.60812525179774,
-      "price_24h": 1.38739950483814,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": -13.72
+      "price_at_tweet": 1.6081805890126275,
+      "price_1h": 1.6112504430027281,
+      "price_24h": 1.385572094518364,
+      "change_1h_pct": 0.19,
+      "change_24h_pct": -13.84
     },
     {
       "tweet_id": "1976601829099119010",
@@ -1691,11 +1691,11 @@
       "retweets": 1123,
       "replies": 2466,
       "impressions": 2616215,
-      "price_at_tweet": 1.60721058674022,
-      "price_1h": 1.64683319229945,
-      "price_24h": 1.3606024363024,
-      "change_1h_pct": 2.47,
-      "change_24h_pct": -15.34
+      "price_at_tweet": 1.6097428279289607,
+      "price_1h": 1.646934456300871,
+      "price_24h": 1.360476991799135,
+      "change_1h_pct": 2.31,
+      "change_24h_pct": -15.48
     },
     {
       "tweet_id": "1976602387919131091",
@@ -1710,11 +1710,11 @@
       "retweets": 98,
       "replies": 979,
       "impressions": 402223,
-      "price_at_tweet": 1.60901273193036,
-      "price_1h": 1.6431618482082,
-      "price_24h": 1.35879849716631,
-      "change_1h_pct": 2.12,
-      "change_24h_pct": -15.55
+      "price_at_tweet": 1.60857320280167,
+      "price_1h": 1.6472133518164345,
+      "price_24h": 1.3605701864446667,
+      "change_1h_pct": 2.4,
+      "change_24h_pct": -15.42
     },
     {
       "tweet_id": "1976651665030955226",
@@ -1729,11 +1729,11 @@
       "retweets": 1055,
       "replies": 2328,
       "impressions": 1718035,
-      "price_at_tweet": 1.62298775894052,
-      "price_1h": 1.55789371104951,
-      "price_24h": 1.29754716548841,
-      "change_1h_pct": -4.01,
-      "change_24h_pct": -20.05
+      "price_at_tweet": 1.6160110665117882,
+      "price_1h": 1.559966578881823,
+      "price_24h": 1.295718001350534,
+      "change_1h_pct": -3.47,
+      "change_24h_pct": -19.82
     },
     {
       "tweet_id": "1976724415909179808",
@@ -1748,11 +1748,11 @@
       "retweets": 406,
       "replies": 1335,
       "impressions": 802641,
-      "price_at_tweet": 1.74995573576664,
-      "price_1h": 1.8402061496223,
-      "price_24h": 1.34159418050069,
-      "change_1h_pct": 5.16,
-      "change_24h_pct": -23.34
+      "price_at_tweet": 1.7474435837340212,
+      "price_1h": 1.8336495373155466,
+      "price_24h": 1.3390160522068892,
+      "change_1h_pct": 4.93,
+      "change_24h_pct": -23.37
     },
     {
       "tweet_id": "1976866011803726109",
@@ -1767,11 +1767,11 @@
       "retweets": 817,
       "replies": 3470,
       "impressions": 1778753,
-      "price_at_tweet": 1.35686168536362,
-      "price_1h": 1.33867755770685,
-      "price_24h": 1.28972867561222,
-      "change_1h_pct": -1.34,
-      "change_24h_pct": -4.95
+      "price_at_tweet": 1.3527430789364088,
+      "price_1h": 1.3349013746939675,
+      "price_24h": 1.2909521681717073,
+      "change_1h_pct": -1.32,
+      "change_24h_pct": -4.57
     },
     {
       "tweet_id": "1976910380355272768",
@@ -1786,11 +1786,11 @@
       "retweets": 2525,
       "replies": 5784,
       "impressions": 3186531,
-      "price_at_tweet": 1.36779878342807,
-      "price_1h": 1.37667042541796,
-      "price_24h": 1.30535747749602,
-      "change_1h_pct": 0.65,
-      "change_24h_pct": -4.57
+      "price_at_tweet": 1.3633298637932827,
+      "price_1h": 1.3785819969503608,
+      "price_24h": 1.3055984647380197,
+      "change_1h_pct": 1.12,
+      "change_24h_pct": -4.23
     },
     {
       "tweet_id": "1977062135789502594",
@@ -1805,11 +1805,11 @@
       "retweets": 413,
       "replies": 4170,
       "impressions": 1358851,
-      "price_at_tweet": 1.31476938504634,
-      "price_1h": 1.32565840551208,
-      "price_24h": 1.50521691492325,
-      "change_1h_pct": 0.83,
-      "change_24h_pct": 14.49
+      "price_at_tweet": 1.3106439619361683,
+      "price_1h": 1.3248211611421747,
+      "price_24h": 1.503020838234329,
+      "change_1h_pct": 1.08,
+      "change_24h_pct": 14.68
     },
     {
       "tweet_id": "1977103662754545824",
@@ -1824,11 +1824,11 @@
       "retweets": 680,
       "replies": 2298,
       "impressions": 1281957,
-      "price_at_tweet": 1.23433877648403,
-      "price_1h": 1.15795547276144,
-      "price_24h": 1.50366601339011,
-      "change_1h_pct": -6.19,
-      "change_24h_pct": 21.82
+      "price_at_tweet": 1.2318622681743847,
+      "price_1h": 1.1565530174486771,
+      "price_24h": 1.5048496369380617,
+      "change_1h_pct": -6.11,
+      "change_24h_pct": 22.16
     },
     {
       "tweet_id": "1977253489995579689",
@@ -1843,11 +1843,11 @@
       "retweets": 422,
       "replies": 1853,
       "impressions": 1608663,
-      "price_at_tweet": 1.30070844521595,
-      "price_1h": 1.30625869082804,
-      "price_24h": 1.46233912588417,
-      "change_1h_pct": 0.43,
-      "change_24h_pct": 12.43
+      "price_at_tweet": 1.299813012714875,
+      "price_1h": 1.303975355114324,
+      "price_24h": 1.4542502613470165,
+      "change_1h_pct": 0.32,
+      "change_24h_pct": 11.88
     },
     {
       "tweet_id": "1977339809187475786",
@@ -1862,11 +1862,11 @@
       "retweets": 758,
       "replies": 3441,
       "impressions": 2007097,
-      "price_at_tweet": 1.35282397256546,
-      "price_1h": 1.44191848090179,
-      "price_24h": 1.46559875290441,
-      "change_1h_pct": 6.59,
-      "change_24h_pct": 8.34
+      "price_at_tweet": 1.3505682001888786,
+      "price_1h": 1.438639837145096,
+      "price_24h": 1.4651139094460637,
+      "change_1h_pct": 6.52,
+      "change_24h_pct": 8.48
     },
     {
       "tweet_id": "1977339931300421974",
@@ -1881,11 +1881,11 @@
       "retweets": 994,
       "replies": 4278,
       "impressions": 1511554,
-      "price_at_tweet": 1.35282397256546,
-      "price_1h": 1.44191848090179,
-      "price_24h": 1.46559875290441,
-      "change_1h_pct": 6.59,
-      "change_24h_pct": 8.34
+      "price_at_tweet": 1.3505682001888786,
+      "price_1h": 1.438639837145096,
+      "price_24h": 1.4651139094460637,
+      "change_1h_pct": 6.52,
+      "change_24h_pct": 8.48
     },
     {
       "tweet_id": "1977349267850170752",
@@ -1900,11 +1900,11 @@
       "retweets": 422,
       "replies": 2225,
       "impressions": 943019,
-      "price_at_tweet": 1.4630952878408,
-      "price_1h": 1.39749444237045,
-      "price_24h": 1.4427145224114,
-      "change_1h_pct": -4.48,
-      "change_24h_pct": -1.39
+      "price_at_tweet": 1.4681958654618734,
+      "price_1h": 1.3987853741176683,
+      "price_24h": 1.445218344286228,
+      "change_1h_pct": -4.73,
+      "change_24h_pct": -1.57
     },
     {
       "tweet_id": "1977583589677310392",
@@ -1919,11 +1919,11 @@
       "retweets": 1028,
       "replies": 4035,
       "impressions": 2036100,
-      "price_at_tweet": 1.49848215405743,
-      "price_1h": 1.47996491968758,
-      "price_24h": 1.41930821758559,
-      "change_1h_pct": -1.24,
-      "change_24h_pct": -5.28
+      "price_at_tweet": 1.4994190312018318,
+      "price_1h": 1.4772335689865437,
+      "price_24h": 1.4126937055971427,
+      "change_1h_pct": -1.48,
+      "change_24h_pct": -5.78
     },
     {
       "tweet_id": "1977699503512694895",
@@ -1938,11 +1938,11 @@
       "retweets": 265,
       "replies": 1099,
       "impressions": 603885,
-      "price_at_tweet": 1.46442161217905,
-      "price_1h": 1.46789618102304,
-      "price_24h": 1.35491256896558,
-      "change_1h_pct": 0.24,
-      "change_24h_pct": -7.48
+      "price_at_tweet": 1.4590112746670276,
+      "price_1h": 1.467574829289852,
+      "price_24h": 1.3523798379181238,
+      "change_1h_pct": 0.59,
+      "change_24h_pct": -7.31
     },
     {
       "tweet_id": "1977705926590087573",
@@ -1957,11 +1957,11 @@
       "retweets": 348,
       "replies": 2469,
       "impressions": 1291818,
-      "price_at_tweet": 1.44740214270714,
-      "price_1h": 1.45663062709394,
-      "price_24h": 1.35400264672303,
-      "change_1h_pct": 0.64,
-      "change_24h_pct": -6.45
+      "price_at_tweet": 1.4465800200860284,
+      "price_1h": 1.4622134165307692,
+      "price_24h": 1.352482712962116,
+      "change_1h_pct": 1.08,
+      "change_24h_pct": -6.5
     },
     {
       "tweet_id": "1977706521917055140",
@@ -1976,11 +1976,11 @@
       "retweets": 695,
       "replies": 1688,
       "impressions": 957974,
-      "price_at_tweet": 1.4404166852595,
-      "price_1h": 1.46569357014254,
-      "price_24h": 1.35526215182205,
-      "change_1h_pct": 1.75,
-      "change_24h_pct": -5.91
+      "price_at_tweet": 1.4364010133549518,
+      "price_1h": 1.4631905638606642,
+      "price_24h": 1.347933488863877,
+      "change_1h_pct": 1.87,
+      "change_24h_pct": -6.16
     },
     {
       "tweet_id": "1977712049053393017",
@@ -1995,11 +1995,11 @@
       "retweets": 154,
       "replies": 1013,
       "impressions": 514866,
-      "price_at_tweet": 1.45053249967816,
-      "price_1h": 1.45197889281327,
-      "price_24h": 1.32897923406077,
-      "change_1h_pct": 0.1,
-      "change_24h_pct": -8.38
+      "price_at_tweet": 1.448844218240435,
+      "price_1h": 1.4508896782467897,
+      "price_24h": 1.3311288643343393,
+      "change_1h_pct": 0.14,
+      "change_24h_pct": -8.12
     },
     {
       "tweet_id": "1977713556112990501",
@@ -2014,11 +2014,11 @@
       "retweets": 697,
       "replies": 2818,
       "impressions": 948557,
-      "price_at_tweet": 1.4442241353915,
-      "price_1h": 1.48265946003565,
-      "price_24h": 1.33761964393014,
-      "change_1h_pct": 2.66,
-      "change_24h_pct": -7.38
+      "price_at_tweet": 1.450669866885466,
+      "price_1h": 1.4725565853528102,
+      "price_24h": 1.3331800616092702,
+      "change_1h_pct": 1.51,
+      "change_24h_pct": -8.1
     },
     {
       "tweet_id": "1977758407336530390",
@@ -2033,11 +2033,11 @@
       "retweets": 1405,
       "replies": 4175,
       "impressions": 1887319,
-      "price_at_tweet": 1.44560871257515,
-      "price_1h": 1.41035323592847,
-      "price_24h": 1.38882563645606,
-      "change_1h_pct": -2.44,
-      "change_24h_pct": -3.93
+      "price_at_tweet": 1.444412252088421,
+      "price_1h": 1.4117136402435977,
+      "price_24h": 1.3796187105742383,
+      "change_1h_pct": -2.26,
+      "change_24h_pct": -4.49
     },
     {
       "tweet_id": "1978157388482949322",
@@ -2052,11 +2052,11 @@
       "retweets": 1144,
       "replies": 4778,
       "impressions": 2556871,
-      "price_at_tweet": 1.46419096669708,
-      "price_1h": 1.4566560371664,
-      "price_24h": 1.3947582114456,
-      "change_1h_pct": -0.51,
-      "change_24h_pct": -4.74
+      "price_at_tweet": 1.4625020012434626,
+      "price_1h": 1.4626512224963524,
+      "price_24h": 1.3984145233612446,
+      "change_1h_pct": 0.01,
+      "change_24h_pct": -4.38
     },
     {
       "tweet_id": "1978172838990258626",
@@ -2071,11 +2071,11 @@
       "retweets": 300,
       "replies": 2170,
       "impressions": 2341034,
-      "price_at_tweet": 1.46447441767406,
-      "price_1h": 1.4456772987416,
-      "price_24h": 1.40936432271817,
-      "change_1h_pct": -1.28,
-      "change_24h_pct": -3.76
+      "price_at_tweet": 1.4596358546122852,
+      "price_1h": 1.4437593346627382,
+      "price_24h": 1.4050448189223181,
+      "change_1h_pct": -1.09,
+      "change_24h_pct": -3.74
     },
     {
       "tweet_id": "1978174580864045479",
@@ -2090,11 +2090,11 @@
       "retweets": 1912,
       "replies": 3804,
       "impressions": 1689047,
-      "price_at_tweet": 1.45657654123103,
-      "price_1h": 1.45573181363043,
-      "price_24h": 1.40218158054602,
-      "change_1h_pct": -0.06,
-      "change_24h_pct": -3.73
+      "price_at_tweet": 1.4580107281554273,
+      "price_1h": 1.4499104453952,
+      "price_24h": 1.4064847053348615,
+      "change_1h_pct": -0.56,
+      "change_24h_pct": -3.53
     },
     {
       "tweet_id": "1978185719198748997",
@@ -2109,11 +2109,11 @@
       "retweets": 214,
       "replies": 1440,
       "impressions": 371400,
-      "price_at_tweet": 1.44342754221155,
-      "price_1h": 1.47731724406016,
-      "price_24h": 1.39412601899181,
-      "change_1h_pct": 2.35,
-      "change_24h_pct": -3.42
+      "price_at_tweet": 1.4497792421172346,
+      "price_1h": 1.4693372260593687,
+      "price_24h": 1.3925173502968267,
+      "change_1h_pct": 1.35,
+      "change_24h_pct": -3.95
     },
     {
       "tweet_id": "1978391907374899379",
@@ -2128,11 +2128,11 @@
       "retweets": 1027,
       "replies": 3868,
       "impressions": 3055441,
-      "price_at_tweet": 1.48884052662396,
-      "price_1h": 1.46741164448969,
-      "price_24h": 1.29838756989893,
-      "change_1h_pct": -1.44,
-      "change_24h_pct": -12.79
+      "price_at_tweet": 1.4825480148106471,
+      "price_1h": 1.4658806604637875,
+      "price_24h": 1.2961634259617447,
+      "change_1h_pct": -1.12,
+      "change_24h_pct": -12.57
     },
     {
       "tweet_id": "1978427726676591088",
@@ -2147,11 +2147,11 @@
       "retweets": 456,
       "replies": 1367,
       "impressions": 789147,
-      "price_at_tweet": 1.46616457164841,
-      "price_1h": 1.46774446963099,
-      "price_24h": 1.27737002983382,
-      "change_1h_pct": 0.11,
-      "change_24h_pct": -12.88
+      "price_at_tweet": 1.4655055886399273,
+      "price_1h": 1.467218526797056,
+      "price_24h": 1.2816640612973578,
+      "change_1h_pct": 0.12,
+      "change_24h_pct": -12.54
     },
     {
       "tweet_id": "1978471356628111554",
@@ -2166,11 +2166,11 @@
       "retweets": 472,
       "replies": 2737,
       "impressions": 1386470,
-      "price_at_tweet": 1.42412246404121,
-      "price_1h": 1.40739689540414,
-      "price_24h": 1.32853050855111,
-      "change_1h_pct": -1.17,
-      "change_24h_pct": -6.71
+      "price_at_tweet": 1.4219606495180686,
+      "price_1h": 1.4105731625429079,
+      "price_24h": 1.3284592114361524,
+      "change_1h_pct": -0.8,
+      "change_24h_pct": -6.58
     },
     {
       "tweet_id": "1978476463704969370",
@@ -2185,11 +2185,11 @@
       "retweets": 391,
       "replies": 2423,
       "impressions": 953254,
-      "price_at_tweet": 1.41430870479809,
-      "price_1h": 1.3993386823536,
-      "price_24h": 1.31583084661486,
-      "change_1h_pct": -1.06,
-      "change_24h_pct": -6.96
+      "price_at_tweet": 1.4167377678070467,
+      "price_1h": 1.3970092202366993,
+      "price_24h": 1.3132684863151298,
+      "change_1h_pct": -1.39,
+      "change_24h_pct": -7.3
     },
     {
       "tweet_id": "1978688187611398169",
@@ -2204,11 +2204,11 @@
       "retweets": 861,
       "replies": 2837,
       "impressions": 1528711,
-      "price_at_tweet": 1.29776385364788,
-      "price_1h": 1.31418906004123,
-      "price_24h": 1.27073610192286,
-      "change_1h_pct": 1.27,
-      "change_24h_pct": -2.08
+      "price_at_tweet": 1.2935721945187006,
+      "price_1h": 1.3143705965543826,
+      "price_24h": 1.2762131979158242,
+      "change_1h_pct": 1.61,
+      "change_24h_pct": -1.34
     },
     {
       "tweet_id": "1978732527637626896",
@@ -2223,11 +2223,11 @@
       "retweets": 542,
       "replies": 2738,
       "impressions": 1546489,
-      "price_at_tweet": 1.32292218611459,
-      "price_1h": 1.32112017083064,
-      "price_24h": 1.07611826249096,
-      "change_1h_pct": -0.14,
-      "change_24h_pct": -18.66
+      "price_at_tweet": 1.3289156505419444,
+      "price_1h": 1.3205993982561124,
+      "price_24h": 1.0729920228964616,
+      "change_1h_pct": -0.63,
+      "change_24h_pct": -19.26
     },
     {
       "tweet_id": "1978733314732065056",
@@ -2242,11 +2242,11 @@
       "retweets": 128,
       "replies": 1527,
       "impressions": 359284,
-      "price_at_tweet": 1.33272515852313,
-      "price_1h": 1.31142081731238,
-      "price_24h": 1.09560789841704,
-      "change_1h_pct": -1.6,
-      "change_24h_pct": -17.79
+      "price_at_tweet": 1.3328481712320128,
+      "price_1h": 1.3195832544966544,
+      "price_24h": 1.0945580502101275,
+      "change_1h_pct": -1.0,
+      "change_24h_pct": -17.88
     },
     {
       "tweet_id": "1978870720257262059",
@@ -2261,11 +2261,11 @@
       "retweets": 442,
       "replies": 1095,
       "impressions": 697551,
-      "price_at_tweet": 1.2862746540518,
-      "price_1h": 1.27683707716583,
-      "price_24h": 1.12872378161951,
-      "change_1h_pct": -0.73,
-      "change_24h_pct": -12.25
+      "price_at_tweet": 1.2854372594853678,
+      "price_1h": 1.2698608879407018,
+      "price_24h": 1.1292166404961312,
+      "change_1h_pct": -1.21,
+      "change_24h_pct": -12.15
     },
     {
       "tweet_id": "1978871986114990508",
@@ -2280,11 +2280,11 @@
       "retweets": 403,
       "replies": 1768,
       "impressions": 1309732,
-      "price_at_tweet": 1.28649971730439,
-      "price_1h": 1.27804325328461,
-      "price_24h": 1.12731564446633,
-      "change_1h_pct": -0.66,
-      "change_24h_pct": -12.37
+      "price_at_tweet": 1.287811205968266,
+      "price_1h": 1.2779885824391148,
+      "price_24h": 1.1268287686057077,
+      "change_1h_pct": -0.76,
+      "change_24h_pct": -12.5
     },
     {
       "tweet_id": "1978873432667492537",
@@ -2299,11 +2299,11 @@
       "retweets": 749,
       "replies": 1614,
       "impressions": 1321027,
-      "price_at_tweet": 1.29650306188182,
-      "price_1h": 1.2848046289048,
-      "price_24h": 1.12632998366252,
-      "change_1h_pct": -0.9,
-      "change_24h_pct": -13.13
+      "price_at_tweet": 1.29525772185919,
+      "price_1h": 1.2850353871343343,
+      "price_24h": 1.1258409146150443,
+      "change_1h_pct": -0.79,
+      "change_24h_pct": -13.08
     },
     {
       "tweet_id": "1978875751341658306",
@@ -2318,11 +2318,11 @@
       "retweets": 168,
       "replies": 844,
       "impressions": 634615,
-      "price_at_tweet": 1.28792373156123,
-      "price_1h": 1.28224095047497,
-      "price_24h": 1.12086018860455,
-      "change_1h_pct": -0.44,
-      "change_24h_pct": -12.97
+      "price_at_tweet": 1.2884666084395318,
+      "price_1h": 1.2804184308216158,
+      "price_24h": 1.1198259186661743,
+      "change_1h_pct": -0.62,
+      "change_24h_pct": -13.09
     },
     {
       "tweet_id": "1978886728229269649",
@@ -2337,11 +2337,11 @@
       "retweets": 908,
       "replies": 1878,
       "impressions": 1610135,
-      "price_at_tweet": 1.27660252691331,
-      "price_1h": 1.28762313523172,
-      "price_24h": 1.13398192818622,
-      "change_1h_pct": 0.86,
-      "change_24h_pct": -11.17
+      "price_at_tweet": 1.2713972014308115,
+      "price_1h": 1.2805024600108619,
+      "price_24h": 1.1334606865626724,
+      "change_1h_pct": 0.72,
+      "change_24h_pct": -10.85
     },
     {
       "tweet_id": "1979058440619069667",
@@ -2356,11 +2356,11 @@
       "retweets": 326,
       "replies": 1652,
       "impressions": 1555334,
-      "price_at_tweet": 1.27733122239955,
-      "price_1h": 1.22970692075761,
-      "price_24h": 1.17915680751142,
-      "change_1h_pct": -3.73,
-      "change_24h_pct": -7.69
+      "price_at_tweet": 1.2744387621289757,
+      "price_1h": 1.2274040005717057,
+      "price_24h": 1.1806937912031739,
+      "change_1h_pct": -3.69,
+      "change_24h_pct": -7.36
     },
     {
       "tweet_id": "1979125549013569868",
@@ -2375,11 +2375,11 @@
       "retweets": 916,
       "replies": 3978,
       "impressions": 1711671,
-      "price_at_tweet": 1.0837673372803,
-      "price_1h": 1.05359435146154,
-      "price_24h": 1.22276335873178,
-      "change_1h_pct": -2.78,
-      "change_24h_pct": 12.83
+      "price_at_tweet": 1.0874753795843972,
+      "price_1h": 1.0543838382298945,
+      "price_24h": 1.221358378398347,
+      "change_1h_pct": -3.04,
+      "change_24h_pct": 12.31
     },
     {
       "tweet_id": "1979204734125748615",
@@ -2394,11 +2394,11 @@
       "retweets": 1055,
       "replies": 2979,
       "impressions": 2138956,
-      "price_at_tweet": 1.05995252119427,
-      "price_1h": 1.12344115619169,
-      "price_24h": 1.17340434837114,
-      "change_1h_pct": 5.99,
-      "change_24h_pct": 10.7
+      "price_at_tweet": 1.0608755471801536,
+      "price_1h": 1.1245010763476178,
+      "price_24h": 1.1748715279776847,
+      "change_1h_pct": 6.0,
+      "change_24h_pct": 10.75
     },
     {
       "tweet_id": "1979255297412899313",
@@ -2413,11 +2413,11 @@
       "retweets": 414,
       "replies": 1679,
       "impressions": 782944,
-      "price_at_tweet": 1.14883493448828,
-      "price_1h": 1.11379733523969,
-      "price_24h": 1.17910167958647,
-      "change_1h_pct": -3.05,
-      "change_24h_pct": 2.63
+      "price_at_tweet": 1.1493916314910722,
+      "price_1h": 1.1088869693042913,
+      "price_24h": 1.1819838729345793,
+      "change_1h_pct": -3.52,
+      "change_24h_pct": 2.84
     },
     {
       "tweet_id": "1980127297698160924",
@@ -2432,11 +2432,11 @@
       "retweets": 625,
       "replies": 2051,
       "impressions": 717415,
-      "price_at_tweet": 1.22703022002798,
-      "price_1h": 1.2307432847168,
-      "price_24h": 1.10962592134119,
-      "change_1h_pct": 0.3,
-      "change_24h_pct": -9.57
+      "price_at_tweet": 1.2287571784606892,
+      "price_1h": 1.229085962254975,
+      "price_24h": 1.1083828451442679,
+      "change_1h_pct": 0.03,
+      "change_24h_pct": -9.8
     },
     {
       "tweet_id": "1980147733190049983",
@@ -2451,11 +2451,11 @@
       "retweets": 1101,
       "replies": 1628,
       "impressions": 1653622,
-      "price_at_tweet": 1.23797916491359,
-      "price_1h": 1.24733886069147,
-      "price_24h": 1.07916168428839,
-      "change_1h_pct": 0.76,
-      "change_24h_pct": -12.83
+      "price_at_tweet": 1.2362169099076337,
+      "price_1h": 1.2484049997593751,
+      "price_24h": 1.0819183915907709,
+      "change_1h_pct": 0.99,
+      "change_24h_pct": -12.48
     },
     {
       "tweet_id": "1980150519630090471",
@@ -2470,11 +2470,11 @@
       "retweets": 553,
       "replies": 1635,
       "impressions": 1907509,
-      "price_at_tweet": 1.23417910289009,
-      "price_1h": 1.24996776192745,
-      "price_24h": 1.08823190624236,
-      "change_1h_pct": 1.28,
-      "change_24h_pct": -11.83
+      "price_at_tweet": 1.2365352932967042,
+      "price_1h": 1.2501617021885945,
+      "price_24h": 1.087084113709825,
+      "change_1h_pct": 1.1,
+      "change_24h_pct": -12.09
     },
     {
       "tweet_id": "1980151621129789541",
@@ -2489,11 +2489,11 @@
       "retweets": 871,
       "replies": 2194,
       "impressions": 756999,
-      "price_at_tweet": 1.2301624039945,
-      "price_1h": 1.25282320800391,
-      "price_24h": 1.08890845790008,
-      "change_1h_pct": 1.84,
-      "change_24h_pct": -11.48
+      "price_at_tweet": 1.231648921318698,
+      "price_1h": 1.247442677703002,
+      "price_24h": 1.0868128013781555,
+      "change_1h_pct": 1.28,
+      "change_24h_pct": -11.76
     },
     {
       "tweet_id": "1980168436765569228",
@@ -2508,11 +2508,11 @@
       "retweets": 813,
       "replies": 2637,
       "impressions": 2594463,
-      "price_at_tweet": 1.23598708860294,
-      "price_1h": 1.21808997865228,
-      "price_24h": 1.09022323996224,
-      "change_1h_pct": -1.45,
-      "change_24h_pct": -11.79
+      "price_at_tweet": 1.235439857134011,
+      "price_1h": 1.2197600190208393,
+      "price_24h": 1.0914838728966723,
+      "change_1h_pct": -1.27,
+      "change_24h_pct": -11.65
     },
     {
       "tweet_id": "1980297497550704749",
@@ -2527,11 +2527,11 @@
       "retweets": 987,
       "replies": 2049,
       "impressions": 1271929,
-      "price_at_tweet": 1.203086939628,
-      "price_1h": 1.14083455919442,
-      "price_24h": 1.16263885777861,
-      "change_1h_pct": -5.17,
-      "change_24h_pct": -3.36
+      "price_at_tweet": 1.201681941272425,
+      "price_1h": 1.1450673766641326,
+      "price_24h": 1.1640921854436475,
+      "change_1h_pct": -4.71,
+      "change_24h_pct": -3.13
     },
     {
       "tweet_id": "1980303362114662814",
@@ -2546,11 +2546,11 @@
       "retweets": 7858,
       "replies": 6336,
       "impressions": 3784660,
-      "price_at_tweet": 1.16144480942664,
-      "price_1h": 1.14882664516692,
-      "price_24h": 1.18353433354613,
-      "change_1h_pct": -1.09,
-      "change_24h_pct": 1.9
+      "price_at_tweet": 1.1558874156280525,
+      "price_1h": 1.1516872146037174,
+      "price_24h": 1.1799689465432708,
+      "change_1h_pct": -0.36,
+      "change_24h_pct": 2.08
     },
     {
       "tweet_id": "1980668701818179873",
@@ -2565,11 +2565,11 @@
       "retweets": 2311,
       "replies": 3500,
       "impressions": 2308428,
-      "price_at_tweet": 1.18414718973242,
-      "price_1h": 1.15284842568892,
-      "price_24h": 0.99004442188103,
-      "change_1h_pct": -2.64,
-      "change_24h_pct": -16.39
+      "price_at_tweet": 1.1868082796873072,
+      "price_1h": 1.1443299751825522,
+      "price_24h": 0.9882008792859387,
+      "change_1h_pct": -3.58,
+      "change_24h_pct": -16.73
     },
     {
       "tweet_id": "1980861592188404135",
@@ -2584,11 +2584,11 @@
       "retweets": 532,
       "replies": 2176,
       "impressions": 753942,
-      "price_at_tweet": 1.06034671693669,
-      "price_1h": 1.05586665990229,
-      "price_24h": 0.980669379378784,
-      "change_1h_pct": -0.42,
-      "change_24h_pct": -7.51
+      "price_at_tweet": 1.0572114369693193,
+      "price_1h": 1.0536090350672085,
+      "price_24h": 0.9808565228792656,
+      "change_1h_pct": -0.34,
+      "change_24h_pct": -7.22
     },
     {
       "tweet_id": "1981015560872968433",
@@ -2603,11 +2603,11 @@
       "retweets": 625,
       "replies": 1400,
       "impressions": 669807,
-      "price_at_tweet": 1.00948405347777,
-      "price_1h": 0.989403106034621,
-      "price_24h": 1.05405975090537,
-      "change_1h_pct": -1.99,
-      "change_24h_pct": 4.42
+      "price_at_tweet": 1.0055187288275569,
+      "price_1h": 0.989011792096146,
+      "price_24h": 1.0478400823977925,
+      "change_1h_pct": -1.64,
+      "change_24h_pct": 4.21
     },
     {
       "tweet_id": "1981016749907820963",
@@ -2622,11 +2622,11 @@
       "retweets": 1054,
       "replies": 1934,
       "impressions": 896224,
-      "price_at_tweet": 0.998421920287512,
-      "price_1h": 0.988225153769526,
-      "price_24h": 1.07728679293096,
-      "change_1h_pct": -1.02,
-      "change_24h_pct": 7.9
+      "price_at_tweet": 0.9963394440836498,
+      "price_1h": 0.9892157180873058,
+      "price_24h": 1.0745801959998975,
+      "change_1h_pct": -0.71,
+      "change_24h_pct": 7.85
     },
     {
       "tweet_id": "1981036868335439926",
@@ -2641,11 +2641,11 @@
       "retweets": 557,
       "replies": 1706,
       "impressions": 797629,
-      "price_at_tweet": 0.973010431362765,
-      "price_1h": 0.977466076633904,
-      "price_24h": 1.06064474774429,
-      "change_1h_pct": 0.46,
-      "change_24h_pct": 9.01
+      "price_at_tweet": 0.9744407013845905,
+      "price_1h": 0.9824348197421692,
+      "price_24h": 1.0627082798343077,
+      "change_1h_pct": 0.82,
+      "change_24h_pct": 9.06
     },
     {
       "tweet_id": "1981246936117084282",
@@ -2660,11 +2660,11 @@
       "retweets": 1224,
       "replies": 2930,
       "impressions": 1911973,
-      "price_at_tweet": 1.01162946004396,
-      "price_1h": 1.01202509890819,
-      "price_24h": 1.13122176798018,
-      "change_1h_pct": 0.04,
-      "change_24h_pct": 11.82
+      "price_at_tweet": 1.0123657959497425,
+      "price_1h": 1.0124326642788242,
+      "price_24h": 1.1393254874107601,
+      "change_1h_pct": 0.01,
+      "change_24h_pct": 12.54
     },
     {
       "tweet_id": "1981404850832494666",
@@ -2679,11 +2679,11 @@
       "retweets": 7688,
       "replies": 13076,
       "impressions": 10200825,
-      "price_at_tweet": 1.08146395506924,
-      "price_1h": 1.08138966491165,
-      "price_24h": 1.0661998651042,
-      "change_1h_pct": -0.01,
-      "change_24h_pct": -1.41
+      "price_at_tweet": 1.080803211162908,
+      "price_1h": 1.0809513420956078,
+      "price_24h": 1.065388381581075,
+      "change_1h_pct": 0.01,
+      "change_24h_pct": -1.43
     },
     {
       "tweet_id": "1981431186195976386",
@@ -2698,11 +2698,11 @@
       "retweets": 887,
       "replies": 2613,
       "impressions": 688848,
-      "price_at_tweet": 1.07296629248316,
-      "price_1h": 1.10799423273709,
-      "price_24h": 1.07886682499797,
-      "change_1h_pct": 3.26,
-      "change_24h_pct": 0.55
+      "price_at_tweet": 1.069568741326608,
+      "price_1h": 1.1083950625662324,
+      "price_24h": 1.0803190464158507,
+      "change_1h_pct": 3.63,
+      "change_24h_pct": 1.01
     },
     {
       "tweet_id": "1981443425212747920",
@@ -2717,11 +2717,11 @@
       "retweets": 265,
       "replies": 768,
       "impressions": 524169,
-      "price_at_tweet": 1.08338508838107,
-      "price_1h": 1.0830906162529,
-      "price_24h": 1.10400844956025,
-      "change_1h_pct": -0.03,
-      "change_24h_pct": 1.9
+      "price_at_tweet": 1.085410240034863,
+      "price_1h": 1.0808218272784058,
+      "price_24h": 1.1019470143563441,
+      "change_1h_pct": -0.42,
+      "change_24h_pct": 1.52
     },
     {
       "tweet_id": "1981451984000680033",
@@ -2736,11 +2736,11 @@
       "retweets": 865,
       "replies": 3528,
       "impressions": 1317150,
-      "price_at_tweet": 1.0961814150729,
-      "price_1h": 1.07272631509607,
-      "price_24h": 1.10837348026577,
-      "change_1h_pct": -2.14,
-      "change_24h_pct": 1.11
+      "price_at_tweet": 1.0947084454884712,
+      "price_1h": 1.0718793318692015,
+      "price_24h": 1.106751626913441,
+      "change_1h_pct": -2.09,
+      "change_24h_pct": 1.1
     },
     {
       "tweet_id": "1981554054854824259",
@@ -2755,11 +2755,11 @@
       "retweets": 938,
       "replies": 1568,
       "impressions": 993518,
-      "price_at_tweet": 1.11498722447133,
-      "price_1h": 1.09318405595856,
-      "price_24h": 1.13605567389182,
-      "change_1h_pct": -1.96,
-      "change_24h_pct": 1.89
+      "price_at_tweet": 1.1144159576707966,
+      "price_1h": 1.0951263280471057,
+      "price_24h": 1.1380983273855432,
+      "change_1h_pct": -1.73,
+      "change_24h_pct": 2.13
     },
     {
       "tweet_id": "1981556726290878820",
@@ -2774,11 +2774,11 @@
       "retweets": 1203,
       "replies": 1319,
       "impressions": 974092,
-      "price_at_tweet": 1.10776183119336,
-      "price_1h": 1.10037173284098,
-      "price_24h": 1.14094281399872,
-      "change_1h_pct": -0.67,
-      "change_24h_pct": 3.0
+      "price_at_tweet": 1.1099608085021289,
+      "price_1h": 1.0976801234212856,
+      "price_24h": 1.139438518783441,
+      "change_1h_pct": -1.11,
+      "change_24h_pct": 2.66
     },
     {
       "tweet_id": "1981560833219146112",
@@ -2793,11 +2793,11 @@
       "retweets": 468,
       "replies": 1063,
       "impressions": 541376,
-      "price_at_tweet": 1.10301782286634,
-      "price_1h": 1.10007858764426,
-      "price_24h": 1.14361633595024,
-      "change_1h_pct": -0.27,
-      "change_24h_pct": 3.68
+      "price_at_tweet": 1.0980492887004758,
+      "price_1h": 1.1027964229049088,
+      "price_24h": 1.143911620249566,
+      "change_1h_pct": 0.43,
+      "change_24h_pct": 4.18
     },
     {
       "tweet_id": "1981561627418968370",
@@ -2812,11 +2812,11 @@
       "retweets": 2235,
       "replies": 4505,
       "impressions": 1794294,
-      "price_at_tweet": 1.10345560817434,
-      "price_1h": 1.10695057843988,
-      "price_24h": 1.14015491552909,
-      "change_1h_pct": 0.32,
-      "change_24h_pct": 3.33
+      "price_at_tweet": 1.100698833972459,
+      "price_1h": 1.1048160173861816,
+      "price_24h": 1.145157265656213,
+      "change_1h_pct": 0.37,
+      "change_24h_pct": 4.04
     },
     {
       "tweet_id": "1981657849118818588",
@@ -2831,11 +2831,11 @@
       "retweets": 667,
       "replies": 2218,
       "impressions": 731781,
-      "price_at_tweet": 1.11541470421595,
-      "price_1h": 1.09286422797379,
-      "price_24h": 1.11619291250226,
-      "change_1h_pct": -2.02,
-      "change_24h_pct": 0.07
+      "price_at_tweet": 1.1162611384358667,
+      "price_1h": 1.0924830721070855,
+      "price_24h": 1.1216977584271772,
+      "change_1h_pct": -2.13,
+      "change_24h_pct": 0.49
     },
     {
       "tweet_id": "1981767732723929384",
@@ -2850,11 +2850,11 @@
       "retweets": 480,
       "replies": 1306,
       "impressions": 659066,
-      "price_at_tweet": 1.06108907368504,
-      "price_1h": 1.07119216655246,
-      "price_24h": 1.12289398917635,
-      "change_1h_pct": 0.95,
-      "change_24h_pct": 5.82
+      "price_at_tweet": 1.0645639628936692,
+      "price_1h": 1.0727171812954128,
+      "price_24h": 1.1286071715803285,
+      "change_1h_pct": 0.77,
+      "change_24h_pct": 6.02
     },
     {
       "tweet_id": "1981780355838296427",
@@ -2869,11 +2869,11 @@
       "retweets": 205,
       "replies": 940,
       "impressions": 712745,
-      "price_at_tweet": 1.07311677763533,
-      "price_1h": 1.08041108510656,
-      "price_24h": 1.13437309828734,
-      "change_1h_pct": 0.68,
-      "change_24h_pct": 5.71
+      "price_at_tweet": 1.0767907884376757,
+      "price_1h": 1.0808813453468178,
+      "price_24h": 1.1321222213836708,
+      "change_1h_pct": 0.38,
+      "change_24h_pct": 5.14
     },
     {
       "tweet_id": "1981780998158528878",
@@ -2888,11 +2888,11 @@
       "retweets": 156,
       "replies": 532,
       "impressions": 702817,
-      "price_at_tweet": 1.07293684833366,
-      "price_1h": 1.08049406500864,
-      "price_24h": 1.13402851722951,
-      "change_1h_pct": 0.7,
-      "change_24h_pct": 5.69
+      "price_at_tweet": 1.0757353884603056,
+      "price_1h": 1.0830940829825695,
+      "price_24h": 1.1316852499655747,
+      "change_1h_pct": 0.68,
+      "change_24h_pct": 5.2
     },
     {
       "tweet_id": "1981782733316927964",
@@ -2907,11 +2907,11 @@
       "retweets": 1259,
       "replies": 3438,
       "impressions": 2566952,
-      "price_at_tweet": 1.0731993417182,
-      "price_1h": 1.08680335494068,
-      "price_24h": 1.13692643157054,
-      "change_1h_pct": 1.27,
-      "change_24h_pct": 5.94
+      "price_at_tweet": 1.0731912612404046,
+      "price_1h": 1.0851768377208735,
+      "price_24h": 1.1362771978240844,
+      "change_1h_pct": 1.12,
+      "change_24h_pct": 5.88
     },
     {
       "tweet_id": "1981785624781697371",
@@ -2926,11 +2926,11 @@
       "retweets": 1442,
       "replies": 2172,
       "impressions": 1904772,
-      "price_at_tweet": 1.08315548724945,
-      "price_1h": 1.09298536998564,
-      "price_24h": 1.12982986414346,
-      "change_1h_pct": 0.91,
-      "change_24h_pct": 4.31
+      "price_at_tweet": 1.082480794542447,
+      "price_1h": 1.0908838761448139,
+      "price_24h": 1.1352213856951578,
+      "change_1h_pct": 0.78,
+      "change_24h_pct": 4.87
     },
     {
       "tweet_id": "1981947993491214663",
@@ -2945,11 +2945,11 @@
       "retweets": 541,
       "replies": 1089,
       "impressions": 1691857,
-      "price_at_tweet": 1.13642977767931,
-      "price_1h": 1.13810391118764,
-      "price_24h": 1.17532026152519,
-      "change_1h_pct": 0.15,
-      "change_24h_pct": 3.42
+      "price_at_tweet": 1.132343851006266,
+      "price_1h": 1.138514230844047,
+      "price_24h": 1.1752394504940853,
+      "change_1h_pct": 0.54,
+      "change_24h_pct": 3.79
     },
     {
       "tweet_id": "1981961485497586174",
@@ -2964,11 +2964,11 @@
       "retweets": 3026,
       "replies": 2598,
       "impressions": 1813379,
-      "price_at_tweet": 1.14459293632978,
-      "price_1h": 1.11532266203983,
-      "price_24h": 1.17254138947611,
-      "change_1h_pct": -2.56,
-      "change_24h_pct": 2.44
+      "price_at_tweet": 1.1414595605918494,
+      "price_1h": 1.1121503244807602,
+      "price_24h": 1.1749110390161566,
+      "change_1h_pct": -2.57,
+      "change_24h_pct": 2.93
     },
     {
       "tweet_id": "1982023574970868116",
@@ -2983,11 +2983,11 @@
       "retweets": 209,
       "replies": 625,
       "impressions": 567682,
-      "price_at_tweet": 1.1072328795286,
-      "price_1h": 1.10914792172276,
-      "price_24h": 1.18705289687322,
-      "change_1h_pct": 0.17,
-      "change_24h_pct": 7.21
+      "price_at_tweet": 1.1106348572440015,
+      "price_1h": 1.1092309811242564,
+      "price_24h": 1.1859869018488738,
+      "change_1h_pct": -0.13,
+      "change_24h_pct": 6.78
     },
     {
       "tweet_id": "1982028486790328802",
@@ -3002,11 +3002,11 @@
       "retweets": 1515,
       "replies": 2934,
       "impressions": 1625679,
-      "price_at_tweet": 1.10918145441922,
-      "price_1h": 1.11170674616297,
-      "price_24h": 1.19182054143285,
-      "change_1h_pct": 0.23,
-      "change_24h_pct": 7.45
+      "price_at_tweet": 1.1097749362982343,
+      "price_1h": 1.1075248939278302,
+      "price_24h": 1.1899283556717408,
+      "change_1h_pct": -0.2,
+      "change_24h_pct": 7.22
     },
     {
       "tweet_id": "1982163494179889607",
@@ -3021,11 +3021,11 @@
       "retweets": 1232,
       "replies": 2293,
       "impressions": 2329662,
-      "price_at_tweet": 1.13690096600897,
-      "price_1h": 1.14366656045172,
-      "price_24h": 1.13891203434271,
-      "change_1h_pct": 0.6,
-      "change_24h_pct": 0.18
+      "price_at_tweet": 1.1399303959788225,
+      "price_1h": 1.1419825070769605,
+      "price_24h": 1.1438068333473341,
+      "change_1h_pct": 0.18,
+      "change_24h_pct": 0.34
     },
     {
       "tweet_id": "1982697828456796329",
@@ -3040,11 +3040,11 @@
       "retweets": 1029,
       "replies": 3993,
       "impressions": 1423611,
-      "price_at_tweet": 1.12930056875883,
-      "price_1h": 1.12533470920611,
-      "price_24h": 1.04933163573992,
-      "change_1h_pct": -0.35,
-      "change_24h_pct": -7.08
+      "price_at_tweet": 1.1276313039179957,
+      "price_1h": 1.1266294948332674,
+      "price_24h": 1.051974130258675,
+      "change_1h_pct": -0.09,
+      "change_24h_pct": -6.71
     },
     {
       "tweet_id": "1982708748901609826",
@@ -3059,11 +3059,11 @@
       "retweets": 314,
       "replies": 1267,
       "impressions": 621328,
-      "price_at_tweet": 1.1267824811721,
-      "price_1h": 1.08155253982203,
-      "price_24h": 1.06956763083115,
+      "price_at_tweet": 1.1280859518396558,
+      "price_1h": 1.082899041184823,
+      "price_24h": 1.0668673329730087,
       "change_1h_pct": -4.01,
-      "change_24h_pct": -5.08
+      "change_24h_pct": -5.43
     },
     {
       "tweet_id": "1982767892929409054",
@@ -3078,11 +3078,11 @@
       "retweets": 400,
       "replies": 1295,
       "impressions": 878036,
-      "price_at_tweet": 1.0813721595166,
-      "price_1h": 1.10206761152521,
-      "price_24h": 1.07338409781218,
-      "change_1h_pct": 1.91,
-      "change_24h_pct": -0.74
+      "price_at_tweet": 1.0866509668388848,
+      "price_1h": 1.096553935430925,
+      "price_24h": 1.074196326403627,
+      "change_1h_pct": 0.91,
+      "change_24h_pct": -1.15
     },
     {
       "tweet_id": "1982788556754968794",
@@ -3097,11 +3097,11 @@
       "retweets": 613,
       "replies": 1676,
       "impressions": 1176648,
-      "price_at_tweet": 1.09792853964086,
-      "price_1h": 1.10457539766501,
-      "price_24h": 1.07172017198352,
-      "change_1h_pct": 0.61,
-      "change_24h_pct": -2.39
+      "price_at_tweet": 1.1011083158630324,
+      "price_1h": 1.099352366389826,
+      "price_24h": 1.0722172762037119,
+      "change_1h_pct": -0.16,
+      "change_24h_pct": -2.62
     },
     {
       "tweet_id": "1982800891708166318",
@@ -3116,11 +3116,11 @@
       "retweets": 1395,
       "replies": 1961,
       "impressions": 1291649,
-      "price_at_tweet": 1.1134062374961,
-      "price_1h": 1.08048489565681,
-      "price_24h": 1.09173293072204,
-      "change_1h_pct": -2.96,
-      "change_24h_pct": -1.95
+      "price_at_tweet": 1.1130109770045091,
+      "price_1h": 1.084440883106481,
+      "price_24h": 1.0901764714012552,
+      "change_1h_pct": -2.57,
+      "change_24h_pct": -2.05
     },
     {
       "tweet_id": "1983070527125102733",
@@ -3135,11 +3135,11 @@
       "retweets": 256,
       "replies": 1703,
       "impressions": 1408846,
-      "price_at_tweet": 1.06956763083115,
-      "price_1h": 1.06492660903518,
-      "price_24h": 1.07368370773935,
-      "change_1h_pct": -0.43,
-      "change_24h_pct": 0.38
+      "price_at_tweet": 1.0665442510385517,
+      "price_1h": 1.0660375907676691,
+      "price_24h": 1.0762624005541013,
+      "change_1h_pct": -0.05,
+      "change_24h_pct": 0.91
     },
     {
       "tweet_id": "1983413686590144834",
@@ -3154,11 +3154,11 @@
       "retweets": 513,
       "replies": 1543,
       "impressions": 998969,
-      "price_at_tweet": 1.07311272074385,
-      "price_1h": 1.07647388291731,
-      "price_24h": 1.00641569094292,
-      "change_1h_pct": 0.31,
-      "change_24h_pct": -6.22
+      "price_at_tweet": 1.0739445442312894,
+      "price_1h": 1.0776719081815385,
+      "price_24h": 1.0088717292203437,
+      "change_1h_pct": 0.35,
+      "change_24h_pct": -6.06
     },
     {
       "tweet_id": "1983437318670209499",
@@ -3173,11 +3173,11 @@
       "retweets": 846,
       "replies": 2585,
       "impressions": 2138494,
-      "price_at_tweet": 1.06829761963901,
-      "price_1h": 1.0685008417623,
-      "price_24h": 1.02496877556322,
-      "change_1h_pct": 0.02,
-      "change_24h_pct": -4.06
+      "price_at_tweet": 1.0709919042696407,
+      "price_1h": 1.0676730246685178,
+      "price_24h": 1.0223275488015018,
+      "change_1h_pct": -0.31,
+      "change_24h_pct": -4.54
     },
     {
       "tweet_id": "1983442113321968118",
@@ -3192,11 +3192,11 @@
       "retweets": 253,
       "replies": 1655,
       "impressions": 1000752,
-      "price_at_tweet": 1.06276642575482,
-      "price_1h": 1.0596481927456,
-      "price_24h": 1.03232988919639,
-      "change_1h_pct": -0.29,
-      "change_24h_pct": -2.86
+      "price_at_tweet": 1.0687483641303366,
+      "price_1h": 1.0643670933447338,
+      "price_24h": 1.0314311149832895,
+      "change_1h_pct": -0.41,
+      "change_24h_pct": -3.49
     },
     {
       "tweet_id": "1983462304806306238",
@@ -3211,11 +3211,11 @@
       "retweets": 273,
       "replies": 1027,
       "impressions": 521592,
-      "price_at_tweet": 1.06422516784972,
-      "price_1h": 1.0803419110449,
-      "price_24h": 1.02471527493623,
-      "change_1h_pct": 1.51,
-      "change_24h_pct": -3.71
+      "price_at_tweet": 1.0607406762133067,
+      "price_1h": 1.0750888321248202,
+      "price_24h": 1.0195792599645888,
+      "change_1h_pct": 1.35,
+      "change_24h_pct": -3.88
     },
     {
       "tweet_id": "1983594650821669093",
@@ -3230,11 +3230,11 @@
       "retweets": 450,
       "replies": 642,
       "impressions": 357975,
-      "price_at_tweet": 1.05042486098675,
-      "price_1h": 1.04044236247797,
-      "price_24h": 0.875399948832635,
-      "change_1h_pct": -0.95,
-      "change_24h_pct": -16.66
+      "price_at_tweet": 1.0511990673823903,
+      "price_1h": 1.0415873058539544,
+      "price_24h": 0.8744235254066853,
+      "change_1h_pct": -0.91,
+      "change_24h_pct": -16.82
     },
     {
       "tweet_id": "1983661724600574087",
@@ -3249,11 +3249,11 @@
       "retweets": 536,
       "replies": 802,
       "impressions": 624319,
-      "price_at_tweet": 1.05618666120733,
-      "price_1h": 1.029057848808,
-      "price_24h": 0.8871542414569,
-      "change_1h_pct": -2.57,
-      "change_24h_pct": -16.0
+      "price_at_tweet": 1.0527535540011337,
+      "price_1h": 1.0293751022336215,
+      "price_24h": 0.8872291573352917,
+      "change_1h_pct": -2.22,
+      "change_24h_pct": -15.72
     },
     {
       "tweet_id": "1983785946953699684",
@@ -3268,11 +3268,11 @@
       "retweets": 362,
       "replies": 1009,
       "impressions": 464322,
-      "price_at_tweet": 1.00440095024249,
-      "price_1h": 1.02839713207507,
-      "price_24h": 0.933788126164429,
-      "change_1h_pct": 2.39,
-      "change_24h_pct": -7.03
+      "price_at_tweet": 1.0028759687986208,
+      "price_1h": 1.0276274437337882,
+      "price_24h": 0.9323194443385663,
+      "change_1h_pct": 2.47,
+      "change_24h_pct": -7.04
     },
     {
       "tweet_id": "1983789434840678859",
@@ -3287,11 +3287,11 @@
       "retweets": 150,
       "replies": 1128,
       "impressions": 1091168,
-      "price_at_tweet": 1.0049218721646,
-      "price_1h": 1.03232988919639,
-      "price_24h": 0.923453729156607,
-      "change_1h_pct": 2.73,
-      "change_24h_pct": -8.11
+      "price_at_tweet": 1.008109761111112,
+      "price_1h": 1.0314311149832895,
+      "price_24h": 0.9276137409562856,
+      "change_1h_pct": 2.31,
+      "change_24h_pct": -7.98
     },
     {
       "tweet_id": "1983831291847197111",
@@ -3306,11 +3306,11 @@
       "retweets": 180,
       "replies": 908,
       "impressions": 336740,
-      "price_at_tweet": 1.02310468347199,
-      "price_1h": 1.00727620744011,
-      "price_24h": 0.942176335499097,
-      "change_1h_pct": -1.55,
-      "change_24h_pct": -7.91
+      "price_at_tweet": 1.0218852653962922,
+      "price_1h": 1.0079561863058388,
+      "price_24h": 0.9444195501831405,
+      "change_1h_pct": -1.36,
+      "change_24h_pct": -7.58
     },
     {
       "tweet_id": "1984098664608903347",
@@ -3325,11 +3325,11 @@
       "retweets": 1118,
       "replies": 2306,
       "impressions": 1237953,
-      "price_at_tweet": 0.92850091579569,
-      "price_1h": 0.928374015341689,
-      "price_24h": 1.02019617647962,
-      "change_1h_pct": -0.01,
-      "change_24h_pct": 9.88
+      "price_at_tweet": 0.9319785136806682,
+      "price_1h": 0.9342022919031275,
+      "price_24h": 1.0174768420461804,
+      "change_1h_pct": 0.24,
+      "change_24h_pct": 9.17
     },
     {
       "tweet_id": "1984107720300220543",
@@ -3344,11 +3344,11 @@
       "retweets": 1868,
       "replies": 4916,
       "impressions": 5123901,
-      "price_at_tweet": 0.921338223343267,
-      "price_1h": 0.935159530540109,
-      "price_24h": 1.01098962892217,
-      "change_1h_pct": 1.5,
-      "change_24h_pct": 9.73
+      "price_at_tweet": 0.9269668723243478,
+      "price_1h": 0.9337362594988811,
+      "price_24h": 1.0138333527500747,
+      "change_1h_pct": 0.73,
+      "change_24h_pct": 9.37
     },
     {
       "tweet_id": "1984169966858367363",
@@ -3363,11 +3363,11 @@
       "retweets": 326,
       "replies": 1231,
       "impressions": 937268,
-      "price_at_tweet": 0.943755153677231,
-      "price_1h": 0.952755428965642,
-      "price_24h": 0.985970761947074,
-      "change_1h_pct": 0.95,
-      "change_24h_pct": 4.47
+      "price_at_tweet": 0.9444379166443103,
+      "price_1h": 0.9491038984209129,
+      "price_24h": 0.9886445322091019,
+      "change_1h_pct": 0.49,
+      "change_24h_pct": 4.68
     },
     {
       "tweet_id": "1984170451241705753",
@@ -3382,11 +3382,11 @@
       "retweets": 71,
       "replies": 458,
       "impressions": 260617,
-      "price_at_tweet": 0.946990494814336,
-      "price_1h": 0.950528423676527,
-      "price_24h": 0.985979834852348,
-      "change_1h_pct": 0.37,
-      "change_24h_pct": 4.12
+      "price_at_tweet": 0.9461372552653502,
+      "price_1h": 0.9472115569322739,
+      "price_24h": 0.9816948275232791,
+      "change_1h_pct": 0.11,
+      "change_24h_pct": 3.76
     },
     {
       "tweet_id": "1984176010817077407",
@@ -3401,11 +3401,11 @@
       "retweets": 267,
       "replies": 1066,
       "impressions": 442280,
-      "price_at_tweet": 0.951067393811312,
-      "price_1h": 0.940827450020818,
-      "price_24h": 0.9803427333615,
-      "change_1h_pct": -1.08,
-      "change_24h_pct": 3.08
+      "price_at_tweet": 0.9520539655045904,
+      "price_1h": 0.9434715235792763,
+      "price_24h": 0.9807967174467722,
+      "change_1h_pct": -0.9,
+      "change_24h_pct": 3.02
     },
     {
       "tweet_id": "1984274095970951605",
@@ -3420,11 +3420,11 @@
       "retweets": 761,
       "replies": 3554,
       "impressions": 1026389,
-      "price_at_tweet": 0.989206987295619,
-      "price_1h": 0.9811203403156,
-      "price_24h": 0.973489617764617,
-      "change_1h_pct": -0.82,
-      "change_24h_pct": -1.59
+      "price_at_tweet": 0.9931756140709135,
+      "price_1h": 0.9833229617192623,
+      "price_24h": 0.9718070337355192,
+      "change_1h_pct": -0.99,
+      "change_24h_pct": -2.15
     },
     {
       "tweet_id": "1984274623933096442",
@@ -3439,11 +3439,11 @@
       "retweets": 125,
       "replies": 1399,
       "impressions": 432045,
-      "price_at_tweet": 0.987712002539297,
-      "price_1h": 0.983566543862831,
-      "price_24h": 0.973471666968619,
-      "change_1h_pct": -0.42,
-      "change_24h_pct": -1.44
+      "price_at_tweet": 0.9884931745128298,
+      "price_1h": 0.9792733799604345,
+      "price_24h": 0.9718809982306009,
+      "change_1h_pct": -0.93,
+      "change_24h_pct": -1.68
     },
     {
       "tweet_id": "1984283737337774543",
@@ -3458,11 +3458,11 @@
       "retweets": 515,
       "replies": 1179,
       "impressions": 905386,
-      "price_at_tweet": 0.987222357203628,
-      "price_1h": 0.98524006180182,
-      "price_24h": 0.974796525660019,
-      "change_1h_pct": -0.2,
-      "change_24h_pct": -1.26
+      "price_at_tweet": 0.9883645401714942,
+      "price_1h": 0.9865162651763693,
+      "price_24h": 0.975231230039271,
+      "change_1h_pct": -0.19,
+      "change_24h_pct": -1.33
     },
     {
       "tweet_id": "1984835928301719768",
@@ -3477,11 +3477,11 @@
       "retweets": 602,
       "replies": 1859,
       "impressions": 1072710,
-      "price_at_tweet": 0.959288589776686,
-      "price_1h": 0.957664054820359,
-      "price_24h": 1.05363450558848,
-      "change_1h_pct": -0.17,
-      "change_24h_pct": 9.83
+      "price_at_tweet": 0.9604808936968804,
+      "price_1h": 0.9572148592103207,
+      "price_24h": 1.0547636982440687,
+      "change_1h_pct": -0.34,
+      "change_24h_pct": 9.82
     },
     {
       "tweet_id": "1984992347395141987",
@@ -3496,11 +3496,11 @@
       "retweets": 4717,
       "replies": 7605,
       "impressions": 13005676,
-      "price_at_tweet": 0.946512343002636,
-      "price_1h": 1.18573321039005,
-      "price_24h": 0.991565700464273,
-      "change_1h_pct": 25.27,
-      "change_24h_pct": 4.76
+      "price_at_tweet": 0.9484549671828173,
+      "price_1h": 1.1867028907692676,
+      "price_24h": 0.9915094008527366,
+      "change_1h_pct": 25.12,
+      "change_24h_pct": 4.54
     },
     {
       "tweet_id": "1984993122825424957",
@@ -3515,11 +3515,11 @@
       "retweets": 613,
       "replies": 1178,
       "impressions": 1324992,
-      "price_at_tweet": 1.08732488749972,
-      "price_1h": 1.20729559836831,
-      "price_24h": 0.986641191981272,
-      "change_1h_pct": 11.03,
-      "change_24h_pct": -9.26
+      "price_at_tweet": 1.084363649116493,
+      "price_1h": 1.201759614989323,
+      "price_24h": 0.9858432525737294,
+      "change_1h_pct": 10.83,
+      "change_24h_pct": -9.09
     },
     {
       "tweet_id": "1985199059947123057",
@@ -3534,11 +3534,11 @@
       "retweets": 446,
       "replies": 1023,
       "impressions": 1179014,
-      "price_at_tweet": 1.06378961161275,
-      "price_1h": 1.08285979206648,
-      "price_24h": 0.914975086083977,
-      "change_1h_pct": 1.79,
-      "change_24h_pct": -13.99
+      "price_at_tweet": 1.0651688267875972,
+      "price_1h": 1.0812320602178171,
+      "price_24h": 0.9140548133538751,
+      "change_1h_pct": 1.51,
+      "change_24h_pct": -14.19
     },
     {
       "tweet_id": "1985224305328988538",
@@ -3553,11 +3553,11 @@
       "retweets": 332,
       "replies": 1558,
       "impressions": 990549,
-      "price_at_tweet": 1.06097091762073,
-      "price_1h": 1.07350389673347,
-      "price_24h": 0.84267616900298,
-      "change_1h_pct": 1.18,
-      "change_24h_pct": -20.57
+      "price_at_tweet": 1.058494849041178,
+      "price_1h": 1.0696656291525564,
+      "price_24h": 0.8431549408942186,
+      "change_1h_pct": 1.06,
+      "change_24h_pct": -20.34
     },
     {
       "tweet_id": "1985233905914421279",
@@ -3572,11 +3572,11 @@
       "retweets": 244,
       "replies": 2638,
       "impressions": 1423511,
-      "price_at_tweet": 1.06578825756109,
-      "price_1h": 1.06963303727616,
-      "price_24h": 0.85768936995551,
-      "change_1h_pct": 0.36,
-      "change_24h_pct": -19.53
+      "price_at_tweet": 1.0691165379754601,
+      "price_1h": 1.0766363488310562,
+      "price_24h": 0.8546467549723734,
+      "change_1h_pct": 0.7,
+      "change_24h_pct": -20.06
     },
     {
       "tweet_id": "1985282462776275321",
@@ -3591,11 +3591,11 @@
       "retweets": 472,
       "replies": 2515,
       "impressions": 2468525,
-      "price_at_tweet": 1.01767590191695,
-      "price_1h": 0.973580684944355,
-      "price_24h": 0.912165453228884,
-      "change_1h_pct": -4.33,
-      "change_24h_pct": -10.37
+      "price_at_tweet": 1.0180420647886002,
+      "price_1h": 0.9730722114201659,
+      "price_24h": 0.9116963404645927,
+      "change_1h_pct": -4.42,
+      "change_24h_pct": -10.45
     },
     {
       "tweet_id": "1985491888858943963",
@@ -3610,11 +3610,11 @@
       "retweets": 1890,
       "replies": 3807,
       "impressions": 2089156,
-      "price_at_tweet": 0.901016483540804,
-      "price_1h": 0.911844347587435,
-      "price_24h": 0.973060187370244,
-      "change_1h_pct": 1.2,
-      "change_24h_pct": 8.0
+      "price_at_tweet": 0.9063782797698923,
+      "price_1h": 0.9149855687091686,
+      "price_24h": 0.9677345950315559,
+      "change_1h_pct": 0.95,
+      "change_24h_pct": 6.77
     },
     {
       "tweet_id": "1985494497262751882",
@@ -3629,11 +3629,11 @@
       "retweets": 256,
       "replies": 1308,
       "impressions": 1060141,
-      "price_at_tweet": 0.914517158170449,
-      "price_1h": 0.916896709495262,
-      "price_24h": 0.982634774978237,
-      "change_1h_pct": 0.26,
-      "change_24h_pct": 7.45
+      "price_at_tweet": 0.9155421915672718,
+      "price_1h": 0.9163315426090127,
+      "price_24h": 0.9821323976070382,
+      "change_1h_pct": 0.09,
+      "change_24h_pct": 7.27
     },
     {
       "tweet_id": "1985623248265232546",
@@ -3648,11 +3648,11 @@
       "retweets": 967,
       "replies": 2879,
       "impressions": 4006382,
-      "price_at_tweet": 0.835065998950544,
-      "price_1h": 0.904259297171007,
-      "price_24h": 1.02276341396967,
-      "change_1h_pct": 8.29,
-      "change_24h_pct": 22.48
+      "price_at_tweet": 0.8379261023012459,
+      "price_1h": 0.8995413627743772,
+      "price_24h": 1.0215955106123527,
+      "change_1h_pct": 7.35,
+      "change_24h_pct": 21.92
     },
     {
       "tweet_id": "1985655125684244771",
@@ -3667,11 +3667,11 @@
       "retweets": 435,
       "replies": 1215,
       "impressions": 1266538,
-      "price_at_tweet": 0.924443448451021,
-      "price_1h": 0.927177740400747,
-      "price_24h": 1.01455055433292,
-      "change_1h_pct": 0.3,
-      "change_24h_pct": 9.75
+      "price_at_tweet": 0.9246249645081042,
+      "price_1h": 0.9290669682230728,
+      "price_24h": 1.0110361743906986,
+      "change_1h_pct": 0.48,
+      "change_24h_pct": 9.35
     },
     {
       "tweet_id": "1985990414542000421",
@@ -3686,11 +3686,11 @@
       "retweets": 1049,
       "replies": 3598,
       "impressions": 3061664,
-      "price_at_tweet": 1.01425071545335,
-      "price_1h": 1.03285998173122,
-      "price_24h": 1.06508188489195,
-      "change_1h_pct": 1.83,
-      "change_24h_pct": 5.01
+      "price_at_tweet": 1.0136720569645896,
+      "price_1h": 1.0283291768662746,
+      "price_24h": 1.0649133560268869,
+      "change_1h_pct": 1.45,
+      "change_24h_pct": 5.06
     },
     {
       "tweet_id": "1986315149171675298",
@@ -3705,11 +3705,11 @@
       "retweets": 395,
       "replies": 1690,
       "impressions": 1431362,
-      "price_at_tweet": 1.08517885022746,
-      "price_1h": 1.09173039772335,
-      "price_24h": 1.02904243534116,
-      "change_1h_pct": 0.6,
-      "change_24h_pct": -5.17
+      "price_at_tweet": 1.0901405297200435,
+      "price_1h": 1.0908335715397586,
+      "price_24h": 1.0305140535154762,
+      "change_1h_pct": 0.06,
+      "change_24h_pct": -5.47
     },
     {
       "tweet_id": "1986322772491170028",
@@ -3724,11 +3724,11 @@
       "retweets": 442,
       "replies": 1529,
       "impressions": 642932,
-      "price_at_tweet": 1.08913972687308,
-      "price_1h": 1.09278996912837,
-      "price_24h": 1.03322576254169,
-      "change_1h_pct": 0.34,
-      "change_24h_pct": -5.13
+      "price_at_tweet": 1.0888887806768364,
+      "price_1h": 1.0909369386897927,
+      "price_24h": 1.0372559064231923,
+      "change_1h_pct": 0.19,
+      "change_24h_pct": -4.74
     },
     {
       "tweet_id": "1986845920114450889",
@@ -3743,11 +3743,11 @@
       "retweets": 629,
       "replies": 1468,
       "impressions": 401052,
-      "price_at_tweet": 1.00058539559543,
-      "price_1h": 1.01217005466474,
-      "price_24h": 1.04541284877575,
-      "change_1h_pct": 1.16,
-      "change_24h_pct": 4.48
+      "price_at_tweet": 0.9992415112583711,
+      "price_1h": 1.0121633603051172,
+      "price_24h": 1.041727523890851,
+      "change_1h_pct": 1.29,
+      "change_24h_pct": 4.25
     },
     {
       "tweet_id": "1986815471862300972",
@@ -3762,11 +3762,11 @@
       "retweets": 1456,
       "replies": 1510,
       "impressions": 1258684,
-      "price_at_tweet": 1.04938806248489,
-      "price_1h": 1.05753448355076,
-      "price_24h": 1.03218791241011,
-      "change_1h_pct": 0.78,
-      "change_24h_pct": -1.64
+      "price_at_tweet": 1.0488915894156858,
+      "price_1h": 1.054068585190471,
+      "price_24h": 1.0294772778996877,
+      "change_1h_pct": 0.49,
+      "change_24h_pct": -1.85
     },
     {
       "tweet_id": "1987069115698454734",
@@ -3781,11 +3781,11 @@
       "retweets": 436,
       "replies": 1201,
       "impressions": 625615,
-      "price_at_tweet": 1.09538132703761,
-      "price_1h": 1.07058206701526,
-      "price_24h": 1.02011613350294,
-      "change_1h_pct": -2.26,
-      "change_24h_pct": -6.87
+      "price_at_tweet": 1.096905999653331,
+      "price_1h": 1.0762183184737153,
+      "price_24h": 1.0190361795787175,
+      "change_1h_pct": -1.89,
+      "change_24h_pct": -7.1
     },
     {
       "tweet_id": "1987127569695842625",
@@ -3800,11 +3800,11 @@
       "retweets": 266,
       "replies": 945,
       "impressions": 676600,
-      "price_at_tweet": 1.04713299714779,
-      "price_1h": 1.05021574481879,
-      "price_24h": 1.04309035228419,
-      "change_1h_pct": 0.29,
-      "change_24h_pct": -0.39
+      "price_at_tweet": 1.0536682747510437,
+      "price_1h": 1.052307433209369,
+      "price_24h": 1.0467146372123963,
+      "change_1h_pct": -0.13,
+      "change_24h_pct": -0.66
     },
     {
       "tweet_id": "1987197598021881984",
@@ -3819,11 +3819,11 @@
       "retweets": 535,
       "replies": 4650,
       "impressions": 1550282,
-      "price_at_tweet": 1.05129433533668,
-      "price_1h": 1.05159547990777,
-      "price_24h": 1.08098493591502,
-      "change_1h_pct": 0.03,
-      "change_24h_pct": 2.82
+      "price_at_tweet": 1.050788619479409,
+      "price_1h": 1.0527384099270733,
+      "price_24h": 1.080493106712675,
+      "change_1h_pct": 0.19,
+      "change_24h_pct": 2.83
     },
     {
       "tweet_id": "1987199204394213604",
@@ -3838,11 +3838,11 @@
       "retweets": 303,
       "replies": 1543,
       "impressions": 3773247,
-      "price_at_tweet": 1.04953933612091,
-      "price_1h": 1.04744085345271,
-      "price_24h": 1.08438222228114,
-      "change_1h_pct": -0.2,
-      "change_24h_pct": 3.32
+      "price_at_tweet": 1.0512917396493184,
+      "price_1h": 1.047985811033059,
+      "price_24h": 1.084997757242069,
+      "change_1h_pct": -0.31,
+      "change_24h_pct": 3.21
     },
     {
       "tweet_id": "1987427871347122431",
@@ -3857,11 +3857,11 @@
       "retweets": 1192,
       "replies": 1780,
       "impressions": 923764,
-      "price_at_tweet": 1.02602333430602,
-      "price_1h": 1.02103338384678,
-      "price_24h": 1.14573551565955,
-      "change_1h_pct": -0.49,
-      "change_24h_pct": 11.67
+      "price_at_tweet": 1.0225371787063238,
+      "price_1h": 1.0225621334637547,
+      "price_24h": 1.141178697959678,
+      "change_1h_pct": 0.0,
+      "change_24h_pct": 11.6
     },
     {
       "tweet_id": "1987429930037309496",
@@ -3876,11 +3876,11 @@
       "retweets": 208,
       "replies": 990,
       "impressions": 638721,
-      "price_at_tweet": 1.01407425191757,
-      "price_1h": 1.0253024547106,
-      "price_24h": 1.14285178049292,
-      "change_1h_pct": 1.11,
-      "change_24h_pct": 12.7
+      "price_at_tweet": 1.0203501751168682,
+      "price_1h": 1.0256683731539862,
+      "price_24h": 1.1457304606080805,
+      "change_1h_pct": 0.52,
+      "change_24h_pct": 12.29
     },
     {
       "tweet_id": "1987454778650300870",
@@ -3895,11 +3895,11 @@
       "retweets": 367,
       "replies": 1450,
       "impressions": 1053675,
-      "price_at_tweet": 1.0327303053512,
-      "price_1h": 1.03355390361942,
-      "price_24h": 1.12805971088307,
-      "change_1h_pct": 0.08,
-      "change_24h_pct": 9.23
+      "price_at_tweet": 1.0266745737612237,
+      "price_1h": 1.0368974536635716,
+      "price_24h": 1.1351245232973983,
+      "change_1h_pct": 1.0,
+      "change_24h_pct": 10.56
     },
     {
       "tweet_id": "1987497485401780261",
@@ -3914,11 +3914,11 @@
       "retweets": 417,
       "replies": 2229,
       "impressions": 1051711,
-      "price_at_tweet": 1.04211366380014,
-      "price_1h": 1.04093264262597,
-      "price_24h": 1.13630017020627,
-      "change_1h_pct": -0.11,
-      "change_24h_pct": 9.04
+      "price_at_tweet": 1.0403493322426582,
+      "price_1h": 1.0419849472786349,
+      "price_24h": 1.136707508625377,
+      "change_1h_pct": 0.16,
+      "change_24h_pct": 9.26
     },
     {
       "tweet_id": "1987786698538012685",
@@ -3933,11 +3933,11 @@
       "retweets": 383,
       "replies": 1596,
       "impressions": 963480,
-      "price_at_tweet": 1.14171770866754,
-      "price_1h": 1.14052762781423,
-      "price_24h": 1.12252709742676,
-      "change_1h_pct": -0.1,
-      "change_24h_pct": -1.68
+      "price_at_tweet": 1.1413610903113778,
+      "price_1h": 1.1395756259023742,
+      "price_24h": 1.124253795636494,
+      "change_1h_pct": -0.16,
+      "change_24h_pct": -1.5
     },
     {
       "tweet_id": "1987875167780118728",
@@ -3952,11 +3952,11 @@
       "retweets": 786,
       "replies": 1358,
       "impressions": 739452,
-      "price_at_tweet": 1.13558109527546,
-      "price_1h": 1.12713366129691,
-      "price_24h": 1.08571469990737,
-      "change_1h_pct": -0.74,
-      "change_24h_pct": -4.39
+      "price_at_tweet": 1.1372458167670891,
+      "price_1h": 1.1279706847966615,
+      "price_24h": 1.0820820323769822,
+      "change_1h_pct": -0.82,
+      "change_24h_pct": -4.85
     },
     {
       "tweet_id": "1987881995402113260",
@@ -3971,11 +3971,11 @@
       "retweets": 419,
       "replies": 1232,
       "impressions": 544530,
-      "price_at_tweet": 1.11156506688737,
-      "price_1h": 1.13432087761298,
-      "price_24h": 1.0787886999899,
-      "change_1h_pct": 2.05,
-      "change_24h_pct": -2.95
+      "price_at_tweet": 1.1193088661652812,
+      "price_1h": 1.1423588680968364,
+      "price_24h": 1.0860548697696502,
+      "change_1h_pct": 2.06,
+      "change_24h_pct": -2.97
     },
     {
       "tweet_id": "1988216302952124890",
@@ -3990,11 +3990,11 @@
       "retweets": 404,
       "replies": 1834,
       "impressions": 507737,
-      "price_at_tweet": 1.08670615182166,
-      "price_1h": 1.07716046462453,
-      "price_24h": 1.13434137266774,
-      "change_1h_pct": -0.88,
-      "change_24h_pct": 4.38
+      "price_at_tweet": 1.0872642181022008,
+      "price_1h": 1.078314931767136,
+      "price_24h": 1.1400796524166106,
+      "change_1h_pct": -0.82,
+      "change_24h_pct": 4.86
     },
     {
       "tweet_id": "1988689709045047579",
@@ -4009,11 +4009,11 @@
       "retweets": 351,
       "replies": 2362,
       "impressions": 915189,
-      "price_at_tweet": 1.18252781042016,
-      "price_1h": 1.14400648833884,
-      "price_24h": 1.09194535829218,
-      "change_1h_pct": -3.26,
-      "change_24h_pct": -7.66
+      "price_at_tweet": 1.1889290913122852,
+      "price_1h": 1.142960297016451,
+      "price_24h": 1.0929263163731133,
+      "change_1h_pct": -3.87,
+      "change_24h_pct": -8.07
     },
     {
       "tweet_id": "1988882745989153243",
@@ -4028,11 +4028,11 @@
       "retweets": 619,
       "replies": 1887,
       "impressions": 866381,
-      "price_at_tweet": 1.10372727833445,
-      "price_1h": 1.10703301291575,
-      "price_24h": 1.05732248535914,
-      "change_1h_pct": 0.3,
-      "change_24h_pct": -4.2
+      "price_at_tweet": 1.1033015594756248,
+      "price_1h": 1.1063573631074333,
+      "price_24h": 1.054486478864887,
+      "change_1h_pct": 0.28,
+      "change_24h_pct": -4.42
     },
     {
       "tweet_id": "1988883673144336473",
@@ -4047,11 +4047,11 @@
       "retweets": 317,
       "replies": 1710,
       "impressions": 775617,
-      "price_at_tweet": 1.09764784615048,
-      "price_1h": 1.10841139302396,
-      "price_24h": 1.05725308040677,
-      "change_1h_pct": 0.98,
-      "change_24h_pct": -3.68
+      "price_at_tweet": 1.1022380759287203,
+      "price_1h": 1.105803288800856,
+      "price_24h": 1.059449872239804,
+      "change_1h_pct": 0.32,
+      "change_24h_pct": -3.88
     },
     {
       "tweet_id": "1988965634919821724",
@@ -4066,11 +4066,11 @@
       "retweets": 608,
       "replies": 1404,
       "impressions": 743364,
-      "price_at_tweet": 1.13226543120901,
-      "price_1h": 1.11079682884463,
-      "price_24h": 1.04531093470022,
-      "change_1h_pct": -1.9,
-      "change_24h_pct": -7.68
+      "price_at_tweet": 1.1335443141901211,
+      "price_1h": 1.1171492926599278,
+      "price_24h": 1.0447212535528039,
+      "change_1h_pct": -1.45,
+      "change_24h_pct": -7.84
     },
     {
       "tweet_id": "1989006673206259821",
@@ -4085,11 +4085,11 @@
       "retweets": 1806,
       "replies": 1403,
       "impressions": 2132860,
-      "price_at_tweet": 1.1333170731325,
-      "price_1h": 1.11803903341151,
-      "price_24h": 1.02723432723786,
-      "change_1h_pct": -1.35,
-      "change_24h_pct": -9.36
+      "price_at_tweet": 1.139520121456231,
+      "price_1h": 1.1206792140993507,
+      "price_24h": 1.029724278929414,
+      "change_1h_pct": -1.65,
+      "change_24h_pct": -9.64
     },
     {
       "tweet_id": "1989227081020944599",
@@ -4104,11 +4104,11 @@
       "retweets": 4444,
       "replies": 5759,
       "impressions": 2644038,
-      "price_at_tweet": 1.0570325784445,
-      "price_1h": 1.05126610946582,
-      "price_24h": 1.12634607365802,
-      "change_1h_pct": -0.55,
-      "change_24h_pct": 6.56
+      "price_at_tweet": 1.059665989255058,
+      "price_1h": 1.0582046413774304,
+      "price_24h": 1.1263856208770116,
+      "change_1h_pct": -0.14,
+      "change_24h_pct": 6.3
     },
     {
       "tweet_id": "1989333907544711480",
@@ -4123,11 +4123,11 @@
       "retweets": 1248,
       "replies": 1301,
       "impressions": 1355395,
-      "price_at_tweet": 1.05517610234416,
-      "price_1h": 1.02957105133815,
-      "price_24h": 1.13225636794897,
-      "change_1h_pct": -2.43,
-      "change_24h_pct": 7.3
+      "price_at_tweet": 1.0559252386443336,
+      "price_1h": 1.0317836408046113,
+      "price_24h": 1.1344872588880344,
+      "change_1h_pct": -2.29,
+      "change_24h_pct": 7.44
     },
     {
       "tweet_id": "1989344953940742453",
@@ -4142,11 +4142,11 @@
       "retweets": 776,
       "replies": 1257,
       "impressions": 636426,
-      "price_at_tweet": 1.0293814813351,
-      "price_1h": 1.03833430414896,
-      "price_24h": 1.11910638068599,
-      "change_1h_pct": 0.87,
-      "change_24h_pct": 8.72
+      "price_at_tweet": 1.0240359064554467,
+      "price_1h": 1.0334477653064087,
+      "price_24h": 1.12001591162922,
+      "change_1h_pct": 0.92,
+      "change_24h_pct": 9.37
     },
     {
       "tweet_id": "1989391433464234272",
@@ -4161,11 +4161,11 @@
       "retweets": 1437,
       "replies": 4930,
       "impressions": 2604197,
-      "price_at_tweet": 1.05157982439161,
-      "price_1h": 1.05782674849001,
-      "price_24h": 1.12364237907536,
-      "change_1h_pct": 0.59,
-      "change_24h_pct": 6.85
+      "price_at_tweet": 1.0490785542887104,
+      "price_1h": 1.0579812626979628,
+      "price_24h": 1.1294078122498972,
+      "change_1h_pct": 0.85,
+      "change_24h_pct": 7.66
     },
     {
       "tweet_id": "1989564120400572632",
@@ -4180,11 +4180,11 @@
       "retweets": 361,
       "replies": 977,
       "impressions": 802662,
-      "price_at_tweet": 1.11254797661345,
-      "price_1h": 1.11179364759902,
-      "price_24h": 1.11750895098911,
-      "change_1h_pct": -0.07,
-      "change_24h_pct": 0.45
+      "price_at_tweet": 1.114325286964823,
+      "price_1h": 1.1185735157499306,
+      "price_24h": 1.1238896078061484,
+      "change_1h_pct": 0.38,
+      "change_24h_pct": 0.86
     },
     {
       "tweet_id": "1990357003504652443",
@@ -4199,11 +4199,11 @@
       "retweets": 1283,
       "replies": 1972,
       "impressions": 1037856,
-      "price_at_tweet": 1.24175459741858,
-      "price_1h": 1.24416520785369,
-      "price_24h": 1.24606122484,
+      "price_at_tweet": 1.242706618325679,
+      "price_1h": 1.2450326176317938,
+      "price_24h": 1.2399248696269674,
       "change_1h_pct": 0.19,
-      "change_24h_pct": 0.35
+      "change_24h_pct": -0.22
     },
     {
       "tweet_id": "1990783657586668032",
@@ -4218,11 +4218,11 @@
       "retweets": 1915,
       "replies": 3386,
       "impressions": 1618995,
-      "price_at_tweet": 1.3100906923442,
-      "price_1h": 1.37165460835865,
-      "price_24h": 1.32419291817448,
-      "change_1h_pct": 4.7,
-      "change_24h_pct": 1.08
+      "price_at_tweet": 1.3115770096113208,
+      "price_1h": 1.374051888484292,
+      "price_24h": 1.3235728541298684,
+      "change_1h_pct": 4.76,
+      "change_24h_pct": 0.91
     },
     {
       "tweet_id": "1991506468374462564",
@@ -4237,11 +4237,11 @@
       "retweets": 1082,
       "replies": 1836,
       "impressions": 1381690,
-      "price_at_tweet": 1.29930372761214,
-      "price_1h": 1.28922165093368,
-      "price_24h": 1.19976109124889,
-      "change_1h_pct": -0.78,
-      "change_24h_pct": -7.66
+      "price_at_tweet": 1.301876322324045,
+      "price_1h": 1.295696186433133,
+      "price_24h": 1.199016637235237,
+      "change_1h_pct": -0.47,
+      "change_24h_pct": -7.9
     },
     {
       "tweet_id": "1991791365253140659",
@@ -4256,11 +4256,11 @@
       "retweets": 774,
       "replies": 1865,
       "impressions": 1269912,
-      "price_at_tweet": 1.23716929603007,
-      "price_1h": 1.24220775338576,
-      "price_24h": 1.20660522533304,
-      "change_1h_pct": 0.41,
-      "change_24h_pct": -2.47
+      "price_at_tweet": 1.237694027199621,
+      "price_1h": 1.2424163050654868,
+      "price_24h": 1.2091724424687968,
+      "change_1h_pct": 0.38,
+      "change_24h_pct": -2.3
     },
     {
       "tweet_id": "1992174971381260359",
@@ -4275,11 +4275,11 @@
       "retweets": 1567,
       "replies": 2016,
       "impressions": 1720375,
-      "price_at_tweet": 1.19228358662704,
-      "price_1h": 1.18931866979066,
-      "price_24h": 1.19230487882833,
-      "change_1h_pct": -0.25,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 1.1916937760740314,
+      "price_1h": 1.1916733435593596,
+      "price_24h": 1.212244534171943,
+      "change_1h_pct": -0.0,
+      "change_24h_pct": 1.72
     },
     {
       "tweet_id": "1993038922130374941",
@@ -4294,11 +4294,11 @@
       "retweets": 620,
       "replies": 915,
       "impressions": 664337,
-      "price_at_tweet": 1.10208871361915,
-      "price_1h": 1.10313539685111,
-      "price_24h": 1.15932072848051,
-      "change_1h_pct": 0.09,
-      "change_24h_pct": 5.19
+      "price_at_tweet": 1.1065172428407555,
+      "price_1h": 1.1029355881836294,
+      "price_24h": 1.1597939782418523,
+      "change_1h_pct": -0.32,
+      "change_24h_pct": 4.81
     },
     {
       "tweet_id": "1994025451333759337",
@@ -4313,11 +4313,11 @@
       "retweets": 905,
       "replies": 2288,
       "impressions": 748017,
-      "price_at_tweet": 1.08768222183821,
-      "price_1h": 1.08255251233853,
-      "price_24h": 1.08804879415432,
-      "change_1h_pct": -0.47,
-      "change_24h_pct": 0.03
+      "price_at_tweet": 1.0927642706438885,
+      "price_1h": 1.074041379302486,
+      "price_24h": 1.0878721917823446,
+      "change_1h_pct": -1.71,
+      "change_24h_pct": -0.45
     },
     {
       "tweet_id": "1994028291431231770",
@@ -4332,11 +4332,11 @@
       "retweets": 433,
       "replies": 1101,
       "impressions": 810935,
-      "price_at_tweet": 1.08926137158758,
-      "price_1h": 1.07857933858374,
-      "price_24h": 1.0876966600019,
-      "change_1h_pct": -0.98,
-      "change_24h_pct": -0.14
+      "price_at_tweet": 1.0880875414582736,
+      "price_1h": 1.0836947761680078,
+      "price_24h": 1.0875201198654951,
+      "change_1h_pct": -0.4,
+      "change_24h_pct": -0.05
     },
     {
       "tweet_id": "1994058998468026478",
@@ -4351,11 +4351,11 @@
       "retweets": 521,
       "replies": 1249,
       "impressions": 841444,
-      "price_at_tweet": 1.0853004709653,
-      "price_1h": 1.08944345406267,
-      "price_24h": 1.10387553030924,
-      "change_1h_pct": 0.38,
-      "change_24h_pct": 1.71
+      "price_at_tweet": 1.0783973371731075,
+      "price_1h": 1.0836821144541557,
+      "price_24h": 1.1041538523255756,
+      "change_1h_pct": 0.49,
+      "change_24h_pct": 2.39
     },
     {
       "tweet_id": "1994645956437184542",
@@ -4370,11 +4370,11 @@
       "retweets": 3879,
       "replies": 4881,
       "impressions": 2423412,
-      "price_at_tweet": 1.08686974001877,
-      "price_1h": 1.09214063306759,
-      "price_24h": 1.04287865396954,
-      "change_1h_pct": 0.48,
-      "change_24h_pct": -4.05
+      "price_at_tweet": 1.092116242888934,
+      "price_1h": 1.091724989740228,
+      "price_24h": 1.037357235938353,
+      "change_1h_pct": -0.04,
+      "change_24h_pct": -5.01
     },
     {
       "tweet_id": "1995794827573662076",
@@ -4389,11 +4389,11 @@
       "retweets": 402,
       "replies": 1637,
       "impressions": 876667,
-      "price_at_tweet": 0.980584091070064,
-      "price_1h": 0.982298035409671,
-      "price_24h": 1.07283650484537,
-      "change_1h_pct": 0.17,
-      "change_24h_pct": 9.41
+      "price_at_tweet": 0.9816626366118869,
+      "price_1h": 0.979250558545234,
+      "price_24h": 1.0729857595437973,
+      "change_1h_pct": -0.25,
+      "change_24h_pct": 9.3
     },
     {
       "tweet_id": "1995813409280205024",
@@ -4408,11 +4408,11 @@
       "retweets": 1246,
       "replies": 1717,
       "impressions": 1722930,
-      "price_at_tweet": 0.974894682867857,
-      "price_1h": 0.989209093768148,
-      "price_24h": 1.0717210837758,
-      "change_1h_pct": 1.47,
-      "change_24h_pct": 9.93
+      "price_at_tweet": 0.9772185944253817,
+      "price_1h": 0.9918739143125751,
+      "price_24h": 1.0718943507282013,
+      "change_1h_pct": 1.5,
+      "change_24h_pct": 9.69
     },
     {
       "tweet_id": "1995848876063064386",
@@ -4427,11 +4427,11 @@
       "retweets": 345,
       "replies": 802,
       "impressions": 385607,
-      "price_at_tweet": 0.966378961334675,
-      "price_1h": 0.975267553956649,
-      "price_24h": 1.070388525642,
-      "change_1h_pct": 0.92,
-      "change_24h_pct": 10.76
+      "price_at_tweet": 0.9667572787125186,
+      "price_1h": 0.9758923604106673,
+      "price_24h": 1.0762089899535168,
+      "change_1h_pct": 0.94,
+      "change_24h_pct": 11.32
     },
     {
       "tweet_id": "1995855049218818107",
@@ -4446,11 +4446,11 @@
       "retweets": 2955,
       "replies": 3352,
       "impressions": 3554108,
-      "price_at_tweet": 0.964791917677436,
-      "price_1h": 0.971631955441075,
-      "price_24h": 1.05710551175743,
-      "change_1h_pct": 0.71,
-      "change_24h_pct": 9.57
+      "price_at_tweet": 0.9660955664309383,
+      "price_1h": 0.9678843806627785,
+      "price_24h": 1.0573308333349423,
+      "change_1h_pct": 0.19,
+      "change_24h_pct": 9.44
     },
     {
       "tweet_id": "1995870698989080626",
@@ -4465,11 +4465,11 @@
       "retweets": 574,
       "replies": 1315,
       "impressions": 577895,
-      "price_at_tweet": 0.967641334735266,
-      "price_1h": 0.988161180001116,
-      "price_24h": 1.06658091556499,
-      "change_1h_pct": 2.12,
-      "change_24h_pct": 10.22
+      "price_at_tweet": 0.9671121287391121,
+      "price_1h": 0.9839785553702743,
+      "price_24h": 1.0619527183284363,
+      "change_1h_pct": 1.74,
+      "change_24h_pct": 9.81
     },
     {
       "tweet_id": "1996120869190701139",
@@ -4484,11 +4484,11 @@
       "retweets": 817,
       "replies": 1336,
       "impressions": 927299,
-      "price_at_tweet": 1.0357427660043,
-      "price_1h": 1.04473187523694,
-      "price_24h": 1.07800357365418,
-      "change_1h_pct": 0.87,
-      "change_24h_pct": 4.08
+      "price_at_tweet": 1.0362944535283662,
+      "price_1h": 1.0510966715283152,
+      "price_24h": 1.0778885573868617,
+      "change_1h_pct": 1.43,
+      "change_24h_pct": 4.01
     },
     {
       "tweet_id": "1996224121156579834",
@@ -4503,11 +4503,11 @@
       "retweets": 938,
       "replies": 1258,
       "impressions": 666973,
-      "price_at_tweet": 1.05851397807753,
-      "price_1h": 1.06714159736642,
-      "price_24h": 1.05059155704043,
-      "change_1h_pct": 0.82,
-      "change_24h_pct": -0.75
+      "price_at_tweet": 1.0605791338655532,
+      "price_1h": 1.067216953553587,
+      "price_24h": 1.046669959477356,
+      "change_1h_pct": 0.63,
+      "change_24h_pct": -1.31
     },
     {
       "tweet_id": "1996303447012802623",
@@ -4522,11 +4522,11 @@
       "retweets": 482,
       "replies": 809,
       "impressions": 951437,
-      "price_at_tweet": 1.06167624738824,
-      "price_1h": 1.05336545009861,
-      "price_24h": 1.04229002259078,
-      "change_1h_pct": -0.78,
-      "change_24h_pct": -1.83
+      "price_at_tweet": 1.062628060615755,
+      "price_1h": 1.0537810125670959,
+      "price_24h": 1.0426102814392262,
+      "change_1h_pct": -0.83,
+      "change_24h_pct": -1.88
     },
     {
       "tweet_id": "1996306593974006194",
@@ -4541,11 +4541,11 @@
       "retweets": 747,
       "replies": 1437,
       "impressions": 640271,
-      "price_at_tweet": 1.06139644082459,
-      "price_1h": 1.04738449817031,
-      "price_24h": 1.03688886462821,
-      "change_1h_pct": -1.32,
-      "change_24h_pct": -2.31
+      "price_at_tweet": 1.05834937006679,
+      "price_1h": 1.0475545739518246,
+      "price_24h": 1.0392755113727967,
+      "change_1h_pct": -1.02,
+      "change_24h_pct": -1.8
     },
     {
       "tweet_id": "1996546558247211442",
@@ -4560,11 +4560,11 @@
       "retweets": 710,
       "replies": 1314,
       "impressions": 544189,
-      "price_at_tweet": 1.0602209799848,
-      "price_1h": 1.04581836518001,
-      "price_24h": 1.04306714822444,
-      "change_1h_pct": -1.36,
-      "change_24h_pct": -1.62
+      "price_at_tweet": 1.0594185838423886,
+      "price_1h": 1.0505290402182497,
+      "price_24h": 1.044323330128429,
+      "change_1h_pct": -0.84,
+      "change_24h_pct": -1.42
     },
     {
       "tweet_id": "1996547535389991338",
@@ -4579,11 +4579,11 @@
       "retweets": 265,
       "replies": 659,
       "impressions": 347040,
-      "price_at_tweet": 1.05383159371371,
-      "price_1h": 1.05108810665687,
-      "price_24h": 1.04328582765053,
-      "change_1h_pct": -0.26,
-      "change_24h_pct": -1.0
+      "price_at_tweet": 1.0587505613048904,
+      "price_1h": 1.049951536112273,
+      "price_24h": 1.0428432520209923,
+      "change_1h_pct": -0.83,
+      "change_24h_pct": -1.5
     },
     {
       "tweet_id": "1996581345129042402",
@@ -4598,11 +4598,11 @@
       "retweets": 429,
       "replies": 1451,
       "impressions": 1411151,
-      "price_at_tweet": 1.0498762253119,
-      "price_1h": 1.05207128687386,
-      "price_24h": 1.03349771143574,
-      "change_1h_pct": 0.21,
-      "change_24h_pct": -1.56
+      "price_at_tweet": 1.0459044061895497,
+      "price_1h": 1.0537227062768744,
+      "price_24h": 1.032163955622802,
+      "change_1h_pct": 0.75,
+      "change_24h_pct": -1.31
     },
     {
       "tweet_id": "1996587831888908628",
@@ -4617,11 +4617,11 @@
       "retweets": 110,
       "replies": 424,
       "impressions": 287891,
-      "price_at_tweet": 1.04546970273943,
-      "price_1h": 1.05114658364953,
-      "price_24h": 1.02720278273074,
-      "change_1h_pct": 0.54,
-      "change_24h_pct": -1.75
+      "price_at_tweet": 1.0469577033232038,
+      "price_1h": 1.0473710664362783,
+      "price_24h": 1.029061289788583,
+      "change_1h_pct": 0.04,
+      "change_24h_pct": -1.71
     },
     {
       "tweet_id": "1996630350425215374",
@@ -4636,11 +4636,11 @@
       "retweets": 316,
       "replies": 687,
       "impressions": 500906,
-      "price_at_tweet": 1.04423735969651,
-      "price_1h": 1.04841416318835,
-      "price_24h": 1.01761329324108,
-      "change_1h_pct": 0.4,
-      "change_24h_pct": -2.55
+      "price_at_tweet": 1.0453294884904516,
+      "price_1h": 1.0489681865369624,
+      "price_24h": 1.017493627161782,
+      "change_1h_pct": 0.35,
+      "change_24h_pct": -2.66
     },
     {
       "tweet_id": "1996633333779124666",
@@ -4655,11 +4655,11 @@
       "retweets": 1279,
       "replies": 1246,
       "impressions": 2091961,
-      "price_at_tweet": 1.04227396795728,
-      "price_1h": 1.05100800601856,
-      "price_24h": 1.02177687771111,
-      "change_1h_pct": 0.84,
-      "change_24h_pct": -1.97
+      "price_at_tweet": 1.042903642275732,
+      "price_1h": 1.0465003175391103,
+      "price_24h": 1.0170262971726773,
+      "change_1h_pct": 0.34,
+      "change_24h_pct": -2.48
     },
     {
       "tweet_id": "1996684954886197660",
@@ -4674,11 +4674,11 @@
       "retweets": 153,
       "replies": 459,
       "impressions": 294583,
-      "price_at_tweet": 1.05582414192242,
-      "price_1h": 1.04412528474889,
-      "price_24h": 1.01303576827717,
-      "change_1h_pct": -1.11,
-      "change_24h_pct": -4.05
+      "price_at_tweet": 1.053623398186939,
+      "price_1h": 1.0444363833393313,
+      "price_24h": 1.011565328819409,
+      "change_1h_pct": -0.87,
+      "change_24h_pct": -3.99
     },
     {
       "tweet_id": "1996699992543633838",
@@ -4693,11 +4693,11 @@
       "retweets": 2345,
       "replies": 2564,
       "impressions": 969807,
-      "price_at_tweet": 1.04441346240531,
-      "price_1h": 1.04751295311765,
-      "price_24h": 1.00778547139915,
-      "change_1h_pct": 0.3,
-      "change_24h_pct": -3.51
+      "price_at_tweet": 1.0444363833393313,
+      "price_1h": 1.0484082614750603,
+      "price_24h": 1.0062960143344184,
+      "change_1h_pct": 0.38,
+      "change_24h_pct": -3.65
     },
     {
       "tweet_id": "1996884725076840668",
@@ -4712,11 +4712,11 @@
       "retweets": 401,
       "replies": 1132,
       "impressions": 525399,
-      "price_at_tweet": 1.03884866832313,
-      "price_1h": 1.04561201539502,
-      "price_24h": 1.00358223378302,
-      "change_1h_pct": 0.65,
-      "change_24h_pct": -3.39
+      "price_at_tweet": 1.036133935286224,
+      "price_1h": 1.0476314925874044,
+      "price_24h": 1.0031689827172654,
+      "change_1h_pct": 1.11,
+      "change_24h_pct": -3.18
     },
     {
       "tweet_id": "1997043555140096383",
@@ -4731,11 +4731,11 @@
       "retweets": 662,
       "replies": 981,
       "impressions": 985431,
-      "price_at_tweet": 1.02811777220676,
-      "price_1h": 0.994606040683034,
-      "price_24h": 0.980859573721753,
-      "change_1h_pct": -3.26,
-      "change_24h_pct": -4.6
+      "price_at_tweet": 1.0225790492378475,
+      "price_1h": 0.9957888723530774,
+      "price_24h": 0.9851612294210778,
+      "change_1h_pct": -2.62,
+      "change_24h_pct": -3.66
     },
     {
       "tweet_id": "1997175112483922336",
@@ -4750,11 +4750,11 @@
       "retweets": 783,
       "replies": 1032,
       "impressions": 716780,
-      "price_at_tweet": 1.0099635450019,
-      "price_1h": 1.01081084329588,
-      "price_24h": 0.974022981017641,
-      "change_1h_pct": 0.08,
-      "change_24h_pct": -3.56
+      "price_at_tweet": 1.0097459208867847,
+      "price_1h": 1.0129268889234153,
+      "price_24h": 0.9741368080620105,
+      "change_1h_pct": 0.32,
+      "change_24h_pct": -3.53
     },
     {
       "tweet_id": "1997339301172883695",
@@ -4769,10 +4769,10 @@
       "retweets": 377,
       "replies": 1366,
       "impressions": 1631769,
-      "price_at_tweet": 0.97692131418031,
-      "price_1h": 0.979216945942005,
-      "price_24h": 0.946034893382038,
-      "change_1h_pct": 0.23,
+      "price_at_tweet": 0.9802942628110196,
+      "price_1h": 0.9820414753891362,
+      "price_24h": 0.9493207194938728,
+      "change_1h_pct": 0.18,
       "change_24h_pct": -3.16
     },
     {
@@ -4788,11 +4788,11 @@
       "retweets": 558,
       "replies": 882,
       "impressions": 884042,
-      "price_at_tweet": 0.997330657648923,
-      "price_1h": 0.981716651487398,
-      "price_24h": 0.92675653729205,
-      "change_1h_pct": -1.57,
-      "change_24h_pct": -7.08
+      "price_at_tweet": 0.9994148141230931,
+      "price_1h": 0.9866407988500384,
+      "price_24h": 0.9269413681116364,
+      "change_1h_pct": -1.28,
+      "change_24h_pct": -7.25
     },
     {
       "tweet_id": "1997406975609463229",
@@ -4807,11 +4807,11 @@
       "retweets": 239,
       "replies": 671,
       "impressions": 674310,
-      "price_at_tweet": 0.981815545075741,
-      "price_1h": 0.980818132055132,
-      "price_24h": 0.912395039418929,
-      "change_1h_pct": -0.1,
-      "change_24h_pct": -7.07
+      "price_at_tweet": 0.9873807303815686,
+      "price_1h": 0.9864572477989594,
+      "price_24h": 0.910803707894038,
+      "change_1h_pct": -0.09,
+      "change_24h_pct": -7.76
     },
     {
       "tweet_id": "1997564504167874599",
@@ -4826,11 +4826,11 @@
       "retweets": 294,
       "replies": 1148,
       "impressions": 531840,
-      "price_at_tweet": 0.982029671576493,
-      "price_1h": 0.979583107186616,
-      "price_24h": 0.936660263656125,
-      "change_1h_pct": -0.25,
-      "change_24h_pct": -4.62
+      "price_at_tweet": 0.9779902900648896,
+      "price_1h": 0.9823345290067265,
+      "price_24h": 0.9367988007723573,
+      "change_1h_pct": 0.44,
+      "change_24h_pct": -4.21
     },
     {
       "tweet_id": "1997757455489802454",
@@ -4845,11 +4845,11 @@
       "retweets": 363,
       "replies": 1196,
       "impressions": 748249,
-      "price_at_tweet": 0.918219315979095,
-      "price_1h": 0.923684116511075,
-      "price_24h": 0.959414374497867,
-      "change_1h_pct": 0.6,
-      "change_24h_pct": 4.49
+      "price_at_tweet": 0.9179226221899343,
+      "price_1h": 0.9269958841641733,
+      "price_24h": 0.9558990551846329,
+      "change_1h_pct": 0.99,
+      "change_24h_pct": 4.14
     },
     {
       "tweet_id": "1997768453214928996",
@@ -4864,11 +4864,11 @@
       "retweets": 648,
       "replies": 1451,
       "impressions": 591416,
-      "price_at_tweet": 0.915079943763,
-      "price_1h": 0.922047453523342,
-      "price_24h": 0.948566065820538,
-      "change_1h_pct": 0.76,
-      "change_24h_pct": 3.66
+      "price_at_tweet": 0.9140183966671709,
+      "price_1h": 0.9203926524385847,
+      "price_24h": 0.953272180811343,
+      "change_1h_pct": 0.7,
+      "change_24h_pct": 4.29
     },
     {
       "tweet_id": "1997772197562405085",
@@ -4883,10 +4883,10 @@
       "retweets": 443,
       "replies": 1338,
       "impressions": 579698,
-      "price_at_tweet": 0.921812162192813,
-      "price_1h": 0.922731209196016,
-      "price_24h": 0.950835009711152,
-      "change_1h_pct": 0.1,
+      "price_at_tweet": 0.9228747040919352,
+      "price_1h": 0.9267442046552017,
+      "price_24h": 0.9519686425610027,
+      "change_1h_pct": 0.42,
       "change_24h_pct": 3.15
     },
     {
@@ -4902,11 +4902,11 @@
       "retweets": 698,
       "replies": 1211,
       "impressions": 580043,
-      "price_at_tweet": 0.938025168138795,
-      "price_1h": 0.956239838035014,
-      "price_24h": 0.942416776976091,
-      "change_1h_pct": 1.94,
-      "change_24h_pct": 0.47
+      "price_at_tweet": 0.9329735264521098,
+      "price_1h": 0.9579140983210092,
+      "price_24h": 0.9449040499975678,
+      "change_1h_pct": 2.67,
+      "change_24h_pct": 1.28
     },
     {
       "tweet_id": "1997955360766967810",
@@ -4921,11 +4921,11 @@
       "retweets": 434,
       "replies": 725,
       "impressions": 396192,
-      "price_at_tweet": 0.959294575062905,
-      "price_1h": 0.959519018285687,
-      "price_24h": 0.945811842729527,
-      "change_1h_pct": 0.02,
-      "change_24h_pct": -1.41
+      "price_at_tweet": 0.9588302773478141,
+      "price_1h": 0.9638971599402278,
+      "price_24h": 0.9465353724991905,
+      "change_1h_pct": 0.53,
+      "change_24h_pct": -1.28
     },
     {
       "tweet_id": "1998092838043799607",
@@ -4940,11 +4940,11 @@
       "retweets": 245,
       "replies": 36,
       "impressions": 711449,
-      "price_at_tweet": 0.972237256203555,
-      "price_1h": 0.958694393744072,
-      "price_24h": 0.939636997952727,
-      "change_1h_pct": -1.39,
-      "change_24h_pct": -3.35
+      "price_at_tweet": 0.9728700352617611,
+      "price_1h": 0.9641882879217774,
+      "price_24h": 0.9422185163724915,
+      "change_1h_pct": -0.89,
+      "change_24h_pct": -3.15
     },
     {
       "tweet_id": "1998102529192976615",
@@ -4959,11 +4959,11 @@
       "retweets": 74,
       "replies": 14,
       "impressions": 275479,
-      "price_at_tweet": 0.96927294052947,
-      "price_1h": 0.965559927348291,
-      "price_24h": 0.937262268436175,
-      "change_1h_pct": -0.38,
-      "change_24h_pct": -3.3
+      "price_at_tweet": 0.9681712912425373,
+      "price_1h": 0.961663424153607,
+      "price_24h": 0.9326214424458668,
+      "change_1h_pct": -0.67,
+      "change_24h_pct": -3.67
     },
     {
       "tweet_id": "1998110651018035426",
@@ -4978,11 +4978,11 @@
       "retweets": 216,
       "replies": 757,
       "impressions": 400664,
-      "price_at_tweet": 0.959016739443795,
-      "price_1h": 0.95200914486671,
-      "price_24h": 0.930840148553209,
-      "change_1h_pct": -0.73,
-      "change_24h_pct": -2.94
+      "price_at_tweet": 0.9578818186449124,
+      "price_1h": 0.9521058156544201,
+      "price_24h": 0.9352862491878121,
+      "change_1h_pct": -0.6,
+      "change_24h_pct": -2.36
     },
     {
       "tweet_id": "1998118379182534869",
@@ -4997,11 +4997,11 @@
       "retweets": 333,
       "replies": 700,
       "impressions": 482691,
-      "price_at_tweet": 0.963536336822884,
-      "price_1h": 0.949131857429147,
-      "price_24h": 0.928881159997452,
-      "change_1h_pct": -1.49,
-      "change_24h_pct": -3.6
+      "price_at_tweet": 0.9672445839799916,
+      "price_1h": 0.9491635293593161,
+      "price_24h": 0.9320246259091685,
+      "change_1h_pct": -1.87,
+      "change_24h_pct": -3.64
     },
     {
       "tweet_id": "1998303349985394768",
@@ -5016,11 +5016,11 @@
       "retweets": 590,
       "replies": 1122,
       "impressions": 922133,
-      "price_at_tweet": 0.941437058862684,
-      "price_1h": 0.945771187169185,
-      "price_24h": 0.961249448228838,
-      "change_1h_pct": 0.46,
-      "change_24h_pct": 2.1
+      "price_at_tweet": 0.9379642852191776,
+      "price_1h": 0.9415692491657738,
+      "price_24h": 0.9604252746936632,
+      "change_1h_pct": 0.38,
+      "change_24h_pct": 2.39
     },
     {
       "tweet_id": "1998368629847724072",
@@ -5035,11 +5035,11 @@
       "retweets": 1047,
       "replies": 613,
       "impressions": 561081,
-      "price_at_tweet": 0.934429331472058,
-      "price_1h": 0.939299399486956,
-      "price_24h": 0.961410296402828,
-      "change_1h_pct": 0.52,
-      "change_24h_pct": 2.89
+      "price_at_tweet": 0.9375088417692049,
+      "price_1h": 0.9393500405552901,
+      "price_24h": 0.9639573550408447,
+      "change_1h_pct": 0.2,
+      "change_24h_pct": 2.82
     },
     {
       "tweet_id": "1998372934780658052",
@@ -5054,11 +5054,11 @@
       "retweets": 398,
       "replies": 1001,
       "impressions": 477807,
-      "price_at_tweet": 0.93666395837189,
-      "price_1h": 0.937764980766671,
-      "price_24h": 0.957304190497845,
-      "change_1h_pct": 0.12,
-      "change_24h_pct": 2.2
+      "price_at_tweet": 0.934091682973036,
+      "price_1h": 0.9405037126119458,
+      "price_24h": 0.9618761267077277,
+      "change_1h_pct": 0.69,
+      "change_24h_pct": 2.97
     },
     {
       "tweet_id": "1998407186247008348",
@@ -5073,11 +5073,11 @@
       "retweets": 133,
       "replies": 431,
       "impressions": 256012,
-      "price_at_tweet": 0.936916061109949,
-      "price_1h": 0.936471213994388,
-      "price_24h": 0.965577988181908,
-      "change_1h_pct": -0.05,
-      "change_24h_pct": 3.06
+      "price_at_tweet": 0.9384468223683281,
+      "price_1h": 0.9343093678135723,
+      "price_24h": 0.9656019751522269,
+      "change_1h_pct": -0.44,
+      "change_24h_pct": 2.89
     },
     {
       "tweet_id": "1998492068713279777",
@@ -5092,11 +5092,11 @@
       "retweets": 293,
       "replies": 543,
       "impressions": 427449,
-      "price_at_tweet": 0.948765129326774,
-      "price_1h": 0.974386454468895,
-      "price_24h": 0.961274783446533,
-      "change_1h_pct": 2.7,
-      "change_24h_pct": 1.32
+      "price_at_tweet": 0.954690369405922,
+      "price_1h": 0.969530763876906,
+      "price_24h": 0.9602429472676848,
+      "change_1h_pct": 1.55,
+      "change_24h_pct": 0.58
     },
     {
       "tweet_id": "1998494530270908773",
@@ -5111,11 +5111,11 @@
       "retweets": 410,
       "replies": 778,
       "impressions": 732303,
-      "price_at_tweet": 0.961943632285627,
-      "price_1h": 0.963557610219908,
-      "price_24h": 0.958225313026133,
-      "change_1h_pct": 0.17,
-      "change_24h_pct": -0.39
+      "price_at_tweet": 0.9612966060677524,
+      "price_1h": 0.9631448839850133,
+      "price_24h": 0.9630170903241749,
+      "change_1h_pct": 0.19,
+      "change_24h_pct": 0.18
     },
     {
       "tweet_id": "1998498569284915484",
@@ -5130,11 +5130,11 @@
       "retweets": 632,
       "replies": 977,
       "impressions": 1219826,
-      "price_at_tweet": 0.96602980413506,
-      "price_1h": 0.96949584631356,
-      "price_24h": 0.964942647558093,
-      "change_1h_pct": 0.36,
-      "change_24h_pct": -0.11
+      "price_at_tweet": 0.9655936592861107,
+      "price_1h": 0.9693903605182539,
+      "price_24h": 0.9592800700662198,
+      "change_1h_pct": 0.39,
+      "change_24h_pct": -0.65
     },
     {
       "tweet_id": "1998499092587311575",
@@ -5149,11 +5149,11 @@
       "retweets": 363,
       "replies": 614,
       "impressions": 269933,
-      "price_at_tweet": 0.966229987399429,
-      "price_1h": 0.970828285302655,
-      "price_24h": 0.959186007934797,
-      "change_1h_pct": 0.48,
-      "change_24h_pct": -0.73
+      "price_at_tweet": 0.9652081631461015,
+      "price_1h": 0.9779214850857656,
+      "price_24h": 0.9591700266010986,
+      "change_1h_pct": 1.32,
+      "change_24h_pct": -0.63
     },
     {
       "tweet_id": "1998581893424624031",
@@ -5168,11 +5168,11 @@
       "retweets": 621,
       "replies": 1256,
       "impressions": 742354,
-      "price_at_tweet": 0.965593732993648,
-      "price_1h": 0.983949665125093,
-      "price_24h": 0.949363097940748,
-      "change_1h_pct": 1.9,
-      "change_24h_pct": -1.68
+      "price_at_tweet": 0.965986019283862,
+      "price_1h": 0.9849514760949002,
+      "price_24h": 0.9495446501426733,
+      "change_1h_pct": 1.96,
+      "change_24h_pct": -1.7
     },
     {
       "tweet_id": "1998583784527245587",
@@ -5187,11 +5187,11 @@
       "retweets": 152,
       "replies": 897,
       "impressions": 647361,
-      "price_at_tweet": 0.970012111819408,
-      "price_1h": 0.98363668028813,
-      "price_24h": 0.956052695676255,
-      "change_1h_pct": 1.4,
-      "change_24h_pct": -1.44
+      "price_at_tweet": 0.9656564019755925,
+      "price_1h": 0.9884129735912341,
+      "price_24h": 0.9539888823669801,
+      "change_1h_pct": 2.36,
+      "change_24h_pct": -1.21
     },
     {
       "tweet_id": "1998759029661909481",
@@ -5206,11 +5206,11 @@
       "retweets": 80,
       "replies": 527,
       "impressions": 596605,
-      "price_at_tweet": 0.95815785401161,
-      "price_1h": 0.96144518235621,
-      "price_24h": 0.927783171732867,
-      "change_1h_pct": 0.34,
-      "change_24h_pct": -3.17
+      "price_at_tweet": 0.9622371738998952,
+      "price_1h": 0.9612080812772904,
+      "price_24h": 0.927444828615624,
+      "change_1h_pct": -0.11,
+      "change_24h_pct": -3.62
     },
     {
       "tweet_id": "1998795106904846469",
@@ -5225,11 +5225,11 @@
       "retweets": 609,
       "replies": 1750,
       "impressions": 606630,
-      "price_at_tweet": 0.95476257177813,
-      "price_1h": 0.950063678784337,
-      "price_24h": 0.932971264843578,
-      "change_1h_pct": -0.49,
-      "change_24h_pct": -2.28
+      "price_at_tweet": 0.9546035491266639,
+      "price_1h": 0.9555991462129475,
+      "price_24h": 0.9323673980660516,
+      "change_1h_pct": 0.1,
+      "change_24h_pct": -2.33
     },
     {
       "tweet_id": "1999092425365864762",
@@ -5244,11 +5244,11 @@
       "retweets": 821,
       "replies": 1757,
       "impressions": 1129334,
-      "price_at_tweet": 0.925641983703576,
-      "price_1h": 0.923059878576473,
-      "price_24h": 0.953899083010411,
-      "change_1h_pct": -0.28,
-      "change_24h_pct": 3.05
+      "price_at_tweet": 0.9229573083364926,
+      "price_1h": 0.9195911158129306,
+      "price_24h": 0.9582037555831299,
+      "change_1h_pct": -0.36,
+      "change_24h_pct": 3.82
     },
     {
       "tweet_id": "1999177845034352663",
@@ -5263,11 +5263,11 @@
       "retweets": 739,
       "replies": 799,
       "impressions": 537084,
-      "price_at_tweet": 0.93378761917531,
-      "price_1h": 0.939293414744039,
-      "price_24h": 0.957810064247339,
-      "change_1h_pct": 0.59,
-      "change_24h_pct": 2.57
+      "price_at_tweet": 0.9340022458093457,
+      "price_1h": 0.9399764183550368,
+      "price_24h": 0.9573634555594882,
+      "change_1h_pct": 0.64,
+      "change_24h_pct": 2.5
     },
     {
       "tweet_id": "1999390687360319973",
@@ -5282,11 +5282,11 @@
       "retweets": 176,
       "replies": 432,
       "impressions": 343919,
-      "price_at_tweet": 0.955737884731752,
-      "price_1h": 0.954207782897089,
-      "price_24h": 0.95805886320973,
-      "change_1h_pct": -0.16,
-      "change_24h_pct": 0.24
+      "price_at_tweet": 0.9546839632957038,
+      "price_1h": 0.9549090734511945,
+      "price_24h": 0.9576919275041196,
+      "change_1h_pct": 0.02,
+      "change_24h_pct": 0.32
     },
     {
       "tweet_id": "1999434393920983423",
@@ -5301,11 +5301,11 @@
       "retweets": 2275,
       "replies": 3505,
       "impressions": 1603857,
-      "price_at_tweet": 0.966322053907063,
-      "price_1h": 0.959693232795468,
-      "price_24h": 0.947512125472915,
-      "change_1h_pct": -0.69,
-      "change_24h_pct": -1.95
+      "price_at_tweet": 0.9619203341608845,
+      "price_1h": 0.9600996039700491,
+      "price_24h": 0.9469953204633329,
+      "change_1h_pct": -0.19,
+      "change_24h_pct": -1.55
     },
     {
       "tweet_id": "1999451448149705109",
@@ -5320,11 +5320,11 @@
       "retweets": 641,
       "replies": 882,
       "impressions": 404901,
-      "price_at_tweet": 0.954272196982248,
-      "price_1h": 0.962249176470481,
-      "price_24h": 0.952811294221826,
-      "change_1h_pct": 0.84,
-      "change_24h_pct": -0.15
+      "price_at_tweet": 0.9501216998429154,
+      "price_1h": 0.9623703145803681,
+      "price_24h": 0.9495233436632152,
+      "change_1h_pct": 1.29,
+      "change_24h_pct": -0.06
     },
     {
       "tweet_id": "1999494315534590445",
@@ -5339,11 +5339,11 @@
       "retweets": 846,
       "replies": 1320,
       "impressions": 1165406,
-      "price_at_tweet": 0.963437427362158,
-      "price_1h": 0.961527728574097,
-      "price_24h": 0.950058092495084,
-      "change_1h_pct": -0.2,
-      "change_24h_pct": -1.39
+      "price_at_tweet": 0.9634730819476202,
+      "price_1h": 0.957176964845377,
+      "price_24h": 0.947969253871573,
+      "change_1h_pct": -0.65,
+      "change_24h_pct": -1.61
     },
     {
       "tweet_id": "1999731055855829485",
@@ -5358,11 +5358,11 @@
       "retweets": 817,
       "replies": 2685,
       "impressions": 1229165,
-      "price_at_tweet": 0.953229962210484,
-      "price_1h": 0.959124610796855,
-      "price_24h": 0.96133835685322,
-      "change_1h_pct": 0.62,
-      "change_24h_pct": 0.85
+      "price_at_tweet": 0.9522711567790668,
+      "price_1h": 0.9566545864457411,
+      "price_24h": 0.9604789779758295,
+      "change_1h_pct": 0.46,
+      "change_24h_pct": 0.86
     },
     {
       "tweet_id": "2000320873853759876",
@@ -5377,11 +5377,11 @@
       "retweets": 209,
       "replies": 980,
       "impressions": 1030463,
-      "price_at_tweet": 0.937084114138787,
-      "price_1h": 0.927393082598132,
-      "price_24h": 0.853547459022615,
-      "change_1h_pct": -1.03,
-      "change_24h_pct": -8.91
+      "price_at_tweet": 0.9398427239481272,
+      "price_1h": 0.9306296961269523,
+      "price_24h": 0.8554101708093222,
+      "change_1h_pct": -0.98,
+      "change_24h_pct": -8.98
     },
     {
       "tweet_id": "2000322168081781246",
@@ -5396,11 +5396,11 @@
       "retweets": 1435,
       "replies": 3032,
       "impressions": 1711689,
-      "price_at_tweet": 0.937242895307167,
-      "price_1h": 0.929418187466181,
-      "price_24h": 0.857703117556589,
-      "change_1h_pct": -0.83,
-      "change_24h_pct": -8.49
+      "price_at_tweet": 0.9414425297542593,
+      "price_1h": 0.9290036440364303,
+      "price_24h": 0.857500883984673,
+      "change_1h_pct": -1.32,
+      "change_24h_pct": -8.92
     },
     {
       "tweet_id": "2000618934765228457",
@@ -5415,11 +5415,11 @@
       "retweets": 330,
       "replies": 1205,
       "impressions": 385525,
-      "price_at_tweet": 0.903814154826697,
-      "price_1h": 0.905264183799324,
-      "price_24h": 0.819368203351604,
-      "change_1h_pct": 0.16,
-      "change_24h_pct": -9.34
+      "price_at_tweet": 0.9019686817773088,
+      "price_1h": 0.901374161616062,
+      "price_24h": 0.8161228275058128,
+      "change_1h_pct": -0.07,
+      "change_24h_pct": -9.52
     },
     {
       "tweet_id": "2000832949688963252",
@@ -5434,11 +5434,11 @@
       "retweets": 467,
       "replies": 863,
       "impressions": 568984,
-      "price_at_tweet": 0.816226968054598,
-      "price_1h": 0.819226075836803,
-      "price_24h": 0.78822730326103,
-      "change_1h_pct": 0.37,
-      "change_24h_pct": -3.43
+      "price_at_tweet": 0.8133594280807721,
+      "price_1h": 0.8185958019205943,
+      "price_24h": 0.7858694139693693,
+      "change_1h_pct": 0.64,
+      "change_24h_pct": -3.38
     },
     {
       "tweet_id": "2000835198985101501",
@@ -5453,10 +5453,10 @@
       "retweets": 3877,
       "replies": 4432,
       "impressions": 1837816,
-      "price_at_tweet": 0.82623397130722,
-      "price_1h": 0.818890571800597,
-      "price_24h": 0.782842163687281,
-      "change_1h_pct": -0.89,
+      "price_at_tweet": 0.8261157964646313,
+      "price_1h": 0.8231879728941808,
+      "price_24h": 0.7827421268575173,
+      "change_1h_pct": -0.35,
       "change_24h_pct": -5.25
     },
     {
@@ -5472,11 +5472,11 @@
       "retweets": 369,
       "replies": 2628,
       "impressions": 1396173,
-      "price_at_tweet": 0.821305152234491,
-      "price_1h": 0.825154698916355,
-      "price_24h": 0.787185762287751,
-      "change_1h_pct": 0.47,
-      "change_24h_pct": -4.15
+      "price_at_tweet": 0.8235017514921081,
+      "price_1h": 0.8263494576218203,
+      "price_24h": 0.7870931213503709,
+      "change_1h_pct": 0.35,
+      "change_24h_pct": -4.42
     },
     {
       "tweet_id": "2000909130421489836",
@@ -5491,11 +5491,11 @@
       "retweets": 683,
       "replies": 1868,
       "impressions": 791026,
-      "price_at_tweet": 0.814155341862485,
-      "price_1h": 0.820948359323819,
-      "price_24h": 0.769554978985296,
-      "change_1h_pct": 0.83,
-      "change_24h_pct": -5.48
+      "price_at_tweet": 0.8136577917356042,
+      "price_1h": 0.8197603188153701,
+      "price_24h": 0.7699810066582681,
+      "change_1h_pct": 0.75,
+      "change_24h_pct": -5.37
     },
     {
       "tweet_id": "2001109316695416870",
@@ -5510,11 +5510,11 @@
       "retweets": 452,
       "replies": 1062,
       "impressions": 1301375,
-      "price_at_tweet": 0.770572162810199,
-      "price_1h": 0.789643809016446,
-      "price_24h": 0.733991653474608,
-      "change_1h_pct": 2.47,
-      "change_24h_pct": -4.75
+      "price_at_tweet": 0.7737183498012609,
+      "price_1h": 0.788107504471743,
+      "price_24h": 0.7344162072580375,
+      "change_1h_pct": 1.86,
+      "change_24h_pct": -5.08
     },
     {
       "tweet_id": "2001185583826395530",
@@ -5529,11 +5529,11 @@
       "retweets": 287,
       "replies": 2306,
       "impressions": 731077,
-      "price_at_tweet": 0.787525592154879,
-      "price_1h": 0.780463947283872,
-      "price_24h": 0.716375897933555,
-      "change_1h_pct": -0.9,
-      "change_24h_pct": -9.03
+      "price_at_tweet": 0.7890381200378895,
+      "price_1h": 0.7809649621839706,
+      "price_24h": 0.7152167297178288,
+      "change_1h_pct": -1.02,
+      "change_24h_pct": -9.36
     },
     {
       "tweet_id": "2001269143333404885",
@@ -5548,11 +5548,11 @@
       "retweets": 608,
       "replies": 1764,
       "impressions": 640569,
-      "price_at_tweet": 0.769054751113701,
-      "price_1h": 0.735795436393761,
-      "price_24h": 0.694275651979566,
-      "change_1h_pct": -4.32,
-      "change_24h_pct": -9.72
+      "price_at_tweet": 0.7699918284427542,
+      "price_1h": 0.7340279256165054,
+      "price_24h": 0.6941752415128134,
+      "change_1h_pct": -4.67,
+      "change_24h_pct": -9.85
     },
     {
       "tweet_id": "2001570071395848459",
@@ -5567,11 +5567,11 @@
       "retweets": 265,
       "replies": 1682,
       "impressions": 544881,
-      "price_at_tweet": 0.694213105638913,
-      "price_1h": 0.687271525565695,
-      "price_24h": 0.687182128613777,
-      "change_1h_pct": -1.0,
-      "change_24h_pct": -1.01
+      "price_at_tweet": 0.692451867506232,
+      "price_1h": 0.6903369262183328,
+      "price_24h": 0.6846460140920505,
+      "change_1h_pct": -0.31,
+      "change_24h_pct": -1.13
     },
     {
       "tweet_id": "2001721575998095732",
@@ -5586,11 +5586,11 @@
       "retweets": 121,
       "replies": 835,
       "impressions": 199493,
-      "price_at_tweet": 0.691043106959964,
-      "price_1h": 0.690081515101142,
-      "price_24h": 0.687182128613777,
-      "change_1h_pct": -0.14,
-      "change_24h_pct": -0.56
+      "price_at_tweet": 0.6919084843043942,
+      "price_1h": 0.6806166498560294,
+      "price_24h": 0.6846460140920505,
+      "change_1h_pct": -1.63,
+      "change_24h_pct": -1.05
     }
   ]
 }
