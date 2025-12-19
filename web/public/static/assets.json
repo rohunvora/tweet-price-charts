@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated_at": "2025-12-19T06:58:05.041575Z",
+  "generated_at": "2025-12-19T18:53:46.778676Z",
   "assets": [
     {
       "id": "pump",
@@ -51,7 +51,7 @@
       "color": "#19FB9B",
       "logo": "/logos/jup.png",
       "enabled": true,
-      "data_note": "Tweet data starts Apr 2025. Historical data (Jan 2024-Mar 2025) limited to explicit $JUP mentions only due to scraping constraints."
+      "data_note": "Chart shows Apr 2025 onwards. Historical tweets (Jan 2024-Mar 2025) collected but no matching price data available."
     },
     {
       "id": "monad",

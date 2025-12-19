@@ -76,8 +76,7 @@
       "color": "#19FB9B",
       "enabled": true,
       "logo": "/logos/jup.png",
-      "keyword_filter": "jup",
-      "data_note": "Tweet data starts Apr 2025. Historical data (Jan 2024-Mar 2025) limited to explicit $JUP mentions only due to scraping constraints."
+      "data_note": "Chart shows Apr 2025 onwards. Historical tweets (Jan 2024-Mar 2025) collected but no matching price data available."
     },
     {
       "id": "monad",
