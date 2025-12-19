@@ -353,59 +353,55 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     }
 
     // -------------------------------------------------------------------------
-    // Draw gap lines between clusters (24h+ gaps only)
+    // Draw gap lines between ALL adjacent clusters (labels only for 24h+ gaps)
     // -------------------------------------------------------------------------
     ctx.setLineDash([6, 4]);
     ctx.lineWidth = 1.5;
-    
+
     for (let i = 1; i < clusters.length; i++) {
       const prev = clusters[i - 1];
       const curr = clusters[i];
-      
+
       // Use pre-calculated gap from actual tweet boundaries
       const gap = curr.timeSincePrev ?? 0;
-      
-      // Only draw line if gap exceeds 24h threshold
-      if (gap > SILENCE_GAP_THRESHOLD) {
-        const pctChange = curr.pctSincePrev;
-        const isNegative = pctChange !== null && pctChange < 0;
-        
-        ctx.strokeStyle = isNegative ? 'rgba(239, 83, 80, 0.5)' : 'rgba(38, 166, 154, 0.5)';
-        
-        // Line connects marker edges, not centers
-        const startX = prev.x + bubbleRadius + 4;
-        const endX = curr.x - bubbleRadius - 4;
-        const midX = (startX + endX) / 2;
-        const midY = (prev.y + curr.y) / 2;
-        
-        // Only draw if there's enough visual space for the line
-        if (endX > startX + 20) {
-          // Draw dashed line
-          ctx.beginPath();
-          ctx.moveTo(startX, prev.y);
-          ctx.lineTo(endX, curr.y);
-          ctx.stroke();
-          
-          // Draw labels if line is long enough for readability
-          const lineLength = Math.hypot(endX - startX, curr.y - prev.y);
-          if (lineLength > 60) {
-            ctx.setLineDash([]);
-            
-            // Time gap label
-            ctx.font = `${timeFontSize}px system-ui, sans-serif`;
-            ctx.textAlign = 'center';
-            ctx.fillStyle = COLORS.textMuted;
-            ctx.fillText(formatTimeGap(gap), midX, midY - labelSpacing);
-            
-            // Percentage change label
-            if (pctChange !== null) {
-              ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
-              ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
-              ctx.fillText(formatPctChange(pctChange), midX, midY + labelSpacing);
-            }
-            
-            ctx.setLineDash([6, 4]);
+      const pctChange = curr.pctSincePrev;
+      const isNegative = pctChange !== null && pctChange < 0;
+
+      ctx.strokeStyle = isNegative ? 'rgba(239, 83, 80, 0.5)' : 'rgba(38, 166, 154, 0.5)';
+
+      // Line connects marker edges, not centers
+      const startX = prev.x + bubbleRadius + 4;
+      const endX = curr.x - bubbleRadius - 4;
+      const midX = (startX + endX) / 2;
+      const midY = (prev.y + curr.y) / 2;
+
+      // Only draw if there's enough visual space for the line
+      if (endX > startX + 20) {
+        // Draw dashed line (always, for narrative continuity)
+        ctx.beginPath();
+        ctx.moveTo(startX, prev.y);
+        ctx.lineTo(endX, curr.y);
+        ctx.stroke();
+
+        // Draw labels only for significant gaps (24h+) and if line is long enough
+        const lineLength = Math.hypot(endX - startX, curr.y - prev.y);
+        if (gap > SILENCE_GAP_THRESHOLD && lineLength > 60) {
+          ctx.setLineDash([]);
+
+          // Time gap label
+          ctx.font = `${timeFontSize}px system-ui, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = COLORS.textMuted;
+          ctx.fillText(formatTimeGap(gap), midX, midY - labelSpacing);
+
+          // Percentage change label
+          if (pctChange !== null) {
+            ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
+            ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
+            ctx.fillText(formatPctChange(pctChange), midX, midY + labelSpacing);
           }
+
+          ctx.setLineDash([6, 4]);
         }
       }
     }
