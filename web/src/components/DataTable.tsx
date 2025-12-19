@@ -229,7 +229,7 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
   });
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       {/* Tweet Day Stats */}
       <TweetDayStats events={events} />
       
@@ -251,7 +251,7 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
       </div>
 
       {/* Table with horizontal scroll for mobile */}
-      <div className="flex-1 overflow-x-auto overflow-y-auto relative" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <div className="overflow-x-auto relative" style={{ WebkitOverflowScrolling: 'touch' }}>
         {/* Scroll indicator fade on right edge */}
         <div className="absolute right-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-l from-[#0D1117] to-transparent z-20 md:hidden" />
         
