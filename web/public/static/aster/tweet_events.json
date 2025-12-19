@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-19T20:44:07.466219Z",
+  "generated_at": "2025-12-19T22:00:15.440366Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -20,11 +20,11 @@
       "retweets": 206,
       "replies": 642,
       "impressions": 816271,
-      "price_at_tweet": 0.41816115,
-      "price_1h": 0.41816115,
-      "price_24h": 0.41816115,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 0.055,
+      "price_1h": 0.071,
+      "price_24h": 0.53,
+      "change_1h_pct": 29.09,
+      "change_24h_pct": 863.64
     },
     {
       "tweet_id": "1968358873556992120",
@@ -39,11 +39,11 @@
       "retweets": 2207,
       "replies": 3970,
       "impressions": 3518841,
-      "price_at_tweet": 0.41816115,
-      "price_1h": 0.41816115,
-      "price_24h": 0.41816115,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 0.16,
+      "price_1h": 0.195,
+      "price_24h": 0.55,
+      "change_1h_pct": 21.88,
+      "change_24h_pct": 243.75
     },
     {
       "tweet_id": "1968388115153965161",
@@ -58,11 +58,11 @@
       "retweets": 294,
       "replies": 723,
       "impressions": 746131,
-      "price_at_tweet": 0.41816115,
-      "price_1h": 0.41816115,
-      "price_24h": 0.41816115,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 0.235,
+      "price_1h": 0.275,
+      "price_24h": 0.56,
+      "change_1h_pct": 17.02,
+      "change_24h_pct": 138.3
     },
     {
       "tweet_id": "1968533125929058454",
@@ -77,11 +77,11 @@
       "retweets": 1300,
       "replies": 948,
       "impressions": 1338575,
-      "price_at_tweet": 0.41816115,
-      "price_1h": 0.41816115,
-      "price_24h": 0.41816115,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 0.0
+      "price_at_tweet": 0.485,
+      "price_1h": 0.49,
+      "price_24h": 0.632,
+      "change_1h_pct": 1.03,
+      "change_24h_pct": 30.31
     },
     {
       "tweet_id": "1968597908413923352",
@@ -96,11 +96,11 @@
       "retweets": 3174,
       "replies": 3943,
       "impressions": 2025151,
-      "price_at_tweet": 0.41816115,
-      "price_1h": 0.41816115,
+      "price_at_tweet": 0.505,
+      "price_1h": 0.51,
       "price_24h": 0.59948125,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 43.36
+      "change_1h_pct": 0.99,
+      "change_24h_pct": 18.71
     },
     {
       "tweet_id": "1968611211676623245",
@@ -115,11 +115,11 @@
       "retweets": 713,
       "replies": 1159,
       "impressions": 806867,
-      "price_at_tweet": 0.41816115,
-      "price_1h": 0.41816115,
+      "price_at_tweet": 0.51,
+      "price_1h": 0.515,
       "price_24h": 0.65258233,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 56.06
+      "change_1h_pct": 0.98,
+      "change_24h_pct": 27.96
     },
     {
       "tweet_id": "1968776498183291072",
@@ -134,11 +134,11 @@
       "retweets": 1645,
       "replies": 2113,
       "impressions": 2122626,
-      "price_at_tweet": 0.41816115,
-      "price_1h": 0.41816115,
+      "price_at_tweet": 0.57,
+      "price_1h": 0.575,
       "price_24h": 0.68119817,
-      "change_1h_pct": 0.0,
-      "change_24h_pct": 62.9
+      "change_1h_pct": 0.88,
+      "change_24h_pct": 19.51
     },
     {
       "tweet_id": "1968896917565284860",
@@ -153,11 +153,11 @@
       "retweets": 546,
       "replies": 951,
       "impressions": 1226548,
-      "price_at_tweet": 0.41816115,
+      "price_at_tweet": 0.632,
       "price_1h": 0.55089877,
       "price_24h": 0.90618882,
-      "change_1h_pct": 31.74,
-      "change_24h_pct": 116.71
+      "change_1h_pct": -12.83,
+      "change_24h_pct": 43.38
     },
     {
       "tweet_id": "1969084937014780313",

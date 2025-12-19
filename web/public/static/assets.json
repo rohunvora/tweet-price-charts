@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated_at": "2025-12-19T20:44:04.492158Z",
+  "generated_at": "2025-12-19T22:00:12.275465Z",
   "assets": [
     {
       "id": "pump",
@@ -30,7 +30,8 @@
       "launch_date": "2025-09-17T00:00:00Z",
       "color": "#F0B90B",
       "logo": "/logos/aster.png",
-      "enabled": true
+      "enabled": true,
+      "data_note": "Sept 17-18 hourly prices reconstructed from DexScreener charts (API historical data unavailable)"
     },
     {
       "id": "believe",

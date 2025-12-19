@@ -45,7 +45,8 @@
       "launch_date": "2025-09-17T00:00:00Z",
       "color": "#F0B90B",
       "enabled": true,
-      "logo": "/logos/aster.png"
+      "logo": "/logos/aster.png",
+      "data_note": "Sept 17-18 hourly prices reconstructed from DexScreener charts (API historical data unavailable)"
     },
     {
       "id": "believe",
