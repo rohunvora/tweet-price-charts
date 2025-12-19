@@ -13,6 +13,7 @@ import {
 import { Timeframe, TweetEvent, Candle, Asset } from '@/lib/types';
 import { loadPrices, toCandlestickData, getSortedTweetTimestamps } from '@/lib/dataLoader';
 import { formatTimeGap, formatPctChange } from '@/lib/formatters';
+import { useLivePrice } from '@/lib/useLivePrice';
 
 // =============================================================================
 // Constants
@@ -117,6 +118,9 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   const zoomToClusterRef = useRef<((cluster: TweetClusterDisplay) => void) | null>(null);
   const animateToRangeRef = useRef<((from: number, to: number) => void) | null>(null);
 
+  // Live price ref (for marker drawing)
+  const livePriceRef = useRef<{ price: number; timestamp: number } | null>(null);
+
   // ---------------------------------------------------------------------------
   // State
   // ---------------------------------------------------------------------------
@@ -130,6 +134,9 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   const [availableTimeframes, setAvailableTimeframes] = useState<Set<Timeframe>>(new Set(['1d']));
   const [noData, setNoData] = useState(false);
   const [containerWidth, setContainerWidth] = useState(800);
+
+  // Live price polling
+  const { livePrice, liveTimestamp, isLive } = useLivePrice(asset.id);
 
   // ---------------------------------------------------------------------------
   // Sync refs with state/props
@@ -411,40 +418,53 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     ctx.setLineDash([]);
 
     // -------------------------------------------------------------------------
-    // Draw ongoing silence indicator (from TRUE last tweet to current price)
+    // Draw ongoing silence indicator (from TRUE last tweet to current/live price)
     // Only shows if silence exceeds 24h threshold
     // -------------------------------------------------------------------------
     const candles = candlesRef.current;
-    
+    const liveData = livePriceRef.current;
+
     if (candles.length > 0) {
       // Get TRUE last tweet from all tweets (not just visible)
       const tweetsWithPrice = allTweets.filter(t => t.price_at_tweet);
       if (tweetsWithPrice.length > 0) {
-        const trueLastTweet = tweetsWithPrice.reduce((latest, t) => 
+        const trueLastTweet = tweetsWithPrice.reduce((latest, t) =>
           t.timestamp > latest.timestamp ? t : latest
         , tweetsWithPrice[0]);
-        
+
         const latestCandle = candles[candles.length - 1];
         const lastPrice = trueLastTweet.price_at_tweet!;
-        const silenceDuration = latestCandle.t - trueLastTweet.timestamp;
-        
+
+        // Use live price if available, otherwise fall back to last candle
+        const currentPrice = liveData?.price ?? latestCandle.c;
+        const currentTimestamp = liveData?.timestamp ?? latestCandle.t;
+        const silenceDuration = currentTimestamp - trueLastTweet.timestamp;
+
         // Only show ongoing silence if it exceeds 24h threshold
         if (silenceDuration > SILENCE_GAP_THRESHOLD) {
           // Get screen coordinates for last tweet
           const lastTweetNearestTime = findNearestCandleTime(trueLastTweet.timestamp);
-          const lastX = lastTweetNearestTime 
-            ? chart.timeScale().timeToCoordinate(lastTweetNearestTime as Time) 
+          const lastX = lastTweetNearestTime
+            ? chart.timeScale().timeToCoordinate(lastTweetNearestTime as Time)
             : null;
           const lastY = series.priceToCoordinate(lastPrice);
-          
-          const latestX = chart.timeScale().timeToCoordinate(latestCandle.t as Time);
-          const latestY = series.priceToCoordinate(latestCandle.c);
-          
+
+          // For current price position: use right edge of visible area when live
+          // This ensures the dot is always visible and aligned with "now"
+          let latestX: number | null;
+          if (liveData) {
+            // Position at right edge of chart (with small padding)
+            latestX = width - 60; // 60px from right edge to avoid price scale
+          } else {
+            latestX = chart.timeScale().timeToCoordinate(latestCandle.t as Time);
+          }
+          const latestY = series.priceToCoordinate(currentPrice);
+
           // Draw if we have valid coordinates and there's visual space
           if (lastX !== null && lastY !== null && latestX !== null && latestY !== null && latestX > lastX + bubbleRadius) {
-            const pctChange = ((latestCandle.c - lastPrice) / lastPrice) * 100;
+            const pctChange = ((currentPrice - lastPrice) / lastPrice) * 100;
             const isNegative = pctChange < 0;
-            
+
             // Draw dashed line from last tweet to current price
             ctx.setLineDash([6, 4]);
             ctx.lineWidth = 1.5;
@@ -454,23 +474,23 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
             ctx.lineTo(latestX, latestY);
             ctx.stroke();
             ctx.setLineDash([]);
-            
+
             // Draw labels if enough space
             const lineLength = Math.hypot(latestX - (lastX + bubbleRadius + 4), latestY - lastY);
             if (lineLength > 60) {
               const midX = (lastX + bubbleRadius + 4 + latestX) / 2;
               const midY = (lastY + latestY) / 2;
-              
+
               ctx.font = `${timeFontSize}px system-ui, sans-serif`;
               ctx.textAlign = 'center';
               ctx.fillStyle = COLORS.textMuted;
               ctx.fillText(formatTimeGap(silenceDuration), midX, midY - labelSpacing);
-              
+
               ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
               ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
               ctx.fillText(formatPctChange(pctChange), midX, midY + labelSpacing);
             }
-            
+
             // Draw "now" dot at current price (subtle live indicator)
             ctx.beginPath();
             ctx.arc(latestX, latestY, 4, 0, Math.PI * 2);
@@ -838,6 +858,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   }, [dataLoaded, showBubbles, hoveredTweet, avatarLoaded, drawMarkers]);
 
   // ---------------------------------------------------------------------------
+  // Store live price in ref for marker drawing (don't manipulate candle data)
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (livePrice && liveTimestamp) {
+      livePriceRef.current = { price: livePrice, timestamp: liveTimestamp };
+      // Redraw markers to update silence gap line with live price
+      drawMarkers();
+    }
+  }, [livePrice, liveTimestamp, drawMarkers]);
+
+  // ---------------------------------------------------------------------------
   // Navigation handlers
   // ---------------------------------------------------------------------------
   const jumpToLastTweet = useCallback(() => {
@@ -1078,6 +1109,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
             style={{ borderColor: asset.color, borderTopColor: 'transparent' }}
           />
           <span className="text-xs text-[#787B86]">Loading {asset.name}...</span>
+        </div>
+      )}
+
+      {/* Live indicator - subtle, top right */}
+      {isLive && !loading && dataLoaded && (
+        <div className="absolute top-2 right-2 z-20 flex items-center gap-1.5 px-2 py-1 rounded bg-[#1E222D]/80">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          <span className="text-[10px] text-[#787B86] uppercase tracking-wider">Live</span>
         </div>
       )}
 
