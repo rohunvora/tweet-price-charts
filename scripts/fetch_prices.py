@@ -20,6 +20,7 @@ Usage:
     python fetch_prices.py --gaps               # Show data gaps
 """
 import argparse
+import calendar
 import httpx
 import time
 import os
@@ -428,12 +429,19 @@ def fetch_geckoterminal_all_timeframes(
     network: str,
     pool_address: str,
     timeframes: List[str] = None,
-    max_pages: Dict[str, int] = None
+    max_pages: Dict[str, int] = None,
+    stop_at_timestamps: Dict[str, int] = None
 ) -> Dict[str, List[Dict]]:
-    """Fetch all timeframes for a GeckoTerminal pool."""
+    """
+    Fetch all timeframes for a GeckoTerminal pool.
+
+    Args:
+        stop_at_timestamps: Dict of timeframe -> timestamp. Stop fetching when we reach
+                           data older than this (for incremental updates).
+    """
     if timeframes is None:
         timeframes = TIMEFRAMES
-    
+
     if max_pages is None:
         max_pages = {
             "1m": 100,
@@ -441,41 +449,62 @@ def fetch_geckoterminal_all_timeframes(
             "1h": 30,
             "1d": 10,
         }
-    
+
+    if stop_at_timestamps is None:
+        stop_at_timestamps = {}
+
     results = {}
-    
+
     for tf in timeframes:
-        print(f"    Fetching {tf} data from GeckoTerminal...")
-        
+        stop_ts = stop_at_timestamps.get(tf)
+        if stop_ts:
+            stop_date = datetime.utcfromtimestamp(stop_ts).strftime("%Y-%m-%d %H:%M")
+            print(f"    Fetching {tf} data from GeckoTerminal (since {stop_date})...")
+        else:
+            print(f"    Fetching {tf} data from GeckoTerminal...")
+
         all_candles = []
         before_ts = None
         max_pg = max_pages.get(tf, 20)
-        
+        reached_existing = False
+
         for page in range(max_pg):
             candles, oldest_ts = fetch_geckoterminal_ohlcv(
                 network, pool_address, tf, before_ts
             )
-            
+
             if not candles:
                 if page == 0:
                     print(f"      No data available")
                 break
-            
+
+            # Filter out candles we already have (incremental mode)
+            if stop_ts:
+                new_candles = [c for c in candles if c["timestamp_epoch"] > stop_ts]
+                if len(new_candles) < len(candles):
+                    reached_existing = True
+                candles = new_candles
+
             all_candles.extend(candles)
             oldest_date = datetime.utcfromtimestamp(oldest_ts).strftime("%Y-%m-%d")
-            print(f"      Page {page + 1}: {len(candles)} candles (oldest: {oldest_date})")
-            
+            print(f"      Page {page + 1}: {len(candles)} new candles (oldest: {oldest_date})")
+
+            # Stop if we've reached existing data or got a partial page
+            if reached_existing:
+                print(f"      Reached existing data, stopping")
+                break
+
             if len(candles) < MAX_CANDLES_PER_REQUEST:
                 break
-            
+
             before_ts = oldest_ts
             time.sleep(RATE_LIMIT_DELAY)
-        
+
         if all_candles:
             all_candles.sort(key=lambda x: x["timestamp_epoch"])
             results[tf] = all_candles
-            print(f"      Total: {len(all_candles):,} candles")
-    
+            print(f"      Total: {len(all_candles):,} new candles")
+
     return results
 
 
@@ -692,17 +721,19 @@ def fetch_for_asset(
     asset_id: str,
     full_fetch: bool = False,
     timeframes: List[str] = None,
-    backfill: bool = False
+    backfill: bool = False,
+    recent_only: bool = False
 ) -> Dict[str, Any]:
     """
     Fetch prices for a specific asset.
-    
+
     Args:
         asset_id: Asset ID from assets.json
         full_fetch: If True, fetch all history (ignore last_timestamp)
         timeframes: Specific timeframes to fetch (default: based on price_source)
         backfill: If True, use backfill_source (Birdeye) for historical data
-    
+        recent_only: If True, only fetch 1-2 pages (for quick hourly updates)
+
     Returns fetch result stats.
     """
     conn = get_connection()
@@ -791,9 +822,23 @@ def fetch_for_asset(
         
         if timeframes is None:
             timeframes = TIMEFRAMES
-        
+
+        # Get existing timestamps for incremental fetch (only fetch what's new)
+        stop_at_timestamps = {}
+        if not full_fetch:
+            for tf in timeframes:
+                state = get_ingestion_state(conn, asset_id, f"prices_{tf}")
+                if state and state.get("last_timestamp"):
+                    last_ts = state["last_timestamp"]
+                    # Handle datetime (treat as UTC) or raw timestamp
+                    if hasattr(last_ts, 'year'):
+                        # Naive datetime from DB - treat as UTC
+                        stop_at_timestamps[tf] = int(calendar.timegm(last_ts.timetuple()))
+                    else:
+                        stop_at_timestamps[tf] = int(last_ts)
+
         price_data = fetch_geckoterminal_all_timeframes(
-            network, pool_address, timeframes
+            network, pool_address, timeframes, stop_at_timestamps=stop_at_timestamps
         )
         
         for tf, candles in price_data.items():
@@ -871,7 +916,24 @@ def fetch_for_asset(
         if timeframes is None:
             timeframes = TIMEFRAMES
 
-        price_data = fetch_hyperliquid_all_timeframes(coin, launch_ts, timeframes)
+        # Get existing timestamp for incremental fetch
+        # Use the latest "last_timestamp" across all timeframes
+        fetch_from_ts = launch_ts
+        if not full_fetch:
+            for tf in timeframes:
+                state = get_ingestion_state(conn, asset_id, f"prices_{tf}")
+                if state and state.get("last_timestamp"):
+                    last_ts = state["last_timestamp"]
+                    # Handle datetime (treat as UTC) or raw timestamp
+                    if hasattr(last_ts, 'year'):
+                        ts = int(calendar.timegm(last_ts.timetuple()))
+                    else:
+                        ts = int(last_ts)
+                    fetch_from_ts = max(fetch_from_ts, ts)
+            if fetch_from_ts > launch_ts:
+                print(f"    Incremental from: {datetime.utcfromtimestamp(fetch_from_ts).strftime('%Y-%m-%d %H:%M')}")
+
+        price_data = fetch_hyperliquid_all_timeframes(coin, fetch_from_ts, timeframes)
 
         for tf, candles in price_data.items():
             if candles:
@@ -902,36 +964,41 @@ def fetch_for_asset(
 def fetch_all_assets(
     full_fetch: bool = False,
     timeframes: List[str] = None,
-    backfill: bool = False
+    backfill: bool = False,
+    recent_only: bool = False
 ) -> Dict[str, Any]:
     """
     Fetch prices for all enabled assets.
-    
+
     Args:
         full_fetch: If True, fetch all history
         timeframes: Specific timeframes to fetch
         backfill: If True, use backfill source for historical data
-    
+        recent_only: If True, only fetch 1-2 pages (for hourly updates)
+
     Returns dict of asset_id -> result.
     """
     conn = get_connection()
     init_schema(conn)
     load_assets_from_json(conn)
-    
+
     assets = get_enabled_assets(conn)
     conn.close()
-    
+
     print(f"\nFetching prices for {len(assets)} enabled assets...")
-    if backfill:
+    if recent_only:
+        print("Mode: RECENT ONLY (quick incremental update)")
+    elif backfill:
         print("Mode: BACKFILL (using Birdeye for Solana tokens)")
-    
+
     results = {}
     for asset in assets:
         result = fetch_for_asset(
-            asset["id"], 
+            asset["id"],
             full_fetch=full_fetch,
             timeframes=timeframes,
-            backfill=backfill
+            backfill=backfill,
+            recent_only=recent_only
         )
         results[asset["id"]] = result
         
@@ -1018,7 +1085,12 @@ def main():
         action="store_true",
         help="Show price data gaps"
     )
-    
+    parser.add_argument(
+        "--recent", "-r",
+        action="store_true",
+        help="Quick mode: only fetch most recent data (1-2 pages per timeframe)"
+    )
+
     args = parser.parse_args()
     
     if args.gaps:
@@ -1029,16 +1101,18 @@ def main():
     
     if args.asset:
         fetch_for_asset(
-            args.asset, 
+            args.asset,
             full_fetch=args.full,
             timeframes=timeframes,
-            backfill=args.backfill
+            backfill=args.backfill,
+            recent_only=args.recent
         )
     else:
         fetch_all_assets(
             full_fetch=args.full,
             timeframes=timeframes,
-            backfill=args.backfill
+            backfill=args.backfill,
+            recent_only=args.recent
         )
 
 
