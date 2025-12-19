@@ -75,7 +75,8 @@
       "launch_date": "2024-01-31T00:00:00Z",
       "color": "#19FB9B",
       "enabled": true,
-      "logo": "/logos/jup.png"
+      "logo": "/logos/jup.png",
+      "keyword_filter": "jup"
     },
     {
       "id": "monad",
