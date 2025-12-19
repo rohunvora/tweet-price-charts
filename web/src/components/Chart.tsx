@@ -65,9 +65,12 @@ interface TweetClusterDisplay {
   tweets: TweetEvent[];
   x: number;
   y: number;
-  avgPrice: number;
-  avgTimestamp: number;
+  avgPrice: number;      // Used for visual Y position of marker
+  avgTimestamp: number;  // Used for visual positioning
   avgChange: number | null;
+  // Actual tweet boundaries for zoom-independent statistics
+  firstTweet: TweetEvent;
+  lastTweet: TweetEvent;
   timeSincePrev: number | null;
   pctSincePrev: number | null;
 }
@@ -265,6 +268,9 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
           avgPrice,
           avgTimestamp,
           avgChange,
+          // tweets array is already sorted chronologically (line 241)
+          firstTweet: tweets[0],
+          lastTweet: tweets[tweets.length - 1],
           timeSincePrev: null,
           pctSincePrev: null,
         });
@@ -302,12 +308,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     }
 
     // Calculate time gaps and price changes between clusters
+    // Use actual tweet boundaries (not averages) for zoom-independent statistics
     for (let i = 1; i < clusters.length; i++) {
       const prev = clusters[i - 1];
       const curr = clusters[i];
-      curr.timeSincePrev = curr.avgTimestamp - prev.avgTimestamp;
-      if (prev.avgPrice > 0) {
-        curr.pctSincePrev = ((curr.avgPrice - prev.avgPrice) / prev.avgPrice) * 100;
+      // Time gap: from last tweet of prev cluster to first tweet of current cluster
+      curr.timeSincePrev = curr.firstTweet.timestamp - prev.lastTweet.timestamp;
+      // Price change: during the actual silence period
+      const prevPrice = prev.lastTweet.price_at_tweet;
+      const currPrice = curr.firstTweet.price_at_tweet;
+      if (prevPrice && currPrice && prevPrice > 0) {
+        curr.pctSincePrev = ((currPrice - prevPrice) / prevPrice) * 100;
       }
     }
 
@@ -363,6 +374,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
 
     // -------------------------------------------------------------------------
     // Draw ongoing silence indicator (from last tweet to current price)
+    // Uses actual last tweet timestamp/price for zoom-independent statistics
     // -------------------------------------------------------------------------
     if (clusters.length > 0) {
       const lastCluster = clusters[clusters.length - 1];
@@ -370,16 +382,19 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       
       if (candles.length > 0) {
         const latestCandle = candles[candles.length - 1];
-        const silenceDuration = latestCandle.t - lastCluster.avgTimestamp;
+        // Use actual last tweet, not cluster average
+        const trueLastTweet = lastCluster.lastTweet;
+        const lastPrice = trueLastTweet.price_at_tweet;
+        const silenceDuration = latestCandle.t - trueLastTweet.timestamp;
         
-        // Only show if silence exceeds threshold (24h)
-        if (silenceDuration > SILENCE_GAP_THRESHOLD) {
+        // Only show if silence exceeds threshold (24h) and we have valid price
+        if (silenceDuration > SILENCE_GAP_THRESHOLD && lastPrice && lastPrice > 0) {
           const latestX = chart.timeScale().timeToCoordinate(latestCandle.t as Time);
           const latestY = series.priceToCoordinate(latestCandle.c);
           
           // Only draw if endpoint is visible and to the right of last cluster
           if (latestX !== null && latestY !== null && latestX > lastCluster.x + bubbleRadius) {
-            const pctChange = ((latestCandle.c - lastCluster.avgPrice) / lastCluster.avgPrice) * 100;
+            const pctChange = ((latestCandle.c - lastPrice) / lastPrice) * 100;
             const isNegative = pctChange < 0;
             
             // Draw dashed line from last cluster to current price
