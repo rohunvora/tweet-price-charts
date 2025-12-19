@@ -75,10 +75,12 @@ export async function loadPrices(timeframe: Timeframe, assetId: string): Promise
   if (timeframe === '1m') {
     return load1mPrices(assetId);
   }
-  
-  const path = `/static/${assetId}/prices_${timeframe}.json`;
 
-  const response = await fetch(path);
+  // Add cache-busting timestamp to force fresh data after deployments
+  const cacheBuster = `?v=${Date.now()}`;
+  const path = `/static/${assetId}/prices_${timeframe}.json${cacheBuster}`;
+
+  const response = await fetch(path, { cache: 'no-store' });
   
   if (!response.ok) {
     // Graceful fallback for missing timeframe data (e.g., CoinGecko assets only have 1d)
@@ -181,17 +183,19 @@ async function load1mPrices(assetId: string): Promise<PriceData> {
  */
 export async function loadTweetEvents(assetId: string): Promise<TweetEventsData> {
   const cacheKey = assetId;
-  
+
   if (tweetCache.has(cacheKey)) {
     log(`Using cached tweet events for ${assetId}`);
     return tweetCache.get(cacheKey)!;
   }
-  
-  log(`Loading tweet events for ${assetId}`);
-  
-  const path = `/static/${assetId}/tweet_events.json`;
 
-  const response = await fetch(path);
+  log(`Loading tweet events for ${assetId}`);
+
+  // Add cache-busting timestamp to force fresh data after deployments
+  const cacheBuster = `?v=${Date.now()}`;
+  const path = `/static/${assetId}/tweet_events.json${cacheBuster}`;
+
+  const response = await fetch(path, { cache: 'no-store' });
   
   if (!response.ok) {
     throw new Error(`Missing tweet events: ${path} (${response.status} ${response.statusText})`);
