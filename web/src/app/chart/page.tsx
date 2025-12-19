@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { loadTweetEvents, loadAssets } from '@/lib/dataLoader';
+import { loadTweetEvents, loadAssets, loadLastUpdated } from '@/lib/dataLoader';
 import { TweetEvent, TweetEventsData, Asset } from '@/lib/types';
 import AssetSelector from '@/components/AssetSelector';
 
@@ -16,6 +16,25 @@ const Chart = dynamic(() => import('@/components/Chart'), {
     </div>
   ),
 });
+
+/**
+ * Format ISO timestamp to relative time (e.g., "2h ago")
+ */
+function formatRelativeTime(isoTimestamp: string): string {
+  const date = new Date(isoTimestamp);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / (1000 * 60));
+
+  if (diffMins < 1) return 'just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}d ago`;
+}
 
 /**
  * Avatar component with fallback to colored circle
@@ -72,6 +91,7 @@ function ChartPageContent() {
   const [eventsMetadata, setEventsMetadata] = useState<Partial<TweetEventsData>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
   // Get asset ID from URL, default to 'pump'
   const assetId = searchParams.get('asset') || 'pump';
@@ -109,7 +129,11 @@ function ChartPageContent() {
         if (eventsData.keyword_filter) {
           console.log(`[ChartPage] Keyword filter: "${eventsData.keyword_filter}"`);
         }
-        
+
+        // Load last updated timestamp
+        const updated = await loadLastUpdated();
+        setLastUpdated(updated);
+
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         console.error(`[ChartPage] Error: ${message}`);
@@ -237,6 +261,11 @@ function ChartPageContent() {
         </div>
         <div className="text-[#787B86] text-xs">
           {tweetEvents.length} tweets • Data from X API & GeckoTerminal
+          {lastUpdated && (
+            <span title={`Last updated: ${new Date(lastUpdated).toLocaleString()}`}>
+              {' '}• Updated {formatRelativeTime(lastUpdated)}
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -269,3 +269,18 @@ export function clearCaches() {
   tweetCache.clear();
   assetsCache = null;
 }
+
+/**
+ * Load last updated timestamp (set by hourly update workflow)
+ * Returns null if not available (first deploy or local dev)
+ */
+export async function loadLastUpdated(): Promise<string | null> {
+  try {
+    const response = await fetch('/static/last_updated.json');
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.timestamp || null;
+  } catch {
+    return null;
+  }
+}

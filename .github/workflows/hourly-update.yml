@@ -1,0 +1,150 @@
+name: Hourly Data Update
+
+on:
+  schedule:
+    # Run every hour at minute 5 (avoid exactly on the hour when many jobs run)
+    - cron: '5 * * * *'
+  workflow_dispatch:
+    # Allow manual trigger from GitHub UI
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # Needed to push commits
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore database from cache
+        uses: actions/cache@v4
+        id: cache-db
+        with:
+          path: data/analytics.duckdb
+          key: analytics-db-${{ github.run_id }}
+          restore-keys: |
+            analytics-db-
+
+      - name: Create data directory
+        run: mkdir -p data
+
+      - name: Check if database exists
+        id: check-db
+        run: |
+          if [ -f "data/analytics.duckdb" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Database found ($(du -h data/analytics.duckdb | cut -f1))"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Database not found in cache"
+          fi
+
+      - name: Download database from release (if not cached)
+        if: steps.check-db.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Attempting to download database from latest release..."
+          # Try to download from the 'database' release tag
+          if gh release download database --pattern "analytics.duckdb" --dir data/ 2>/dev/null; then
+            echo "Downloaded database from release"
+            ls -lh data/analytics.duckdb
+          else
+            echo "No database release found - workflow will skip data fetch"
+            echo "To bootstrap: create a release tagged 'database' with analytics.duckdb attached"
+          fi
+
+      - name: Recheck database after download
+        id: recheck-db
+        run: |
+          if [ -f "data/analytics.duckdb" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fetch new tweets (incremental)
+        if: steps.recheck-db.outputs.exists == 'true'
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: |
+          cd scripts
+          python fetch_tweets.py
+        continue-on-error: true
+
+      - name: Fetch new prices (incremental)
+        if: steps.recheck-db.outputs.exists == 'true'
+        env:
+          BIRDEYE_API_KEY: ${{ secrets.BIRDEYE_API_KEY }}
+        run: |
+          cd scripts
+          python fetch_prices.py
+        continue-on-error: true
+
+      - name: Compute statistics
+        if: steps.recheck-db.outputs.exists == 'true'
+        run: |
+          cd scripts
+          python compute_stats.py
+        continue-on-error: true
+
+      - name: Export static data
+        if: steps.recheck-db.outputs.exists == 'true'
+        run: |
+          cd scripts
+          python export_static.py
+
+      - name: Generate timestamp
+        run: |
+          echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"source\": \"github-actions\"}" > web/public/static/last_updated.json
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git diff --cached --stat
+          fi
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: hourly data update $(date -u +%Y-%m-%d\ %H:%M\ UTC)"
+          git push
+
+      - name: Save database to cache
+        if: steps.recheck-db.outputs.exists == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: data/analytics.duckdb
+          key: analytics-db-${{ github.run_id }}
+
+      - name: Upload database to release (for persistence)
+        if: steps.recheck-db.outputs.exists == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Update the database release with the new version
+          # This ensures the database persists even if cache is evicted
+          gh release upload database data/analytics.duckdb --clobber 2>/dev/null || \
+            gh release create database data/analytics.duckdb --title "Database Backup" --notes "Auto-updated by hourly workflow"
