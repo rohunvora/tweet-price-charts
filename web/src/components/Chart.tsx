@@ -352,10 +352,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     }
 
     // -------------------------------------------------------------------------
-    // Draw gap lines between ALL adjacent clusters (labels only for 24h+ gaps)
+    // Draw gap lines between ALL adjacent clusters
+    // Labels use adaptive threshold based on visible time range (semantic zoom)
     // -------------------------------------------------------------------------
     ctx.setLineDash([6, 4]);
     ctx.lineWidth = 1.5;
+
+    // Adaptive label threshold: show labels for "significant" gaps relative to view
+    // - Zoomed out (months): 24h gaps are significant
+    // - Zoomed in (hours): 30min gaps are significant
+    // Scale: 5% of visible range, with floor (30min) and ceiling (24h)
+    const adaptiveLabelThreshold = Math.max(1800, Math.min(visibleSeconds * 0.05, SILENCE_GAP_THRESHOLD));
 
     for (let i = 1; i < clusters.length; i++) {
       const prev = clusters[i - 1];
@@ -382,9 +389,9 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         ctx.lineTo(endX, curr.y);
         ctx.stroke();
 
-        // Draw labels only for significant gaps (24h+) and if line is long enough
+        // Draw labels for significant gaps (adaptive to zoom level)
         const lineLength = Math.hypot(endX - startX, curr.y - prev.y);
-        if (gap > SILENCE_GAP_THRESHOLD && lineLength > 60) {
+        if (gap > adaptiveLabelThreshold && lineLength > 60) {
           ctx.setLineDash([]);
 
           // Time gap label
@@ -965,47 +972,47 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
 
   // ---------------------------------------------------------------------------
   // Zoom to cluster (for multi-tweet bubbles)
-  // Principle: Stay oriented. Zoom in place. Don't switch timeframes unless forced.
+  // Principle: One click = see the detail. Switch to finer timeframe eagerly.
   // ---------------------------------------------------------------------------
   const zoomToCluster = useCallback((cluster: TweetClusterDisplay) => {
     const chart = chartRef.current;
     if (!chart) return;
-    
+
     const tweets = cluster.tweets;
-    
+
     if (tweets.length === 1) {
       // Single tweet - just show tooltip, don't zoom
       setHoveredTweet(tweets[0]);
       setTooltipPos({ x: cluster.x, y: cluster.y });
       return;
     }
-    
+
     // Calculate range needed to show all tweets in this cluster
     const timeMin = tweets[0].timestamp;
     const timeMax = tweets[tweets.length - 1].timestamp;
     const timeSpan = timeMax - timeMin;
-    
+
     // Add generous padding (50% on each side, minimum 2 hours)
     const padding = Math.max(timeSpan * 0.5, 7200);
     const targetFrom = timeMin - padding;
     const targetTo = timeMax + padding;
-    const targetSpan = targetTo - targetFrom;
-    
-    // Decide if we need a finer timeframe based on target time span
-    // - 1d: best for showing > 2 days (172800 seconds)
-    // - 1h: best for showing > 6 hours (21600 seconds)
-    // - 15m: best for showing > 2 hours (7200 seconds)
-    // - 1m: best for any shorter duration
-    const needsFinerTF = 
-      (timeframe === '1d' && targetSpan < 172800) ||  // < 2 days
-      (timeframe === '1h' && targetSpan < 21600) ||   // < 6 hours
-      (timeframe === '15m' && targetSpan < 7200);     // < 2 hours
-    
-    if (needsFinerTF) {
-      // Switch to finer timeframe: 1d → 1h → 15m → 1m
-      const order: Timeframe[] = ['1d', '1h', '15m', '1m'];
-      const currentIdx = order.indexOf(timeframe);
-      
+
+    // Eager timeframe switching: prefer finer timeframes when clicking clusters
+    // Daily candles can't show intra-day price movement, so always go to 1h
+    // Hourly candles can't show intra-hour movement, so go to 15m for dense clusters
+    const order: Timeframe[] = ['1d', '1h', '15m', '1m'];
+    const currentIdx = order.indexOf(timeframe);
+
+    // On 1D: always switch to 1h (daily candles hide intra-day price action)
+    // On 1h: switch to 15m if cluster has many tweets (they're likely close together)
+    // On 15m: switch to 1m if cluster still has many tweets
+    const shouldSwitchTF =
+      timeframe === '1d' ||  // Always switch from 1D - can't see intra-day movement
+      (timeframe === '1h' && tweets.length > 3) ||   // Dense cluster on 1h
+      (timeframe === '15m' && tweets.length > 5);    // Very dense cluster on 15m
+
+    if (shouldSwitchTF && currentIdx < order.length - 1) {
+      // Find next available finer timeframe
       let finerTF: Timeframe | null = null;
       for (let i = currentIdx + 1; i < order.length; i++) {
         if (availableTimeframes.has(order[i])) {
@@ -1013,15 +1020,15 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
           break;
         }
       }
-      
+
       if (finerTF) {
         pendingZoomRef.current = { from: targetFrom, to: targetTo };
         setTimeframe(finerTF);
         return;
       }
     }
-    
-    // Current timeframe is fine - just zoom in place
+
+    // Current timeframe is fine (or no finer available) - just zoom in place
     animateToRange(targetFrom, targetTo);
   }, [timeframe, availableTimeframes, animateToRange]);
 
