@@ -105,6 +105,13 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   const candlesRef = useRef<Candle[]>([]);
   const sortedTweetTimestampsRef = useRef<number[]>([]);
   const assetRef = useRef(asset);
+  
+  // Cluster zoom refs
+  const clustersRef = useRef<TweetClusterDisplay[]>([]);
+  const pendingZoomRef = useRef<{from: number, to: number} | null>(null);
+  const bubbleAnimRef = useRef<{start: number, active: boolean}>({start: 0, active: false});
+  const zoomToClusterRef = useRef<((cluster: TweetClusterDisplay) => void) | null>(null);
+  const animateToRangeRef = useRef<((from: number, to: number) => void) | null>(null);
 
   // ---------------------------------------------------------------------------
   // State
@@ -355,18 +362,38 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     ctx.setLineDash([]);
 
     // -------------------------------------------------------------------------
-    // Draw cluster markers
+    // Draw cluster markers with entrance animation
     // -------------------------------------------------------------------------
-    for (const cluster of clusters) {
+    for (let i = 0; i < clusters.length; i++) {
+      const cluster = clusters[i];
       const { x, y, tweets: clusterTweets } = cluster;
       const count = clusterTweets.length;
       const isMultiple = count > 1;
       const isHovered = clusterTweets.some(t => hovered?.tweet_id === t.tweet_id);
 
+      // Calculate entrance animation scale
+      let scale = 1;
+      if (bubbleAnimRef.current.active) {
+        const elapsed = performance.now() - bubbleAnimRef.current.start;
+        const stagger = i * 30;
+        const progress = Math.min(Math.max((elapsed - stagger) / 300, 0), 1);
+        scale = progress < 1 ? 1 - (1 - progress) ** 3 : 1; // ease-out cubic
+        if (elapsed > 400 + clusters.length * 30) {
+          bubbleAnimRef.current.active = false;
+        }
+      }
+
+      // Apply scale to radii
+      const scaledRadius = bubbleRadius * scale;
+      const scaledSize = bubbleSize * scale;
+      
+      // Skip drawing if scale is too small
+      if (scale < 0.05) continue;
+
       // Hover glow
       if (isHovered) {
         ctx.beginPath();
-        ctx.arc(x, y, bubbleRadius + 8, 0, Math.PI * 2);
+        ctx.arc(x, y, scaledRadius + 8, 0, Math.PI * 2);
         ctx.fillStyle = markerGlow;
         ctx.fill();
       }
@@ -374,14 +401,14 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       // Multiple tweets glow
       if (isMultiple) {
         ctx.beginPath();
-        ctx.arc(x, y, bubbleRadius + 6, 0, Math.PI * 2);
+        ctx.arc(x, y, scaledRadius + 6, 0, Math.PI * 2);
         ctx.fillStyle = markerMultipleGlow;
         ctx.fill();
       }
 
       // Border ring
       ctx.beginPath();
-      ctx.arc(x, y, bubbleRadius + 2, 0, Math.PI * 2);
+      ctx.arc(x, y, scaledRadius + 2, 0, Math.PI * 2);
       ctx.strokeStyle = isHovered ? markerColor : '#FFFFFF';
       ctx.lineWidth = isHovered ? 3 : 2;
       ctx.stroke();
@@ -390,22 +417,22 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       if (avatar) {
         ctx.save();
         ctx.beginPath();
-        ctx.arc(x, y, bubbleRadius, 0, Math.PI * 2);
+        ctx.arc(x, y, scaledRadius, 0, Math.PI * 2);
         ctx.clip();
-        ctx.drawImage(avatar, x - bubbleRadius, y - bubbleRadius, bubbleSize, bubbleSize);
+        ctx.drawImage(avatar, x - scaledRadius, y - scaledRadius, scaledSize, scaledSize);
         ctx.restore();
       } else {
         ctx.beginPath();
-        ctx.arc(x, y, bubbleRadius, 0, Math.PI * 2);
+        ctx.arc(x, y, scaledRadius, 0, Math.PI * 2);
         ctx.fillStyle = markerColor;
         ctx.fill();
       }
 
       // Count badge for multiple tweets
-      if (isMultiple) {
-        const badgeSize = Math.max(14, bubbleSize * 0.4);
-        const badgeX = x + bubbleRadius - badgeSize / 2;
-        const badgeY = y - bubbleRadius + badgeSize / 3;
+      if (isMultiple && scale > 0.5) {
+        const badgeSize = Math.max(14, scaledSize * 0.4);
+        const badgeX = x + scaledRadius - badgeSize / 2;
+        const badgeY = y - scaledRadius + badgeSize / 3;
         
         ctx.beginPath();
         ctx.arc(badgeX, badgeY, badgeSize / 2 + 2, 0, Math.PI * 2);
@@ -421,6 +448,14 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         ctx.textBaseline = 'middle';
         ctx.fillText(count.toString(), badgeX, badgeY);
       }
+    }
+
+    // Store clusters for click detection
+    clustersRef.current = clusters;
+
+    // Continue animation if active
+    if (bubbleAnimRef.current.active) {
+      requestAnimationFrame(drawMarkers);
     }
   }, [findNearestCandleTime]);
 
@@ -499,19 +534,29 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     });
     resizeObserver.observe(container);
 
-    // Redraw markers on pan/zoom
-    chart.timeScale().subscribeVisibleTimeRangeChange(() => drawMarkers());
+    // Redraw markers on pan/zoom, cancel pending zoom if user interacts
+    chart.timeScale().subscribeVisibleTimeRangeChange(() => {
+      pendingZoomRef.current = null;
+      drawMarkers();
+    });
 
-    // Hover detection
+    // Hover detection with cursor affordance for multi-tweet clusters
     chart.subscribeCrosshairMove((param: MouseEventParams) => {
       if (!param.point) {
         setHoveredTweet(null);
+        if (container) container.style.cursor = '';
         return;
       }
 
       const { x, y } = param.point;
       const HOVER_RADIUS = 24;
       const tweets = tweetEventsRef.current;
+
+      // Check for multi-tweet cluster hover (cursor affordance)
+      const overMultiCluster = clustersRef.current.some(
+        c => c.tweets.length > 1 && Math.hypot(c.x - x, c.y - y) < HOVER_RADIUS
+      );
+      if (container) container.style.cursor = overMultiCluster ? 'pointer' : '';
 
       for (const tweet of tweets) {
         if (!tweet.price_at_tweet) continue;
@@ -529,24 +574,20 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       setHoveredTweet(null);
     });
 
-    // Click to open tweet
+    // Click handler for clusters
     chart.subscribeClick((param: MouseEventParams) => {
       if (!param.point) return;
 
       const { x, y } = param.point;
       const CLICK_RADIUS = 24;
-      const tweets = tweetEventsRef.current;
-      const currentAsset = assetRef.current;
 
-      for (const tweet of tweets) {
-        if (!tweet.price_at_tweet) continue;
-
-        const nearestTime = findNearestCandleTime(tweet.timestamp);
-        const tx = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
-        const ty = series.priceToCoordinate(tweet.price_at_tweet);
-
-        if (tx !== null && ty !== null && Math.hypot(tx - x, ty - y) < CLICK_RADIUS) {
-          window.open(`https://twitter.com/${currentAsset.founder}/status/${tweet.tweet_id}`, '_blank');
+      for (const cluster of clustersRef.current) {
+        if (Math.hypot(cluster.x - x, cluster.y - y) < CLICK_RADIUS) {
+          if (cluster.tweets.length > 1) {
+            // Multi-tweet cluster: zoom in
+            zoomToClusterRef.current?.(cluster);
+          }
+          // Single tweet: do nothing (hover tooltip is sufficient)
           return;
         }
       }
@@ -625,9 +666,19 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
 
           // Official best practice: fitContent() auto-scales both axes
           // This resets X-axis to show all data and triggers Y-axis auto-scale
-            chartRef.current.timeScale().fitContent();
+          chartRef.current.timeScale().fitContent();
 
           setDataLoaded(true);
+          
+          // Trigger bubble entrance animation
+          bubbleAnimRef.current = { start: performance.now(), active: true };
+          
+          // Apply pending zoom if set (from cluster click)
+          if (pendingZoomRef.current) {
+            const { from, to } = pendingZoomRef.current;
+            pendingZoomRef.current = null;
+            setTimeout(() => animateToRangeRef.current?.(from, to), 50);
+          }
         }
       } catch (error) {
         console.error(`[Chart] Failed to load price data:`, error);
@@ -672,10 +723,74 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   }, []);
 
   // ---------------------------------------------------------------------------
+  // Smooth zoom animation
+  // ---------------------------------------------------------------------------
+  const animateToRange = useCallback((targetFrom: number, targetTo: number) => {
+    const chart = chartRef.current;
+    if (!chart) return;
+    const start = chart.timeScale().getVisibleRange();
+    if (!start) {
+      chart.timeScale().setVisibleRange({ from: targetFrom as Time, to: targetTo as Time });
+      return;
+    }
+    
+    const duration = 300;
+    const t0 = performance.now();
+    
+    (function tick() {
+      const t = Math.min((performance.now() - t0) / duration, 1);
+      const e = 1 - (1 - t) ** 3; // ease-out cubic
+      chart.timeScale().setVisibleRange({
+        from: ((start.from as number) + (targetFrom - (start.from as number)) * e) as Time,
+        to: ((start.to as number) + (targetTo - (start.to as number)) * e) as Time,
+      });
+      if (t < 1) requestAnimationFrame(tick);
+    })();
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // Zoom to cluster (for multi-tweet bubbles)
+  // ---------------------------------------------------------------------------
+  const zoomToCluster = useCallback((cluster: TweetClusterDisplay) => {
+    const ts = cluster.tweets.map(t => t.timestamp);
+    const min = Math.min(...ts);
+    const max = Math.max(...ts);
+    const span = Math.max(max - min, 3600); // min 1h span
+    const from = min - span * 0.5;
+    const to = max + span * 0.5;
+    
+    // Pick timeframe: <2h→1m, <24h→15m, <7d→1h
+    const targetTF: Timeframe = 
+      (to - from) < 7200 && availableTimeframes.has('1m') ? '1m' :
+      (to - from) < 86400 && availableTimeframes.has('15m') ? '15m' :
+      (to - from) < 604800 && availableTimeframes.has('1h') ? '1h' : 
+      timeframe;
+    
+    if (targetTF !== timeframe) {
+      pendingZoomRef.current = { from, to };
+      setTimeframe(targetTF);
+    } else {
+      animateToRange(from, to);
+    }
+  }, [timeframe, availableTimeframes, animateToRange]);
+
+  // Sync functions to refs (avoid stale closures)
+  useEffect(() => {
+    zoomToClusterRef.current = zoomToCluster;
+  }, [zoomToCluster]);
+  
+  useEffect(() => {
+    animateToRangeRef.current = animateToRange;
+  }, [animateToRange]);
+
+  // ---------------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------------
   return (
-    <div className="relative w-full h-full bg-[#131722]">
+    <div 
+      className="relative w-full h-full bg-[#131722]"
+      style={{ '--asset-color': asset.color } as React.CSSProperties}
+    >
       {/* Chart container */}
       <div ref={containerRef} className="absolute inset-0" />
       
@@ -731,7 +846,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
                 isActive
                   ? 'text-white'
                   : isAvailable
-                    ? 'text-[#787B86] hover:text-[#D1D4DC] hover:bg-[#2A2E39]'
+                    ? 'text-[#787B86] hover:text-[#D1D4DC] hover:bg-[#2A2E39] asset-accent'
                     : 'text-[#3A3E49] cursor-not-allowed'
               }`}
               style={isActive ? { backgroundColor: asset.color } : undefined}
@@ -806,7 +921,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       {/* Tweet tooltip */}
       {hoveredTweet && (
         <div
-          className="absolute z-30 pointer-events-none bg-[#1E222D] border border-[#2A2E39] rounded-lg p-3 shadow-xl max-w-xs"
+          className="absolute z-30 pointer-events-none bg-[#1E222D] border border-[#2A2E39] rounded-lg p-3 shadow-xl max-w-xs tooltip-enter"
           style={{
             left: Math.min(tooltipPos.x + 20, containerWidth - 300),
             top: Math.max(tooltipPos.y - 60, 10),
