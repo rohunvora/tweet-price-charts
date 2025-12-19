@@ -602,11 +602,6 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       drawMarkers();
     });
 
-    // Redraw markers on price scale change (Y-axis)
-    chart.priceScale('right').subscribeVisiblePriceRangeChange(() => {
-      drawMarkers();
-    });
-
     // Hover detection with cursor affordance for multi-tweet clusters
     chart.subscribeCrosshairMove((param: MouseEventParams) => {
       if (!param.point) {
