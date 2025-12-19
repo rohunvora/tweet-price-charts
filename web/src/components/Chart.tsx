@@ -362,6 +362,63 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     ctx.setLineDash([]);
 
     // -------------------------------------------------------------------------
+    // Draw ongoing silence indicator (from last tweet to current price)
+    // -------------------------------------------------------------------------
+    if (clusters.length > 0) {
+      const lastCluster = clusters[clusters.length - 1];
+      const candles = candlesRef.current;
+      
+      if (candles.length > 0) {
+        const latestCandle = candles[candles.length - 1];
+        const silenceDuration = latestCandle.t - lastCluster.avgTimestamp;
+        
+        // Only show if silence exceeds threshold (24h)
+        if (silenceDuration > SILENCE_GAP_THRESHOLD) {
+          const latestX = chart.timeScale().timeToCoordinate(latestCandle.t as Time);
+          const latestY = series.priceToCoordinate(latestCandle.c);
+          
+          // Only draw if endpoint is visible and to the right of last cluster
+          if (latestX !== null && latestY !== null && latestX > lastCluster.x + bubbleRadius) {
+            const pctChange = ((latestCandle.c - lastCluster.avgPrice) / lastCluster.avgPrice) * 100;
+            const isNegative = pctChange < 0;
+            
+            // Draw dashed line from last cluster to current price
+            ctx.setLineDash([6, 4]);
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = isNegative ? 'rgba(239, 83, 80, 0.5)' : 'rgba(38, 166, 154, 0.5)';
+            ctx.beginPath();
+            ctx.moveTo(lastCluster.x + bubbleRadius + 4, lastCluster.y);
+            ctx.lineTo(latestX, latestY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Draw labels at midpoint
+            const midX = (lastCluster.x + bubbleRadius + 4 + latestX) / 2;
+            const midY = (lastCluster.y + latestY) / 2;
+            
+            ctx.font = `${timeFontSize}px system-ui, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = COLORS.textMuted;
+            ctx.fillText(formatTimeGap(silenceDuration), midX, midY - labelSpacing);
+            
+            ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
+            ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
+            ctx.fillText(formatPctChange(pctChange), midX, midY + labelSpacing);
+            
+            // Draw "now" dot at current price (subtle live indicator)
+            ctx.beginPath();
+            ctx.arc(latestX, latestY, 4, 0, Math.PI * 2);
+            ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
+            ctx.fill();
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
     // Draw cluster markers with entrance animation
     // -------------------------------------------------------------------------
     for (let i = 0; i < clusters.length; i++) {
