@@ -619,7 +619,8 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       },
       rightPriceScale: {
         borderColor: COLORS.border,
-        scaleMargins: { top: 0.1, bottom: 0.2 },
+        autoScale: true,
+        scaleMargins: { top: 0.1, bottom: 0.1 },
       },
       handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: true },
       handleScale: {
