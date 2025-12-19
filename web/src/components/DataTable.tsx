@@ -21,6 +21,17 @@ interface DataTableProps {
 const columnHelper = createColumnHelper<TweetEvent>();
 
 /**
+ * Decode HTML entities in text (&gt; &amp; &lt; etc)
+ * Uses a textarea element to leverage browser's native decoding
+ */
+function decodeHtmlEntities(text: string): string {
+  if (typeof document === 'undefined') return text; // SSR safety
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = text;
+  return textarea.value;
+}
+
+/**
  * Compute tweet day statistics from events
  * Returns avg return and win rate for days with tweets
  */
@@ -101,8 +112,9 @@ function TweetDayStats({ events }: { events: TweetEvent[] }) {
 }
 
 export default function DataTable({ events, founder, assetName }: DataTableProps) {
+  // Default sort by % 24H descending (show biggest moves first)
   const [sorting, setSorting] = useState<SortingState>([
-    { id: 'timestamp', desc: true }
+    { id: 'change_24h_pct', desc: true }
   ]);
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -134,12 +146,13 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
       sortingFn: 'basic',
     }),
     
-    // Tweet column - now a clickable link
+    // Tweet column - clickable link with HTML entity decoding
     columnHelper.accessor('text', {
       id: 'tweet',
       header: 'Tweet',
       cell: info => {
         const row = info.row.original;
+        const decodedText = decodeHtmlEntities(info.getValue());
         return (
           <a
             href={`https://twitter.com/${founder}/status/${row.tweet_id}`}
@@ -149,9 +162,9 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
           >
             <p 
               className="text-sm text-[#C9D1D9] truncate hover:text-[#58A6FF] hover:underline transition-colors" 
-              title={info.getValue()}
+              title={decodedText}
             >
-              {info.getValue()}
+              {decodedText}
             </p>
           </a>
         );
@@ -159,7 +172,7 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
       enableSorting: false,
     }),
     
-    // Price column - renamed from "Price @ Tweet"
+    // Price column
     columnHelper.accessor('price_at_tweet', {
       header: 'Price',
       cell: info => {
@@ -175,16 +188,16 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
       sortingFn: 'basic',
     }),
     
-    // % 1h column with heat-map background
+    // % 1h column with heat-map background, neutral text color
     columnHelper.accessor('change_1h_pct', {
-      header: '% 1H',
+      header: '1H',
       cell: info => {
         const change = info.getValue();
         if (change === null) return <span className="text-[#6E7681]">—</span>;
         const isPositive = change >= 0;
         return (
           <span 
-            className={`font-mono text-sm px-2 py-1 rounded ${isPositive ? 'text-[#3FB950]' : 'text-[#F85149]'}`}
+            className="font-mono text-sm px-2 py-1 rounded text-[#C9D1D9]"
             style={{ backgroundColor: getHeatmapBg(change) }}
           >
             {isPositive ? '+' : ''}{change.toFixed(1)}%
@@ -194,16 +207,16 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
       sortingFn: 'basic',
     }),
     
-    // % 24h column with heat-map background
+    // % 24h column with heat-map background, neutral text color
     columnHelper.accessor('change_24h_pct', {
-      header: '% 24H',
+      header: '24H',
       cell: info => {
         const change = info.getValue();
         if (change === null) return <span className="text-[#6E7681]">—</span>;
         const isPositive = change >= 0;
         return (
           <span 
-            className={`font-mono text-sm font-semibold px-2 py-1 rounded ${isPositive ? 'text-[#3FB950]' : 'text-[#F85149]'}`}
+            className="font-mono text-sm font-semibold px-2 py-1 rounded text-[#C9D1D9]"
             style={{ backgroundColor: getHeatmapBg(change) }}
           >
             {isPositive ? '+' : ''}{change.toFixed(1)}%
@@ -225,17 +238,7 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
       meta: { hideOnMobile: true },
     }),
     
-    // Retweets - hidden on mobile
-    columnHelper.accessor('retweets', {
-      header: '🔁',
-      cell: info => (
-        <span className="text-[#8B949E] text-sm">
-          {info.getValue().toLocaleString()}
-        </span>
-      ),
-      sortingFn: 'basic',
-      meta: { hideOnMobile: true },
-    }),
+    // Retweets column removed - data still in CSV export
   ], [founder]);
 
   const table = useReactTable({
@@ -273,7 +276,7 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
 
       {/* Table with horizontal scroll for mobile */}
       <div className="flex-1 overflow-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-        <table className="w-full min-w-[600px]">
+        <table className="w-full min-w-[500px]">
           <thead className="sticky top-0 bg-[#161B22] z-10">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
