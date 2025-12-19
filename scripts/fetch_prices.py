@@ -158,6 +158,37 @@ def warn_outliers(candles: List[Dict], asset_id: str, timeframe: str) -> List[Di
     return outliers
 
 
+def filter_outliers(candles: List[Dict], asset_id: str, timeframe: str) -> List[Dict]:
+    """
+    Detect outliers and REMOVE them from the candle list.
+    
+    Logs removed outliers for transparency.
+    Returns cleaned candle list with outliers removed.
+    """
+    outliers = detect_outliers(candles)
+    
+    if not outliers:
+        return candles
+    
+    # Get timestamps of outliers for filtering
+    outlier_timestamps = {o["timestamp_epoch"] for o in outliers}
+    
+    # Log what we're removing
+    print(f"\n[OUTLIER FILTER] Removing {len(outliers)} outlier candles from {asset_id}/{timeframe}:")
+    for o in outliers[:5]:  # Show first 5
+        ts = datetime.utcfromtimestamp(o["timestamp_epoch"]).strftime("%Y-%m-%d %H:%M")
+        print(f"  {ts}: HIGH=${o['high']:.6f} ({o['outlier_ratio']:.1f}x median)")
+    if len(outliers) > 5:
+        print(f"  ... and {len(outliers) - 5} more")
+    
+    # Filter out outliers
+    cleaned = [c for c in candles if c["timestamp_epoch"] not in outlier_timestamps]
+    
+    print(f"  Kept {len(cleaned)}/{len(candles)} candles\n")
+    
+    return cleaned
+
+
 def fetch_with_retry(fetch_fn, max_retries=5, base_delay=1.0):
     """Execute fetch function with exponential backoff retry."""
     import random
@@ -729,8 +760,8 @@ def fetch_for_asset(
         
         for tf, candles in price_data.items():
             if candles:
-                # OUTLIER DETECTION: Warn loudly but don't block
-                warn_outliers(candles, asset_id, tf)
+                # OUTLIER DETECTION: Remove outliers before insertion
+                candles = filter_outliers(candles, asset_id, tf)
                 
                 inserted = insert_prices(conn, asset_id, tf, candles, data_source="birdeye")
                 
@@ -764,8 +795,8 @@ def fetch_for_asset(
         
         for tf, candles in price_data.items():
             if candles:
-                # OUTLIER DETECTION: Warn loudly but don't block
-                warn_outliers(candles, asset_id, tf)
+                # OUTLIER DETECTION: Remove outliers before insertion
+                candles = filter_outliers(candles, asset_id, tf)
                 
                 inserted = insert_prices(conn, asset_id, tf, candles, data_source="geckoterminal")
                 
@@ -794,8 +825,8 @@ def fetch_for_asset(
         candles = fetch_coingecko_daily(coingecko_id, days=90)
         
         if candles:
-            # OUTLIER DETECTION: Warn loudly but don't block
-            warn_outliers(candles, asset_id, "1d")
+            # OUTLIER DETECTION: Remove outliers before insertion
+            candles = filter_outliers(candles, asset_id, "1d")
             
             inserted = insert_prices(conn, asset_id, "1d", candles, data_source="coingecko")
             latest_ts = max(c["timestamp_epoch"] for c in candles)
@@ -814,8 +845,8 @@ def fetch_for_asset(
         hourly_candles = fetch_coingecko_hourly(coingecko_id, days=30)
         
         if hourly_candles:
-            # OUTLIER DETECTION: Warn loudly but don't block
-            warn_outliers(hourly_candles, asset_id, "1h")
+            # OUTLIER DETECTION: Remove outliers before insertion
+            hourly_candles = filter_outliers(hourly_candles, asset_id, "1h")
             
             inserted = insert_prices(conn, asset_id, "1h", hourly_candles, data_source="coingecko")
             latest_ts = max(c["timestamp_epoch"] for c in hourly_candles)
@@ -841,8 +872,8 @@ def fetch_for_asset(
 
         for tf, candles in price_data.items():
             if candles:
-                # OUTLIER DETECTION: Warn loudly but don't block
-                warn_outliers(candles, asset_id, tf)
+                # OUTLIER DETECTION: Remove outliers before insertion
+                candles = filter_outliers(candles, asset_id, tf)
                 
                 inserted = insert_prices(conn, asset_id, tf, candles, data_source="hyperliquid")
 

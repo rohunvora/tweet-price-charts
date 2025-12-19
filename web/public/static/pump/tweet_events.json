@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-18T21:48:27.331763Z",
+  "generated_at": "2025-12-19T00:28:05.669671Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
@@ -1520,11 +1520,11 @@
       "retweets": 193,
       "replies": 751,
       "impressions": 250489,
-      "price_at_tweet": 0.00796841464240045,
+      "price_at_tweet": 0.007918855488029796,
       "price_1h": 0.007858427005267883,
       "price_24h": 0.007164029784442138,
-      "change_1h_pct": -1.38,
-      "change_24h_pct": -10.09
+      "change_1h_pct": -0.76,
+      "change_24h_pct": -9.53
     },
     {
       "tweet_id": "1969172823366127890",
