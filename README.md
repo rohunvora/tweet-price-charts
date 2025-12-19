@@ -32,11 +32,12 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 - **Smart clustering** - nearby tweets grouped into single markers with count badges
 - **Click-to-tweet** - click any marker to open the original tweet
 
-### Data Analysis
-- **Virtualized data table** with 300+ tweet events per asset
-- **Price impact tracking** - 1h and 24h returns after each tweet
-- **Statistical analysis** - correlation, p-values, win rates
-- **Tweet day vs. silent day** comparison
+### Data Analysis (`/data`)
+- **Sortable data table** - default sorted by 24h impact (biggest moves first)
+- **Tweet Days stats** - avg return and win rate when founder tweets
+- **Price impact tracking** - 1h and 24h % change after each tweet
+- **Clickable tweets** - click any row to open the original tweet on X
+- **Search & export** - filter tweets, export full dataset to CSV
 
 ### Multi-Asset Support
 - **Asset selector** - switch between tracked projects
