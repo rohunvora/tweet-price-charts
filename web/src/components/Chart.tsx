@@ -251,6 +251,8 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       .filter(t => t.price_at_tweet && t.timestamp >= rangeFrom && t.timestamp <= rangeTo)
       .sort((a, b) => a.timestamp - b.timestamp);
 
+    console.log('[Chart] drawMarkers called, visibleTweets:', visibleTweets.length, 'range:', rangeFrom, '-', rangeTo);
+
     if (visibleTweets.length === 0) return;
 
     // -------------------------------------------------------------------------
@@ -323,8 +325,9 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     }
 
     // Debug: log gap info
+    console.log('[Chart] clusters built:', clusters.length);
     if (clusters.length > 1) {
-      const gaps = clusters.slice(1).map((c, i) => ({
+      const gaps = clusters.slice(1).map((c) => ({
         gap: c.timeSincePrev,
         gapHours: c.timeSincePrev ? (c.timeSincePrev / 3600).toFixed(1) : 0,
         threshold: SILENCE_GAP_THRESHOLD / 3600,
