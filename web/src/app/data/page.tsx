@@ -185,7 +185,7 @@ function DataPageContent() {
 
       {/* Data Table */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
-        <DataTable events={tweetEvents} />
+        <DataTable events={tweetEvents} founder={selectedAsset.founder} assetName={selectedAsset.name} />
       </main>
 
       {/* Footer */}

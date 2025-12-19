@@ -14,11 +14,13 @@ import { TweetEvent } from '@/lib/types';
 
 interface DataTableProps {
   events: TweetEvent[];
+  founder: string;
+  assetName: string;
 }
 
 const columnHelper = createColumnHelper<TweetEvent>();
 
-export default function DataTable({ events }: DataTableProps) {
+export default function DataTable({ events, founder, assetName }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'timestamp', desc: true }
   ]);
@@ -136,7 +138,7 @@ export default function DataTable({ events }: DataTableProps) {
       header: '',
       cell: info => (
         <a
-          href={`https://twitter.com/a1lon9/status/${info.getValue()}`}
+          href={`https://twitter.com/${founder}/status/${info.getValue()}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#58A6FF] hover:underline text-sm"
@@ -146,7 +148,7 @@ export default function DataTable({ events }: DataTableProps) {
       ),
       enableSorting: false,
     }),
-  ], []);
+  ], [founder]);
 
   const table = useReactTable({
     data: events,
@@ -171,7 +173,7 @@ export default function DataTable({ events }: DataTableProps) {
           className="flex-1 px-3 py-2 bg-[#0D1117] border border-[#30363D] rounded-lg text-[#C9D1D9] placeholder-[#6E7681] focus:outline-none focus:border-[#58A6FF]"
         />
         <button
-          onClick={() => exportToCSV(events)}
+          onClick={() => exportToCSV(events, founder, assetName)}
           className="px-4 py-2 bg-[#21262D] text-[#C9D1D9] rounded-lg hover:bg-[#30363D] transition-colors"
         >
           Export CSV
@@ -232,7 +234,7 @@ export default function DataTable({ events }: DataTableProps) {
   );
 }
 
-function exportToCSV(events: TweetEvent[]) {
+function exportToCSV(events: TweetEvent[], founder: string, assetName: string) {
   const headers = [
     'Date',
     'Tweet',
@@ -256,18 +258,18 @@ function exportToCSV(events: TweetEvent[]) {
     e.change_24h_pct?.toFixed(2) ?? '',
     e.likes,
     e.retweets,
-    `https://twitter.com/a1lon9/status/${e.tweet_id}`
+    `https://twitter.com/${founder}/status/${e.tweet_id}`
   ]);
 
   const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
-  
+
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'pump_tweet_data.csv';
+  a.download = `${assetName.toLowerCase()}_tweet_data.csv`;
   a.click();
-  
+
   URL.revokeObjectURL(url);
 }
 

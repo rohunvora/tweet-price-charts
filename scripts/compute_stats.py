@@ -179,20 +179,20 @@ def compute_quiet_periods(
     
     # Check if currently in quiet period
     if sorted_events:
-    last_ts = sorted_events[-1]["timestamp"]
-    now_ts = int(datetime.utcnow().timestamp())
-    gap_days = (now_ts - last_ts) / DAY
-    
-    if gap_days >= min_gap_days:
-        quiet_periods.append({
-            "start_ts": last_ts,
-            "end_ts": now_ts,
-            "gap_days": round(gap_days, 1),
-            "start_date": datetime.utcfromtimestamp(last_ts).strftime("%Y-%m-%d"),
-            "end_date": "ongoing",
-            "is_current": True,
-        })
-    
+        last_ts = sorted_events[-1]["timestamp"]
+        now_ts = int(datetime.utcnow().timestamp())
+        gap_days = (now_ts - last_ts) / DAY
+
+        if gap_days >= min_gap_days:
+            quiet_periods.append({
+                "start_ts": last_ts,
+                "end_ts": now_ts,
+                "gap_days": round(gap_days, 1),
+                "start_date": datetime.utcfromtimestamp(last_ts).strftime("%Y-%m-%d"),
+                "end_date": "ongoing",
+                "is_current": True,
+            })
+
     return quiet_periods
 
 

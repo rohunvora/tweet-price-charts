@@ -39,8 +39,8 @@ CG_API = "https://api.coingecko.com/api/v3"
 HL_API = "https://api.hyperliquid.xyz/info"
 BE_API = "https://public-api.birdeye.so"
 
-# Birdeye API key from environment
-BIRDEYE_API_KEY = os.getenv("BIRDEYE_API_KEY", "d344aab8d70546d681fa3d1247b93bb9")
+# Birdeye API key from environment (required for Solana historical data)
+BIRDEYE_API_KEY = os.getenv("BIRDEYE_API_KEY")
 
 MAX_CANDLES_PER_REQUEST = 1000
 HL_MAX_CANDLES = 5000  # Hyperliquid limit
@@ -230,6 +230,9 @@ def fetch_birdeye_ohlcv(
     
     Returns list of candles.
     """
+    if not BIRDEYE_API_KEY:
+        raise ValueError("BIRDEYE_API_KEY environment variable is required for Birdeye API calls")
+
     be_type = BE_INTERVALS.get(timeframe, "1m")
     url = f"{BE_API}/defi/ohlcv"
     
