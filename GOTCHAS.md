@@ -30,6 +30,51 @@ seen_timestamps.add(ts_epoch)
 
 ---
 
+## DOUBLE CANDLE Issue (1D Charts)
+
+### What It Looks Like
+
+The daily (1D) chart shows **two or more candles for the same day**, making the chart look "doubled" or have irregular spacing.
+
+### Root Cause
+
+Daily price data comes from multiple sources with **different timestamp conventions**:
+
+| Source | Timestamp Convention |
+|--------|---------------------|
+| CoinGecko API | 00:00 UTC (midnight) |
+| GeckoTerminal | 04:00 or 05:00 UTC |
+| Birdeye backfill | 00:00 UTC |
+| Hyperliquid API | 05:00 UTC |
+
+When data from multiple sources is merged, you get **multiple candles per day**.
+
+### How It's Fixed (Automatic)
+
+`export_static.py` automatically normalizes all 1D timestamps to midnight UTC:
+
+```python
+# 1D TIMESTAMP NORMALIZATION - DO NOT REMOVE
+if timeframe == "1d":
+    normalized_ts = (ts_epoch // 86400) * 86400  # Snap to midnight
+```
+
+After normalization, deduplication keeps only the first candle for each timestamp.
+
+### Verification
+
+Run `python export_static.py` and look for:
+```
+(Normalized 379 timestamps to midnight UTC)
+(Deduplicated 379 candles - same day from different sources)
+```
+
+### If Still Broken
+
+See `docs/DATA_QUALITY_ISSUES.md` for detailed diagnosis and historical incidents.
+
+---
+
 ## Database: Non-Obvious Design Decisions
 
 ### Staleness Limits in tweet_events View (db.py:139-142)

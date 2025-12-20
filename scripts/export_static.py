@@ -280,10 +280,31 @@ def export_timeframe(
     wicks_capped = 0
     overrides_applied = 0
 
+    normalized_count = 0
+
     for row in cursor.fetchall():
         ts, o, h, l, c, v = row
         # Convert to Unix timestamp
         ts_epoch = int(ts.timestamp()) if hasattr(ts, 'timestamp') else ts
+
+        # =================================================================
+        # 1D TIMESTAMP NORMALIZATION - DO NOT REMOVE
+        # =================================================================
+        # Daily candles can come from multiple sources with different timestamp
+        # conventions (midnight UTC, 4am UTC, 5am UTC, etc.). This causes the
+        # "DOUBLE CANDLE" issue where charts show 2+ candles per day.
+        #
+        # Solution: Normalize all 1D timestamps to midnight UTC (00:00:00).
+        # This snaps any timestamp to the start of its day.
+        #
+        # See GOTCHAS.md and docs/DATA_QUALITY_ISSUES.md for full context.
+        # =================================================================
+        if timeframe == "1d":
+            # Snap to midnight UTC: floor divide by 86400 seconds, multiply back
+            normalized_ts = (ts_epoch // 86400) * 86400
+            if normalized_ts != ts_epoch:
+                normalized_count += 1
+            ts_epoch = normalized_ts
 
         # =================================================================
         # DST DEDUPLICATION - DO NOT REMOVE
@@ -328,8 +349,10 @@ def export_timeframe(
 
         candles.append(candle)
 
+    if normalized_count > 0:
+        print(f"    (Normalized {normalized_count} timestamps to midnight UTC)")
     if duplicates_skipped > 0:
-        print(f"    (Skipped {duplicates_skipped} duplicate timestamps - DST artifacts)")
+        print(f"    (Deduplicated {duplicates_skipped} candles - same day from different sources)")
     if wicks_capped > 0:
         print(f"    (Capped {wicks_capped} fake wicks)")
     if overrides_applied > 0:
