@@ -681,6 +681,84 @@ def export_all_assets(strict: bool = False) -> Dict[str, Any]:
     return results
 
 
+def validate_exported_data() -> bool:
+    """
+    Post-export validation to catch data integrity issues.
+
+    Checks:
+    1. All 1D timestamps are at midnight UTC
+    2. No duplicate timestamps
+    3. Timestamps are sorted ascending
+    4. Logs coverage percentage for each asset
+
+    Returns True if all checks pass, False if any issues found.
+    """
+    from datetime import datetime
+
+    print("\n" + "=" * 60)
+    print("POST-EXPORT VALIDATION")
+    print("=" * 60)
+
+    all_passed = True
+
+    for asset_dir in PUBLIC_DATA_DIR.iterdir():
+        if not asset_dir.is_dir():
+            continue
+
+        asset_id = asset_dir.name
+        prices_file = asset_dir / "prices_1d.json"
+
+        if not prices_file.exists():
+            continue
+
+        with open(prices_file) as f:
+            data = json.load(f)
+
+        candles = data.get("candles", [])
+        if not candles:
+            continue
+
+        timestamps = [c["t"] for c in candles]
+        issues = []
+
+        # Check 1: All at midnight UTC
+        hours = set(datetime.utcfromtimestamp(t).hour for t in timestamps)
+        if hours != {0}:
+            issues.append(f"timestamps not at midnight: hours={hours}")
+
+        # Check 2: No duplicates
+        if len(timestamps) != len(set(timestamps)):
+            dup_count = len(timestamps) - len(set(timestamps))
+            issues.append(f"{dup_count} duplicate timestamps")
+
+        # Check 3: Sorted ascending
+        if timestamps != sorted(timestamps):
+            issues.append("timestamps not sorted")
+
+        # Check 4: Coverage (for logging)
+        if len(timestamps) >= 2:
+            ts_sorted = sorted(timestamps)
+            expected_days = (ts_sorted[-1] - ts_sorted[0]) // 86400 + 1
+            coverage = len(timestamps) / expected_days * 100
+        else:
+            coverage = 100.0
+
+        if issues:
+            all_passed = False
+            print(f"  ❌ {asset_id}: {', '.join(issues)}")
+        else:
+            coverage_icon = "✓" if coverage >= 95 else "⚠️"
+            print(f"  {coverage_icon} {asset_id}: {len(candles)} candles, {coverage:.1f}% coverage")
+
+    print("=" * 60)
+    if all_passed:
+        print("✓ All validation checks passed")
+    else:
+        print("❌ VALIDATION FAILED - see errors above")
+
+    return all_passed
+
+
 def export_assets_json():
     """Copy assets.json to public directory for frontend."""
     if not ASSETS_FILE.exists():
@@ -758,7 +836,10 @@ def main():
         print(f"\nResult: {result}")
     else:
         results = export_all_assets(strict=args.strict)
-        
+
+        # Run post-export validation
+        validate_exported_data()
+
         # Print summary
         print("\n" + "=" * 60)
         print("EXPORT SUMMARY")
