@@ -80,6 +80,30 @@ This prevents showing tweets from BEFORE the token existed.
 
 ---
 
+## Fake Wick Detection (export_static.py)
+
+### Automatic Wick Capping at Export Time
+
+Fake wicks (MEV bots, fat fingers, data errors) are automatically capped during export.
+
+**How it works:**
+- If HIGH > max(OPEN, CLOSE) * 2, cap HIGH to that limit
+- If LOW < min(OPEN, CLOSE) / 2, cap LOW to that limit
+
+**Why this approach:**
+- Catches fake spikes (HIGH way above both OPEN and CLOSE)
+- Preserves legitimate crashes (where HIGH ≈ OPEN, price falls to lower CLOSE)
+- Automatic - no manual intervention needed
+- Non-destructive - candles are preserved, just wicks are capped
+
+**Example:**
+- PUMP spike: O=0.008, H=0.020, C=0.008 → HIGH capped to 0.016 (2x max body)
+- BELIEVE crash: O=0.038, H=0.038, C=0.0003 → No change (HIGH ≈ OPEN, legitimate)
+
+**Configuration:** `WICK_CAP_MULTIPLIER = 2.0` in export_static.py
+
+---
+
 ## API Quirks: Know Before You Fetch
 
 ### GeckoTerminal Only Supports Backward Pagination (fetch_prices.py)

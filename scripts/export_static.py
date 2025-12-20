@@ -34,6 +34,51 @@ from db import (
 )
 
 
+# =============================================================================
+# FAKE WICK DETECTION - Automatic outlier capping at export time
+# =============================================================================
+#
+# Fake wicks occur when HIGH spikes way above both OPEN and CLOSE (or LOW dips
+# way below both). These are typically MEV bots, fat fingers, or data errors.
+#
+# Detection: If HIGH > max(OPEN, CLOSE) * WICK_CAP_MULTIPLIER, cap it.
+# This preserves legitimate crashes (where HIGH ≈ OPEN) while removing spikes.
+#
+# See GOTCHAS.md for context.
+# =============================================================================
+
+WICK_CAP_MULTIPLIER = 2.0  # Allow wicks up to 2x the candle body
+
+
+def cap_fake_wicks(o: float, h: float, l: float, c: float) -> tuple:
+    """
+    Cap fake wicks that spike beyond reasonable bounds.
+
+    A fake wick has HIGH way above both OPEN and CLOSE (or LOW way below both).
+    We cap HIGH to max(O,C) * 2 and LOW to min(O,C) / 2.
+
+    Returns (h, l) - potentially capped values.
+    """
+    if o is None or h is None or l is None or c is None:
+        return h, l
+
+    if o <= 0 or c <= 0:
+        return h, l
+
+    max_body = max(o, c)
+    min_body = min(o, c)
+
+    # Cap upper wick
+    max_allowed_high = max_body * WICK_CAP_MULTIPLIER
+    capped_h = min(h, max_allowed_high) if h > max_allowed_high else h
+
+    # Cap lower wick
+    min_allowed_low = min_body / WICK_CAP_MULTIPLIER
+    capped_l = max(l, min_allowed_low) if l < min_allowed_low else l
+
+    return capped_h, capped_l
+
+
 def export_prices_for_asset(
     conn,
     asset_id: str,
@@ -103,6 +148,7 @@ def export_timeframe(
     candles = []
     seen_timestamps = set()
     duplicates_skipped = 0
+    wicks_capped = 0
 
     for row in cursor.fetchall():
         ts, o, h, l, c, v = row
@@ -122,18 +168,25 @@ def export_timeframe(
             continue
         seen_timestamps.add(ts_epoch)
 
+        # Cap fake wicks (MEV/fat finger spikes)
+        capped_h, capped_l = cap_fake_wicks(o, h, l, c)
+        if capped_h != h or capped_l != l:
+            wicks_capped += 1
+
         # Compact format for smaller files
         candles.append({
             "t": ts_epoch,
             "o": round(o, 8) if o else 0,
-            "h": round(h, 8) if h else 0,
-            "l": round(l, 8) if l else 0,
+            "h": round(capped_h, 8) if capped_h else 0,
+            "l": round(capped_l, 8) if capped_l else 0,
             "c": round(c, 8) if c else 0,
             "v": round(v, 2) if v else 0,
         })
 
     if duplicates_skipped > 0:
         print(f"    (Skipped {duplicates_skipped} duplicate timestamps - DST artifacts)")
+    if wicks_capped > 0:
+        print(f"    (Capped {wicks_capped} fake wicks)")
 
     if not candles:
         return 0
@@ -203,6 +256,7 @@ def export_1m_chunked(
     months = {}
     seen_timestamps = set()
     duplicates_skipped = 0
+    wicks_capped = 0
 
     for row in cursor.fetchall():
         ts, o, h, l, c, v = row
@@ -221,21 +275,28 @@ def export_1m_chunked(
             continue
         seen_timestamps.add(ts_epoch)
 
+        # Cap fake wicks (MEV/fat finger spikes)
+        capped_h, capped_l = cap_fake_wicks(o, h, l, c)
+        if capped_h != h or capped_l != l:
+            wicks_capped += 1
+
         if month_key not in months:
             months[month_key] = []
 
         months[month_key].append({
             "t": ts_epoch,
             "o": round(o, 8) if o else 0,
-            "h": round(h, 8) if h else 0,
-            "l": round(l, 8) if l else 0,
+            "h": round(capped_h, 8) if capped_h else 0,
+            "l": round(capped_l, 8) if capped_l else 0,
             "c": round(c, 8) if c else 0,
             "v": round(v, 2) if v else 0,
         })
 
     if duplicates_skipped > 0:
         print(f"    (Skipped {duplicates_skipped} duplicate 1m timestamps - DST artifacts)")
-    
+    if wicks_capped > 0:
+        print(f"    (Capped {wicks_capped} fake wicks in 1m data)")
+
     if not months:
         return 0
     
