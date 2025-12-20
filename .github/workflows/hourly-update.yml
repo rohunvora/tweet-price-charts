@@ -71,6 +71,9 @@ jobs:
             exit 1
           fi
 
+      # YAML HEREDOC SYNTAX FOR INLINE PYTHON
+      # DO NOT use `python -c "..."` for multiline code - YAML parsing breaks.
+      # See GOTCHAS.md for context.
       - name: Verify database and show status
         id: verify-db
         run: |

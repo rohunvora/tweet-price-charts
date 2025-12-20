@@ -109,9 +109,14 @@ def export_timeframe(
         # Convert to Unix timestamp
         ts_epoch = int(ts.timestamp()) if hasattr(ts, 'timestamp') else ts
 
-        # Skip duplicate timestamps (caused by DST transitions)
-        # When clocks "spring forward", two different wall-clock hours
-        # can map to the same Unix timestamp
+        # =================================================================
+        # DST DEDUPLICATION - DO NOT REMOVE
+        # =================================================================
+        # During DST "fall back" transitions, two different wall-clock times
+        # can map to the SAME Unix timestamp. lightweight-charts CRASHES on
+        # duplicate timestamps with "Value is null" error.
+        # See GOTCHAS.md for full context.
+        # =================================================================
         if ts_epoch in seen_timestamps:
             duplicates_skipped += 1
             continue
@@ -148,8 +153,13 @@ def export_timeframe(
     with open(filepath, "w") as f:
         json.dump(output, f, separators=(",", ":"))
 
-    # SAFETY CHECK: Verify no duplicate timestamps in output
-    # lightweight-charts crashes on duplicates - fail loudly if this ever happens
+    # =================================================================
+    # SAFETY CHECK - DO NOT REMOVE
+    # =================================================================
+    # Verify no duplicate timestamps in output.
+    # lightweight-charts crashes with "Value is null" on duplicates.
+    # This check catches any bugs in the deduplication logic above.
+    # =================================================================
     timestamps = [c["t"] for c in candles]
     if len(timestamps) != len(set(timestamps)):
         raise ValueError(f"CRITICAL: Duplicate timestamps in {filepath} - this will crash the chart!")
@@ -165,7 +175,23 @@ def export_1m_chunked(
     asset_id: str,
     output_dir: Path
 ) -> int:
-    """Export 1m data chunked by month for lazy loading."""
+    """
+    Export 1m data chunked by month for lazy loading.
+
+    WHY CHUNKED BY MONTH:
+    Large assets can have millions of 1-minute candles. We chunk by month for:
+    1. Lazy loading in frontend (only load visible range)
+    2. Smaller individual file sizes
+    3. Efficient cache invalidation (only update current month)
+
+    Output structure:
+        prices_1m_index.json     # Lists all chunks with date ranges
+        prices_1m_2025-07.json   # July 2025 data
+        prices_1m_2025-08.json   # August 2025 data
+
+    DO NOT switch to a single prices_1m.json - it will break the frontend.
+    See GOTCHAS.md.
+    """
     cursor = conn.execute("""
         SELECT timestamp, open, high, low, close, volume
         FROM prices
@@ -189,7 +215,7 @@ def export_1m_chunked(
             month_key = dt.strftime("%Y-%m")
             ts_epoch = ts
 
-        # Skip duplicate timestamps (caused by DST transitions)
+        # DST DEDUPLICATION - DO NOT REMOVE (see comment in export_timeframe)
         if ts_epoch in seen_timestamps:
             duplicates_skipped += 1
             continue

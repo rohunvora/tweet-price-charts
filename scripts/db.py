@@ -80,6 +80,10 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
     """)
     
     # Prices table (v2: added data_source for provenance tracking)
+    #
+    # PRIMARY KEY (asset_id, timeframe, timestamp):
+    # DO NOT CHANGE - The upsert logic in insert_prices() depends on this
+    # composite key for ON CONFLICT behavior. See GOTCHAS.md.
     conn.execute("""
         CREATE TABLE IF NOT EXISTS prices (
             asset_id VARCHAR NOT NULL,
@@ -134,12 +138,27 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
         ON prices(data_source)
     """)
     
-    # Create optimized tweet_events view with timeframe fallback
-    # Uses 1m data if available, falls back to 1h, then 1d
-    # IMPORTANT: Each timeframe has a staleness limit to prevent using stale data:
-    #   - 1m: max 1 hour old (prevents old 1m data from overriding fresh 1h/1d)
+    # ==========================================================================
+    # tweet_events VIEW - Core alignment between tweets and prices
+    # ==========================================================================
+    #
+    # WHY THIS EXISTS:
+    # This view aligns tweets with the best available price data at tweet time.
+    # It uses timeframe fallback (1m > 1h > 1d) with staleness limits.
+    #
+    # STALENESS LIMITS - DO NOT REMOVE:
+    #   - 1m: max 1 hour old
     #   - 1h: max 24 hours old
     #   - 1d: max 7 days old
+    #
+    # WHY STALENESS LIMITS:
+    # Without them, a tweet from TODAY could match 1m data from MONTHS AGO
+    # (when 1m collection started) instead of fresh 1h/1d data. This caused
+    # wildly incorrect price_at_tweet values. See GOTCHAS.md.
+    #
+    # CASE STATEMENT ORDERING (1m=1, 1h=2, 1d=3):
+    # DO NOT CHANGE - this defines the fallback priority.
+    # ==========================================================================
     conn.execute("""
         CREATE OR REPLACE VIEW tweet_events AS
         WITH tweet_base AS (
@@ -521,8 +540,14 @@ def insert_tweets(
     tweets: List[Dict[str, Any]]
 ) -> int:
     """
-    Insert tweets into database. Uses INSERT OR IGNORE for deduplication.
+    Insert tweets into database.
     Returns number of tweets inserted.
+
+    IMPORTANT - Uses ON CONFLICT DO UPDATE, NOT INSERT OR IGNORE:
+    We WANT to update engagement metrics (likes, retweets, impressions)
+    on re-fetch while preserving the original timestamp and text.
+    Using INSERT OR IGNORE would discard updated metrics.
+    See GOTCHAS.md.
     """
     if not tweets:
         return 0
@@ -810,7 +835,11 @@ def init_db(db_path: Path = ANALYTICS_DB) -> duckdb.DuckDBPyConnection:
 # OUTLIER DETECTION FUNCTIONS (for CLI)
 # =============================================================================
 
-OUTLIER_THRESHOLD_STD = 5  # Default threshold (lower catches more outliers)
+# WHY 5-SIGMA, NOT 3-SIGMA:
+# Crypto prices have fat tails. Using 3-sigma (standard for normal distributions)
+# flagged legitimate 50-100% pumps as outliers. 5-sigma catches only true
+# anomalies like sniper bot spikes (1000x+ of median). See GOTCHAS.md.
+OUTLIER_THRESHOLD_STD = 5  # DO NOT lower without testing on real pump data
 OUTLIER_MIN_CANDLES = 20    # Minimum candles for detection
 
 

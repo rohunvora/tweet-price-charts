@@ -49,7 +49,8 @@ BE_MAX_CANDLES = 1000  # Birdeye limit
 RATE_LIMIT_DELAY = 0.5  # Be nice to the APIs
 
 # Outlier detection defaults
-OUTLIER_THRESHOLD_STD = 5  # Flag candles > N std deviations from median
+# WHY 5-SIGMA: Crypto has fat tails. 3-sigma flags legitimate pumps. See GOTCHAS.md.
+OUTLIER_THRESHOLD_STD = 5  # DO NOT lower without testing on real pump data
 OUTLIER_MIN_CANDLES = 20    # Need at least this many candles for detection
 
 # Hyperliquid interval mapping
@@ -351,7 +352,20 @@ def fetch_birdeye_all_timeframes(
 
 
 # =============================================================================
-# GECKOTERMINAL FETCHER (EXISTING)
+# GECKOTERMINAL FETCHER
+# =============================================================================
+#
+# API QUIRK - BACKWARD PAGINATION ONLY:
+# GeckoTerminal only supports `before_timestamp`, NOT `after_timestamp`.
+# You MUST paginate backwards from present to past.
+#
+# For incremental fetching, we:
+# 1. Fetch the most recent page
+# 2. Filter out candles older than our last known timestamp
+# 3. Stop when we hit existing data
+#
+# DO NOT try to add after_timestamp - the API doesn't support it.
+# See GOTCHAS.md.
 # =============================================================================
 
 def fetch_geckoterminal_ohlcv(
@@ -362,13 +376,13 @@ def fetch_geckoterminal_ohlcv(
 ) -> Tuple[List[Dict], Optional[int]]:
     """
     Fetch a single page of OHLCV data from GeckoTerminal.
-    
+
     Args:
         network: Network name (e.g., 'solana', 'eth', 'bsc')
         pool_address: DEX pool address
         timeframe: One of '1m', '15m', '1h', '1d'
         before_timestamp: Pagination - fetch data before this timestamp
-    
+
     Returns (candles, oldest_timestamp_in_page).
     """
     tf_type, aggregate = TIMEFRAME_TO_GT[timeframe]
@@ -824,15 +838,19 @@ def fetch_for_asset(
             timeframes = TIMEFRAMES
 
         # Get existing timestamps for incremental fetch (only fetch what's new)
+        #
+        # TIMEZONE GOTCHA - Use calendar.timegm(), NOT datetime.timestamp():
+        # DuckDB returns naive datetime objects. Using .timestamp() interprets
+        # them as LOCAL time, which breaks incremental fetch logic.
+        # calendar.timegm() correctly treats them as UTC. See GOTCHAS.md.
         stop_at_timestamps = {}
         if not full_fetch:
             for tf in timeframes:
                 state = get_ingestion_state(conn, asset_id, f"prices_{tf}")
                 if state and state.get("last_timestamp"):
                     last_ts = state["last_timestamp"]
-                    # Handle datetime (treat as UTC) or raw timestamp
                     if hasattr(last_ts, 'year'):
-                        # Naive datetime from DB - treat as UTC
+                        # Naive datetime from DB - treat as UTC (NOT local time!)
                         stop_at_timestamps[tf] = int(calendar.timegm(last_ts.timetuple()))
                     else:
                         stop_at_timestamps[tf] = int(last_ts)
