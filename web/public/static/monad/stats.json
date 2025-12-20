@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-20T21:13:34.897792Z",
+  "generated_at": "2025-12-20T22:11:18.307475Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
@@ -73,7 +73,7 @@
   "quiet_periods": [
     {
       "start_ts": 1765997773,
-      "end_ts": 1766265214,
+      "end_ts": 1766268678,
       "gap_days": 3.1,
       "start_date": "2025-12-17",
       "end_date": "ongoing",
