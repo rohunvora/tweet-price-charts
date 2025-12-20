@@ -1,5 +1,45 @@
 'use client';
 
+/**
+ * =============================================================================
+ * Chart.tsx - Interactive Price Chart with Tweet Markers
+ * =============================================================================
+ *
+ * PURPOSE:
+ * Displays cryptocurrency price data with founder tweet markers overlaid.
+ * The core value proposition is showing the relationship between tweets and
+ * price movement - users can see "what did the founder say, and what happened
+ * to the price?"
+ *
+ * KEY FEATURES:
+ * 1. Candlestick price chart (via lightweight-charts library)
+ * 2. Tweet markers that cluster when zoomed out (X-axis only clustering)
+ * 3. Silence gap lines showing price change during periods of no tweets
+ * 4. Semantic zoom: labels appear/disappear based on zoom level
+ * 5. Click-to-drill-down on clusters with eager timeframe switching
+ *
+ * ARCHITECTURE DECISIONS:
+ * - Markers are drawn on a separate canvas overlay (not lightweight-charts markers)
+ *   because we need custom clustering, animations, and hover behavior
+ * - Clustering uses "drifting center" algorithm where cluster center moves
+ *   toward each new tweet, allowing accumulation over wider ranges
+ * - Gap statistics use actual tweet boundaries (firstTweet/lastTweet) not
+ *   cluster averages, ensuring zoom-independent % calculations
+ *
+ * PERFORMANCE NOTES:
+ * - Tested with 420+ tweets (USELESS) and 306 tweets (ASTER)
+ * - drawMarkers() is called on every pan/zoom, must stay fast
+ * - Binary search used for finding nearest candle times
+ *
+ * MAINTENANCE HISTORY:
+ * - Original clustering used fixed threshold, changed to adaptive (bubbleSize + 8)
+ * - Gap lines originally required 24h threshold, now draw always with
+ *   adaptive label threshold (semantic zoom pattern)
+ * - Timeframe switching changed from conservative to eager on cluster click
+ *
+ * =============================================================================
+ */
+
 import { useEffect, useRef, useState, useCallback } from 'react';
 import {
   createChart,
@@ -14,36 +54,59 @@ import { Timeframe, TweetEvent, Candle, Asset } from '@/lib/types';
 import { loadPrices, toCandlestickData, getSortedTweetTimestamps } from '@/lib/dataLoader';
 import { formatTimeGap, formatPctChange } from '@/lib/formatters';
 
+
 // =============================================================================
-// Constants
+// CONSTANTS - Thresholds and Configuration
+// =============================================================================
+//
+// IMPORTANT: These values have been tuned through testing on dense datasets
+// (USELESS: 420 tweets, ASTER: 306 tweets). Change with caution.
 // =============================================================================
 
-/** Silence gap threshold: only show line if gap exceeds 24 hours */
+/**
+ * Maximum gap threshold for showing labels on silence gap lines.
+ * Used as the CEILING for adaptive label threshold calculation.
+ *
+ * Why 24 hours: Represents a "significant" silence when viewing all-time data.
+ * Shorter gaps are still connected with lines, but don't get labels to avoid clutter.
+ */
 const SILENCE_GAP_THRESHOLD = 24 * 60 * 60; // 24 hours in seconds
 
-/** Chart theme colors (TradingView dark theme inspired) */
+/**
+ * Chart theme colors - TradingView dark theme inspired.
+ * Candlestick colors are intentionally muted (60-80% opacity) so tweet
+ * markers stand out as the primary visual element.
+ */
 const COLORS = {
+  // Base theme
   background: '#131722',
   text: '#D1D4DC',
   textMuted: '#787B86',
   gridLines: '#1E222D',
   border: '#2A2E39',
   crosshair: '#758696',
-  // Candlestick colors (slightly muted to not compete with markers)
-  candleUp: 'rgba(38, 166, 154, 0.6)',
-  candleDown: 'rgba(239, 83, 80, 0.6)',
+
+  // Candlestick colors (muted to not compete with markers)
+  candleUp: 'rgba(38, 166, 154, 0.6)',      // Green, 60% opacity
+  candleDown: 'rgba(239, 83, 80, 0.6)',     // Red, 60% opacity
   candleBorderUp: 'rgba(38, 166, 154, 0.8)',
   candleBorderDown: 'rgba(239, 83, 80, 0.8)',
-  // Marker colors
+
+  // Default marker colors (overridden by asset.color)
   markerPrimary: '#2962FF',
-  markerHoverGlow: 'rgba(41, 98, 255, 0.3)',
-  markerMultipleGlow: 'rgba(41, 98, 255, 0.4)',
-  // Price change colors
-  positive: '#26A69A',
-  negative: '#EF5350',
+  markerHoverGlow: 'rgba(41, 98, 255, 0.3)',    // 30% opacity for hover
+  markerMultipleGlow: 'rgba(41, 98, 255, 0.4)', // 40% opacity for multi-tweet
+
+  // Price change indicator colors (same as TradingView)
+  positive: '#26A69A',  // Teal green
+  negative: '#EF5350',  // Coral red
 } as const;
 
-/** Available timeframe options (1m removed - too much data, rarely useful) */
+/**
+ * Available timeframe options shown in the UI.
+ * 1m is excluded because it generates too much data and is rarely useful
+ * for the tweet-to-price analysis use case.
+ */
 const TIMEFRAMES: { label: string; value: Timeframe }[] = [
   { label: '15m', value: '15m' },
   { label: '1h', value: '1h' },
@@ -51,88 +114,123 @@ const TIMEFRAMES: { label: string; value: Timeframe }[] = [
 ];
 
 // =============================================================================
-// Types
+// TYPES
 // =============================================================================
 
+/** Props for the Chart component */
 interface ChartProps {
-  tweetEvents: TweetEvent[];
-  asset: Asset;
+  tweetEvents: TweetEvent[];  // All tweets for this asset (pre-sorted by timestamp)
+  asset: Asset;               // Asset metadata (id, name, founder, color)
 }
 
-/** Internal representation of a tweet cluster for rendering */
+/**
+ * Internal representation of a tweet cluster for rendering.
+ *
+ * CLUSTERING EXPLAINED:
+ * When tweets are close together on the X-axis (time), they get merged into
+ * a single visual cluster to prevent overlap. The cluster tracks:
+ * - Visual position (x, y): Where to draw the bubble (uses averages)
+ * - Statistics (firstTweet, lastTweet): For calculating gap stats (actual boundaries)
+ *
+ * WHY SEPARATE VISUAL VS STATISTICAL POSITIONS:
+ * Visual: Average position keeps the bubble centered over the tweets it represents
+ * Statistical: Actual boundaries ensure % changes are zoom-independent
+ */
 interface TweetClusterDisplay {
-  tweets: TweetEvent[];
-  x: number;           // Screen X (avg position for visual centering)
-  y: number;           // Screen Y (avg position for visual centering)
-  avgPrice: number;
-  avgTimestamp: number;
-  avgChange: number | null;
-  // Actual tweet boundaries for zoom-independent statistics
-  firstTweet: TweetEvent;
-  lastTweet: TweetEvent;
-  timeSincePrev: number | null;
-  pctSincePrev: number | null;
+  tweets: TweetEvent[];       // All tweets in this cluster
+
+  // Visual positioning (where to draw the bubble)
+  x: number;                  // Screen X coordinate (drifting average)
+  y: number;                  // Screen Y coordinate (from avgPrice)
+  avgPrice: number;           // Average price of all tweets in cluster
+  avgTimestamp: number;       // Average timestamp (for sorting)
+  avgChange: number | null;   // Average 1h price change (for potential future use)
+
+  // Statistical boundaries (for gap calculations)
+  // Using actual tweet boundaries ensures % change is consistent regardless of zoom
+  firstTweet: TweetEvent;     // Chronologically first tweet in cluster
+  lastTweet: TweetEvent;      // Chronologically last tweet in cluster
+
+  // Gap statistics (calculated after all clusters are built)
+  timeSincePrev: number | null;  // Seconds since previous cluster's lastTweet
+  pctSincePrev: number | null;   // Price % change during that gap
 }
 
 
 // =============================================================================
-// Component
+// COMPONENT
 // =============================================================================
 
 /**
  * Interactive price chart with tweet markers overlaid.
- * 
- * Features:
- * - Candlestick price data from multiple timeframes
- * - Tweet markers that cluster when zoomed out
- * - Silence gap annotations showing price change during tweet gaps
- * - Hover tooltips and click-to-open-tweet
+ *
+ * This is the main visualization component showing the relationship between
+ * founder tweets and token price movement.
+ *
+ * @param tweetEvents - All tweets for this asset, with price data attached
+ * @param asset - Asset metadata including founder info and theme color
  */
 export default function Chart({ tweetEvents, asset }: ChartProps) {
+  // DEBUG: Remove or gate behind env var for production
   console.log(`[Chart] Rendering ${asset.name} with ${tweetEvents.length} tweets`);
-  
-  // ---------------------------------------------------------------------------
-  // Refs
-  // ---------------------------------------------------------------------------
-  const containerRef = useRef<HTMLDivElement>(null);
-  const chartRef = useRef<IChartApi | null>(null);
-  const seriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
-  const markersCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const avatarRef = useRef<HTMLImageElement | null>(null);
-  
-  // Data refs (avoid stale closures in callbacks)
-  const tweetEventsRef = useRef(tweetEvents);
-  const showBubblesRef = useRef(true);
-  const hoveredTweetRef = useRef<TweetEvent | null>(null);
-  const candleTimesRef = useRef<number[]>([]);
-  const candlesRef = useRef<Candle[]>([]);
-  const sortedTweetTimestampsRef = useRef<number[]>([]);
-  const assetRef = useRef(asset);
-  
-  // Cluster zoom refs
-  const clustersRef = useRef<TweetClusterDisplay[]>([]);
-  const pendingZoomRef = useRef<{from: number, to: number} | null>(null);
-  const bubbleAnimRef = useRef<{start: number, active: boolean}>({start: 0, active: false});
-  const zoomToClusterRef = useRef<((cluster: TweetClusterDisplay) => void) | null>(null);
-  const animateToRangeRef = useRef<((from: number, to: number) => void) | null>(null);
 
-  // ---------------------------------------------------------------------------
-  // State
-  // ---------------------------------------------------------------------------
-  const [timeframe, setTimeframe] = useState<Timeframe>('1d');
-  const [loading, setLoading] = useState(true);
-  const [showBubbles, setShowBubbles] = useState(true);
-  const [hoveredTweet, setHoveredTweet] = useState<TweetEvent | null>(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [avatarLoaded, setAvatarLoaded] = useState(false);
-  const [availableTimeframes, setAvailableTimeframes] = useState<Set<Timeframe>>(new Set(['1d']));
-  const [noData, setNoData] = useState(false);
-  const [containerWidth, setContainerWidth] = useState(800);
+  // ===========================================================================
+  // REFS - Mutable values that persist across renders
+  // ===========================================================================
+  //
+  // We use refs extensively to avoid stale closure issues in callbacks.
+  // When a callback is created (e.g., in useCallback), it captures the values
+  // at creation time. Refs let us always access the current value.
+  // ===========================================================================
 
-  // ---------------------------------------------------------------------------
-  // Sync refs with state/props
-  // ---------------------------------------------------------------------------
+  // DOM element refs
+  const containerRef = useRef<HTMLDivElement>(null);      // Chart container div
+  const markersCanvasRef = useRef<HTMLCanvasElement | null>(null);  // Overlay canvas for markers
+  const avatarRef = useRef<HTMLImageElement | null>(null);  // Cached founder avatar image
+
+  // Lightweight-charts refs
+  const chartRef = useRef<IChartApi | null>(null);        // Chart instance
+  const seriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);  // Candlestick series
+
+  // Data refs (synced from props/state to avoid stale closures)
+  const tweetEventsRef = useRef(tweetEvents);             // Current tweets
+  const showBubblesRef = useRef(true);                    // Whether markers are visible
+  const hoveredTweetRef = useRef<TweetEvent | null>(null);  // Currently hovered tweet
+  const candleTimesRef = useRef<number[]>([]);            // Array of candle timestamps (for binary search)
+  const candlesRef = useRef<Candle[]>([]);                // Current candle data
+  const sortedTweetTimestampsRef = useRef<number[]>([]);  // Pre-sorted tweet timestamps
+  const assetRef = useRef(asset);                         // Current asset
+
+  // Cluster and zoom refs
+  const clustersRef = useRef<TweetClusterDisplay[]>([]);  // Current visible clusters (for click detection)
+  const pendingZoomRef = useRef<{from: number, to: number} | null>(null);  // Zoom target after TF switch
+  const bubbleAnimRef = useRef<{start: number, active: boolean}>({start: 0, active: false});  // Entrance animation state
+  const zoomToClusterRef = useRef<((cluster: TweetClusterDisplay) => void) | null>(null);  // Zoom function ref
+  const animateToRangeRef = useRef<((from: number, to: number) => void) | null>(null);  // Animate function ref
+
+  // ===========================================================================
+  // STATE - Values that trigger re-renders when changed
+  // ===========================================================================
+
+  const [timeframe, setTimeframe] = useState<Timeframe>('1d');  // Current timeframe (1d, 1h, 15m)
+  const [loading, setLoading] = useState(true);           // Data loading indicator
+  const [showBubbles, setShowBubbles] = useState(true);   // Toggle tweet markers visibility
+  const [hoveredTweet, setHoveredTweet] = useState<TweetEvent | null>(null);  // Tooltip state
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });  // Tooltip screen position
+  const [dataLoaded, setDataLoaded] = useState(false);    // Has initial data loaded?
+  const [avatarLoaded, setAvatarLoaded] = useState(false);  // Has avatar image loaded?
+  const [availableTimeframes, setAvailableTimeframes] = useState<Set<Timeframe>>(new Set(['1d']));  // Which TFs have data
+  const [noData, setNoData] = useState(false);            // No data available for current TF
+  const [containerWidth, setContainerWidth] = useState(800);  // For tooltip positioning
+
+  // ===========================================================================
+  // REF SYNC EFFECTS - Keep refs in sync with props/state
+  // ===========================================================================
+  //
+  // These effects ensure our refs always have the latest values, so callbacks
+  // created with useCallback don't have stale data.
+  // ===========================================================================
+
   useEffect(() => { tweetEventsRef.current = tweetEvents; }, [tweetEvents]);
   useEffect(() => { showBubblesRef.current = showBubbles; }, [showBubbles]);
   useEffect(() => { hoveredTweetRef.current = hoveredTweet; }, [hoveredTweet]);
@@ -141,17 +239,25 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     sortedTweetTimestampsRef.current = getSortedTweetTimestamps(tweetEvents);
   }, [tweetEvents]);
 
-  // ---------------------------------------------------------------------------
-  // Helper: Find nearest candle time (binary search)
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // HELPER: Find nearest candle time (binary search)
+  // ===========================================================================
+  //
+  // Given a tweet timestamp, find the candle that's closest in time.
+  // This is used to position tweet markers on the X-axis - we snap them
+  // to the nearest candle so they align with the price data.
+  //
+  // Performance: O(log n) - critical for smooth pan/zoom with many tweets
+  // ===========================================================================
+
   const findNearestCandleTime = useCallback((timestamp: number): number | null => {
     const times = candleTimesRef.current;
     if (times.length === 0) return null;
-    
+
     let left = 0;
     let right = times.length - 1;
-    
-    // Binary search for closest candle
+
+    // Binary search: find insertion point for timestamp
     while (left < right) {
       const mid = Math.floor((left + right) / 2);
       if (times[mid] < timestamp) {
@@ -160,8 +266,9 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         right = mid;
       }
     }
-    
-    // Check if previous candle is actually closer
+
+    // Binary search gives us the first candle >= timestamp
+    // But the previous candle might actually be closer
     if (left > 0) {
       const diffLeft = Math.abs(times[left] - timestamp);
       const diffPrev = Math.abs(times[left - 1] - timestamp);
@@ -170,28 +277,60 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     return times[left];
   }, []);
 
-  // ---------------------------------------------------------------------------
-  // Load avatar image
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // EFFECT: Load founder avatar image
+  // ===========================================================================
+  //
+  // Pre-loads the founder's avatar so we can draw it in marker bubbles.
+  // Falls back gracefully if avatar is missing (uses colored circle instead).
+  // ===========================================================================
+
   useEffect(() => {
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    img.crossOrigin = 'anonymous';  // Required for canvas drawImage
     img.src = `/avatars/${asset.founder}.png`;
     img.onload = () => {
+      // DEBUG: Remove for production
       console.log(`[Chart] Loaded avatar for ${asset.founder}`);
       avatarRef.current = img;
       setAvatarLoaded(true);
     };
     img.onerror = () => {
+      // DEBUG: Remove for production
       console.warn(`[Chart] Missing avatar for ${asset.founder}, using fallback`);
       avatarRef.current = null;
-      setAvatarLoaded(true);
+      setAvatarLoaded(true);  // Still set true so markers render
     };
   }, [asset.founder]);
 
-  // ---------------------------------------------------------------------------
-  // Draw markers (X-only clustering + 24h gap threshold for lines)
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // DRAW MARKERS - Main rendering function for tweet markers and gap lines
+  // ===========================================================================
+  //
+  // This is the core visualization logic. It runs on every pan/zoom, so
+  // performance matters. The function does four things:
+  //
+  // 1. BUILD CLUSTERS: Group nearby tweets (X-axis only) into visual clusters
+  // 2. DRAW GAP LINES: Connect clusters with dashed lines showing silence periods
+  // 3. DRAW ONGOING SILENCE: Show line from last tweet to current price
+  // 4. DRAW MARKERS: Render the actual bubble markers with avatars/badges
+  //
+  // CLUSTERING ALGORITHM:
+  // - Uses "drifting center": as tweets are added, cluster center moves toward them
+  // - Threshold scales with bubble size (adaptive to zoom level)
+  // - X-axis only: tweets at different prices but same time cluster together
+  //
+  // GAP STATISTICS:
+  // - Uses actual tweet boundaries (firstTweet/lastTweet), not cluster averages
+  // - This ensures % change is consistent regardless of zoom level
+  //
+  // LABEL VISIBILITY (Semantic Zoom):
+  // - Labels appear for gaps > 5% of visible time range
+  // - Floor: 30 minutes (always show labels for 30min+ gaps when zoomed in)
+  // - Ceiling: 24 hours (don't show labels for < 24h gaps when zoomed out)
+  //
+  // ===========================================================================
+
   const drawMarkers = useCallback(() => {
     const chart = chartRef.current;
     const series = seriesRef.current;
@@ -585,9 +724,20 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     }
   }, [findNearestCandleTime]);
 
-  // ---------------------------------------------------------------------------
-  // Initialize chart
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // CHART INITIALIZATION - One-time setup of lightweight-charts instance
+  // ===========================================================================
+  //
+  // Creates the chart and candlestick series, sets up event listeners for:
+  // - Resize: Keep chart responsive to container size changes
+  // - Pan/Zoom: Redraw markers on time scale changes
+  // - Hover: Show tweet tooltips on crosshair movement
+  // - Click: Handle cluster click-to-zoom and single tweet tooltip
+  //
+  // IMPORTANT: This effect runs once on mount. The dependency array includes
+  // callback refs that don't change, ensuring stability.
+  //
+  // ===========================================================================
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -650,7 +800,12 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     chartRef.current = chart;
     seriesRef.current = series;
 
-    // Resize observer with double-RAF to let chart settle before redrawing markers
+    // -------------------------------------------------------------------------
+    // Resize Observer
+    // -------------------------------------------------------------------------
+    // Uses double-requestAnimationFrame to let chart finish internal resize
+    // before we redraw markers. Without this, marker positions can be stale.
+    // -------------------------------------------------------------------------
     const resizeObserver = new ResizeObserver(() => {
       const { width, height } = container.getBoundingClientRect();
       if (width > 0 && height > 0) {
@@ -666,13 +821,27 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     });
     resizeObserver.observe(container);
 
-    // Redraw markers on pan/zoom (X-axis), cancel pending zoom if user interacts
+    // -------------------------------------------------------------------------
+    // Pan/Zoom Handler
+    // -------------------------------------------------------------------------
+    // Redraw markers whenever the visible time range changes. Also cancels any
+    // pending zoom animation if user manually interacts with the chart.
+    // -------------------------------------------------------------------------
     chart.timeScale().subscribeVisibleTimeRangeChange(() => {
       pendingZoomRef.current = null;
       drawMarkers();
     });
 
-    // Hover detection with cursor affordance for multi-tweet clusters
+    // -------------------------------------------------------------------------
+    // Hover Detection
+    // -------------------------------------------------------------------------
+    // Shows tweet tooltips on hover. Also changes cursor to 'pointer' when
+    // hovering over multi-tweet clusters to indicate clickability.
+    //
+    // Note: We iterate through all tweets for precise hit detection, even
+    // though clusters are already built. This is because we want to show
+    // the specific tweet being hovered, not just the cluster.
+    // -------------------------------------------------------------------------
     chart.subscribeCrosshairMove((param: MouseEventParams) => {
       if (!param.point) {
         setHoveredTweet(null);
@@ -706,7 +875,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       setHoveredTweet(null);
     });
 
-    // Click handler for clusters - unified behavior for all platforms
+    // -------------------------------------------------------------------------
+    // Click Handler
+    // -------------------------------------------------------------------------
+    // Unified behavior for desktop and mobile:
+    // - Multi-tweet cluster: Zoom in to show individual tweets
+    // - Single tweet: Show tooltip (especially useful on mobile where hover
+    //   doesn't work)
+    // - Tap outside: Dismiss tooltip
+    //
+    // Uses clustersRef (populated by drawMarkers) for hit detection.
+    // -------------------------------------------------------------------------
     chart.subscribeClick((param: MouseEventParams) => {
       if (!param.point) return;
 
@@ -738,9 +917,20 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     };
   }, [drawMarkers, findNearestCandleTime]);
 
-  // ---------------------------------------------------------------------------
-  // Detect available timeframes on asset change
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // DETECT AVAILABLE TIMEFRAMES - Check which data files exist for this asset
+  // ===========================================================================
+  //
+  // Different assets have different data availability:
+  // - Memecoins (USELESS, JUP): May have DEX 1m data via Birdeye
+  // - CoinGecko-only assets (ASTER): Only 1d data available
+  //
+  // We use HEAD requests to check file existence without downloading data.
+  // The result is used to:
+  // - Gray out unavailable timeframe buttons
+  // - Auto-switch to 1d if current timeframe becomes unavailable
+  //
+  // ===========================================================================
   useEffect(() => {
     async function detectTimeframes() {
       const available = new Set<Timeframe>();
@@ -775,9 +965,22 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     detectTimeframes();
   }, [asset.id]);
 
-  // ---------------------------------------------------------------------------
-  // Load price data
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // LOAD PRICE DATA - Fetch candle data and set up chart
+  // ===========================================================================
+  //
+  // This effect runs whenever timeframe or asset changes. It:
+  // 1. Fetches the price data for the selected timeframe
+  // 2. Sets the data on the candlestick series
+  // 3. Handles three different zoom scenarios:
+  //    a) pendingZoomRef: Cluster click triggered a TF switch - animate to target
+  //    b) previousRange: Manual TF switch - preserve center position (TradingView UX)
+  //    c) Initial load: Smart default (show last N candles or fit content)
+  //
+  // The range preservation logic is critical for good UX - users expect to stay
+  // in the same "area" when switching timeframes, not jump to a random location.
+  //
+  // ===========================================================================
   useEffect(() => {
     async function loadData() {
       setLoading(true);
@@ -801,8 +1004,13 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         candleTimesRef.current = priceData.candles.map(c => c.t);
 
         if (seriesRef.current && chartRef.current) {
-          // Capture current visible range BEFORE setting new data
-          // This allows us to preserve position on manual timeframe switch
+          // -----------------------------------------------------------------------
+          // CRITICAL: Capture previous range BEFORE setData clears it
+          // -----------------------------------------------------------------------
+          // setData() resets the chart's internal state. If we want to preserve
+          // the user's position (e.g., they were looking at a specific date range),
+          // we need to capture that range before the reset and restore it after.
+          // -----------------------------------------------------------------------
           const previousRange = chartRef.current.timeScale().getVisibleRange();
 
           const chartData = toCandlestickData(priceData);
@@ -812,17 +1020,22 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
           seriesRef.current.setData(chartData as CandlestickData<Time>[]);
 
           if (pendingZoomRef.current) {
-            // Cluster click: animate to the pending zoom target
+            // -----------------------------------------------------------------------
+            // SCENARIO A: Cluster Click Zoom
+            // -----------------------------------------------------------------------
+            // User clicked a multi-tweet cluster. We switched timeframes and set
+            // pendingZoomRef with the target range. Now animate to that range.
+            // -----------------------------------------------------------------------
             const { from, to } = pendingZoomRef.current;
             pendingZoomRef.current = null;
 
-            // Use requestAnimationFrame to let chart settle after setData
+            // RAF lets chart finish internal layout after setData
             requestAnimationFrame(() => {
               if (previousRange && animateToRangeRef.current) {
-                // Animate smoothly from previous position to target
+                // Smooth animation from previous position to target
                 animateToRangeRef.current(from, to);
               } else {
-                // No previous position, set directly
+                // No previous position (shouldn't happen), set directly
                 chartRef.current?.timeScale().setVisibleRange({
                   from: from as Time,
                   to: to as Time
@@ -830,8 +1043,12 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
               }
             });
           } else if (previousRange) {
-            // Manual timeframe switch: preserve center position (TradingView pattern)
-            // Use requestAnimationFrame to let chart settle after setData
+            // -----------------------------------------------------------------------
+            // SCENARIO B: Manual Timeframe Switch
+            // -----------------------------------------------------------------------
+            // User clicked a timeframe button (1D→1h, etc). Preserve the center of
+            // their view - this is the TradingView pattern users expect.
+            // -----------------------------------------------------------------------
             const candles = priceData.candles;
             const dataStart = candles[0].t;
             const dataEnd = candles[candles.length - 1].t;
@@ -860,8 +1077,13 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
               });
             });
           } else {
-            // Initial load: smart default view
-            // Use requestAnimationFrame to let chart settle after setData
+            // -----------------------------------------------------------------------
+            // SCENARIO C: Initial Load
+            // -----------------------------------------------------------------------
+            // First time loading this asset. Show a reasonable default view:
+            // - If < 500 candles: fit all content
+            // - If > 500 candles: show last 500 (keeps candles visible)
+            // -----------------------------------------------------------------------
             const candles = priceData.candles;
             const MAX_VISIBLE_CANDLES = 500;
 
@@ -897,9 +1119,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     loadData();
   }, [timeframe, tweetEvents, asset.id]);
 
-  // ---------------------------------------------------------------------------
-  // Redraw markers when state changes
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // MARKER REDRAW TRIGGER - Redraw when relevant state changes
+  // ===========================================================================
+  //
+  // The 50ms timeout debounces rapid state changes. This effect handles:
+  // - Data loaded: Initial marker draw after price data arrives
+  // - showBubbles: Toggle marker visibility
+  // - hoveredTweet: Highlight state changes
+  // - avatarLoaded: Redraw once avatar image is ready
+  //
+  // ===========================================================================
   useEffect(() => {
     if (dataLoaded) {
       const timer = setTimeout(drawMarkers, 50);
@@ -907,9 +1137,20 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     }
   }, [dataLoaded, showBubbles, hoveredTweet, avatarLoaded, drawMarkers]);
 
-  // ---------------------------------------------------------------------------
-  // Navigation handlers
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // NAVIGATION HANDLERS - Quick navigation buttons
+  // ===========================================================================
+  //
+  // These provide shortcuts for common navigation patterns:
+  // - jumpToLastTweet: Focus on the most recent activity
+  // - jumpToAllTime: See the full price history
+  //
+  // ===========================================================================
+
+  /**
+   * Jump to view the most recent tweet with 7 days of context.
+   * Shows the last tweet on the left with current price on the right.
+   */
   const jumpToLastTweet = useCallback(() => {
     if (!chartRef.current || tweetEvents.length === 0) return;
     
@@ -926,13 +1167,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     });
   }, [tweetEvents]);
 
+  /**
+   * Show all available price history.
+   * For very large datasets (>2000 candles), adjusts bar spacing to keep
+   * candles visible rather than becoming invisible dots.
+   */
   const jumpToAllTime = useCallback(() => {
     const chart = chartRef.current;
     const candles = candlesRef.current;
     if (!chart || candles.length === 0) return;
 
-    // For large datasets, set a reasonable max visible range
-    // to keep candles visible (about 2000 candles max)
+    // For large datasets, enforce minimum bar spacing to keep candles visible
     const MAX_ALL_TIME_CANDLES = 2000;
 
     if (candles.length > MAX_ALL_TIME_CANDLES) {
@@ -945,9 +1190,22 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     chart.timeScale().fitContent();
   }, []);
 
-  // ---------------------------------------------------------------------------
-  // Smooth zoom animation
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // ANIMATION FUNCTIONS - Smooth zoom transitions
+  // ===========================================================================
+  //
+  // These provide fluid animations when zooming to clusters or navigating.
+  // Uses ease-out cubic easing for natural deceleration.
+  //
+  // ===========================================================================
+
+  /**
+   * Smoothly animate from current visible range to target range.
+   * Uses ease-out cubic easing (fast start, slow finish).
+   *
+   * @param targetFrom - Target start timestamp (seconds)
+   * @param targetTo - Target end timestamp (seconds)
+   */
   const animateToRange = useCallback((targetFrom: number, targetTo: number) => {
     const chart = chartRef.current;
     if (!chart) return;
@@ -971,10 +1229,24 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     })();
   }, []);
 
-  // ---------------------------------------------------------------------------
-  // Zoom to cluster (for multi-tweet bubbles)
-  // Principle: One click = see the detail. Switch to finer timeframe eagerly.
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // ZOOM TO CLUSTER - Handle click on multi-tweet bubble
+  // ===========================================================================
+  //
+  // UX PRINCIPLE: One click = see the detail. Don't make users click multiple
+  // times to drill down into a cluster.
+  //
+  // EAGER TIMEFRAME SWITCHING:
+  // - On 1D: ALWAYS switch to 1h (daily candles hide intra-day price action)
+  // - On 1h: Switch to 15m if cluster has >3 tweets (they're likely packed)
+  // - On 15m: Switch to 1m if cluster has >5 tweets (very dense)
+  //
+  // WHY NOT CONSERVATIVE?
+  // The conservative approach (only switch if time span < N candles) was too
+  // cautious. Users clicking on a cluster WANT to see more detail - give it
+  // to them immediately rather than making them click timeframe buttons.
+  //
+  // ===========================================================================
   const zoomToCluster = useCallback((cluster: TweetClusterDisplay) => {
     const chart = chartRef.current;
     if (!chart) return;
@@ -1033,18 +1305,44 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     animateToRange(targetFrom, targetTo);
   }, [timeframe, availableTimeframes, animateToRange]);
 
-  // Sync functions to refs (avoid stale closures)
+  // ===========================================================================
+  // REF SYNC - Keep function refs current for callbacks
+  // ===========================================================================
+  //
+  // These refs are used in event handlers that are created once (in the
+  // initialization useEffect). Syncing the functions to refs ensures those
+  // handlers always call the latest version of the function.
+  //
+  // ===========================================================================
   useEffect(() => {
     zoomToClusterRef.current = zoomToCluster;
   }, [zoomToCluster]);
-  
+
   useEffect(() => {
     animateToRangeRef.current = animateToRange;
   }, [animateToRange]);
 
-  // ---------------------------------------------------------------------------
-  // Render
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // RENDER - Component JSX
+  // ===========================================================================
+  //
+  // Layout structure:
+  // - Container div (relative positioning anchor)
+  //   - Chart container (where lightweight-charts renders)
+  //   - Markers canvas (overlays chart for custom rendering)
+  //   - Top controls (tweet toggle, navigation buttons - desktop only)
+  //   - Timeframe selector (bottom bar on mobile, corner on desktop)
+  //   - Legend (explains marker symbols - desktop only)
+  //   - Loading indicator
+  //   - No data message
+  //   - Tweet tooltip (positioned relative to hovered marker)
+  //
+  // MOBILE CONSIDERATIONS:
+  // - Bottom bar for timeframe selector (thumb-friendly)
+  // - pb-safe for iPhone home indicator
+  // - Click-to-show tooltip (no hover on touch)
+  //
+  // ===========================================================================
   return (
     <div 
       className="relative w-full h-full bg-[#131722]"
