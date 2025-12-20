@@ -69,7 +69,7 @@ function FounderAvatar({ founder, color }: { founder: string; color: string }) {
  */
 function ChartPageLoading() {
   return (
-    <div className="h-screen bg-[var(--surface-0)] flex items-center justify-center">
+    <div className="h-dvh bg-[var(--surface-0)] flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin w-8 h-8 border-2 border-[var(--accent)] border-t-transparent rounded-full mx-auto mb-4"></div>
         <p className="text-[var(--text-muted)]">Loading...</p>
@@ -155,7 +155,7 @@ function ChartPageContent() {
   // Error state
   if (error) {
     return (
-      <div className="h-screen bg-[var(--surface-0)] flex items-center justify-center p-8">
+      <div className="h-dvh bg-[var(--surface-0)] flex items-center justify-center p-8">
         <div className="max-w-lg w-full bg-[var(--negative-muted)]/30 border border-[var(--negative)]/50 rounded-xl p-6">
           <h2 className="text-[var(--negative)] font-bold text-lg mb-2">Data Error</h2>
           <pre className="text-[var(--negative)]/80 text-sm whitespace-pre-wrap font-mono">
@@ -175,7 +175,7 @@ function ChartPageContent() {
   // Loading state
   if (loading || !selectedAsset) {
     return (
-      <div className="h-screen bg-[var(--surface-0)] flex items-center justify-center">
+      <div className="h-dvh bg-[var(--surface-0)] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin w-8 h-8 border-2 border-[var(--accent)] border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-[var(--text-muted)]">Loading {assetId}...</p>
@@ -185,7 +185,7 @@ function ChartPageContent() {
   }
 
   return (
-    <div className="h-screen bg-[var(--surface-0)] flex flex-col">
+    <div className="h-dvh bg-[var(--surface-0)] flex flex-col">
       {/* Top toolbar */}
       <div className="h-14 md:h-11 bg-[var(--surface-1)] border-b border-[var(--border-subtle)] flex items-center px-3 md:px-3 gap-3">
         {/* Asset selector - always visible */}

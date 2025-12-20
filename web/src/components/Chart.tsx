@@ -1494,12 +1494,13 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       </div>
 
       {/* Timeframe selector - bottom bar on mobile, corner on desktop */}
+      {/* Mobile: bottom-14 lifts above Safari toolbar; pb-safe adds home indicator padding */}
       <div className="absolute z-20
-                     bottom-0 left-0 right-0 
+                     bottom-14 left-0 right-0
                      md:bottom-2 md:left-2 md:right-auto
                      flex items-center justify-around md:justify-start gap-1
-                     bg-[var(--surface-1)] md:bg-transparent 
-                     py-3 md:py-0 
+                     bg-[var(--surface-1)] md:bg-transparent
+                     py-3 md:py-0
                      border-t border-[var(--border-subtle)] md:border-0
                      pb-safe">
         {TIMEFRAMES.map((tf) => {
