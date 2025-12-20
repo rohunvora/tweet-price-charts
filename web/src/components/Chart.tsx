@@ -605,35 +605,61 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       const endX = curr.x - bubbleRadius - 4;
       const midX = (startX + endX) / 2;
       const midY = (prev.y + curr.y) / 2;
+      const lineLength = Math.hypot(endX - startX, curr.y - prev.y);
 
-      // Only draw if there's enough visual space for the line
-      if (endX > startX + 20) {
-        // Draw dashed line with premium glow effect (intensity scales with magnitude)
-        drawSilenceLineWithGlow(startX, prev.y, endX, curr.y, lineColor, pctChange ?? 10);
+      // Semantic thresholds for line rendering (not arbitrary pixel counts)
+      const hasVisualSpace = endX > startX + 8;       // Minimum to avoid overlap
+      const hasMeaningfulGap = gap > 1800;            // 30min+ is semantically significant
+      const hasMeaningfulChange = pctChange !== null && Math.abs(pctChange) > 1;  // >1% is worth showing
+      const hasMinorGap = gap > 900;                  // 15min+ gets subtle connector
 
-        // Draw labels for significant gaps (adaptive to zoom level)
-        const lineLength = Math.hypot(endX - startX, curr.y - prev.y);
-        if (gap > adaptiveLabelThreshold && lineLength > 60) {
-          // Direction-aware label positioning
-          // Pump = labels below line (visually "rising"), Dump = labels above line (visually "falling")
-          const labelDirection = isNegative ? -1 : 1;  // -1 = above, +1 = below
-          const baseOffset = labelDirection * (labelSpacing + 8);
+      if (hasVisualSpace) {
+        if (hasMeaningfulGap && hasMeaningfulChange) {
+          // FULL GLOW: Significant gap with meaningful price change
+          drawSilenceLineWithGlow(startX, prev.y, endX, curr.y, lineColor, pctChange ?? 10);
 
-          // Time gap label (boosted visibility)
-          ctx.font = `${timeFontSize}px system-ui, sans-serif`;
-          ctx.textAlign = 'center';
-          ctx.fillStyle = COLORS.textSecondary;  // More visible than textMuted
-          ctx.fillText(formatTimeGap(gap), midX, midY + baseOffset);
+          // Draw labels for significant gaps (adaptive to zoom level)
+          if (gap > adaptiveLabelThreshold && lineLength > 60) {
+            // Direction-aware label positioning
+            // Pump = labels below line (visually "rising"), Dump = labels above line (visually "falling")
+            const labelDirection = isNegative ? -1 : 1;  // -1 = above, +1 = below
+            const baseOffset = labelDirection * (labelSpacing + 8);
 
-          // Percentage change label (stacked with time, same side)
-          if (pctChange !== null) {
+            // Time gap label (boosted visibility)
+            ctx.font = `${timeFontSize}px system-ui, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = COLORS.textSecondary;
+            ctx.fillText(formatTimeGap(gap), midX, midY + baseOffset);
+
+            // Percentage change label
             ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
             ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
             ctx.fillText(formatPctChange(pctChange), midX, midY + baseOffset + labelDirection * labelSpacing);
           }
-
-          ctx.setLineDash([6, 4]);
+        } else if (hasMeaningfulGap) {
+          // THIN COLORED: 30min+ gap but trivial change (<1%) - show line, no labels
+          ctx.save();
+          ctx.setLineDash([4, 6]);
+          ctx.strokeStyle = lineColor + '50';  // 31% opacity
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(startX, prev.y);
+          ctx.lineTo(endX, curr.y);
+          ctx.stroke();
+          ctx.restore();
+        } else if (hasMinorGap) {
+          // SUBTLE CONNECTOR: 15-30min gap - just a subtle visual link
+          ctx.save();
+          ctx.setLineDash([3, 5]);
+          ctx.strokeStyle = COLORS.textMuted + '40';  // Very subtle gray
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(startX, prev.y);
+          ctx.lineTo(endX, curr.y);
+          ctx.stroke();
+          ctx.restore();
         }
+        // Gaps <15min: no line (tweets are essentially continuous)
       }
     }
     ctx.setLineDash([]);
