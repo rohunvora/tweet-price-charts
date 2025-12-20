@@ -174,10 +174,10 @@ function DataPageContent() {
         {/* Spacer */}
         <div className="flex-1" />
 
-        {/* Navigation */}
+        {/* Desktop navigation */}
         <Link
           href={`/chart?asset=${selectedAsset.id}`}
-          className="px-3 py-1.5 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md transition-colors"
+          className="hidden md:block px-3 py-1.5 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md transition-colors"
         >
           Chart
         </Link>
@@ -206,8 +206,30 @@ function DataPageContent() {
         </div>
       </main>
 
-      {/* Minimal footer */}
-      <footer className="py-3 text-center text-xs text-[var(--text-muted)] border-t border-[var(--border-subtle)] pb-safe">
+      {/* Mobile bottom tab navigation */}
+      <div className="md:hidden h-14 bg-[var(--surface-1)] border-t border-[var(--border-subtle)] flex items-stretch pb-safe">
+        <Link
+          href={`/chart?asset=${selectedAsset.id}`}
+          className="flex-1 flex items-center justify-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-secondary)] font-medium text-sm transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4v16" />
+          </svg>
+          Chart
+        </Link>
+        <Link
+          href={`/data?asset=${selectedAsset.id}`}
+          className="flex-1 flex items-center justify-center gap-2 text-[var(--accent)] font-medium text-sm"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          Data
+        </Link>
+      </div>
+
+      {/* Desktop footer */}
+      <footer className="hidden md:block py-3 text-center text-xs text-[var(--text-muted)] border-t border-[var(--border-subtle)]">
         X + GeckoTerminal · Not financial advice
       </footer>
     </div>

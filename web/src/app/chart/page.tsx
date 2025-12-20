@@ -214,13 +214,8 @@ function ChartPageContent() {
           </Link>
         </div>
         
-        {/* Mobile: Data link */}
-        <Link 
-          href={`/data?asset=${selectedAsset.id}`}
-          className="md:hidden ml-auto px-3 py-2 text-sm text-[var(--text-secondary)] interactive rounded-md"
-        >
-          Data
-        </Link>
+        {/* Mobile: spacer only (nav moved to bottom tab bar) */}
+        <div className="md:hidden flex-1" />
       </div>
 
       {/* Chart area */}
@@ -228,7 +223,29 @@ function ChartPageContent() {
         <Chart key={selectedAsset.id} tweetEvents={tweetEvents} asset={selectedAsset} />
       </div>
 
-      {/* Bottom bar - hidden on mobile (info is in bottom sheet) */}
+      {/* Mobile bottom tab navigation */}
+      <div className="md:hidden h-14 bg-[var(--surface-1)] border-t border-[var(--border-subtle)] flex items-stretch pb-safe">
+        <Link
+          href={`/chart?asset=${selectedAsset.id}`}
+          className="flex-1 flex items-center justify-center gap-2 text-[var(--accent)] font-medium text-sm"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4v16" />
+          </svg>
+          Chart
+        </Link>
+        <Link
+          href={`/data?asset=${selectedAsset.id}`}
+          className="flex-1 flex items-center justify-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-secondary)] font-medium text-sm transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          Data
+        </Link>
+      </div>
+
+      {/* Desktop bottom bar - info display */}
       <div className="hidden md:flex h-9 bg-[var(--surface-1)] border-t border-[var(--border-subtle)] items-center px-4 justify-between">
         <div className="flex items-center gap-4">
           <a
