@@ -333,6 +333,52 @@ This means:
 
 ---
 
+## NEVER DELETE DATA FROM DATABASE
+
+### The Rule
+
+**NEVER run DELETE statements on the prices or tweets tables without verifying overlap first.**
+
+### Why This Exists (December 2024 Incident)
+
+A cleanup script deleted 92 HYPE candles assuming they were "duplicate migration data."
+They weren't duplicates—they had **zero overlap** with existing data. Result: 24% of HYPE
+daily data was lost and had to be restored from backup.
+
+### Before ANY Bulk Delete
+
+Run this verification query:
+
+```sql
+-- Check overlap BEFORE deleting
+WITH to_delete AS (
+    SELECT DISTINCT DATE_TRUNC('day', timestamp) as dt
+    FROM prices
+    WHERE asset_id = 'ASSET' AND timeframe = '1d'
+    AND data_source = 'SOURCE_TO_DELETE'
+),
+to_keep AS (
+    SELECT DISTINCT DATE_TRUNC('day', timestamp) as dt
+    FROM prices
+    WHERE asset_id = 'ASSET' AND timeframe = '1d'
+    AND data_source != 'SOURCE_TO_DELETE'
+)
+SELECT
+    (SELECT COUNT(*) FROM to_delete) as dates_to_delete,
+    (SELECT COUNT(*) FROM to_keep) as dates_to_keep,
+    (SELECT COUNT(*) FROM to_delete WHERE dt IN (SELECT dt FROM to_keep)) as overlap;
+
+-- ONLY proceed if overlap = dates_to_delete (all deletions are true duplicates)
+```
+
+### Safe Alternatives
+
+1. **Use data_overrides.json** to exclude data at export time (non-destructive)
+2. **Add a `deprecated` flag** instead of deleting
+3. **Archive to a backup table** before deleting
+
+---
+
 ## Checklist: Before You Commit
 
 - [ ] Did you read this file?
@@ -341,6 +387,7 @@ This means:
 - [ ] If modifying fetch: Did you use calendar.timegm() for UTC?
 - [ ] If adding timeframes: Did you add to CASE statements?
 - [ ] If fixing data issues: Did you add to data_overrides.json (not manual DB edit)?
+- [ ] If deleting DB data: Did you verify overlap first? (See "NEVER DELETE DATA" section)
 - [ ] Run `python export_static.py` - does it complete without errors?
 - [ ] Open the frontend - do charts load without crashing?
 

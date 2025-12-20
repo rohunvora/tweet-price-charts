@@ -13,6 +13,7 @@ This document is the **definitive reference** for diagnosing and fixing data qua
 | Fake price spike on chart | MEV bot / fat finger | `export_static.py` cap_fake_wicks |
 | Wrong price for old tweets | Staleness limit issue | `db.py` tweet_events view |
 | Missing recent data | Fetch not running | Check GitHub workflow |
+| Gaps in historical data | Accidental deletion | Restore from backup (see below) |
 
 ---
 
@@ -91,6 +92,7 @@ After running `python export_static.py`, check for the log messages:
 |------|-------|-------|------------|
 | Dec 2024 | JUP, BELIEVE, ASTER, MONAD | Mixed timestamps (00:00 + 04:00/05:00) | Manual DB cleanup + re-export |
 | Dec 2024 | HYPE | Same issue recurred after data re-fetch | Added auto-fix to export_static.py |
+| Dec 2024 | HYPE | 92 candles deleted as "duplicates" but had 0 overlap | Restored from backup, added NEVER DELETE rule to GOTCHAS.md |
 
 ---
 
@@ -165,6 +167,51 @@ Add a manual override to `scripts/data_overrides.json`:
   "value": 0.009,
   "reason": "Fake wick from MEV bot. Original HIGH was ~0.02."
 }
+```
+
+---
+
+## Accidental Data Deletion
+
+### What It Looks Like
+
+Chart suddenly shows gaps/missing candles that weren't there before. Data coverage drops significantly.
+
+### Root Cause
+
+Someone ran a DELETE query on the database assuming data was "duplicate" without verifying overlap.
+
+### December 2024 Incident
+
+A cleanup deleted 92 HYPE candles marked as `sqlite_migration` source, assuming they duplicated
+data from other sources. They didn't—**zero overlap**. 24% of HYPE daily data was lost.
+
+### Prevention
+
+**NEVER delete data without running the overlap verification query in GOTCHAS.md.**
+
+### Recovery
+
+If you have a backup:
+```bash
+# Extract backup DB
+unzip data_backup_YYYYMMDD.zip -d /tmp/
+
+# Restore missing data
+python3 << 'PYEOF'
+import sqlite3, duckdb
+from datetime import datetime
+
+# Read from backup
+backup = sqlite3.connect('/tmp/backup/asset/prices.db')
+data = backup.execute('SELECT * FROM ohlcv WHERE timeframe = "1d"').fetchall()
+
+# Insert into current DB
+db = duckdb.connect('data/analytics.duckdb')
+for row in data:
+    db.execute('INSERT INTO prices ... ON CONFLICT DO NOTHING', row)
+db.commit()
+PYEOF
 ```
 
 ---
