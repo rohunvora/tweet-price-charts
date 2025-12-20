@@ -136,6 +136,29 @@ function withAlpha(color: string, alpha: number): string {
 }
 
 /**
+ * Calculate impact ring color and opacity based on price change.
+ * Returns green for pumps, red for dumps, with intensity scaled by magnitude.
+ * @param avgChange - Average 1h price change percentage (e.g., 15 for +15%)
+ * @returns Ring color and opacity, or null if no price data
+ */
+function getImpactRing(avgChange: number | null): { color: string; opacity: number } | null {
+  if (avgChange === null) return null;
+  
+  // Clamp magnitude to reasonable range (0-50%)
+  // Most tweets have <20% impact, so 50% is already extreme
+  const magnitude = Math.min(Math.abs(avgChange), 50);
+  
+  // Scale opacity: 5% move = 0.15 opacity, 50% move = 0.6 opacity
+  // This creates visible but not overwhelming rings
+  const opacity = 0.15 + (magnitude / 50) * 0.45;
+  
+  return {
+    color: avgChange >= 0 ? COLORS.positive : COLORS.negative,
+    opacity
+  };
+}
+
+/**
  * Available timeframe options shown in the UI.
  * 1m is excluded because it generates too much data and is rarely useful
  * for the tweet-to-price analysis use case.
@@ -699,7 +722,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     // -------------------------------------------------------------------------
     for (let i = 0; i < clusters.length; i++) {
       const cluster = clusters[i];
-      const { x, y, tweets } = cluster;
+      const { x, y, tweets, avgChange } = cluster;
       const count = tweets.length;
       const isMultiple = count > 1;
       const isHovered = tweets.some(t => hovered?.tweet_id === t.tweet_id);
@@ -737,6 +760,17 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         ctx.arc(x, y, scaledRadius + 4, 0, Math.PI * 2);
         ctx.fillStyle = withAlpha(markerColor, 0.15);
         ctx.fill();
+      }
+
+      // Impact ring - colored by pump (green) / dump (red), intensity by magnitude
+      // This is the primary visual signal showing tweet price impact at a glance
+      const impact = getImpactRing(avgChange);
+      if (impact) {
+        ctx.beginPath();
+        ctx.arc(x, y, scaledRadius + 6, 0, Math.PI * 2);
+        ctx.strokeStyle = withAlpha(impact.color, impact.opacity);
+        ctx.lineWidth = 3;
+        ctx.stroke();
       }
 
       // Border ring - muted at rest, accent on hover
