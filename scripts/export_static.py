@@ -818,6 +818,16 @@ def main():
         action="store_true",
         help="Strict mode: fail if any tweets lack price data (no silent filtering)"
     )
+    parser.add_argument(
+        "--validate", "-v",
+        action="store_true",
+        help="Run validation after export and fail if issues found"
+    )
+    parser.add_argument(
+        "--no-validate",
+        action="store_true",
+        help="Skip post-export validation"
+    )
     
     args = parser.parse_args()
     
@@ -859,11 +869,58 @@ def main():
     print("\n" + "=" * 60)
     print("Generated files:")
     print("=" * 60)
-    
+
     for f in sorted(PUBLIC_DATA_DIR.rglob("*.json")):
         rel_path = f.relative_to(PUBLIC_DATA_DIR)
         size_kb = f.stat().st_size / 1024
         print(f"  {rel_path} ({size_kb:.1f} KB)")
+
+    # Run validation unless skipped
+    if not args.no_validate:
+        print("\n" + "=" * 60)
+        print("POST-EXPORT VALIDATION")
+        print("=" * 60)
+
+        try:
+            from validate_export import validate_asset, validate_all_assets
+
+            conn = get_connection()
+            init_schema(conn)
+
+            if args.asset:
+                passed, results = validate_asset(conn, args.asset)
+                failures = [r for r in results if not r.passed]
+                if passed:
+                    print(f"✓ {args.asset}: All validation checks passed")
+                else:
+                    print(f"❌ {args.asset}: {len(failures)} issue(s)")
+                    for r in failures:
+                        print(f"  {r}")
+            else:
+                all_results = validate_all_assets(conn)
+                failed_count = sum(1 for _, (p, _) in all_results.items() if not p)
+                total = len(all_results)
+
+                if failed_count == 0:
+                    print(f"✓ All {total} assets passed validation")
+                else:
+                    print(f"⚠️ {failed_count}/{total} assets have validation issues")
+                    for asset_id, (passed, results) in all_results.items():
+                        if not passed:
+                            failures = [r for r in results if not r.passed]
+                            print(f"\n  {asset_id}:")
+                            for r in failures:
+                                print(f"    {r}")
+
+                    if args.validate:
+                        print("\n❌ Validation failed (--validate mode)")
+                        conn.close()
+                        import sys
+                        sys.exit(1)
+
+            conn.close()
+        except ImportError:
+            print("  [WARN] validate_export.py not found, skipping validation")
 
 
 if __name__ == "__main__":
