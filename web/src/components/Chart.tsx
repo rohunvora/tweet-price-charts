@@ -867,7 +867,11 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         horzLines: { color: COLORS.gridLines },
       },
       crosshair: {
-        mode: CrosshairMode.Normal,
+        // Disable crosshair on touch devices - prevents expensive hit detection during pan/zoom
+        // (hover: none) matches devices without a hover-capable pointer (touch screens)
+        mode: window.matchMedia('(hover: none)').matches
+          ? CrosshairMode.Hidden
+          : CrosshairMode.Normal,
         vertLine: { color: COLORS.crosshair, width: 1, style: 0, labelBackgroundColor: COLORS.border },
         horzLine: { color: COLORS.crosshair, width: 1, style: 0, labelBackgroundColor: COLORS.border },
       },
@@ -946,47 +950,54 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     });
 
     // -------------------------------------------------------------------------
-    // Hover Detection
+    // Hover Detection (Desktop Only)
     // -------------------------------------------------------------------------
     // Shows tweet tooltips on hover. Also changes cursor to 'pointer' when
     // hovering over multi-tweet clusters to indicate clickability.
+    //
+    // MOBILE: Skipped entirely - touch devices use tap (click handler below)
+    // and running this on every touch move destroys pan/zoom performance.
     //
     // Note: We iterate through all tweets for precise hit detection, even
     // though clusters are already built. This is because we want to show
     // the specific tweet being hovered, not just the cluster.
     // -------------------------------------------------------------------------
-    chart.subscribeCrosshairMove((param: MouseEventParams) => {
-      if (!param.point) {
-        setHoveredTweet(null);
-        if (container) container.style.cursor = '';
-        return;
-      }
+    const isTouchDevice = window.matchMedia('(hover: none)').matches;
 
-      const { x, y } = param.point;
-      const HOVER_RADIUS = 24;
-      const tweets = tweetEventsRef.current;
-
-      // Check for multi-tweet cluster hover (cursor affordance)
-      const overMultiCluster = clustersRef.current.some(
-        c => c.tweets.length > 1 && Math.hypot(c.x - x, c.y - y) < HOVER_RADIUS
-      );
-      if (container) container.style.cursor = overMultiCluster ? 'pointer' : '';
-
-      for (const tweet of tweets) {
-        if (!tweet.price_at_tweet) continue;
-
-        const nearestTime = findNearestCandleTime(tweet.timestamp);
-        const tx = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
-        const ty = series.priceToCoordinate(tweet.price_at_tweet);
-
-        if (tx !== null && ty !== null && Math.hypot(tx - x, ty - y) < HOVER_RADIUS) {
-          setHoveredTweet(tweet);
-          setTooltipPos({ x: tx, y: ty });
+    if (!isTouchDevice) {
+      chart.subscribeCrosshairMove((param: MouseEventParams) => {
+        if (!param.point) {
+          setHoveredTweet(null);
+          if (container) container.style.cursor = '';
           return;
         }
-      }
-      setHoveredTweet(null);
-    });
+
+        const { x, y } = param.point;
+        const HOVER_RADIUS = 24;
+        const tweets = tweetEventsRef.current;
+
+        // Check for multi-tweet cluster hover (cursor affordance)
+        const overMultiCluster = clustersRef.current.some(
+          c => c.tweets.length > 1 && Math.hypot(c.x - x, c.y - y) < HOVER_RADIUS
+        );
+        if (container) container.style.cursor = overMultiCluster ? 'pointer' : '';
+
+        for (const tweet of tweets) {
+          if (!tweet.price_at_tweet) continue;
+
+          const nearestTime = findNearestCandleTime(tweet.timestamp);
+          const tx = nearestTime ? chart.timeScale().timeToCoordinate(nearestTime as Time) : null;
+          const ty = series.priceToCoordinate(tweet.price_at_tweet);
+
+          if (tx !== null && ty !== null && Math.hypot(tx - x, ty - y) < HOVER_RADIUS) {
+            setHoveredTweet(tweet);
+            setTooltipPos({ x: tx, y: ty });
+            return;
+          }
+        }
+        setHoveredTweet(null);
+      });
+    }
 
     // -------------------------------------------------------------------------
     // Click Handler
@@ -1493,16 +1504,14 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         </div>
       </div>
 
-      {/* Timeframe selector - bottom bar on mobile, corner on desktop */}
-      {/* Mobile: bottom-14 lifts above Safari toolbar; pb-safe adds home indicator padding */}
+      {/* Timeframe selector - top bar on mobile (avoids Safari toolbar), corner on desktop */}
       <div className="absolute z-20
-                     bottom-14 left-0 right-0
-                     md:bottom-2 md:left-2 md:right-auto
+                     top-0 left-0 right-0
+                     md:top-auto md:bottom-2 md:left-2 md:right-auto
                      flex items-center justify-around md:justify-start gap-1
                      bg-[var(--surface-1)] md:bg-transparent
                      py-3 md:py-0
-                     border-t border-[var(--border-subtle)] md:border-0
-                     pb-safe">
+                     border-b border-[var(--border-subtle)] md:border-0">
         {TIMEFRAMES.map((tf) => {
           const isAvailable = availableTimeframes.has(tf.value);
           const isActive = timeframe === tf.value;
@@ -1525,8 +1534,12 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
             </button>
           );
         })}
+        {/* Chart meaning label - mobile only */}
+        <span className="md:hidden text-[10px] text-[var(--text-muted)] ml-auto pr-2">
+          Move since last tweet
+        </span>
       </div>
-      
+
       {/* Help text - desktop only */}
       <span className="hidden md:block absolute bottom-2 left-32 text-[10px] text-[var(--text-disabled)] select-none z-20">
         Drag to pan • Scroll to zoom
