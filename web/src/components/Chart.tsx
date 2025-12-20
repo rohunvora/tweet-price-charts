@@ -79,8 +79,9 @@ const SILENCE_GAP_THRESHOLD = 24 * 60 * 60; // 24 hours in seconds
  * markers stand out as the primary visual element.
  */
 const COLORS = {
-  // Base theme - near-black with subtle elevation
-  background: '#09090B',      // Surface-0: Page background
+  // Base theme - warm-tinted black (not pure void)
+  // #0D0C0B has subtle warmth that lets colors harmonize instead of float
+  background: '#0D0C0B',      // Surface-0: Warm-tinted black
   surface1: '#0F0F12',        // Card background
   surface2: '#161619',        // Elevated elements
   text: '#FAFAFA',            // Primary text
@@ -90,21 +91,49 @@ const COLORS = {
   border: 'rgba(255, 255, 255, 0.08)', // Near-invisible borders
   crosshair: '#52525B',
 
-  // Candlestick colors (heavily muted - background role, not the star)
-  candleUp: 'rgba(34, 197, 94, 0.25)',      // Green, 25% opacity
-  candleDown: 'rgba(239, 68, 68, 0.25)',    // Red, 25% opacity
-  candleBorderUp: 'rgba(34, 197, 94, 0.35)',
-  candleBorderDown: 'rgba(239, 68, 68, 0.35)',
+  // Candlestick colors - Custom desaturated palette (the "stage", not the star)
+  // Teal-green (#5EBAA2) and dusty coral (#D87E88) - neither TradingView nor Tailwind
+  // These recede visually while maintaining semantic meaning (green=up, red=down)
+  candleUp: 'rgba(94, 186, 162, 0.35)',      // Teal-green: sophisticated, recedes
+  candleDown: 'rgba(216, 126, 136, 0.35)',   // Dusty coral: soft, not aggressive
+  candleBorderUp: 'rgba(94, 186, 162, 0.48)',
+  candleBorderDown: 'rgba(216, 126, 136, 0.48)',
 
   // Default marker colors (overridden by asset.color)
   markerPrimary: '#3B82F6',   // Accent blue
-  markerHoverGlow: 'rgba(59, 130, 246, 0.3)',    // 30% opacity for hover
-  markerMultipleGlow: 'rgba(59, 130, 246, 0.4)', // 40% opacity for multi-tweet
+  markerHoverGlow: 'rgba(59, 130, 246, 0.2)',    // 20% opacity for subtle hover
+  markerMultipleGlow: 'rgba(59, 130, 246, 0.25)', // 25% opacity for multi-tweet
 
   // Price change indicator colors (matching design tokens)
   positive: '#22C55E',  // Vibrant green
   negative: '#EF4444',  // Vibrant red
 } as const;
+
+/**
+ * Safely convert any color format to rgba with specified alpha.
+ * Handles hex (#RGB, #RRGGBB), rgb(), and rgba() formats.
+ */
+function withAlpha(color: string, alpha: number): string {
+  // Handle hex colors
+  if (color.startsWith('#')) {
+    let hex = color.slice(1);
+    // Expand shorthand (#RGB -> #RRGGBB)
+    if (hex.length === 3) {
+      hex = hex.split('').map(c => c + c).join('');
+    }
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  // Handle rgb/rgba
+  const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  if (match) {
+    return `rgba(${match[1]}, ${match[2]}, ${match[3]}, ${alpha})`;
+  }
+  // Fallback - return original (shouldn't happen with valid colors)
+  return color;
+}
 
 /**
  * Available timeframe options shown in the UI.
@@ -360,8 +389,8 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     ctx.clearRect(0, 0, width, height);
 
     // -------------------------------------------------------------------------
-    // Premium multi-layer glow for silence lines
-    // Uses 2 passes: outer atmospheric glow + core line for depth
+    // Premium 4-pass glow for silence lines (the HERO element)
+    // Graduated falloff creates organic "luminous" quality vs. simple blur
     // -------------------------------------------------------------------------
     const drawSilenceLineWithGlow = (
       startX: number, startY: number,
@@ -376,23 +405,38 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       ctx.save();
       ctx.setLineDash([6, 8]);
       ctx.lineCap = 'round';
-      ctx.lineWidth = 1.5;
-      
-      // LAYER 1: Outer atmospheric glow (barely visible depth)
-      ctx.shadowColor = hexColor + '12';  // 7% opacity
-      ctx.shadowBlur = 16;
+      ctx.lineWidth = 2;  // Slightly thicker for hero prominence
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
-      ctx.strokeStyle = 'transparent';
+      
+      // 4-pass graduated glow for smooth organic falloff
+      // Each pass creates a layer of the glow halo
+      const glowPasses = [
+        { blur: 24, alpha: 0.03 },  // Atmospheric haze (barely visible)
+        { blur: 12, alpha: 0.08 },  // Soft outer glow
+        { blur: 6,  alpha: 0.15 },  // Mid glow
+        { blur: 2,  alpha: 0.25 },  // Tight core definition
+      ];
+      
+      // Draw the path once, then stroke with each glow layer
       ctx.beginPath();
       ctx.moveTo(startX, startY);
       ctx.lineTo(endX, endY);
-      ctx.stroke();
       
-      // LAYER 2: Core glow + visible line
-      ctx.shadowColor = hexColor + '30';  // 19% opacity
-      ctx.shadowBlur = 6;
-      ctx.strokeStyle = hexColor + '70';  // Line at 44% opacity
+      // Apply each glow pass (outer to inner)
+      glowPasses.forEach(({ blur, alpha }) => {
+        // Convert alpha (0-1) to hex string (00-FF)
+        const alphaHex = Math.round(alpha * 255).toString(16).padStart(2, '0');
+        ctx.shadowColor = hexColor + alphaHex;
+        ctx.shadowBlur = blur;
+        ctx.strokeStyle = 'transparent';
+        ctx.stroke();
+      });
+      
+      // Final pass: the actual visible line (hero prominence)
+      ctx.shadowColor = hexColor + '40';  // 25% glow on the line itself
+      ctx.shadowBlur = 4;
+      ctx.strokeStyle = hexColor + 'CC';  // Line at 80% opacity - HERO
       ctx.stroke();
       
       ctx.restore();
@@ -679,27 +723,28 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       // Skip drawing if scale is too small
       if (scale < 0.05) continue;
 
-      // Hover glow
+      // Hover glow - subtle, tighter radius
       if (isHovered) {
         ctx.beginPath();
-        ctx.arc(x, y, scaledRadius + 8, 0, Math.PI * 2);
-        ctx.fillStyle = markerGlow;
+        ctx.arc(x, y, scaledRadius + 5, 0, Math.PI * 2);
+        ctx.fillStyle = withAlpha(markerColor, 0.2);
         ctx.fill();
       }
 
-      // Multiple tweets glow
+      // Multiple tweets glow - subtle indicator
       if (isMultiple) {
         ctx.beginPath();
-        ctx.arc(x, y, scaledRadius + 6, 0, Math.PI * 2);
-        ctx.fillStyle = markerMultipleGlow;
+        ctx.arc(x, y, scaledRadius + 4, 0, Math.PI * 2);
+        ctx.fillStyle = withAlpha(markerColor, 0.15);
         ctx.fill();
       }
 
-      // Border ring
+      // Border ring - muted at rest, accent on hover
+      // Markers are locators, not heroes - subtle white ring that doesn't compete
       ctx.beginPath();
       ctx.arc(x, y, scaledRadius + 2, 0, Math.PI * 2);
-      ctx.strokeStyle = isHovered ? markerColor : '#FFFFFF';
-      ctx.lineWidth = isHovered ? 3 : 2;
+      ctx.strokeStyle = isHovered ? markerColor : 'rgba(255, 255, 255, 0.5)';
+      ctx.lineWidth = isHovered ? 2.5 : 1.5;
       ctx.stroke();
 
       // Avatar or fallback circle
@@ -717,18 +762,18 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         ctx.fill();
       }
 
-      // Count badge for multiple tweets
+      // Count badge for multiple tweets - subtle but informative
       if (isMultiple && scale > 0.5) {
-        const badgeSize = Math.max(14, scaledSize * 0.4);
+        const badgeSize = Math.max(12, scaledSize * 0.35);  // Slightly smaller
         const badgeX = x + scaledRadius - badgeSize / 2;
         const badgeY = y - scaledRadius + badgeSize / 3;
         
         ctx.beginPath();
         ctx.arc(badgeX, badgeY, badgeSize / 2 + 2, 0, Math.PI * 2);
-        ctx.fillStyle = markerColor;
+        ctx.fillStyle = withAlpha(markerColor, 0.9);  // Slightly transparent
         ctx.fill();
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';  // Muted stroke
+        ctx.lineWidth = 1;
         ctx.stroke();
         
         ctx.fillStyle = '#FFFFFF';

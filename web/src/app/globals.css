@@ -14,7 +14,7 @@
    * Surface Hierarchy (Darkest to Lightest)
    * Near-black base with subtle surface elevation
    * --------------------------------------------------------------------------- */
-  --surface-0: #09090B;    /* Page background - near black */
+  --surface-0: #0D0C0B;    /* Page background - warm-tinted black */
   --surface-1: #0F0F12;    /* Card background */
   --surface-2: #161619;    /* Elevated elements, hover states */
   --surface-3: #1C1C20;    /* Active states, dropdowns */
