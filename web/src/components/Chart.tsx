@@ -614,18 +614,22 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         // Draw labels for significant gaps (adaptive to zoom level)
         const lineLength = Math.hypot(endX - startX, curr.y - prev.y);
         if (gap > adaptiveLabelThreshold && lineLength > 60) {
+          // Direction-aware label positioning
+          // Pump = labels below line (visually "rising"), Dump = labels above line (visually "falling")
+          const labelDirection = isNegative ? -1 : 1;  // -1 = above, +1 = below
+          const baseOffset = labelDirection * (labelSpacing + 8);
 
-          // Time gap label
+          // Time gap label (boosted visibility)
           ctx.font = `${timeFontSize}px system-ui, sans-serif`;
           ctx.textAlign = 'center';
-          ctx.fillStyle = COLORS.textMuted;
-          ctx.fillText(formatTimeGap(gap), midX, midY - labelSpacing);
+          ctx.fillStyle = COLORS.textSecondary;  // More visible than textMuted
+          ctx.fillText(formatTimeGap(gap), midX, midY + baseOffset);
 
-          // Percentage change label
+          // Percentage change label (stacked with time, same side)
           if (pctChange !== null) {
             ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
             ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
-            ctx.fillText(formatPctChange(pctChange), midX, midY + labelSpacing);
+            ctx.fillText(formatPctChange(pctChange), midX, midY + baseOffset + labelDirection * labelSpacing);
           }
 
           ctx.setLineDash([6, 4]);
@@ -679,14 +683,18 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
               const midX = (lastX + bubbleRadius + 4 + latestX) / 2;
               const midY = (lastY + latestY) / 2;
               
+              // Direction-aware label positioning (same pattern as inter-tweet lines)
+              const labelDirection = isNegative ? -1 : 1;
+              const baseOffset = labelDirection * (labelSpacing + 8);
+              
               ctx.font = `${timeFontSize}px system-ui, sans-serif`;
               ctx.textAlign = 'center';
-              ctx.fillStyle = COLORS.textMuted;
-              ctx.fillText(formatTimeGap(silenceDuration), midX, midY - labelSpacing);
+              ctx.fillStyle = COLORS.textSecondary;  // More visible than textMuted
+              ctx.fillText(formatTimeGap(silenceDuration), midX, midY + baseOffset);
               
               ctx.font = `bold ${pctFontSize}px system-ui, sans-serif`;
               ctx.fillStyle = isNegative ? COLORS.negative : COLORS.positive;
-              ctx.fillText(formatPctChange(pctChange), midX, midY + labelSpacing);
+              ctx.fillText(formatPctChange(pctChange), midX, midY + baseOffset + labelDirection * labelSpacing);
             }
             
             // Draw "now" dot at current price (subtle live indicator)
