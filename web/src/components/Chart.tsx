@@ -391,16 +391,23 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     // -------------------------------------------------------------------------
     // Premium 4-pass glow for silence lines (the HERO element)
     // Graduated falloff creates organic "luminous" quality vs. simple blur
+    // Glow intensity scales with price change magnitude - big moves glow bright
     // -------------------------------------------------------------------------
     const drawSilenceLineWithGlow = (
       startX: number, startY: number,
       endX: number, endY: number,
-      color: string  // hex color e.g. "#22C55E" or "rgba(...)"
+      color: string,  // hex color e.g. "#22C55E" or "rgba(...)"
+      magnitude: number = 10  // % price change - scales glow intensity
     ) => {
       // Convert rgba to hex if needed for glow suffixing
       const hexColor = color.startsWith('rgba') 
         ? (color.includes('239, 83, 80') ? '#EF5350' : '#22C55E')
         : color;
+      
+      // Scale glow intensity by magnitude: 5% = subtle (0.3), 50%+ = max (1.0)
+      // This makes big price moves visually prominent, small moves subtle
+      const clampedMag = Math.max(5, Math.min(Math.abs(magnitude), 50));
+      const intensity = 0.3 + ((clampedMag - 5) / 45) * 0.7;
       
       ctx.save();
       ctx.setLineDash([6, 8]);
@@ -411,11 +418,12 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       
       // 4-pass graduated glow for smooth organic falloff
       // Each pass creates a layer of the glow halo
+      // Alpha values scale with intensity (magnitude-driven)
       const glowPasses = [
-        { blur: 24, alpha: 0.03 },  // Atmospheric haze (barely visible)
-        { blur: 12, alpha: 0.08 },  // Soft outer glow
-        { blur: 6,  alpha: 0.15 },  // Mid glow
-        { blur: 2,  alpha: 0.25 },  // Tight core definition
+        { blur: 24 * intensity, alpha: 0.03 * intensity },  // Atmospheric haze
+        { blur: 12 * intensity, alpha: 0.08 * intensity },  // Soft outer glow
+        { blur: 6,              alpha: 0.15 * intensity },  // Mid glow (fixed blur)
+        { blur: 2,              alpha: 0.25 * intensity },  // Tight core (fixed blur)
       ];
       
       // Draw the path once, then stroke with each glow layer
@@ -600,8 +608,8 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
 
       // Only draw if there's enough visual space for the line
       if (endX > startX + 20) {
-        // Draw dashed line with premium glow effect
-        drawSilenceLineWithGlow(startX, prev.y, endX, curr.y, lineColor);
+        // Draw dashed line with premium glow effect (intensity scales with magnitude)
+        drawSilenceLineWithGlow(startX, prev.y, endX, curr.y, lineColor, pctChange ?? 10);
 
         // Draw labels for significant gaps (adaptive to zoom level)
         const lineLength = Math.hypot(endX - startX, curr.y - prev.y);
@@ -662,8 +670,8 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
             const isNegative = pctChange < 0;
             const lineColor = isNegative ? '#EF5350' : '#22C55E';
             
-            // Draw dashed line from last tweet to current price (with premium glow)
-            drawSilenceLineWithGlow(lastX + bubbleRadius + 4, lastY, latestX, latestY, lineColor);
+            // Draw dashed line from last tweet to current price (glow intensity scales with magnitude)
+            drawSilenceLineWithGlow(lastX + bubbleRadius + 4, lastY, latestX, latestY, lineColor, pctChange);
             
             // Draw labels if enough space
             const lineLength = Math.hypot(latestX - (lastX + bubbleRadius + 4), latestY - lastY);
