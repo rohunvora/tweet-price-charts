@@ -223,8 +223,8 @@ function ChartPageContent() {
         <Chart key={selectedAsset.id} tweetEvents={tweetEvents} asset={selectedAsset} />
       </div>
 
-      {/* Mobile bottom tab navigation */}
-      <div className="md:hidden h-14 bg-[var(--surface-1)] border-t border-[var(--border-subtle)] flex items-stretch pb-safe">
+      {/* Mobile bottom tab navigation - FIXED to viewport */}
+      <div className="fixed bottom-0 left-0 right-0 md:hidden h-14 bg-[var(--surface-1)] border-t border-[var(--border-subtle)] flex items-stretch pb-safe z-50">
         <Link
           href={`/chart?asset=${selectedAsset.id}`}
           className="flex-1 flex items-center justify-center gap-2 text-[var(--accent)] font-medium text-sm"

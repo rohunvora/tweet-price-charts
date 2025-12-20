@@ -191,8 +191,8 @@ function DataPageContent() {
         </a>
       </header>
 
-      {/* Main content */}
-      <main className="flex-1">
+      {/* Main content - pb-14 on mobile for fixed bottom nav */}
+      <main className="flex-1 pb-14 md:pb-0">
         <div className="max-w-4xl mx-auto">
           {/* Summary line */}
           <SummaryLine events={tweetEvents} founder={selectedAsset.founder} />
@@ -206,8 +206,8 @@ function DataPageContent() {
         </div>
       </main>
 
-      {/* Mobile bottom tab navigation */}
-      <div className="md:hidden h-14 bg-[var(--surface-1)] border-t border-[var(--border-subtle)] flex items-stretch pb-safe">
+      {/* Mobile bottom tab navigation - FIXED to viewport */}
+      <div className="fixed bottom-0 left-0 right-0 md:hidden h-14 bg-[var(--surface-1)] border-t border-[var(--border-subtle)] flex items-stretch pb-safe z-50">
         <Link
           href={`/chart?asset=${selectedAsset.id}`}
           className="flex-1 flex items-center justify-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-secondary)] font-medium text-sm transition-colors"
