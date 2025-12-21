@@ -23,7 +23,7 @@ This directory contains the backend data pipeline for the Tweet-Price Correlatio
 │   ┌──────────────────────────────────────────────────────────────────────┐  │
 │   │  db.py                 DuckDB abstraction layer                      │  │
 │   │    └─ analytics.duckdb (SINGLE SOURCE OF TRUTH)                      │  │
-│   │         ├─ assets      Asset metadata (7 tokens)                     │  │
+│   │         ├─ assets      Asset metadata (8 tokens)                     │  │
 │   │         ├─ tweets      All tweets with engagement metrics            │  │
 │   │         ├─ prices      OHLCV candles (1m, 15m, 1h, 1d)               │  │
 │   │         └─ tweet_events View: tweets aligned with prices             │  │
@@ -105,6 +105,8 @@ python export_static.py --asset pump
 
 | Script | Purpose |
 |--------|---------|
+| `add_asset.py` | **CLI for adding new assets** (validates, fetches, exports) |
+| `validate_export.py` | **Data validation** with auto-fix capability |
 | `compute_stats.py` | Generate pre-computed statistics for dashboard |
 | `cache_avatars.py` | Download and cache founder profile pictures |
 | `cache_logos.py` | Download and cache token logos |
@@ -135,10 +137,28 @@ Asset definitions including:
 ## Common Operations
 
 ### Add a new asset
-1. Add entry to `scripts/assets.json`
-2. Run `python fetch_tweets.py --asset {new_asset} --full`
-3. Run `python fetch_prices.py --asset {new_asset}`
-4. Run `python export_static.py --asset {new_asset}`
+```bash
+# One-shot CLI (handles everything)
+python add_asset.py mytoken --name "My Token" --founder twitterhandle --coingecko my-token-id --auto-best
+
+# Or step by step:
+# 1. Add entry to scripts/assets.json
+# 2. python fetch_tweets.py --asset {new_asset} --full
+# 3. python fetch_prices.py --asset {new_asset}
+# 4. python export_static.py --asset {new_asset}
+```
+
+### Validate data integrity
+```bash
+# Check all assets
+python validate_export.py
+
+# Auto-fix issues by re-exporting
+python validate_export.py --fix
+
+# Check specific asset
+python validate_export.py --asset pump
+```
 
 ### Refresh all data
 ```bash

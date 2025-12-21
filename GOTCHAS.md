@@ -379,6 +379,46 @@ SELECT
 
 ---
 
+## Data Truncation Protection (hourly-update.yml)
+
+### Problem: Silent Data Loss
+
+Historical data can be silently lost when:
+1. Database cache is corrupted/missing historical data
+2. Git merge conflict overwrites full export with partial data
+3. Incremental fetch runs but historical data wasn't in DB
+
+### Solution: Pre/Post Comparison
+
+The hourly workflow now:
+1. **Snapshots** current data counts BEFORE export
+2. **Compares** new counts to old counts AFTER export
+3. **Blocks commit** if any asset's data drops >10%
+
+```
+🚨 DATA TRUNCATION DETECTED - BLOCKING COMMIT
+The following data would be lost:
+   - zora/1h: 5794 → 737 (lost 5057)
+```
+
+### Manual Fix
+
+If truncation is detected:
+```bash
+# Check what's wrong
+python validate_export.py --asset ASSET
+
+# Re-export from DB (if DB has data)
+python validate_export.py --asset ASSET --fix
+
+# If DB is missing data, restore from backup or re-fetch with --backfill
+python fetch_prices.py --asset ASSET --backfill
+```
+
+**DO NOT bypass the truncation check** - it exists to prevent production data loss.
+
+---
+
 ## Checklist: Before You Commit
 
 - [ ] Did you read this file?
@@ -389,6 +429,7 @@ SELECT
 - [ ] If fixing data issues: Did you add to data_overrides.json (not manual DB edit)?
 - [ ] If deleting DB data: Did you verify overlap first? (See "NEVER DELETE DATA" section)
 - [ ] Run `python export_static.py` - does it complete without errors?
+- [ ] Run `python validate_export.py` - do all assets pass?
 - [ ] Open the frontend - do charts load without crashing?
 
 ---

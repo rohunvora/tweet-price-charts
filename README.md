@@ -13,9 +13,11 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 ### What's Built
 - **Interactive chart** with TradingView-style candlesticks + tweet markers as avatar bubbles
 - **Data table** sorted by price impact - instantly see which tweets moved price most
-- **7 assets tracked** across 4 networks (Solana, Hyperliquid, BSC, Monad)
-- **1,346 tweet events** with aligned price data
+- **8 assets tracked** across 5 networks (Solana, Hyperliquid, BSC, Monad, Base)
+- **2,125 tweet events** with aligned price data
 - **Multi-source price fetching** (GeckoTerminal, Birdeye, CoinGecko, Hyperliquid)
+- **CLI tools** for adding assets and validating data integrity
+- **Automated hourly updates** via GitHub Actions with truncation protection
 - **Static export** for fast CDN delivery via Vercel
 
 ### Assets Tracked
@@ -23,12 +25,13 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 | Token | Founder | Network | Tweets |
 |-------|---------|---------|--------|
 | PUMP | [@a1lon9](https://x.com/a1lon9) | Solana | 102 |
-| USELESS | [@theunipcs](https://x.com/theunipcs) | Solana | 420 |
-| JUP | [@weremeow](https://x.com/weremeow) | Solana | 343 |
-| ASTER | [@cz_binance](https://x.com/cz_binance) | BSC | 306 |
-| LAUNCHCOIN | [@pasternak](https://x.com/pasternak) | Solana | 81 |
-| MON | [@keoneHD](https://x.com/keoneHD) | Monad | 60 |
 | HYPE | [@chameleon_jeff](https://x.com/chameleon_jeff) | Hyperliquid | 34 |
+| ASTER | [@cz_binance](https://x.com/cz_binance) | BSC | 309 |
+| LAUNCHCOIN | [@pasternak](https://x.com/pasternak) | Solana | 81 |
+| JUP | [@weremeow](https://x.com/weremeow) | Solana | 664 |
+| MON | [@keoneHD](https://x.com/keoneHD) | Monad | 60 |
+| USELESS | [@theunipcs](https://x.com/theunipcs) | Solana | 426 |
+| ZORA | [@js_horne](https://x.com/js_horne) | Base | 449 |
 
 ## Features
 
@@ -165,25 +168,29 @@ tweet-price/
 
 ## Adding a New Asset
 
-Edit `scripts/assets.json`:
+Use the CLI tool for a guided setup:
 
-```json
-{
-  "id": "token_id",
-  "name": "TOKEN",
-  "founder": "twitter_handle",
-  "network": "solana",
-  "pool_address": "dex_pool_address",
-  "token_mint": "token_mint_address",
-  "price_source": "geckoterminal",
-  "backfill_source": "birdeye",
-  "launch_date": "2025-01-01T00:00:00Z",
-  "color": "#FF0000",
-  "enabled": true
-}
+```bash
+cd scripts
+
+# CoinGecko-listed token (simplest)
+python add_asset.py mytoken --name "My Token" --founder twitterhandle --coingecko my-token-id
+
+# DEX token with auto-discovery of best price source
+python add_asset.py mytoken --name "My Token" --founder twitterhandle --coingecko my-token-id --auto-best
+
+# Validate only (dry run)
+python add_asset.py mytoken --name "My Token" --founder twitterhandle --coingecko my-token-id --dry-run
 ```
 
-Then run the fetch scripts to populate data.
+The CLI will:
+1. Validate the Twitter handle and CoinGecko ID
+2. Discover the best price source (GeckoTerminal pools vs CoinGecko)
+3. Add the asset to `assets.json`
+4. Fetch tweets and prices
+5. Download the logo from CoinGecko
+6. Export static files for the frontend
+7. Run validation to ensure data integrity
 
 ## Tech Stack
 
@@ -195,10 +202,9 @@ Then run the fetch scripts to populate data.
 
 ## What's Next
 
-- [ ] Silent Days comparison (avg return when founder doesn't tweet)
 - [ ] Market cap display instead of/alongside price
 - [ ] More assets based on community requests
-- [ ] Historical backfill for older assets
+- [ ] Real-time tweet notifications
 
 ## Disclaimer
 
