@@ -19,11 +19,16 @@ import {
   SortingState,
 } from '@tanstack/react-table';
 import { TweetEvent } from '@/lib/types';
+import OnlyMentionsToggle from './OnlyMentionsToggle';
 
 interface DataTableProps {
   events: TweetEvent[];
   founder: string;
   assetName: string;
+  // Optional filter toggle for assets with keyword filtering
+  showOnlyMentionsToggle?: boolean;
+  onlyMentions?: boolean;
+  onOnlyMentionsChange?: () => void;
 }
 
 const columnHelper = createColumnHelper<TweetEvent>();
@@ -38,7 +43,14 @@ function decodeHtmlEntities(text: string): string {
   return textarea.value;
 }
 
-export default function DataTable({ events, founder, assetName }: DataTableProps) {
+export default function DataTable({
+  events,
+  founder,
+  assetName,
+  showOnlyMentionsToggle = false,
+  onlyMentions = true,
+  onOnlyMentionsChange,
+}: DataTableProps) {
   // Default sort: Latest first (neutral view)
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'timestamp', desc: true }
@@ -137,25 +149,35 @@ export default function DataTable({ events, founder, assetName }: DataTableProps
         </button>
       </div>
 
-      {/* Sort dropdown */}
-      <div className="flex items-center gap-2 px-4 py-2 text-xs text-[var(--text-muted)]">
-        <span>Sort:</span>
-        <select
-          value={sorting[0]?.id === 'timestamp' ? (sorting[0]?.desc ? 'latest' : 'oldest') : (sorting[0]?.desc ? 'biggest-gain' : 'biggest-drop')}
-          onChange={(e) => {
-            const val = e.target.value;
-            if (val === 'latest') setSorting([{ id: 'timestamp', desc: true }]);
-            else if (val === 'oldest') setSorting([{ id: 'timestamp', desc: false }]);
-            else if (val === 'biggest-gain') setSorting([{ id: 'change_24h_pct', desc: true }]);
-            else if (val === 'biggest-drop') setSorting([{ id: 'change_24h_pct', desc: false }]);
-          }}
-          className="bg-[var(--surface-1)] border border-[var(--border-default)] rounded px-3 py-2.5 text-[var(--text-primary)] text-sm focus:outline-none focus:border-[var(--accent)] min-h-[44px]"
-        >
-          <option value="latest">Latest</option>
-          <option value="oldest">Oldest</option>
-          <option value="biggest-gain">Biggest gain</option>
-          <option value="biggest-drop">Biggest drop</option>
-        </select>
+      {/* Sort dropdown + filter toggle */}
+      <div className="flex items-center gap-4 px-4 py-2 text-xs text-[var(--text-muted)]">
+        <div className="flex items-center gap-2">
+          <span>Sort:</span>
+          <select
+            value={sorting[0]?.id === 'timestamp' ? (sorting[0]?.desc ? 'latest' : 'oldest') : (sorting[0]?.desc ? 'biggest-gain' : 'biggest-drop')}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (val === 'latest') setSorting([{ id: 'timestamp', desc: true }]);
+              else if (val === 'oldest') setSorting([{ id: 'timestamp', desc: false }]);
+              else if (val === 'biggest-gain') setSorting([{ id: 'change_24h_pct', desc: true }]);
+              else if (val === 'biggest-drop') setSorting([{ id: 'change_24h_pct', desc: false }]);
+            }}
+            className="bg-[var(--surface-1)] border border-[var(--border-default)] rounded px-3 py-2.5 text-[var(--text-primary)] text-sm focus:outline-none focus:border-[var(--accent)] min-h-[44px]"
+          >
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+            <option value="biggest-gain">Biggest gain</option>
+            <option value="biggest-drop">Biggest drop</option>
+          </select>
+        </div>
+
+        {/* Only mentions toggle - shown for assets with keyword filtering */}
+        {showOnlyMentionsToggle && onOnlyMentionsChange && (
+          <OnlyMentionsToggle
+            checked={onlyMentions}
+            onChange={onOnlyMentionsChange}
+          />
+        )}
       </div>
 
       {/* Desktop: Traditional table */}

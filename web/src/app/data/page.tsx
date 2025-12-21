@@ -12,7 +12,7 @@
 import { Suspense, useEffect, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { loadTweetEvents, loadAssets } from '@/lib/dataLoader';
+import { loadTweetEvents, loadAssets, hasUnfilteredTweets } from '@/lib/dataLoader';
 import { TweetEvent, Asset } from '@/lib/types';
 import DataTable from '@/components/DataTable';
 import AssetSelector from '@/components/AssetSelector';
@@ -99,6 +99,8 @@ function DataPageContent() {
   const [tweetEvents, setTweetEvents] = useState<TweetEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [onlyMentions, setOnlyMentions] = useState(true);
+  const [hasFilteredTweets, setHasFilteredTweets] = useState(false);
 
   const assetId = searchParams.get('asset') || 'pump';
 
@@ -114,8 +116,17 @@ function DataPageContent() {
         }
 
         setSelectedAsset(asset);
-        const eventsData = await loadTweetEvents(assetId);
+
+        // Check if asset has unfiltered tweets available
+        const hasUnfiltered = await hasUnfilteredTweets(assetId);
+        setHasFilteredTweets(hasUnfiltered);
+
+        // Load filtered tweets by default
+        const eventsData = await loadTweetEvents(assetId, false);
         setTweetEvents(eventsData.events);
+
+        // Reset filter when switching assets
+        setOnlyMentions(true);
       } catch (err) {
         setError(err instanceof Error ? err.message : String(err));
       }
@@ -130,6 +141,18 @@ function DataPageContent() {
     },
     [router]
   );
+
+  // Handle "Only mentions" toggle
+  const handleOnlyMentionsToggle = useCallback(async () => {
+    if (!selectedAsset) return;
+
+    const newValue = !onlyMentions;
+    setOnlyMentions(newValue);
+
+    // Reload tweets: onlyMentions=true means filtered, false means all
+    const eventsData = await loadTweetEvents(selectedAsset.id, !newValue);
+    setTweetEvents(eventsData.events);
+  }, [selectedAsset, onlyMentions]);
 
   // Error state
   if (error) {
@@ -202,6 +225,9 @@ function DataPageContent() {
             events={tweetEvents}
             founder={selectedAsset.founder}
             assetName={selectedAsset.name}
+            showOnlyMentionsToggle={hasFilteredTweets}
+            onlyMentions={onlyMentions}
+            onOnlyMentionsChange={handleOnlyMentionsToggle}
           />
         </div>
       </main>

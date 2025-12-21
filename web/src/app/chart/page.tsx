@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { loadTweetEvents, loadAssets, loadLastUpdated, hasUnfilteredTweets } from '@/lib/dataLoader';
 import { TweetEvent, TweetEventsData, Asset } from '@/lib/types';
 import AssetSelector from '@/components/AssetSelector';
+import OnlyMentionsToggle from '@/components/OnlyMentionsToggle';
 
 const Chart = dynamic(() => import('@/components/Chart'), { 
   ssr: false,
@@ -267,17 +268,10 @@ function ChartPageContent() {
           </a>
           {/* "Only mentions" checkbox - only shown for assets with keyword filter */}
           {hasFilteredTweets && (
-            <label className="flex items-center gap-1.5 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={onlyMentions}
-                onChange={handleOnlyMentionsToggle}
-                className="w-3.5 h-3.5 rounded border-[var(--border-subtle)] bg-[var(--surface-0)] text-[var(--accent)] focus:ring-[var(--accent)] focus:ring-offset-0 cursor-pointer"
-              />
-              <span className="text-xs text-[var(--text-muted)]">
-                Only mentions
-              </span>
-            </label>
+            <OnlyMentionsToggle
+              checked={onlyMentions}
+              onChange={handleOnlyMentionsToggle}
+            />
           )}
           {/* Data quality note */}
           {selectedAsset.data_note && (
