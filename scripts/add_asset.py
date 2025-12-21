@@ -479,8 +479,18 @@ def add_asset_to_config(
     token_mint: str = None,
     color: str = "#3B82F6",
     launch_date: str = None,
+    founder_type: str = None,
+    keyword_filter: str = None,
+    tweet_filter_note: str = None,
 ) -> dict:
-    """Add a new asset to the config."""
+    """
+    Add a new asset to the config.
+
+    Args:
+        founder_type: 'founder' (default) or 'adopter'. Adopters need keyword filtering.
+        keyword_filter: For adopters, keyword to filter tweets (e.g., 'wif').
+        tweet_filter_note: Description shown in UI (auto-generated if not provided).
+    """
 
     # Determine price source based on inputs
     if network and pool_address:
@@ -508,6 +518,17 @@ def add_asset_to_config(
         "enabled": True,
         "logo": f"/logos/{asset_id}.png",
     }
+
+    # Add adopter-specific fields
+    if founder_type == "adopter":
+        asset["founder_type"] = "adopter"
+        if keyword_filter:
+            asset["keyword_filter"] = keyword_filter
+            # Auto-generate filter note if not provided
+            if tweet_filter_note:
+                asset["tweet_filter_note"] = tweet_filter_note
+            else:
+                asset["tweet_filter_note"] = f"Only tweets mentioning ${name}"
 
     # Remove None values for cleaner JSON
     asset = {k: v for k, v in asset.items() if v is not None}
@@ -570,6 +591,25 @@ Examples:
     parser.add_argument("--mint", dest="token_mint", help="Token mint/contract address")
     parser.add_argument("--color", default="#3B82F6", help="Brand color (hex, default: #3B82F6)")
     parser.add_argument("--launch-date", help="Launch date (YYYY-MM-DD)")
+
+    # Adopter-specific arguments
+    # Use these when the tracked account didn't CREATE the token but became a prominent promoter.
+    # Example: @blknoiz06 didn't create WIF but became its most notable promoter.
+    parser.add_argument(
+        "--founder-type",
+        choices=["founder", "adopter"],
+        default="founder",
+        help="'founder' (default) if account created the token, 'adopter' if they promote an existing token"
+    )
+    parser.add_argument(
+        "--keyword-filter",
+        help="For adopters: keyword to filter tweets (e.g., 'wif'). Only tweets containing this are shown."
+    )
+    parser.add_argument(
+        "--tweet-filter-note",
+        help="For adopters: note explaining the filter (auto-generated if not provided)"
+    )
+
     parser.add_argument("--refresh", action="store_true", help="Refresh data for existing asset")
     parser.add_argument("--dry-run", action="store_true", help="Validate only, don't add or fetch")
     parser.add_argument("--skip-tweets", action="store_true", help="Skip tweet fetching")
@@ -607,6 +647,13 @@ Examples:
             sys.exit(1)
         if not args.coingecko_id and not args.pool_address:
             print_error("Must provide --coingecko or --pool for price data")
+            sys.exit(1)
+
+        # Validate adopter-specific requirements
+        if args.founder_type == "adopter" and not args.keyword_filter:
+            print_error("--keyword-filter is required for adopter assets")
+            print("  Adopters need keyword filtering because most of their tweets aren't about the token.")
+            print("  Example: --keyword-filter wif")
             sys.exit(1)
 
     # Validation step
@@ -698,6 +745,9 @@ Examples:
             token_mint=args.token_mint,
             color=args.color,
             launch_date=launch_date,
+            founder_type=args.founder_type,
+            keyword_filter=args.keyword_filter,
+            tweet_filter_note=args.tweet_filter_note,
         )
         save_assets(config)
         print_success(f"Added {args.asset_id} to assets.json")
@@ -753,6 +803,19 @@ Examples:
         else:
             print_warning(f"  {msg}")
 
+    # Check if asset is old enough to need Nitter backfill
+    needs_nitter_guidance = False
+    launch_age_days = 0
+    if args.launch_date and not args.refresh:
+        try:
+            launch_dt = datetime.strptime(args.launch_date[:10], "%Y-%m-%d")
+            launch_age_days = (datetime.now() - launch_dt).days
+            needs_nitter_guidance = launch_age_days > 150
+        except ValueError:
+            pass
+
+    is_adopter = args.founder_type == "adopter" if hasattr(args, 'founder_type') else False
+
     # Summary
     print("\n" + "=" * 60)
     if failed:
@@ -763,10 +826,30 @@ Examples:
         print(f"{GREEN}{BOLD}✓ Asset '{args.asset_id}' added successfully!{RESET}")
         print(f"\nNext steps:")
         step_num = 1
+
         if not logo_downloaded:
             print(f"  {step_num}. Add a logo to: web/public/logos/{args.asset_id}.png")
             step_num += 1
-        print(f"  {step_num}. Commit and push to deploy")
+
+        # Nitter backfill guidance for old assets
+        if needs_nitter_guidance:
+            print(f"\n  {YELLOW}{BOLD}Historical tweet backfill needed:{RESET}")
+            print(f"  Asset launched {launch_age_days} days ago, but X API only provides ~150 days.")
+            print(f"  {step_num}. Run Nitter scraper for historical tweets:")
+            print(f"     cd scripts")
+            print(f"     python nitter_scraper.py --asset {args.asset_id} --full --no-headless --parallel 3")
+            print(f"     python export_static.py --asset {args.asset_id}")
+            step_num += 1
+
+        # Adopter guidance
+        if is_adopter:
+            print(f"\n  {BLUE}Note for adopter asset:{RESET}")
+            print(f"  - Tweets are filtered by keyword: '{args.keyword_filter}'")
+            print(f"  - Most tweets from @{args.founder} won't appear (not about this token)")
+            if needs_nitter_guidance:
+                print(f"  - Nitter scrape is especially useful for finding early mentions")
+
+        print(f"\n  {step_num}. Commit and push to deploy")
         print(f"     git add -A && git commit -m 'Add asset: {args.name or args.asset_id}'")
         print(f"     git push")
 

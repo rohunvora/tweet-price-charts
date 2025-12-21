@@ -4,7 +4,13 @@ Downloads logos from CoinGecko (for tokens with coingecko_id) or GeckoTerminal
 (for Solana tokens), resizes to 64x64, and stores in public/logos.
 
 Also verifies and reports official token names/symbols from APIs.
+
+Usage:
+    python cache_logos.py                  # Cache all enabled assets
+    python cache_logos.py --asset pump     # Cache specific asset's logo
+    python cache_logos.py --force          # Re-download even if cached
 """
+import argparse
 import json
 import time
 from pathlib import Path
@@ -15,7 +21,7 @@ import httpx
 from PIL import Image
 
 from config import LOGOS_DIR, ASSETS_FILE
-from db import get_connection, init_schema, get_enabled_assets
+from db import get_connection, init_schema, get_enabled_assets, get_asset
 
 
 # Logo size for consistent display
@@ -199,19 +205,89 @@ def save_assets(assets: list):
     print(f"\nUpdated {ASSETS_FILE}")
 
 
+def cache_single_asset(asset: dict, force: bool = False) -> bool:
+    """Cache logo for a single asset. Returns True on success."""
+    asset_id = asset["id"]
+    output_path = LOGOS_DIR / f"{asset_id}.png"
+
+    # Skip if already cached (unless force)
+    if output_path.exists() and not force:
+        size_kb = output_path.stat().st_size / 1024
+        print(f"✓ {asset_id}: Already cached ({size_kb:.1f} KB)")
+        return True
+
+    print(f"→ {asset_id} ({asset['name']}): Fetching logo...")
+
+    logo_url = None
+    token_info = None
+
+    # Strategy 1: Try CoinGecko if we have an ID
+    coingecko_id = asset.get("coingecko_id")
+    if coingecko_id:
+        logo_url, token_info = fetch_coingecko_logo(coingecko_id)
+        time.sleep(1.5)  # Rate limit
+
+    # Strategy 2: Try GeckoTerminal if no CoinGecko or it failed
+    if not logo_url:
+        pool_address = asset.get("pool_address")
+        network = asset.get("network")
+
+        if pool_address and network:
+            logo_url, token_info = fetch_geckoterminal_logo(network, pool_address)
+            time.sleep(0.5)
+
+    # Download and save logo
+    if logo_url:
+        print(f"  Logo URL: {logo_url[:60]}...")
+
+        if download_and_resize(logo_url, output_path):
+            size_kb = output_path.stat().st_size / 1024
+            print(f"  ✓ Saved: {output_path.name} ({size_kb:.1f} KB)")
+            return True
+        else:
+            print(f"  ✗ Failed to download logo")
+            return False
+    else:
+        print(f"  ✗ Could not find logo URL")
+        return False
+
+
 def main():
     """Cache logos for all enabled assets."""
+    parser = argparse.ArgumentParser(description="Cache token logos")
+    parser.add_argument("--asset", type=str, help="Cache logo for specific asset")
+    parser.add_argument("--force", action="store_true", help="Re-download even if cached")
+    args = parser.parse_args()
+
     print("=" * 60)
     print("Token Logo Caching")
     print("=" * 60)
-    
+
     # Ensure logos directory exists
     LOGOS_DIR.mkdir(parents=True, exist_ok=True)
+
+    if args.asset:
+        # Single asset mode
+        conn = get_connection()
+        init_schema(conn)
+        asset = get_asset(conn, args.asset)
+        conn.close()
+
+        if not asset:
+            print(f"✗ Asset '{args.asset}' not found")
+            return
+
+        print(f"\nCaching logo for {asset.get('name')} ({args.asset})")
+        success = cache_single_asset(asset, force=args.force)
+        print(f"\n{'✓ Success' if success else '✗ Failed'}")
+        return
+
+    # All assets mode
     print(f"Output: {LOGOS_DIR}")
-    
+
     assets = load_assets()
     enabled_assets = [a for a in assets if a.get("enabled", True)]
-    
+
     print(f"\nFound {len(enabled_assets)} enabled assets:")
     for a in enabled_assets:
         print(f"  - {a['id']}: {a['name']} ({a.get('network', 'unknown')})")
@@ -226,13 +302,13 @@ def main():
         
         print(f"\n{'─' * 40}")
         print(f"Processing: {asset_id} ({asset['name']})")
-        
-        # Skip if already cached (remove this check to force refresh)
-        if output_path.exists():
+
+        # Skip if already cached (unless --force)
+        if output_path.exists() and not args.force:
             size_kb = output_path.stat().st_size / 1024
             print(f"  ✓ Already cached ({size_kb:.1f} KB)")
             success_count += 1
-            
+
             # Still add logo field if missing
             if "logo" not in asset:
                 asset["logo"] = f"/logos/{asset_id}.png"

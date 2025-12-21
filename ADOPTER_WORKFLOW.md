@@ -13,18 +13,43 @@ Key difference: Adopter accounts have MANY tweets unrelated to the token. We mus
 
 ---
 
-## Current Workflow (Manual)
+## Current Workflow
 
-### Step 1: Add Asset to assets.json
+### Step 1: Add Asset via CLI
 
-The `add_asset.py` CLI **does not support** adopter-specific fields. You must manually edit `scripts/assets.json`:
+The `add_asset.py` CLI now fully supports adopter assets:
+
+```bash
+cd scripts
+python add_asset.py wif \
+  --name "WIF" \
+  --founder blknoiz06 \
+  --founder-type adopter \
+  --keyword-filter wif \
+  --coingecko dogwifcoin \
+  --network solana \
+  --pool EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx \
+  --launch-date 2023-12-01 \
+  --color "#D4A76A" \
+  --skip-tweets \
+  --skip-prices
+```
+
+**Adopter-specific flags:**
+- `--founder-type adopter`: Indicates this account promoted (not created) the token
+- `--keyword-filter wif`: Only tweets containing this keyword are shown
+- `--tweet-filter-note "Custom note"`: Optional custom description (auto-generated if omitted)
+
+**Note:** Use `--skip-tweets --skip-prices` if you plan to use Nitter for historical backfill.
+
+Alternatively, you can manually edit `scripts/assets.json`:
 
 ```json
 {
   "id": "wif",
   "name": "WIF",
   "founder": "blknoiz06",
-  "founder_type": "adopter",        // ← MANUAL: CLI doesn't support this
+  "founder_type": "adopter",
   "network": "solana",
   "pool_address": "EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx",
   "token_mint": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
@@ -35,15 +60,10 @@ The `add_asset.py` CLI **does not support** adopter-specific fields. You must ma
   "color": "#D4A76A",
   "enabled": true,
   "logo": "/logos/wif.png",
-  "keyword_filter": "wif",          // ← MANUAL: CLI doesn't support this
-  "tweet_filter_note": "Only tweets mentioning $WIF"  // ← MANUAL
+  "keyword_filter": "wif",
+  "tweet_filter_note": "Only tweets mentioning $WIF"
 }
 ```
-
-**Required adopter-specific fields:**
-- `founder_type`: Set to `"adopter"`
-- `keyword_filter`: Keyword to filter tweets (case-insensitive)
-- `tweet_filter_note`: Displayed in UI explaining the filter
 
 ### Step 2: Fetch Price History
 
@@ -131,25 +151,34 @@ This generates:
 
 ---
 
-## CLI Gaps to Fix
+## CLI Status
 
-### Gap 1: `add_asset.py` Missing Adopter Support
+### ✅ Fixed: `add_asset.py` Adopter Support (Dec 2024)
 
-**Current:** No support for `--founder-type`, `--keyword-filter` flags
-
-**Needed:**
+Now supports:
 ```bash
 python add_asset.py wif \
   --name "WIF" \
   --founder blknoiz06 \
-  --founder-type adopter \           # NEW
-  --keyword-filter wif \             # NEW
+  --founder-type adopter \
+  --keyword-filter wif \
   --coingecko dogwifcoin \
   --network solana \
-  --pool-address EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx
+  --pool EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx
 ```
 
-### Gap 2: No Unified "Add Adopter Asset" Command
+Also provides guidance:
+- Shows Nitter backfill command for assets >150 days old
+- Explains keyword filtering for adopters
+
+### ✅ Fixed: `cache_logos.py` Single-Asset Mode (Dec 2024)
+
+Now supports `--asset` flag like `cache_avatars.py`:
+```bash
+python cache_logos.py --asset wif
+```
+
+### Remaining: Unified Workflow Command
 
 Would be nice to have:
 ```bash
@@ -160,7 +189,7 @@ python add_adopter.py wif \
 # Does everything: adds to assets.json, fetches prices, scrapes tweets, exports
 ```
 
-### Gap 3: Nitter Defaults to Headless
+### Remaining: Nitter Defaults to Headless
 
 **Current:** `--headless` is default, but it often fails
 
