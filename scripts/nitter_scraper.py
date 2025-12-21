@@ -39,10 +39,18 @@ USE X API (fetch_tweets.py) WHEN:
 
 TYPICAL WORKFLOW FOR NEW ASSETS:
 1. Add asset to assets.json (manually for adopters, CLI for founders)
-2. If asset > 150 days: Run nitter_scraper.py --asset X --full --no-headless
-3. Run fetch_tweets.py --asset X (for recent + ongoing)
-4. Run export_static.py --asset X
-5. Schedule fetch_tweets.py for hourly updates
+2. Run fetch_tweets.py --asset X (gets recent 150 days + sets up watermarks)
+3. If asset > 150 days: Run nitter_scraper.py --asset X --full --no-headless --parallel 3
+4. Run cache_logos.py --asset X (downloads token logo from CoinGecko)
+5. Run cache_avatars.py --asset X (downloads founder's Twitter PFP)
+6. Run export_static.py --asset X
+7. Schedule fetch_tweets.py for hourly updates
+
+WHY X API FIRST:
+- More reliable and faster than Nitter
+- Sets up watermarks for ongoing updates immediately
+- Gets you "live" recent data right away
+- Nitter is ONLY needed for historical backfill beyond 150 days
 
 ===============================================================================
 FOUNDER VS ADOPTER ASSETS

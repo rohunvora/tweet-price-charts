@@ -61,7 +61,20 @@ python fetch_prices.py --asset wif --backfill
 - Progressive saving - can interrupt and resume
 - Real-time progress output
 
-### Step 3: Scrape Historical Tweets
+### Step 3: Fetch Recent Tweets (X API First)
+
+**Always run X API first** - it's more reliable and sets up watermarks for ongoing updates:
+
+```bash
+python fetch_tweets.py --asset wif
+```
+
+**What happens:**
+- Fetches most recent ~150 days of tweets
+- Sets up watermarks for future incremental updates
+- Keyword filtering happens at export time, not fetch time
+
+### Step 4: Backfill Historical Tweets (Nitter)
 
 For tweets older than X API's 150-day limit, use Nitter:
 
@@ -92,7 +105,21 @@ python nitter_scraper.py --asset wif --full --no-headless --parallel 3
 - All workers use nitter.net (only reliable instance)
 - Tested with 3 workers - NO rate limiting observed
 
-### Step 4: Export Static Data
+### Step 5: Cache Logo and Avatar
+
+```bash
+# Download token logo from CoinGecko (uses coingecko_id from assets.json)
+python cache_logos.py --asset wif
+
+# Download founder's Twitter profile picture
+python cache_avatars.py --asset wif
+```
+
+**What happens:**
+- Logo: Fetched from CoinGecko, resized to 64x64, saved to `web/public/logos/wif.png`
+- Avatar: Fetched from X API, resized to 48x48, saved to `web/public/avatars/blknoiz06.png`
+
+### Step 6: Export Static Data
 
 ```bash
 python export_static.py --asset wif
@@ -100,7 +127,7 @@ python export_static.py --asset wif
 
 This generates:
 - `tweet_events.json` - Filtered tweets (only those mentioning keyword)
-- `tweet_events_unfiltered.json` - All tweets (for "show all" toggle)
+- `tweet_events_all.json` - All tweets (for "show all" toggle)
 
 ---
 
@@ -177,18 +204,25 @@ After adding an adopter asset:
 
 ```bash
 # 1. Manually edit scripts/assets.json (see above)
+cd scripts
 
 # 2. Fetch prices (~10 seconds for 1d+1h)
-cd scripts
 python fetch_prices.py --asset wif --backfill
 
-# 3. Scrape tweets (~40 min with --parallel 3)
+# 3. Fetch recent tweets via X API (sets up watermarks)
+python fetch_tweets.py --asset wif
+
+# 4. Backfill historical tweets via Nitter (~40 min with --parallel 3)
 python nitter_scraper.py --asset wif --full --no-headless --parallel 3
 
-# 4. Export
+# 5. Cache logo and avatar
+python cache_logos.py --asset wif
+python cache_avatars.py --asset wif
+
+# 6. Export
 python export_static.py --asset wif
 
-# 5. Verify
+# 7. Verify
 cd ../web && npm run dev
 # Open http://localhost:3000/chart?asset=wif
 ```
