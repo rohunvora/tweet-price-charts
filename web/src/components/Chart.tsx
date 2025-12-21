@@ -471,7 +471,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     // Font sizes for labels
     const timeFontSize = Math.round(8 + 4 * zoomFactor);
     const pctFontSize = Math.round(9 + 4 * zoomFactor);
-    const labelSpacing = Math.round(12 + 4 * zoomFactor);
+    const labelSpacing = Math.round(9 + 4 * zoomFactor);
 
     // Filter to visible tweets with price data
     const visibleTweets = allTweets
