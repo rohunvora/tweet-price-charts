@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-21T12:15:42.504736Z",
+  "generated_at": "2025-12-21T13:17:27.550118Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 308,
+  "count": 309,
   "events": [
     {
       "tweet_id": "1968291567309115458",
@@ -5858,6 +5858,25 @@
       "price_24h": 0.727314772281696,
       "change_1h_pct": 0.04,
       "change_24h_pct": 3.57
+    },
+    {
+      "tweet_id": "2002718813369077969",
+      "asset_id": "aster",
+      "asset_name": "ASTER",
+      "founder": "cz_binance",
+      "asset_color": "#F0B90B",
+      "timestamp": 1766320348,
+      "timestamp_iso": "2025-12-21T12:32:28Z",
+      "text": "\u51ac\u81f3\u5feb\u4e50\ud83e\udd5f\ud83d\udd18",
+      "likes": 1132,
+      "retweets": 63,
+      "replies": 878,
+      "impressions": 75212,
+      "price_at_tweet": 0.717576234056905,
+      "price_1h": 0.705844519916292,
+      "price_24h": 0.705844519916292,
+      "change_1h_pct": -1.63,
+      "change_24h_pct": -1.63
     }
   ]
 }
