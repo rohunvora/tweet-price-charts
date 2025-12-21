@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-21T09:11:41.951560Z",
+  "generated_at": "2025-12-21T10:11:39.563611Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -8097,9 +8097,9 @@
       "impressions": 29040,
       "price_at_tweet": 0.06638508020679246,
       "price_1h": 0.06723763517738024,
-      "price_24h": 0.06524682136973703,
+      "price_24h": 0.06574830669304738,
       "change_1h_pct": 1.28,
-      "change_24h_pct": -1.71
+      "change_24h_pct": -0.96
     }
   ],
   "keyword_filter": "useless",

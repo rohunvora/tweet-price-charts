@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-21T09:10:27.069621Z",
+  "generated_at": "2025-12-21T10:10:24.450970Z",
   "asset": "believe",
   "asset_name": "LAUNCHCOIN",
   "founder": "pasternak",
@@ -56,7 +56,7 @@
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 61,
+    "days_since_last_tweet": 62,
     "price_change_during_silence": -99.8,
     "last_tweet_date": "2025-10-20"
   },
@@ -262,8 +262,8 @@
     },
     {
       "start_ts": 1760956771,
-      "end_ts": 1766308227,
-      "gap_days": 61.9,
+      "end_ts": 1766311824,
+      "gap_days": 62.0,
       "start_date": "2025-10-20",
       "end_date": "ongoing",
       "is_current": true,
