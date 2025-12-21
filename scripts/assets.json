@@ -167,6 +167,22 @@
       "logo": "/logos/wif.png",
       "keyword_filter": "wif",
       "tweet_filter_note": "Only tweets mentioning $WIF"
+    },
+    {
+      "id": "xpl",
+      "name": "XPL",
+      "founder": "pauliepunt",
+      "network": "bsc",
+      "pool_address": "0x50203df8efcddba9755c886f086b9b2d537a15f9",
+      "token_mint": "0x405fbc9004d857903bfd6b3357792d71a50726b0",
+      "coingecko_id": "plasma",
+      "price_source": "geckoterminal",
+      "backfill_source": null,
+      "launch_date": "2025-09-25T00:00:00Z",
+      "color": "#7B3FE4",
+      "enabled": true,
+      "logo": "/logos/xpl.png",
+      "keyword_filter": "xpl,plasma"
     }
   ]
 }

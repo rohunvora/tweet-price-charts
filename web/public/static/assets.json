@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated_at": "2025-12-21T19:10:49.625451Z",
+  "generated_at": "2025-12-21T20:24:41.618579Z",
   "assets": [
     {
       "id": "pump",
@@ -102,6 +102,16 @@
       "launch_date": "2023-12-01T00:00:00Z",
       "color": "#D4A76A",
       "logo": "/logos/wif.png",
+      "enabled": true
+    },
+    {
+      "id": "xpl",
+      "name": "XPL",
+      "founder": "pauliepunt",
+      "network": "bsc",
+      "launch_date": "2025-09-25T00:00:00Z",
+      "color": "#7B3FE4",
+      "logo": "/logos/xpl.png",
       "enabled": true
     }
   ]

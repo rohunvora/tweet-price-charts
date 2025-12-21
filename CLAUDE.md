@@ -42,8 +42,8 @@ cd ../web && npm run dev             # Start frontend
 ## Adding a New Asset
 
 1. Add entry to `scripts/assets.json`
-2. Run `python fetch_tweets.py --asset {id}`
-3. Run `python fetch_prices.py --asset {id}`
+2. Run `python fetch_prices.py --asset {id}` (prices first - validates data source works)
+3. Run `python nitter_scraper.py --asset {id} --full` (scrape tweets)
 4. Run `python export_static.py`
 
 ## Before Committing

@@ -1,0 +1,27 @@
+{
+  "asset_id": "xpl",
+  "timeframe": "1m",
+  "chunks": [
+    {
+      "month": "2025-10",
+      "file": "prices_1m_2025-10.json",
+      "count": 29132,
+      "start": 1760217900,
+      "end": 1761969540
+    },
+    {
+      "month": "2025-11",
+      "file": "prices_1m_2025-11.json",
+      "count": 42992,
+      "start": 1761969600,
+      "end": 1764565140
+    },
+    {
+      "month": "2025-12",
+      "file": "prices_1m_2025-12.json",
+      "count": 27839,
+      "start": 1764565200,
+      "end": 1766365980
+    }
+  ]
+}
