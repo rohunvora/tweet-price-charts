@@ -12,7 +12,7 @@
 import { Suspense, useEffect, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { loadTweetEvents, loadAssets, hasUnfilteredTweets } from '@/lib/dataLoader';
+import { loadTweetEvents, loadAssets, hasFilterToggle } from '@/lib/dataLoader';
 import { TweetEvent, Asset } from '@/lib/types';
 import DataTable from '@/components/DataTable';
 import AssetSelector from '@/components/AssetSelector';
@@ -99,7 +99,7 @@ function DataPageContent() {
   const [tweetEvents, setTweetEvents] = useState<TweetEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [onlyMentions, setOnlyMentions] = useState(true);
+  const [onlyMentions, setOnlyMentions] = useState(false);
   const [hasFilteredTweets, setHasFilteredTweets] = useState(false);
 
   const assetId = searchParams.get('asset') || 'pump';
@@ -117,16 +117,16 @@ function DataPageContent() {
 
         setSelectedAsset(asset);
 
-        // Check if asset has unfiltered tweets available
-        const hasUnfiltered = await hasUnfilteredTweets(assetId);
-        setHasFilteredTweets(hasUnfiltered);
+        // Check if asset has filter toggle available (founders only)
+        const hasToggle = await hasFilterToggle(assetId);
+        setHasFilteredTweets(hasToggle);
 
-        // Load filtered tweets by default
+        // Load default tweets (all for founders, filtered for adopters)
         const eventsData = await loadTweetEvents(assetId, false);
         setTweetEvents(eventsData.events);
 
-        // Reset filter when switching assets
-        setOnlyMentions(true);
+        // Reset filter when switching assets (default: show all)
+        setOnlyMentions(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : String(err));
       }
@@ -149,8 +149,8 @@ function DataPageContent() {
     const newValue = !onlyMentions;
     setOnlyMentions(newValue);
 
-    // Reload tweets: onlyMentions=true means filtered, false means all
-    const eventsData = await loadTweetEvents(selectedAsset.id, !newValue);
+    // Reload tweets: onlyMentions=true → filtered, false → all
+    const eventsData = await loadTweetEvents(selectedAsset.id, newValue);
     setTweetEvents(eventsData.events);
   }, [selectedAsset, onlyMentions]);
 

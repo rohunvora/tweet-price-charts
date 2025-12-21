@@ -15,7 +15,8 @@
       "launch_date": "2025-07-14T00:00:00Z",
       "color": "#9945FF",
       "enabled": true,
-      "logo": "/logos/pump.png"
+      "logo": "/logos/pump.png",
+      "keyword_filter": "pump"
     },
     {
       "id": "hype",
@@ -30,7 +31,8 @@
       "launch_date": "2024-11-29T00:00:00Z",
       "color": "#00D1FF",
       "enabled": true,
-      "logo": "/logos/hype.png"
+      "logo": "/logos/hype.png",
+      "keyword_filter": "hype,hyperliquid"
     },
     {
       "id": "aster",
@@ -46,7 +48,8 @@
       "color": "#F0B90B",
       "enabled": true,
       "logo": "/logos/aster.png",
-      "data_note": "Sept 17-18 hourly prices reconstructed from DexScreener charts (API historical data unavailable)"
+      "data_note": "Sept 17-18 hourly prices reconstructed from DexScreener charts (API historical data unavailable)",
+      "keyword_filter": "aster"
     },
     {
       "id": "believe",
@@ -61,7 +64,8 @@
       "launch_date": "2025-01-28T00:00:00Z",
       "color": "#FF6B6B",
       "enabled": true,
-      "logo": "/logos/believe.png"
+      "logo": "/logos/believe.png",
+      "keyword_filter": "launchcoin,believe"
     },
     {
       "id": "jup",
@@ -77,7 +81,8 @@
       "color": "#19FB9B",
       "enabled": true,
       "logo": "/logos/jup.png",
-      "data_note": "Chart shows Apr 2025 onwards. Historical tweets (Jan 2024-Mar 2025) collected but no matching price data available."
+      "data_note": "Chart shows Apr 2025 onwards. Historical tweets (Jan 2024-Mar 2025) collected but no matching price data available.",
+      "keyword_filter": "jup,jupiter"
     },
     {
       "id": "monad",
@@ -92,7 +97,8 @@
       "launch_date": "2025-11-24T00:00:00Z",
       "color": "#836EF9",
       "enabled": true,
-      "logo": "/logos/monad.png"
+      "logo": "/logos/monad.png",
+      "keyword_filter": "mon,monad"
     },
     {
       "id": "useless",
@@ -139,7 +145,8 @@
       "launch_date": "2025-04-23T00:00:00Z",
       "color": "#5B5BD6",
       "enabled": true,
-      "logo": "/logos/zora.png"
+      "logo": "/logos/zora.png",
+      "keyword_filter": "zora"
     },
     {
       "id": "meta",
@@ -154,7 +161,8 @@
       "launch_date": "2025-10-06T00:00:00Z",
       "color": "#3B82F6",
       "enabled": true,
-      "logo": "/logos/meta.png"
+      "logo": "/logos/meta.png",
+      "keyword_filter": "meta"
     },
     {
       "id": "wif",

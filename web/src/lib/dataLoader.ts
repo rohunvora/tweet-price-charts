@@ -180,12 +180,17 @@ async function load1mPrices(assetId: string): Promise<PriceData> {
 
 /**
  * Load tweet events data for a specific asset
+ *
+ * File structure:
+ * - Founders: tweet_events.json (all tweets), tweet_events_filtered.json (mentions only)
+ * - Adopters: tweet_events.json (filtered only, no toggle available)
+ *
  * @param assetId - The asset ID to load tweets for
- * @param includeFiltered - If true, load all tweets (tweet_events_all.json),
- *                          otherwise load filtered tweets (tweet_events.json)
+ * @param onlyMentions - If true, load filtered tweets (tweet_events_filtered.json for founders)
+ *                       Ignored for adopters (they only have filtered tweets)
  */
-export async function loadTweetEvents(assetId: string, includeFiltered: boolean = false): Promise<TweetEventsData> {
-  const cacheKey = includeFiltered ? `${assetId}:all` : assetId;
+export async function loadTweetEvents(assetId: string, onlyMentions: boolean = false): Promise<TweetEventsData> {
+  const cacheKey = onlyMentions ? `${assetId}:filtered` : assetId;
 
   if (tweetCache.has(cacheKey)) {
     log(`Using cached tweet events for ${cacheKey}`);
@@ -194,16 +199,21 @@ export async function loadTweetEvents(assetId: string, includeFiltered: boolean 
 
   // Add cache-busting timestamp to force fresh data after deployments
   const cacheBuster = `?v=${Date.now()}`;
-  const filename = includeFiltered ? 'tweet_events_all.json' : 'tweet_events.json';
+
+  // Determine which file to load:
+  // - Default: tweet_events.json (all tweets for founders, filtered for adopters)
+  // - onlyMentions=true: tweet_events_filtered.json (founders only)
+  const filename = onlyMentions ? 'tweet_events_filtered.json' : 'tweet_events.json';
   const path = `/static/${assetId}/${filename}${cacheBuster}`;
 
   log(`Loading tweet events from ${path}`);
 
   const response = await fetch(path, { cache: 'no-store' });
 
-  // If requesting all tweets but file doesn't exist, fall back to filtered
-  if (!response.ok && includeFiltered) {
-    log(`No unfiltered tweets file for ${assetId}, falling back to filtered`);
+  // If requesting filtered but file doesn't exist, fall back to main file
+  // (This happens for adopters who don't have a separate filtered file)
+  if (!response.ok && onlyMentions) {
+    log(`No filtered tweets file for ${assetId}, falling back to main file`);
     return loadTweetEvents(assetId, false);
   }
 
@@ -213,21 +223,42 @@ export async function loadTweetEvents(assetId: string, includeFiltered: boolean 
 
   const data: TweetEventsData = await response.json();
 
-  log(`Loaded ${data.count} tweet events for ${assetId} (${includeFiltered ? 'all' : 'filtered'})`);
+  log(`Loaded ${data.count} tweet events for ${assetId} (${onlyMentions ? 'filtered' : 'all'})`);
 
   tweetCache.set(cacheKey, data);
   return data;
 }
 
 /**
- * Check if an asset has unfiltered tweets available
- * (i.e., has a tweet_events_all.json file)
+ * Check if an asset has a filter toggle available
+ * (i.e., has a tweet_events_filtered.json file - only founders have this)
+ *
+ * Adopters don't have this file because we only have their filtered tweets.
  */
-export async function hasUnfilteredTweets(assetId: string): Promise<boolean> {
-  const path = `/static/${assetId}/tweet_events_all.json`;
+export async function hasFilterToggle(assetId: string): Promise<boolean> {
+  const path = `/static/${assetId}/tweet_events_filtered.json`;
   try {
     const response = await fetch(path, { method: 'HEAD', cache: 'no-store' });
     return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * @deprecated Use hasFilterToggle instead
+ * Check if an asset has unfiltered tweets available
+ */
+export async function hasUnfilteredTweets(assetId: string): Promise<boolean> {
+  // For backwards compatibility, check both old and new file names
+  const oldPath = `/static/${assetId}/tweet_events_all.json`;
+  const newPath = `/static/${assetId}/tweet_events_filtered.json`;
+  try {
+    const [oldResponse, newResponse] = await Promise.all([
+      fetch(oldPath, { method: 'HEAD', cache: 'no-store' }),
+      fetch(newPath, { method: 'HEAD', cache: 'no-store' }),
+    ]);
+    return oldResponse.ok || newResponse.ok;
   } catch {
     return false;
   }

@@ -613,42 +613,82 @@ def export_tweet_events_for_asset(
         output["tweet_filter_note"] = asset.get("tweet_filter_note", f"Only tweets mentioning \"{asset['keyword_filter']}\"")
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    filepath = output_dir / "tweet_events.json"
 
-    with open(filepath, "w") as f:
-        json.dump(output, f, indent=2)
+    # Determine export strategy based on founder_type
+    is_adopter = asset and asset.get("founder_type") == "adopter"
 
-    size_kb = filepath.stat().st_size / 1024
-    print(f"    Tweet events: {len(events)} events ({size_kb:.1f} KB)")
+    if is_adopter:
+        # ADOPTER: Only export filtered tweets (we don't have all their tweets)
+        # tweet_events.json = filtered only
+        filepath = output_dir / "tweet_events.json"
+        with open(filepath, "w") as f:
+            json.dump(output, f, indent=2)
 
-    # For assets with keyword_filter, also export unfiltered "all tweets" version
-    # This enables the "Only mentions" toggle in the UI
-    if has_keyword_filter:
+        size_kb = filepath.stat().st_size / 1024
+        print(f"    Tweet events: {len(events)} events ({size_kb:.1f} KB) [adopter - filtered only]")
+
+        # Delete tweet_events_all.json if it exists (legacy cleanup)
+        legacy_all = output_dir / "tweet_events_all.json"
+        if legacy_all.exists():
+            legacy_all.unlink()
+            print(f"    Deleted legacy tweet_events_all.json")
+
+    elif has_keyword_filter:
+        # FOUNDER with keyword_filter:
+        # tweet_events.json = ALL tweets (default view)
+        # tweet_events_filtered.json = filtered tweets (toggle option)
+
+        # Get ALL tweets (unfiltered) for the main file
         all_events = get_tweet_events(conn, asset_id, use_daily_fallback=use_daily_fallback, include_filtered=True)
-
-        # Filter out tweets without price data (same as above)
         if filter_no_price:
             all_events = [e for e in all_events if e.get("price_at_tweet") is not None]
 
-        if all_events:
-            output_all = {
-                "generated_at": datetime.utcnow().isoformat() + "Z",
-                "asset": asset_id,
-                "asset_name": asset["name"] if asset else asset_id.upper(),
-                "founder": asset["founder"] if asset else "",
-                "founder_type": asset.get("founder_type", "founder") if asset else "founder",
-                "price_definition": "candle close at minute boundary" if not use_daily_fallback else "daily close",
-                "count": len(all_events),
-                "is_unfiltered": True,
-                "events": all_events
-            }
+        # Main file: all tweets
+        output_all = {
+            "generated_at": datetime.utcnow().isoformat() + "Z",
+            "asset": asset_id,
+            "asset_name": asset["name"] if asset else asset_id.upper(),
+            "founder": asset["founder"] if asset else "",
+            "founder_type": "founder",
+            "price_definition": "candle close at minute boundary" if not use_daily_fallback else "daily close",
+            "count": len(all_events),
+            "events": all_events
+        }
 
-            filepath_all = output_dir / "tweet_events_all.json"
-            with open(filepath_all, "w") as f:
-                json.dump(output_all, f, indent=2)
+        filepath = output_dir / "tweet_events.json"
+        with open(filepath, "w") as f:
+            json.dump(output_all, f, indent=2)
 
-            size_kb_all = filepath_all.stat().st_size / 1024
-            print(f"    Tweet events (all): {len(all_events)} events ({size_kb_all:.1f} KB)")
+        size_kb = filepath.stat().st_size / 1024
+        print(f"    Tweet events: {len(all_events)} events ({size_kb:.1f} KB) [all tweets]")
+
+        # Filtered file: only mentions
+        output["keyword_filter"] = asset["keyword_filter"]
+        output["tweet_filter_note"] = asset.get("tweet_filter_note", f"Only tweets mentioning \"{asset['keyword_filter']}\"")
+
+        filepath_filtered = output_dir / "tweet_events_filtered.json"
+        with open(filepath_filtered, "w") as f:
+            json.dump(output, f, indent=2)
+
+        size_kb_filtered = filepath_filtered.stat().st_size / 1024
+        print(f"    Tweet events (filtered): {len(events)} events ({size_kb_filtered:.1f} KB) [mentions only]")
+
+        # Delete legacy tweet_events_all.json if it exists
+        legacy_all = output_dir / "tweet_events_all.json"
+        if legacy_all.exists():
+            legacy_all.unlink()
+            print(f"    Deleted legacy tweet_events_all.json")
+
+        events = all_events  # Return all events count
+
+    else:
+        # FOUNDER without keyword_filter: just export all tweets
+        filepath = output_dir / "tweet_events.json"
+        with open(filepath, "w") as f:
+            json.dump(output, f, indent=2)
+
+        size_kb = filepath.stat().st_size / 1024
+        print(f"    Tweet events: {len(events)} events ({size_kb:.1f} KB)")
 
     return len(events)
 

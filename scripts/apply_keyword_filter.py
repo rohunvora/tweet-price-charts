@@ -54,41 +54,47 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 from db import get_connection, init_schema, load_assets_from_json, get_asset, get_enabled_assets
 
 
-def keyword_matches(text: str, keyword: str) -> bool:
+def keyword_matches(text: str, keyword_filter: str) -> bool:
     """
     Check if tweet text matches keyword filter.
-    
-    Matching rules (case-insensitive):
-    - Exact word: "useless" matches "USELESS coin" but not "uselessness"  
+
+    Supports comma-separated keywords (matches ANY):
+    - "hype,hyperliquid" matches tweets containing "hype" OR "hyperliquid"
+
+    Matching rules per keyword (case-insensitive):
+    - Exact word: "useless" matches "USELESS coin" but not "uselessness"
     - With $ prefix: matches "$USELESS" or "$useless"
     - With # prefix: matches "#USELESS"
     - As cashtag pattern: matches variations like $USELESS, USELESS, #useless
-    
+
     Args:
         text: Tweet text to check
-        keyword: Keyword to match (e.g., "useless")
-    
+        keyword_filter: Keyword(s) to match, comma-separated (e.g., "hype,hyperliquid")
+
     Returns:
-        True if text contains keyword in valid context
+        True if text contains ANY keyword in valid context
     """
-    if not text or not keyword:
+    if not text or not keyword_filter:
         return False
-    
+
     text_lower = text.lower()
-    keyword_lower = keyword.lower()
-    
-    # Pattern matches: $KEYWORD, #KEYWORD, or KEYWORD as whole word
-    # Using word boundary that also allows $ and # prefixes
-    patterns = [
-        rf'\${keyword_lower}\b',      # $useless (cashtag)
-        rf'#{keyword_lower}\b',        # #useless (hashtag)
-        rf'\b{keyword_lower}\b',       # useless (word boundary)
-    ]
-    
-    for pattern in patterns:
-        if re.search(pattern, text_lower):
-            return True
-    
+
+    # Split on comma and check each keyword
+    keywords = [k.strip().lower() for k in keyword_filter.split(',') if k.strip()]
+
+    for keyword_lower in keywords:
+        # Pattern matches: $KEYWORD, #KEYWORD, or KEYWORD as whole word
+        # Using word boundary that also allows $ and # prefixes
+        patterns = [
+            rf'\${keyword_lower}\b',      # $useless (cashtag)
+            rf'#{keyword_lower}\b',        # #useless (hashtag)
+            rf'\b{keyword_lower}\b',       # useless (word boundary)
+        ]
+
+        for pattern in patterns:
+            if re.search(pattern, text_lower):
+                return True
+
     return False
 
 

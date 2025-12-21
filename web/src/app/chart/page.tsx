@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { loadTweetEvents, loadAssets, loadLastUpdated, hasUnfilteredTweets } from '@/lib/dataLoader';
+import { loadTweetEvents, loadAssets, loadLastUpdated, hasFilterToggle } from '@/lib/dataLoader';
 import { TweetEvent, TweetEventsData, Asset } from '@/lib/types';
 import AssetSelector from '@/components/AssetSelector';
 import OnlyMentionsToggle from '@/components/OnlyMentionsToggle';
@@ -93,7 +93,7 @@ function ChartPageContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
-  const [onlyMentions, setOnlyMentions] = useState(true);
+  const [onlyMentions, setOnlyMentions] = useState(false);
   const [hasFilteredTweets, setHasFilteredTweets] = useState(false);
 
   // Get asset ID from URL, default to 'pump'
@@ -119,11 +119,12 @@ function ChartPageContent() {
         console.log(`[ChartPage] Selected asset: ${asset.name} (${asset.id})`);
         setSelectedAsset(asset);
 
-        // Check if asset has unfiltered tweets available (keyword filter)
-        const hasUnfiltered = await hasUnfilteredTweets(assetId);
-        setHasFilteredTweets(hasUnfiltered);
+        // Check if asset has filter toggle available (founders with keyword_filter)
+        // Adopters don't have this - they only have filtered tweets
+        const hasToggle = await hasFilterToggle(assetId);
+        setHasFilteredTweets(hasToggle);
 
-        // Load tweet events (filtered by default if available)
+        // Load tweet events (default: all tweets for founders, filtered for adopters)
         const eventsData = await loadTweetEvents(assetId, false);
         setTweetEvents(eventsData.events);
         setEventsMetadata({
@@ -134,15 +135,15 @@ function ChartPageContent() {
 
         console.log(`[ChartPage] Loaded ${eventsData.events.length} tweets for ${asset.name}`);
         if (eventsData.keyword_filter) {
-          console.log(`[ChartPage] Keyword filter: "${eventsData.keyword_filter}" (unfiltered available: ${hasUnfiltered})`);
+          console.log(`[ChartPage] Keyword filter: "${eventsData.keyword_filter}" (toggle available: ${hasToggle})`);
         }
 
         // Load last updated timestamp
         const updated = await loadLastUpdated();
         setLastUpdated(updated);
 
-        // Reset onlyMentions to true when switching assets
-        setOnlyMentions(true);
+        // Reset onlyMentions to false when switching assets (show all tweets by default)
+        setOnlyMentions(false);
 
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
@@ -172,8 +173,9 @@ function ChartPageContent() {
     console.log(`[ChartPage] Only mentions: ${newValue ? 'ON' : 'OFF'}`);
 
     // Reload tweets with the new filter setting
-    // onlyMentions=true means filtered (only mentions), false means all tweets
-    const eventsData = await loadTweetEvents(selectedAsset.id, !newValue);
+    // onlyMentions=true → load tweet_events_filtered.json (mentions only)
+    // onlyMentions=false → load tweet_events.json (all tweets for founders)
+    const eventsData = await loadTweetEvents(selectedAsset.id, newValue);
     setTweetEvents(eventsData.events);
     console.log(`[ChartPage] Reloaded ${eventsData.events.length} tweets`);
   }, [selectedAsset, onlyMentions]);
