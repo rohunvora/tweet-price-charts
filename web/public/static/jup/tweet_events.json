@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-21T07:11:14.969473Z",
+  "generated_at": "2025-12-21T08:13:13.013287Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 662,
+  "count": 663,
   "events": [
     {
       "tweet_id": "1752657292124905504",
@@ -12584,6 +12584,25 @@
       "price_24h": 0.20461689200066824,
       "change_1h_pct": 0.55,
       "change_24h_pct": -4.04
+    },
+    {
+      "tweet_id": "2002639324706132324",
+      "asset_id": "jup",
+      "asset_name": "JUP",
+      "founder": "weremeow",
+      "asset_color": "#19FB9B",
+      "timestamp": 1766301396,
+      "timestamp_iso": "2025-12-21T07:16:36Z",
+      "text": "the future of energy  is going to be both nuclear and solar, because nuclear is the most scalable centralized solution that can ramp up anytime upon command, while solar is the most scalable decentralized solution that can be distributed anywhere.\n\nthrow in coal as the most https://t.co/b7JOJHSA92",
+      "likes": 66,
+      "retweets": 3,
+      "replies": 20,
+      "impressions": 5402,
+      "price_at_tweet": 0.19360463942030406,
+      "price_1h": 0.19326618610340124,
+      "price_24h": 0.19326618610340124,
+      "change_1h_pct": -0.17,
+      "change_24h_pct": -0.17
     }
   ]
 }

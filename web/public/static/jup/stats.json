@@ -1,50 +1,50 @@
 {
-  "generated_at": "2025-12-21T07:10:30.908284Z",
+  "generated_at": "2025-12-21T08:12:28.861797Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
   "summary": {
-    "total_tweets": 662,
-    "tweets_with_price": 662,
+    "total_tweets": 663,
+    "tweets_with_price": 663,
     "date_range": {
       "start": "2024-01-31",
-      "end": "2025-12-12"
+      "end": "2025-12-21"
     },
     "total_days_analyzed": 782
   },
   "daily_comparison": {
-    "tweet_day_count": 65,
-    "tweet_day_avg_return": 0.04,
-    "tweet_day_win_rate": 52.3,
+    "tweet_day_count": 66,
+    "tweet_day_avg_return": 0.06,
+    "tweet_day_win_rate": 53.0,
     "tweet_day_distribution": {
-      "count": 65,
-      "mean": 0.04,
+      "count": 66,
+      "mean": 0.06,
       "median": 0.79,
-      "std_dev": 8.47,
+      "std_dev": 8.41,
       "min": -17.98,
       "max": 29.95,
-      "q1": -6.55,
-      "q3": 3.85,
-      "positive_count": 34,
+      "q1": -6.35,
+      "q3": 3.78,
+      "positive_count": 35,
       "negative_count": 31
     },
-    "no_tweet_day_count": 716,
+    "no_tweet_day_count": 715,
     "no_tweet_day_avg_return": -0.01,
-    "no_tweet_day_win_rate": 43.9,
+    "no_tweet_day_win_rate": 43.8,
     "no_tweet_day_distribution": {
-      "count": 716,
+      "count": 715,
       "mean": -0.01,
       "median": 0.0,
       "std_dev": 5.18,
       "min": -23.6,
       "max": 41.73,
-      "q1": -2.29,
+      "q1": -2.3,
       "q3": 1.74,
-      "positive_count": 314,
+      "positive_count": 313,
       "negative_count": 356
     },
-    "t_statistic": 0.067,
-    "p_value": 0.9467,
+    "t_statistic": 0.098,
+    "p_value": 0.9221,
     "significant": false,
     "confidence_label": "none"
   },
@@ -56,17 +56,17 @@
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 8,
-    "price_change_during_silence": -3.3,
-    "last_tweet_date": "2025-12-12"
+    "days_since_last_tweet": 0,
+    "price_change_during_silence": null,
+    "last_tweet_date": "2025-12-21"
   },
   "limitations": {
     "sample_size_warning": true,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Small sample: only 65 tweet-days analyzed",
-      "Win rate of 52.3% is near random (50%)",
+      "Small sample: only 66 tweet-days analyzed",
+      "Win rate of 53.0% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
@@ -593,11 +593,10 @@
     },
     {
       "start_ts": 1765537272,
-      "end_ts": 1766301030,
+      "end_ts": 1766301396,
       "gap_days": 8.8,
       "start_date": "2025-12-12",
-      "end_date": "ongoing",
-      "is_current": true,
+      "end_date": "2025-12-21",
       "price_start": 0.20383148229191833,
       "price_end": 0.19706468018743975,
       "change_pct": -3.3
