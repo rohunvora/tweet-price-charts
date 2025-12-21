@@ -115,6 +115,67 @@ def validate_coingecko_id(cg_id: str) -> tuple[bool, str]:
         return False, f"Network error: {e}"
 
 
+def download_logo(asset_id: str, coingecko_id: str) -> tuple[bool, str]:
+    """Download logo from CoinGecko and save as PNG. Returns (success, message)."""
+    logo_path = LOGOS_DIR / f"{asset_id}.png"
+
+    # Check if logo already exists
+    if logo_path.exists():
+        return True, f"Logo already exists: {logo_path.name}"
+
+    if not coingecko_id:
+        return False, "No CoinGecko ID provided for logo download"
+
+    try:
+        # Get logo URL from CoinGecko
+        url = f"https://api.coingecko.com/api/v3/coins/{coingecko_id}"
+        with httpx.Client(timeout=30.0) as client:
+            response = client.get(url)
+            if response.status_code != 200:
+                return False, f"CoinGecko API error: {response.status_code}"
+
+            data = response.json()
+            logo_url = data.get("image", {}).get("large")
+            if not logo_url:
+                return False, "No logo URL in CoinGecko response"
+
+            # Download the image
+            img_response = client.get(logo_url)
+            if img_response.status_code != 200:
+                return False, f"Failed to download logo: {img_response.status_code}"
+
+            # Save temporarily
+            temp_path = LOGOS_DIR / f"{asset_id}_temp"
+            temp_path.write_bytes(img_response.content)
+
+            # Convert to PNG using sips (macOS) or just save if already PNG
+            import subprocess
+            result = subprocess.run(
+                ["sips", "-s", "format", "png", str(temp_path), "--out", str(logo_path)],
+                capture_output=True,
+                text=True
+            )
+            temp_path.unlink(missing_ok=True)
+
+            if result.returncode != 0:
+                # Fallback: just rename if sips fails (might already be PNG)
+                if not logo_path.exists():
+                    return False, f"Failed to convert logo to PNG: {result.stderr}"
+
+            return True, f"Downloaded logo: {logo_path.name}"
+    except Exception as e:
+        return False, f"Error downloading logo: {e}"
+
+
+def validate_logo(asset_id: str) -> tuple[bool, str]:
+    """Check if logo exists for asset. Returns (success, message)."""
+    logo_path = LOGOS_DIR / f"{asset_id}.png"
+    if logo_path.exists():
+        size_kb = logo_path.stat().st_size / 1024
+        return True, f"Logo exists: {logo_path.name} ({size_kb:.1f} KB)"
+    return False, f"Missing logo: web/public/logos/{asset_id}.png"
+
+
 # =============================================================================
 # DATA SOURCE DISCOVERY - Find source with longest price history
 # =============================================================================
@@ -504,7 +565,7 @@ Examples:
     parser.add_argument("--name", help="Display name for the asset")
     parser.add_argument("--founder", help="Twitter handle of the founder (without @)")
     parser.add_argument("--coingecko", dest="coingecko_id", help="CoinGecko ID for price data")
-    parser.add_argument("--network", choices=["solana", "ethereum", "bsc", "base"], help="Blockchain network")
+    parser.add_argument("--network", choices=["solana", "ethereum", "bsc", "base", "hyperliquid", "monad", "arbitrum", "polygon", "optimism", "avalanche"], help="Blockchain network")
     parser.add_argument("--pool", dest="pool_address", help="DEX pool address (for GeckoTerminal)")
     parser.add_argument("--mint", dest="token_mint", help="Token mint/contract address")
     parser.add_argument("--color", default="#3B82F6", help="Brand color (hex, default: #3B82F6)")
@@ -666,6 +727,32 @@ Examples:
             failed = True
             # Continue with other steps even if one fails
 
+    # Download logo from CoinGecko if available
+    logo_downloaded = False
+    coingecko_id = args.coingecko_id
+    if not coingecko_id and args.refresh:
+        # Try to get CoinGecko ID from existing config for refresh
+        asset_config = next((a for a in config.get("assets", []) if a["id"] == args.asset_id), None)
+        if asset_config:
+            coingecko_id = asset_config.get("coingecko_id")
+
+    if coingecko_id:
+        print_step("Downloading logo")
+        success, msg = download_logo(args.asset_id, coingecko_id)
+        if success:
+            print_success(f"  {msg}")
+            logo_downloaded = True
+        else:
+            print_warning(f"  {msg}")
+
+    # Validate logo exists
+    if not logo_downloaded:
+        success, msg = validate_logo(args.asset_id)
+        if success:
+            logo_downloaded = True
+        else:
+            print_warning(f"  {msg}")
+
     # Summary
     print("\n" + "=" * 60)
     if failed:
@@ -675,8 +762,11 @@ Examples:
     else:
         print(f"{GREEN}{BOLD}✓ Asset '{args.asset_id}' added successfully!{RESET}")
         print(f"\nNext steps:")
-        print(f"  1. Add a logo to: web/public/logos/{args.asset_id}.png")
-        print(f"  2. Commit and push to deploy")
+        step_num = 1
+        if not logo_downloaded:
+            print(f"  {step_num}. Add a logo to: web/public/logos/{args.asset_id}.png")
+            step_num += 1
+        print(f"  {step_num}. Commit and push to deploy")
         print(f"     git add -A && git commit -m 'Add asset: {args.name or args.asset_id}'")
         print(f"     git push")
 
