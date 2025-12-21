@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated_at": "2025-12-21T14:31:06.569605Z",
+  "generated_at": "2025-12-21T18:18:24.913000Z",
   "assets": [
     {
       "id": "pump",
@@ -92,6 +92,16 @@
       "launch_date": "2025-10-06T00:00:00Z",
       "color": "#3B82F6",
       "logo": "/logos/meta.png",
+      "enabled": true
+    },
+    {
+      "id": "wif",
+      "name": "WIF",
+      "founder": "blknoiz06",
+      "network": "solana",
+      "launch_date": "2023-12-01T00:00:00Z",
+      "color": "#D4A76A",
+      "logo": "/logos/wif.png",
       "enabled": true
     }
   ]

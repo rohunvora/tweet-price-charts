@@ -2,6 +2,65 @@
 Nitter Scraper - Robust tweet backfill via Nitter instances.
 
 ===============================================================================
+WHEN TO USE THIS VS X API (fetch_tweets.py)
+===============================================================================
+
+DECISION TREE:
+                    ┌─────────────────────────┐
+                    │ Is asset > 150 days old?│
+                    └───────────┬─────────────┘
+                          ┌─────┴─────┐
+                         YES          NO
+                          │            │
+              ┌───────────▼───────┐   │
+              │ Use NITTER first  │   │
+              │ for historical    │   │
+              │ backfill          │   ▼
+              └───────────────────┘  Use X API only
+                          │          (fetch_tweets.py)
+                          ▼
+              ┌───────────────────┐
+              │ Then use X API    │
+              │ for ongoing       │
+              │ updates           │
+              └───────────────────┘
+
+USE NITTER (this script) WHEN:
+1. Asset is > 150 days old (X API limit is ~150 days)
+2. Need historical backfill beyond X API reach
+3. X API rate limits are exhausted
+4. Adding an "adopter" asset with keyword filtering
+
+USE X API (fetch_tweets.py) WHEN:
+1. Asset is < 150 days old
+2. Running ongoing/scheduled tweet updates
+3. Need real-time or near-real-time tweets
+4. Have available API quota
+
+TYPICAL WORKFLOW FOR NEW ASSETS:
+1. Add asset to assets.json (manually for adopters, CLI for founders)
+2. If asset > 150 days: Run nitter_scraper.py --asset X --full --no-headless
+3. Run fetch_tweets.py --asset X (for recent + ongoing)
+4. Run export_static.py --asset X
+5. Schedule fetch_tweets.py for hourly updates
+
+===============================================================================
+FOUNDER VS ADOPTER ASSETS
+===============================================================================
+
+FOUNDER: Person who created the token (all their tweets are relevant)
+  - Example: @a1lon9 created PUMP
+  - No keyword filter needed
+  - founder_type: "founder" (default)
+
+ADOPTER: Person who adopted/promoted an existing token
+  - Example: @blknoiz06 adopted WIF (didn't create it)
+  - MUST have keyword_filter in assets.json (e.g., "wif")
+  - Most of their tweets are NOT about the token
+  - founder_type: "adopter" in assets.json
+  - Results in tweet_events.json (filtered) AND tweet_events_all.json
+
+===============================================================================
 ARCHITECTURE OVERVIEW
 ===============================================================================
 
@@ -16,11 +75,13 @@ WHY NITTER?
 - Date-range filtering via URL params
 
 KEY FEATURES:
-1. Instance rotation - Falls back between nitter.net and nitter.poast.org
+1. Single instance (nitter.net) - Only reliable instance as of Dec 2024
 2. Conservative delays - 30-60s between chunks to avoid rate limiting
 3. Exponential backoff - Retries with increasing delays on failure
 4. Progress tracking - Resumable via JSON file (data/nitter_progress.json)
 5. Username filtering - Only captures tweets from the target founder
+6. Keyword filtering - For adopter assets, filters tweets by keyword
+7. Parallel scraping - Multiple browser instances for faster backfill
 
 ===============================================================================
 LESSONS LEARNED FROM V1 (Why this exists)
@@ -65,16 +126,58 @@ python nitter_scraper.py --asset useless --since 2025-06-01 --until 2025-06-08
 PERFORMANCE NOTES
 ===============================================================================
 
-Current timing (conservative for reliability):
+SEQUENTIAL SCRAPING (--parallel 1, default):
 - ~1 minute per 7-day chunk (including delays)
-- ~30 minutes for a 7-month backfill
-- Single-threaded to avoid rate limiting
+- ~2 hours for a 2-year backfill (108 chunks)
+- Safe, proven reliable
 
-FUTURE OPTIMIZATION IDEAS:
-- Multi-instance parallel scraping (use nitter.net AND nitter.poast.org)
-- Adaptive delays based on response time
-- Cookie/session persistence for faster auth
-- Proxy rotation for IP diversity
+PARALLEL SCRAPING (--parallel 2 or --parallel 3):
+- Same ~1 minute per chunk, but N chunks at once
+- 2 workers: ~1 hour for 2-year backfill (2x speedup)
+- 3 workers: ~40 min for 2-year backfill (3x speedup)
+- Tested with 3 workers on nitter.net - NO RATE LIMITING
+
+WHY PARALLEL WORKS (discovered Dec 2024):
+- Nitter rate limiting is SESSION-based, not IP-based
+- Each browser instance has its own session
+- Multiple browsers = multiple sessions = no conflicts
+- All workers can use nitter.net simultaneously
+
+RECOMMENDED SETTINGS:
+- New users: Start with --parallel 2 to be safe
+- Experienced: --parallel 3 works fine
+- Maximum tested: 3 workers (beyond that untested)
+
+===============================================================================
+PARALLEL SCRAPING ARCHITECTURE
+===============================================================================
+
+┌─────────────────────────────────────────────────────────────┐
+│                     Main Thread                              │
+├─────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │  Worker 0    │  │  Worker 1    │  │  Worker 2    │       │
+│  │ Browser 0    │  │ Browser 1    │  │ Browser 2    │       │
+│  │ Chunks 0,3,6 │  │ Chunks 1,4,7 │  │ Chunks 2,5,8 │       │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘       │
+│         │                 │                 │                │
+│         └─────────────────┼─────────────────┘                │
+│                           ▼                                  │
+│                  ┌──────────────┐                           │
+│                  │ Write Queue  │ (thread-safe)             │
+│                  └──────┬───────┘                           │
+│                         ▼                                    │
+│                  ┌──────────────┐                           │
+│                  │ DB Writer    │ (single thread)           │
+│                  │ Thread       │                           │
+│                  └──────────────┘                           │
+└─────────────────────────────────────────────────────────────┘
+
+WHY SINGLE DB WRITER:
+- DuckDB has exclusive write locks
+- Multiple writers = lock conflicts
+- Queue pattern: scrapers push, one writer consumes
+- Result: Zero lock conflicts, maximum parallelism
 
 ===============================================================================
 DATA FORMAT
@@ -100,6 +203,8 @@ import re
 import sys
 import time
 import random
+import threading
+from queue import Queue
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional, List, Dict, Any, Tuple
@@ -125,13 +230,29 @@ except ImportError:
 # CONFIGURATION - TUNED FOR RELIABILITY
 # =============================================================================
 
-# Instance list - rotate on failure
+# Instance list - ONLY nitter.net works reliably as of Dec 2024
+#
+# TESTED INSTANCES (Dec 2024):
+# - nitter.net: ✅ WORKS - Primary instance, reliable
+# - nitter.poast.org: ❌ FAILS - Cloudflare challenges, often down
+# - nitter.privacydev.net: ❌ FAILS - Dead/unresponsive
+# - Others: Not tested, likely dead
+#
+# IMPORTANT: All parallel workers use the same instance (nitter.net).
+# This works because rate limiting is SESSION-based, not IP-based.
+# Each browser has its own session, so multiple browsers = no conflicts.
 NITTER_INSTANCES = [
     "https://nitter.net",
-    "https://nitter.poast.org",
 ]
 
 # Timing - MUCH more conservative than v1
+# These delays are CRITICAL for reliability. Do not reduce.
+#
+# WHY 30-60 SECONDS:
+# - Nitter servers are community-run with limited resources
+# - Too fast = ERR_HTTP_RESPONSE_CODE_FAILURE (429-like)
+# - 5 seconds (v1) was too aggressive, caused failures
+# - 30-60 seconds has proven reliable over months of use
 MIN_CHUNK_DELAY = 30  # Minimum 30 seconds between chunks
 MAX_CHUNK_DELAY = 60  # Maximum 60 seconds between chunks
 MIN_PAGE_DELAY = 3    # Minimum 3 seconds between pagination clicks
@@ -154,6 +275,9 @@ MAX_PAGES_PER_CHUNK = 20     # Pagination safety limit
 
 # Progress file for resumability
 PROGRESS_FILE = Path(__file__).parent.parent / "data" / "nitter_progress.json"
+
+# Thread safety for parallel scraping
+progress_lock = threading.Lock()
 
 
 # =============================================================================
@@ -179,43 +303,64 @@ def log(msg: str, level: str = "INFO"):
 # =============================================================================
 
 def load_progress() -> Dict:
-    """Load progress from file."""
-    if PROGRESS_FILE.exists():
-        try:
-            return json.loads(PROGRESS_FILE.read_text())
-        except:
-            pass
-    return {}
+    """Load progress from file (thread-safe)."""
+    with progress_lock:
+        if PROGRESS_FILE.exists():
+            try:
+                return json.loads(PROGRESS_FILE.read_text())
+            except:
+                pass
+        return {}
 
 
 def save_progress(progress: Dict):
-    """Save progress to file."""
-    PROGRESS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    PROGRESS_FILE.write_text(json.dumps(progress, indent=2, default=str))
+    """Save progress to file (thread-safe)."""
+    with progress_lock:
+        PROGRESS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        PROGRESS_FILE.write_text(json.dumps(progress, indent=2, default=str))
 
 
 def get_completed_chunks(asset_id: str) -> set:
-    """Get set of completed chunk date ranges."""
+    """Get set of completed chunk date ranges (thread-safe)."""
     progress = load_progress()
     return set(progress.get(asset_id, {}).get("completed_chunks", []))
 
 
 def mark_chunk_complete(asset_id: str, chunk_key: str):
-    """Mark a chunk as completed."""
-    progress = load_progress()
-    if asset_id not in progress:
-        progress[asset_id] = {"completed_chunks": []}
-    if chunk_key not in progress[asset_id]["completed_chunks"]:
-        progress[asset_id]["completed_chunks"].append(chunk_key)
-    save_progress(progress)
+    """Mark a chunk as completed (thread-safe)."""
+    with progress_lock:
+        # Re-load inside lock to avoid race conditions
+        if PROGRESS_FILE.exists():
+            try:
+                progress = json.loads(PROGRESS_FILE.read_text())
+            except:
+                progress = {}
+        else:
+            progress = {}
+
+        if asset_id not in progress:
+            progress[asset_id] = {"completed_chunks": []}
+        if chunk_key not in progress[asset_id]["completed_chunks"]:
+            progress[asset_id]["completed_chunks"].append(chunk_key)
+
+        PROGRESS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        PROGRESS_FILE.write_text(json.dumps(progress, indent=2, default=str))
 
 
 def clear_progress(asset_id: str):
-    """Clear progress for an asset."""
-    progress = load_progress()
-    if asset_id in progress:
-        del progress[asset_id]
-        save_progress(progress)
+    """Clear progress for an asset (thread-safe)."""
+    with progress_lock:
+        if PROGRESS_FILE.exists():
+            try:
+                progress = json.loads(PROGRESS_FILE.read_text())
+            except:
+                progress = {}
+        else:
+            progress = {}
+
+        if asset_id in progress:
+            del progress[asset_id]
+            PROGRESS_FILE.write_text(json.dumps(progress, indent=2, default=str))
 
 
 # =============================================================================
@@ -782,6 +927,271 @@ def scrape_asset(
 
 
 # =============================================================================
+# PARALLEL SCRAPING
+# =============================================================================
+
+def db_writer_thread(write_queue: Queue, conn, asset_id: str, launch_date: datetime, stats: Dict):
+    """
+    Consumer thread that writes tweets to DB.
+    Runs until it receives None as shutdown signal.
+    """
+    while True:
+        task = write_queue.get()
+        if task is None:  # Shutdown signal
+            write_queue.task_done()
+            break
+
+        tweets, chunk_key = task
+
+        try:
+            # Filter pre-launch tweets
+            tweets = [t for t in tweets if t['timestamp'] >= launch_date]
+
+            if tweets:
+                inserted = insert_tweets(conn, asset_id, tweets)
+                stats['tweets_found'] += len(tweets)
+                stats['tweets_inserted'] += inserted
+                log(f"[Writer] Saved {inserted} tweets from chunk {chunk_key}", "OK")
+
+            mark_chunk_complete(asset_id, chunk_key)
+            stats['chunks_done'] += 1
+
+        except Exception as e:
+            log(f"[Writer] Error saving chunk {chunk_key}: {e}", "ERROR")
+            stats['chunks_failed'] += 1
+
+        write_queue.task_done()
+
+
+def scraper_worker(
+    worker_id: int,
+    chunks: List[Dict],
+    username: str,
+    keyword: Optional[str],
+    write_queue: Queue,
+    headless: bool = False,
+):
+    """
+    Worker thread that scrapes assigned chunks and pushes results to write queue.
+    """
+    instance = NITTER_INSTANCES[worker_id % len(NITTER_INSTANCES)]
+    log(f"[Worker {worker_id}] Starting with {len(chunks)} chunks via {instance.split('//')[1]}", "INFO")
+
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=headless,
+                args=['--disable-blink-features=AutomationControlled', '--no-sandbox']
+            )
+
+            context = browser.new_context(
+                viewport={'width': 1280, 'height': 900},
+                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            )
+
+            for i, chunk in enumerate(chunks):
+                log(f"[Worker {worker_id}] Chunk {i+1}/{len(chunks)}: {chunk['since']} to {chunk['until']}", "INFO")
+
+                tweets, success = scrape_chunk_with_retry(
+                    context=context,
+                    username=username,
+                    since=chunk['since'],
+                    until=chunk['until'],
+                    keyword=keyword,
+                )
+
+                if success:
+                    write_queue.put((tweets, chunk['key']))
+                else:
+                    log(f"[Worker {worker_id}] Chunk failed: {chunk['key']}", "ERROR")
+                    # Still mark as needing retry - don't put in queue
+                    pass
+
+                # Delay before next chunk
+                if i < len(chunks) - 1:
+                    wait_random(MIN_CHUNK_DELAY, MAX_CHUNK_DELAY, f"Worker {worker_id} waiting")
+
+            browser.close()
+
+    except Exception as e:
+        log(f"[Worker {worker_id}] Fatal error: {e}", "ERROR")
+
+    log(f"[Worker {worker_id}] Finished", "OK")
+
+
+def scrape_asset_parallel(
+    asset_id: str,
+    since: Optional[str] = None,
+    until: Optional[str] = None,
+    keyword: Optional[str] = None,
+    full: bool = False,
+    resume: bool = True,
+    chunk_days: int = DEFAULT_CHUNK_DAYS,
+    headless: bool = False,
+    num_workers: int = 2,
+) -> Dict[str, Any]:
+    """
+    Parallel version of scrape_asset.
+    Uses multiple browser instances to scrape different chunks simultaneously.
+
+    Args:
+        num_workers: Number of parallel browser instances (default: 2)
+        (other args same as scrape_asset)
+    """
+    if not PLAYWRIGHT_AVAILABLE:
+        return {'status': 'error', 'reason': 'Playwright not installed'}
+
+    # Load asset config
+    conn = get_connection()
+    init_schema(conn)
+    load_assets_from_json(conn)
+
+    asset = get_asset(conn, asset_id)
+    if not asset:
+        conn.close()
+        return {'status': 'error', 'reason': f"Asset '{asset_id}' not found"}
+
+    username = asset['founder']
+    launch_date = asset['launch_date']
+    effective_keyword = keyword if keyword is not None else asset.get('keyword_filter')
+
+    if isinstance(launch_date, str):
+        launch_date = datetime.fromisoformat(launch_date.replace('Z', '+00:00'))
+    if launch_date.tzinfo is None:
+        launch_date = launch_date.replace(tzinfo=timezone.utc)
+
+    log(f"Asset: {asset['name']} (@{username})", "INFO")
+    log(f"Launch: {launch_date.date()}", "INFO")
+    log(f"Parallel workers: {num_workers}", "INFO")
+    if effective_keyword:
+        log(f"Keyword filter: \"{effective_keyword}\"", "INFO")
+
+    # Determine date range (same logic as scrape_asset)
+    if since and until:
+        since_dt = datetime.strptime(since, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+        until_dt = datetime.strptime(until, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+    elif full:
+        since_dt = launch_date
+        until_dt = datetime.now(timezone.utc)
+    else:
+        oldest = conn.execute("""
+            SELECT MIN(timestamp) FROM tweets WHERE asset_id = ?
+        """, [asset_id]).fetchone()[0]
+
+        if oldest:
+            since_dt = launch_date
+            until_dt = oldest if isinstance(oldest, datetime) else datetime.fromisoformat(str(oldest))
+            if until_dt.tzinfo is None:
+                until_dt = until_dt.replace(tzinfo=timezone.utc)
+        else:
+            since_dt = launch_date
+            until_dt = datetime.now(timezone.utc)
+
+    # Clamp dates
+    if since_dt < launch_date:
+        since_dt = launch_date
+    now = datetime.now(timezone.utc)
+    if until_dt > now:
+        until_dt = now
+
+    if since_dt >= until_dt:
+        log("No date range to scrape", "INFO")
+        conn.close()
+        return {'status': 'skipped', 'reason': 'No date range'}
+
+    # Generate chunks
+    chunks = []
+    current = since_dt
+    while current < until_dt:
+        chunk_end = min(current + timedelta(days=chunk_days), until_dt)
+        chunk_key = f"{current.strftime('%Y-%m-%d')}_{chunk_end.strftime('%Y-%m-%d')}"
+        chunks.append({
+            'since': current.strftime('%Y-%m-%d'),
+            'until': chunk_end.strftime('%Y-%m-%d'),
+            'key': chunk_key,
+        })
+        current = chunk_end
+
+    # Filter completed chunks
+    completed = get_completed_chunks(asset_id) if resume else set()
+    pending_chunks = [c for c in chunks if c['key'] not in completed]
+
+    log(f"Total chunks: {len(chunks)}, Pending: {len(pending_chunks)}", "INFO")
+
+    if not pending_chunks:
+        log("All chunks already completed!", "OK")
+        conn.close()
+        return {'status': 'success', 'reason': 'All chunks completed'}
+
+    log("=" * 60)
+
+    # Divide chunks among workers (interleaved for even distribution)
+    worker_chunks = [[] for _ in range(num_workers)]
+    for i, chunk in enumerate(pending_chunks):
+        worker_chunks[i % num_workers].append(chunk)
+
+    # Shared stats
+    stats = {
+        'tweets_found': 0,
+        'tweets_inserted': 0,
+        'chunks_done': 0,
+        'chunks_failed': 0,
+    }
+
+    # Create write queue and start DB writer
+    write_queue = Queue()
+    writer = threading.Thread(
+        target=db_writer_thread,
+        args=(write_queue, conn, asset_id, launch_date, stats)
+    )
+    writer.start()
+
+    # Start scraper workers
+    workers = []
+    for i in range(num_workers):
+        if worker_chunks[i]:  # Only start if there are chunks
+            t = threading.Thread(
+                target=scraper_worker,
+                args=(i, worker_chunks[i], username, effective_keyword, write_queue, headless)
+            )
+            workers.append(t)
+            t.start()
+
+    # Wait for all scrapers to finish
+    for t in workers:
+        t.join()
+
+    # Shutdown writer
+    write_queue.put(None)
+    writer.join()
+
+    # Summary
+    log("\n" + "=" * 60)
+    log("PARALLEL SCRAPE SUMMARY", "INFO")
+    log(f"  Workers: {num_workers}", "INFO")
+    log(f"  Chunks processed: {stats['chunks_done']}", "INFO")
+    log(f"  Chunks failed: {stats['chunks_failed']}", "INFO")
+    log(f"  Tweets found: {stats['tweets_found']}", "INFO")
+    log(f"  Tweets inserted: {stats['tweets_inserted']}", "INFO")
+
+    conn.close()
+
+    return {
+        'status': 'success' if stats['chunks_failed'] == 0 else 'partial',
+        'asset': asset_id,
+        'username': username,
+        'date_range': f"{since_dt.date()} to {until_dt.date()}",
+        'chunks_total': len(chunks),
+        'chunks_pending': len(pending_chunks),
+        'chunks_done': stats['chunks_done'],
+        'chunks_failed': stats['chunks_failed'],
+        'tweets_found': stats['tweets_found'],
+        'tweets_inserted': stats['tweets_inserted'],
+        'workers': num_workers,
+    }
+
+
+# =============================================================================
 # CLI
 # =============================================================================
 
@@ -815,8 +1225,19 @@ Examples:
     parser.add_argument('--full', '-f', action='store_true', help='Full scrape from launch to now')
     parser.add_argument('--no-resume', action='store_true', help='Start fresh, ignore progress')
     parser.add_argument('--chunk-days', type=int, default=DEFAULT_CHUNK_DAYS, help=f'Days per chunk (default: {DEFAULT_CHUNK_DAYS})')
+    # HEADLESS MODE NOTE:
+    # Headless browsers are often detected and blocked by Nitter/Cloudflare.
+    # --no-headless (showing the browser) is STRONGLY RECOMMENDED.
+    # Only use --headless for automated CI/CD where display is unavailable.
     parser.add_argument('--headless', action='store_true', help='Run headless (more likely to fail)')
     parser.add_argument('--no-headless', action='store_true', help='Show browser (recommended)')
+
+    # PARALLEL MODE NOTE:
+    # Tested with up to 3 workers on nitter.net with no rate limiting.
+    # Each worker runs its own browser instance with its own session.
+    # Chunks are distributed round-robin for even load.
+    # Example: --parallel 3 gives ~3x speedup for large backfills.
+    parser.add_argument('--parallel', '-p', type=int, default=1, help='Number of parallel workers (default: 1, max tested: 3)')
     parser.add_argument('--clear-progress', action='store_true', help='Clear progress for asset and exit')
     
     args = parser.parse_args()
@@ -839,17 +1260,31 @@ Examples:
     
     # Determine headless mode
     headless = args.headless and not args.no_headless
-    
-    result = scrape_asset(
-        asset_id=args.asset,
-        since=args.since,
-        until=args.until,
-        keyword=args.keyword,
-        full=args.full,
-        resume=not args.no_resume,
-        chunk_days=args.chunk_days,
-        headless=headless,
-    )
+
+    # Use parallel or sequential scraping
+    if args.parallel > 1:
+        result = scrape_asset_parallel(
+            asset_id=args.asset,
+            since=args.since,
+            until=args.until,
+            keyword=args.keyword,
+            full=args.full,
+            resume=not args.no_resume,
+            chunk_days=args.chunk_days,
+            headless=headless,
+            num_workers=args.parallel,
+        )
+    else:
+        result = scrape_asset(
+            asset_id=args.asset,
+            since=args.since,
+            until=args.until,
+            keyword=args.keyword,
+            full=args.full,
+            resume=not args.no_resume,
+            chunk_days=args.chunk_days,
+            headless=headless,
+        )
     
     print(f"\n[RESULT] {json.dumps(result, indent=2)}")
     

@@ -155,6 +155,24 @@
       "color": "#3B82F6",
       "enabled": true,
       "logo": "/logos/meta.png"
+    },
+    {
+      "id": "wif",
+      "name": "WIF",
+      "founder": "blknoiz06",
+      "founder_type": "adopter",
+      "network": "solana",
+      "pool_address": "EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx",
+      "token_mint": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+      "coingecko_id": "dogwifcoin",
+      "price_source": "geckoterminal",
+      "backfill_source": "birdeye",
+      "launch_date": "2023-12-01T00:00:00Z",
+      "color": "#D4A76A",
+      "enabled": true,
+      "logo": "/logos/wif.png",
+      "keyword_filter": "wif",
+      "tweet_filter_note": "Only tweets mentioning $WIF"
     }
   ]
 }

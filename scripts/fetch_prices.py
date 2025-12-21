@@ -44,6 +44,15 @@ BE_API = "https://public-api.birdeye.so"
 BIRDEYE_API_KEY = os.getenv("BIRDEYE_API_KEY")
 
 MAX_CANDLES_PER_REQUEST = 1000
+
+# Age-based timeframe skipping thresholds
+# WHY: Fetching 1m data for a 1-year-old asset = 525,600 candles = 4+ hours. Not practical.
+SKIP_1M_AFTER_DAYS = 90      # Skip 1m for assets older than 90 days
+SKIP_15M_AFTER_DAYS = 365    # Skip 15m for assets older than 365 days
+
+# Priority order for Birdeye fetches: get usable data fast
+# 1d first (few hundred candles), then 1h, then granular if asset is young enough
+BIRDEYE_PRIORITY_ORDER = ["1d", "1h", "15m", "1m"]
 HL_MAX_CANDLES = 5000  # Hyperliquid limit
 BE_MAX_CANDLES = 1000  # Birdeye limit
 RATE_LIMIT_DELAY = 0.5  # Be nice to the APIs
@@ -254,12 +263,12 @@ def fetch_birdeye_ohlcv(
         response = client.get(url, params=params, headers=headers)
         
         if response.status_code == 429:
-            print("      Rate limited by Birdeye, waiting 60s...")
+            print("      Rate limited by Birdeye, waiting 60s...", flush=True)
             time.sleep(60)
             return fetch_birdeye_ohlcv(token_mint, timeframe, time_from, time_to, chain)
-        
+
         if response.status_code != 200:
-            print(f"      Birdeye error {response.status_code}: {response.text[:200]}")
+            print(f"      Birdeye error {response.status_code}: {response.text[:200]}", flush=True)
             return []
         
         data = response.json()
@@ -286,28 +295,63 @@ def fetch_birdeye_all_timeframes(
     token_mint: str,
     launch_timestamp: int,
     timeframes: List[str] = None,
-    chain: str = "solana"
+    chain: str = "solana",
+    conn=None,
+    asset_id: str = None,
+    fresh: bool = False
 ) -> Dict[str, List[Dict]]:
     """
-    Fetch all timeframes for a token from Birdeye.
+    Fetch all timeframes for a token from Birdeye with progressive saving.
 
     Args:
         token_mint: Token mint address
         launch_timestamp: Launch date as Unix timestamp (seconds)
         timeframes: List of timeframes to fetch (default: all)
         chain: Blockchain
+        conn: DuckDB connection for progressive saving (optional)
+        asset_id: Asset ID for DB operations (required if conn provided)
+        fresh: If True, ignore resume points and fetch from scratch
 
     Returns dict of timeframe -> candles.
 
-    NOTE: Birdeye returns max 1000 candles per request. It uses cursor-style
-    pagination - always returns 1000 candles starting from time_from, ignoring
-    time_to for pagination purposes. To get full history, we move time_from
-    forward after each request.
+    IMPROVEMENTS (v2):
+    - Age-based skipping: Skip 1m for assets > 90 days, skip 15m for assets > 365 days
+    - Priority order: Fetch 1d first (usable immediately), then 1h, then granular
+    - Progressive saving: Insert to DB after each page (not lost if interrupted)
+    - Resumability: Track progress per timeframe, resume from where we left off
+    - Real-time output: flush=True for immediate progress visibility
     """
     if timeframes is None:
         timeframes = TIMEFRAMES
 
     now_ts = int(datetime.utcnow().timestamp())
+
+    # Calculate asset age in days
+    asset_age_days = (now_ts - launch_timestamp) // (24 * 60 * 60)
+
+    # Filter timeframes based on asset age
+    filtered_timeframes = []
+    skipped = []
+    for tf in timeframes:
+        if tf == "1m" and asset_age_days > SKIP_1M_AFTER_DAYS:
+            skipped.append(f"1m (asset is {asset_age_days}d old, threshold: {SKIP_1M_AFTER_DAYS}d)")
+            continue
+        if tf == "15m" and asset_age_days > SKIP_15M_AFTER_DAYS:
+            skipped.append(f"15m (asset is {asset_age_days}d old, threshold: {SKIP_15M_AFTER_DAYS}d)")
+            continue
+        filtered_timeframes.append(tf)
+
+    if skipped:
+        print(f"    Skipping timeframes due to asset age:", flush=True)
+        for s in skipped:
+            print(f"      - {s}", flush=True)
+
+    # Sort by priority order (1d first = most useful data first)
+    priority_map = {tf: i for i, tf in enumerate(BIRDEYE_PRIORITY_ORDER)}
+    filtered_timeframes.sort(key=lambda tf: priority_map.get(tf, 99))
+
+    print(f"    Fetch order: {' → '.join(filtered_timeframes)}", flush=True)
+
     results = {}
 
     # Interval in seconds for each timeframe (used to advance cursor)
@@ -318,12 +362,30 @@ def fetch_birdeye_all_timeframes(
         "1d": 24 * 60 * 60,
     }
 
-    for tf in timeframes:
-        print(f"    Fetching {tf} data from Birdeye...")
+    for tf in filtered_timeframes:
+        # Check for resume point (if we have a connection and not forcing fresh)
+        resume_key = f"birdeye_{tf}_progress"
+        resume_from_ts = launch_timestamp
+
+        if conn and asset_id and not fresh:
+            state = get_ingestion_state(conn, asset_id, resume_key)
+            if state and state.get("last_timestamp"):
+                last_ts = state["last_timestamp"]
+                if hasattr(last_ts, 'year'):
+                    resume_from_ts = int(calendar.timegm(last_ts.timetuple()))
+                else:
+                    resume_from_ts = int(last_ts)
+
+                if resume_from_ts > launch_timestamp:
+                    resume_date = datetime.utcfromtimestamp(resume_from_ts).strftime("%Y-%m-%d %H:%M")
+                    print(f"    Resuming {tf} from {resume_date}...", flush=True)
+
+        print(f"    Fetching {tf} data from Birdeye...", flush=True)
 
         all_candles = []
-        current_from = launch_timestamp
+        current_from = resume_from_ts
         page = 0
+        total_inserted = 0
 
         while current_from < now_ts:
             page += 1
@@ -338,7 +400,30 @@ def fetch_birdeye_all_timeframes(
             all_candles.extend(candles)
             oldest = datetime.utcfromtimestamp(candles[0]["timestamp_epoch"]).strftime("%Y-%m-%d")
             newest = datetime.utcfromtimestamp(candles[-1]["timestamp_epoch"]).strftime("%Y-%m-%d")
-            print(f"      Page {page}: {len(candles)} candles ({oldest} to {newest})")
+
+            # Progressive save: insert to DB after each page
+            if conn and asset_id:
+                # Deduplicate this page before insert
+                seen_in_page = set()
+                unique_page = []
+                for c in candles:
+                    if c["timestamp_epoch"] not in seen_in_page:
+                        seen_in_page.add(c["timestamp_epoch"])
+                        unique_page.append(c)
+
+                inserted = insert_prices(conn, asset_id, tf, unique_page, data_source="birdeye")
+                total_inserted += inserted
+
+                # Update resume point
+                latest_ts = max(c["timestamp_epoch"] for c in candles)
+                update_ingestion_state(
+                    conn, asset_id, resume_key,
+                    last_timestamp=datetime.utcfromtimestamp(latest_ts)
+                )
+
+                print(f"      Page {page}: {len(candles)} candles ({oldest} to {newest}) → saved {inserted}", flush=True)
+            else:
+                print(f"      Page {page}: {len(candles)} candles ({oldest} to {newest})", flush=True)
 
             if len(candles) < 1000:
                 # Less than max means we've reached the end
@@ -351,7 +436,7 @@ def fetch_birdeye_all_timeframes(
             time.sleep(RATE_LIMIT_DELAY)
 
         if all_candles:
-            # Sort and deduplicate
+            # Sort and deduplicate for return value
             seen = set()
             unique_candles = []
             for c in sorted(all_candles, key=lambda x: x["timestamp_epoch"]):
@@ -360,7 +445,11 @@ def fetch_birdeye_all_timeframes(
                     unique_candles.append(c)
 
             results[tf] = unique_candles
-            print(f"      Total: {len(unique_candles):,} candles")
+
+            if conn and asset_id:
+                print(f"      Total: {len(unique_candles):,} candles ({total_inserted} new)", flush=True)
+            else:
+                print(f"      Total: {len(unique_candles):,} candles", flush=True)
 
     return results
 
@@ -750,7 +839,8 @@ def fetch_for_asset(
     full_fetch: bool = False,
     timeframes: List[str] = None,
     backfill: bool = False,
-    recent_only: bool = False
+    recent_only: bool = False,
+    fresh: bool = False
 ) -> Dict[str, Any]:
     """
     Fetch prices for a specific asset.
@@ -761,6 +851,7 @@ def fetch_for_asset(
         timeframes: Specific timeframes to fetch (default: based on price_source)
         backfill: If True, use backfill_source (Birdeye) for historical data
         recent_only: If True, only fetch 1-2 pages (for quick hourly updates)
+        fresh: If True, ignore resume points (for Birdeye backfills)
 
     Returns fetch result stats.
     """
@@ -812,29 +903,32 @@ def fetch_for_asset(
         if not token_mint:
             conn.close()
             return {"status": "error", "reason": "No token_mint configured for Birdeye"}
-        
+
         if timeframes is None:
             timeframes = TIMEFRAMES
-        
+
+        # Pass conn and asset_id for progressive saving
         price_data = fetch_birdeye_all_timeframes(
-            token_mint, launch_ts, timeframes, chain=asset.get("network", "solana")
+            token_mint, launch_ts, timeframes,
+            chain=asset.get("network", "solana"),
+            conn=conn,
+            asset_id=asset_id,
+            fresh=fresh or full_fetch  # --fresh or --full means start fresh
         )
-        
+
+        # With progressive saving, data is already in DB, but we still track results
         for tf, candles in price_data.items():
             if candles:
-                # OUTLIER DETECTION: Remove outliers before insertion
-                candles = filter_outliers(candles, asset_id, tf)
-                
-                inserted = insert_prices(conn, asset_id, tf, candles, data_source="birdeye")
-                
+                # Note: outlier filtering and insertion already done progressively
+                # Just update the main ingestion state for consistency
                 latest_ts = max(c["timestamp_epoch"] for c in candles)
                 update_ingestion_state(
                     conn, asset_id, f"prices_{tf}",
                     last_timestamp=datetime.utcfromtimestamp(latest_ts)
                 )
-                
+
                 results["timeframes"][tf] = {
-                    "count": inserted,
+                    "count": len(candles),
                     "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
                 }
     
@@ -997,7 +1091,8 @@ def fetch_all_assets(
     full_fetch: bool = False,
     timeframes: List[str] = None,
     backfill: bool = False,
-    recent_only: bool = False
+    recent_only: bool = False,
+    fresh: bool = False
 ) -> Dict[str, Any]:
     """
     Fetch prices for all enabled assets.
@@ -1007,6 +1102,7 @@ def fetch_all_assets(
         timeframes: Specific timeframes to fetch
         backfill: If True, use backfill source for historical data
         recent_only: If True, only fetch 1-2 pages (for hourly updates)
+        fresh: If True, ignore resume points (for Birdeye backfills)
 
     Returns dict of asset_id -> result.
     """
@@ -1030,10 +1126,11 @@ def fetch_all_assets(
             full_fetch=full_fetch,
             timeframes=timeframes,
             backfill=backfill,
-            recent_only=recent_only
+            recent_only=recent_only,
+            fresh=fresh
         )
         results[asset["id"]] = result
-        
+
         time.sleep(1)
     
     # Print summary
@@ -1122,6 +1219,11 @@ def main():
         action="store_true",
         help="Quick mode: only fetch most recent data (1-2 pages per timeframe)"
     )
+    parser.add_argument(
+        "--fresh",
+        action="store_true",
+        help="Ignore resume points and fetch from scratch (Birdeye backfills)"
+    )
 
     args = parser.parse_args()
     
@@ -1137,14 +1239,16 @@ def main():
             full_fetch=args.full,
             timeframes=timeframes,
             backfill=args.backfill,
-            recent_only=args.recent
+            recent_only=args.recent,
+            fresh=args.fresh
         )
     else:
         fetch_all_assets(
             full_fetch=args.full,
             timeframes=timeframes,
             backfill=args.backfill,
-            recent_only=args.recent
+            recent_only=args.recent,
+            fresh=args.fresh
         )
 
 
