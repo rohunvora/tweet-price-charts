@@ -119,7 +119,7 @@ export default function AssetSelector({ assets, selectedAsset, onSelect }: Asset
       {/* Dropdown menu */}
       {isOpen && (
         <div
-          className="absolute top-full left-0 mt-1 w-[calc(100vw-2rem)] md:w-72 max-w-xs bg-[var(--surface-1)] border border-[var(--border-default)] rounded-xl shadow-2xl z-50 overflow-hidden"
+          className="absolute top-full left-0 mt-1 w-[calc(100vw-2rem)] md:w-72 max-w-xs bg-[var(--surface-1)] border border-[var(--border-default)] rounded-xl shadow-2xl z-50 max-h-[70vh] overflow-y-auto"
           role="listbox"
         >
           {assets.map(asset => (
