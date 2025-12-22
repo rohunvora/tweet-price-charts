@@ -1093,8 +1093,106 @@ def cleanup_outliers(
             DELETE FROM prices
             WHERE asset_id = ? AND timeframe = ? AND timestamp = ?
         """, [asset_id, timeframe, o["timestamp"]])
-    
+
     return len(outliers)
+
+
+def delete_by_source(
+    conn: duckdb.DuckDBPyConnection,
+    asset_id: str,
+    data_source: str,
+    timeframe: str = None,
+    dry_run: bool = True
+) -> dict:
+    """
+    Delete all candles from a specific data source.
+
+    Use this to clean up stale or superseded data (e.g., chart_reconstruction
+    data that has been replaced by Birdeye backfill).
+
+    Args:
+        conn: Database connection
+        asset_id: Asset ID
+        data_source: Data source to delete (e.g., 'chart_reconstruction', 'coingecko')
+        timeframe: Optional - limit to specific timeframe
+        dry_run: If True, only report what would be deleted
+
+    Returns dict with {deleted, by_timeframe}
+    """
+    # Build query with optional timeframe filter
+    where_clause = "WHERE asset_id = ? AND data_source = ?"
+    params = [asset_id, data_source]
+
+    if timeframe:
+        where_clause += " AND timeframe = ?"
+        params.append(timeframe)
+
+    # Count by timeframe
+    counts = conn.execute(f"""
+        SELECT timeframe, COUNT(*) as count
+        FROM prices
+        {where_clause}
+        GROUP BY timeframe
+    """, params).fetchall()
+
+    by_timeframe = {row[0]: row[1] for row in counts}
+    total = sum(by_timeframe.values())
+
+    if dry_run:
+        return {"deleted": 0, "would_delete": total, "by_timeframe": by_timeframe}
+
+    # Actually delete
+    conn.execute(f"DELETE FROM prices {where_clause}", params)
+    conn.commit()
+
+    return {"deleted": total, "by_timeframe": by_timeframe}
+
+
+def delete_dot_candles(
+    conn: duckdb.DuckDBPyConnection,
+    asset_id: str,
+    timeframe: str,
+    dry_run: bool = True
+) -> dict:
+    """
+    Delete candles where O=H=L=C (dots).
+
+    These typically come from CoinGecko /market_chart endpoint which returns
+    price points instead of OHLC data. They render as dots on charts.
+
+    Args:
+        conn: Database connection
+        asset_id: Asset ID
+        timeframe: Timeframe to clean
+        dry_run: If True, only report what would be deleted
+
+    Returns dict with {deleted, total_before, pct}
+    """
+    # Count totals
+    result = conn.execute("""
+        SELECT
+            COUNT(*) as total,
+            SUM(CASE WHEN open = high AND high = low AND low = close THEN 1 ELSE 0 END) as dots
+        FROM prices
+        WHERE asset_id = ? AND timeframe = ?
+    """, [asset_id, timeframe]).fetchone()
+
+    total = result[0] or 0
+    dots = result[1] or 0
+    pct = (dots / total * 100) if total > 0 else 0
+
+    if dry_run:
+        return {"deleted": 0, "would_delete": dots, "total": total, "pct": pct}
+
+    # Actually delete
+    conn.execute("""
+        DELETE FROM prices
+        WHERE asset_id = ? AND timeframe = ?
+        AND open = high AND high = low AND low = close
+    """, [asset_id, timeframe])
+    conn.commit()
+
+    return {"deleted": dots, "total_before": total, "pct": pct}
 
 
 # CLI interface

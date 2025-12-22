@@ -290,6 +290,163 @@ For historical backfill, use Nitter scraper (`nitter_scraper.py`).
 
 ---
 
+## Asset Backfill Process
+
+This section documents the complete process for backfilling asset price data,
+including edge cases encountered in December 2024.
+
+### Standard Backfill (Birdeye)
+
+For Solana/BSC tokens with `backfill_source: "birdeye"` in assets.json:
+
+```bash
+python fetch_prices.py --asset ASSET --backfill
+```
+
+This fetches all available historical OHLC data from Birdeye API.
+Use `--fresh` to ignore resume points and fetch from scratch.
+
+### Migration Token Backfill
+
+**When to use:** Asset has a pre-merge/pre-migration token with historical data.
+
+**Examples:**
+- ASTER: Pre-merge token was APX (`0x78F5d389F5CDCcFc41594aBaB4B0Ed02F31398b3`)
+- BELIEVE: Pre-launch token was ben-pasternak on CoinGecko
+
+**Process:**
+
+1. **Identify the gap** - Run validation to find missing period:
+   ```bash
+   python validate_candle_coverage.py --asset ASSET --verbose
+   ```
+
+2. **Find pre-merge token** - Check CoinGecko, Birdeye, or project documentation
+
+3. **Verify price alignment** - Compare prices at crossover point:
+   ```python
+   # Pre-merge token end price should ≈ new token start price
+   # ASTER example: APX at Sept 19 = $0.66, ASTER at Sept 19 = $0.63 ✓
+   ```
+
+4. **Fetch and insert** - Use Birdeye API with pre-merge token address:
+   ```python
+   # Fetch from pre-merge token
+   url = 'https://public-api.birdeye.so/defi/ohlcv'
+   params = {'address': PRE_MERGE_TOKEN, 'type': '15m', ...}
+
+   # Insert as target asset
+   conn.execute('''
+       INSERT INTO prices (asset_id, timeframe, timestamp, ...)
+       VALUES ('target_asset', '15m', ..., 'migration_backfill')
+   ''')
+   ```
+
+5. **Export and validate**:
+   ```bash
+   python export_static.py --asset ASSET
+   python validate_candle_coverage.py --asset ASSET
+   ```
+
+**Evidence from ASTER migration (Dec 2024):**
+- Gap: 15m data missing Sept 17-19, 2025
+- APX price at crossover: O=$0.66
+- ASTER price at crossover: O=$0.63
+- Difference: ~4% (acceptable for different data sources)
+
+### Data Quality Issues & Detection
+
+#### 1. Dots Instead of Candles (O=H=L=C)
+
+**Symptom:** Chart shows scattered dots instead of candlesticks.
+
+**Root Cause:** Data source returned price points, not OHLC candles.
+When O=H=L=C, there's no candle body or wicks to render.
+
+**Detection:**
+```python
+dots = [c for c in candles if c['o'] == c['h'] == c['l'] == c['c']]
+if len(dots) / len(candles) > 0.1:  # >10% is suspicious
+    print(f"WARNING: {len(dots)}/{len(candles)} candles are dots")
+```
+
+**Fix:**
+1. Identify and delete the bad data source
+2. Re-backfill from Birdeye (provides real OHLC)
+3. Re-export
+
+**Evidence from BELIEVE (Dec 2024):**
+- CoinGecko `/market_chart` returned 333 price points
+- All had O=H=L=C (100% dots)
+- Fixed by deleting and using Birdeye backfill
+
+#### 2. Corrupt Candle Data (Open/Close Discontinuity)
+
+**Symptom:** Abnormally shaped candle with impossible wick.
+
+**Root Cause:** Bad data entry where Open doesn't match previous Close.
+
+**Detection:**
+```python
+for i in range(1, len(candles)):
+    prev_close = candles[i-1]['c']
+    curr_open = candles[i]['o']
+    pct_diff = abs(curr_open - prev_close) / prev_close
+    if pct_diff > 0.5:  # >50% jump
+        print(f"CORRUPT: {candles[i]['t']} Open={curr_open} vs PrevClose={prev_close}")
+```
+
+**Fix:**
+1. Identify the specific bad candle
+2. Check if alternative data exists for same timestamp
+3. Delete bad entry, keep good one
+4. Re-export
+
+**Evidence from ASTER Sept 21 (Dec 2024):**
+- Bad: O=$0.16, H=$1.74, L=$0.10, C=$1.67 (Open 10x too low)
+- Good: O=$1.66, H=$1.99, L=$1.32, C=$1.40 (Open matches prev close)
+- Fix: Deleted entry at 04:00, kept entry at 08:00
+
+#### 3. Data Source Conflicts
+
+**Symptom:** Multiple candles for same day from different sources.
+
+**Root Cause:** Different data sources have different timestamp conventions:
+- Birdeye: 00:00 UTC
+- GeckoTerminal: 04:00 or 05:00 UTC
+- chart_reconstruction: varies
+
+**Current Behavior:** Export normalizes 1D to midnight, deduplicates (keeps first).
+
+**Best Practice:**
+1. After backfill, check data sources: `SELECT data_source, COUNT(*) FROM prices WHERE asset_id='X' GROUP BY data_source`
+2. Remove superseded sources (e.g., chart_reconstruction after real data backfill)
+3. Keep only authoritative source for each period
+
+### Data Source Priority
+
+When multiple sources exist, priority order:
+
+1. **birdeye** - Authoritative for Solana/BSC DEX tokens
+2. **geckoterminal** - Real-time, but limited history
+3. **coingecko** - Good for CEX tokens, but only daily/hourly
+4. **migration_backfill** - For pre-merge token data
+5. **json_import** - Legacy imports
+6. **chart_reconstruction** - Manually created (remove after real data available)
+
+### Cleanup Checklist
+
+After any backfill operation:
+
+- [ ] Run `python export_static.py --asset ASSET`
+- [ ] Run `python validate_candle_coverage.py --asset ASSET`
+- [ ] Verify coverage ≥95% for all timeframes
+- [ ] Check for dots: `validate_export.py --asset ASSET` (if --quality flag exists)
+- [ ] Visual check: Load chart in browser, verify no anomalies
+- [ ] Clean up stale sources if needed
+
+---
+
 ## Timezone Handling: Here Be Dragons
 
 ### Use calendar.timegm(), NOT datetime.timestamp() (fetch_prices.py:836)

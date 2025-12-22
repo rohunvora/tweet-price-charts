@@ -11,11 +11,14 @@ Features:
 3. Verifies tweet coverage
 4. Auto-fixes common issues (re-exports if needed)
 5. Provides clear error messages
+6. Quality checks: detect dots (O=H=L=C) and discontinuities (>50% gaps)
 
 Usage:
     python validate_export.py                  # Validate all assets
     python validate_export.py --asset zora     # Validate specific asset
     python validate_export.py --fix            # Auto-fix issues by re-exporting
+    python validate_export.py --quality        # Include quality checks (dots, discontinuities)
+    python validate_export.py --asset aster --quality  # Quality check specific asset
 """
 import argparse
 import json
@@ -314,14 +317,127 @@ def validate_no_duplicates(exported_path: Path, timeframe: str) -> ValidationRes
 
 
 # =============================================================================
+# Quality Checks (--quality flag)
+# =============================================================================
+
+def validate_dots(exported_path: Path, timeframe: str) -> ValidationResult:
+    """
+    Detect candles where O=H=L=C (render as dots instead of candles).
+
+    This typically happens when using CoinGecko /market_chart endpoint
+    which returns price points, not OHLC data.
+
+    Threshold: >10% dots is suspicious, indicates wrong data source.
+    """
+    if not exported_path.exists():
+        return ValidationResult(True, f"{timeframe}: skipped (no file)")
+
+    with open(exported_path) as f:
+        data = json.load(f)
+
+    candles = data.get("candles", [])
+    if not candles:
+        return ValidationResult(True, f"{timeframe}: no candles")
+
+    # Count dots (O=H=L=C)
+    dots = [c for c in candles if c["o"] == c["h"] == c["l"] == c["c"]]
+    dot_count = len(dots)
+    total = len(candles)
+    dot_pct = (dot_count / total) * 100 if total > 0 else 0
+
+    if dot_pct <= 10:
+        return ValidationResult(True, f"{timeframe}: {dot_count}/{total} dots ({dot_pct:.1f}%) ✓")
+
+    # >10% dots is a quality issue
+    return ValidationResult(
+        False,
+        f"{timeframe}: {dot_count}/{total} candles are dots ({dot_pct:.1f}%) - likely wrong data source",
+        fixable=True  # Fixable by re-fetching from correct source
+    )
+
+
+def validate_discontinuities(exported_path: Path, timeframe: str) -> ValidationResult:
+    """
+    Detect candles where Open differs significantly from previous Close.
+
+    A >50% jump between consecutive candles indicates corrupt data,
+    not market movement (real pumps don't gap 50%+ between candles).
+
+    Example: ASTER Sept 21 had O=0.16 when prev close was $1.65 (90% drop).
+    """
+    if not exported_path.exists():
+        return ValidationResult(True, f"{timeframe}: skipped (no file)")
+
+    with open(exported_path) as f:
+        data = json.load(f)
+
+    candles = data.get("candles", [])
+    if len(candles) < 2:
+        return ValidationResult(True, f"{timeframe}: insufficient data for discontinuity check")
+
+    # Find discontinuities (Open vs prev Close >50% diff)
+    discontinuities = []
+    for i in range(1, len(candles)):
+        prev_close = candles[i - 1]["c"]
+        curr_open = candles[i]["o"]
+
+        if prev_close > 0:
+            pct_diff = abs(curr_open - prev_close) / prev_close
+            if pct_diff > 0.5:  # >50% jump
+                discontinuities.append({
+                    "timestamp": candles[i]["t"],
+                    "prev_close": prev_close,
+                    "curr_open": curr_open,
+                    "pct_diff": pct_diff * 100
+                })
+
+    if not discontinuities:
+        return ValidationResult(True, f"{timeframe}: no discontinuities ✓")
+
+    # Show first few discontinuities in message
+    examples = discontinuities[:3]
+    example_strs = []
+    for d in examples:
+        dt = datetime.utcfromtimestamp(d["timestamp"]).strftime("%Y-%m-%d")
+        example_strs.append(f"{dt}: {d['prev_close']:.4f}→{d['curr_open']:.4f} ({d['pct_diff']:.0f}%)")
+
+    return ValidationResult(
+        False,
+        f"{timeframe}: {len(discontinuities)} discontinuities (>50% Open/Close gap): {'; '.join(example_strs)}",
+        fixable=True  # Fixable by cleaning bad data
+    )
+
+
+def validate_quality(
+    asset_id: str,
+    timeframe: str,
+    exported_path: Path
+) -> List[ValidationResult]:
+    """Run all quality checks for a timeframe."""
+    results = []
+    results.append(validate_dots(exported_path, timeframe))
+    results.append(validate_discontinuities(exported_path, timeframe))
+    return results
+
+
+# =============================================================================
 # Main Validation
 # =============================================================================
 
-def validate_asset(conn, asset_id: str) -> Tuple[bool, List[ValidationResult]]:
+def validate_asset(
+    conn,
+    asset_id: str,
+    include_quality: bool = False
+) -> Tuple[bool, List[ValidationResult]]:
     """
     Run all validation checks for an asset.
 
     Returns (all_passed, list_of_results)
+
+    Args:
+        conn: Database connection
+        asset_id: Asset to validate
+        include_quality: If True, run quality checks (dots, discontinuities)
 
     Respects skip_timeframes from assets.json and auto-skips based on age.
     """
@@ -371,6 +487,10 @@ def validate_asset(conn, asset_id: str) -> Tuple[bool, List[ValidationResult]]:
         results.append(validate_price_range(conn, asset_id, tf, price_file))
         results.append(validate_no_duplicates(price_file, tf))
 
+        # Quality checks (optional)
+        if include_quality:
+            results.extend(validate_quality(asset_id, tf, price_file))
+
     # Tweet validations
     tweet_file = asset_dir / "tweet_events.json"
     results.append(validate_tweet_count(conn, asset_id, tweet_file))
@@ -380,14 +500,17 @@ def validate_asset(conn, asset_id: str) -> Tuple[bool, List[ValidationResult]]:
     return all_passed, results
 
 
-def validate_all_assets(conn) -> Dict[str, Tuple[bool, List[ValidationResult]]]:
+def validate_all_assets(
+    conn,
+    include_quality: bool = False
+) -> Dict[str, Tuple[bool, List[ValidationResult]]]:
     """Validate all enabled assets."""
     assets = get_enabled_assets(conn)
     results = {}
 
     for asset in assets:
         asset_id = asset["id"]
-        results[asset_id] = validate_asset(conn, asset_id)
+        results[asset_id] = validate_asset(conn, asset_id, include_quality=include_quality)
 
     return results
 
@@ -433,11 +556,16 @@ def main():
         action="store_true",
         help="Only show failures"
     )
+    parser.add_argument(
+        "--quality",
+        action="store_true",
+        help="Run data quality checks (detect dots O=H=L=C, discontinuities)"
+    )
 
     args = parser.parse_args()
 
     print("=" * 60)
-    print("DATA VALIDATION")
+    print("DATA VALIDATION" + (" + QUALITY" if args.quality else ""))
     print("=" * 60)
 
     conn = get_connection()
@@ -448,9 +576,9 @@ def main():
         if not asset:
             print(f"Error: Asset '{args.asset}' not found")
             sys.exit(1)
-        all_results = {args.asset: validate_asset(conn, args.asset)}
+        all_results = {args.asset: validate_asset(conn, args.asset, include_quality=args.quality)}
     else:
-        all_results = validate_all_assets(conn)
+        all_results = validate_all_assets(conn, include_quality=args.quality)
 
     # Print results
     failed_assets = []
@@ -487,8 +615,8 @@ def main():
             success = fix_asset(asset_id)
 
             if success:
-                # Re-validate
-                passed, results = validate_asset(conn, asset_id)
+                # Re-validate (with same quality flag as original check)
+                passed, results = validate_asset(conn, asset_id, include_quality=args.quality)
                 if passed:
                     print(f"  {asset_id}: ✓ Fixed successfully")
                     failed_assets.remove(asset_id)
