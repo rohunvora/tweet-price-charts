@@ -185,6 +185,24 @@
       "enabled": true,
       "logo": "/logos/xpl.png",
       "keyword_filter": "xpl,plasma"
+    },
+    {
+      "id": "fartcoin",
+      "name": "FARTCOIN",
+      "founder": "DipWheeler",
+      "founder_type": "adopter",
+      "network": "solana",
+      "pool_address": "Bzc9NZfMqkXR6fz1DBph7BDf9BroyEf6pnzESP7v5iiw",
+      "token_mint": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
+      "coingecko_id": "fartcoin",
+      "price_source": "geckoterminal",
+      "backfill_source": "birdeye",
+      "launch_date": "2024-10-18T00:00:00Z",
+      "color": "#8B4513",
+      "enabled": true,
+      "logo": "/logos/fartcoin.png",
+      "keyword_filter": "fartcoin",
+      "tweet_filter_note": "Only tweets mentioning $FARTCOIN"
     }
   ]
 }
