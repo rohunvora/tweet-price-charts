@@ -5,6 +5,15 @@ Generates per-asset directories with prices and tweet events.
 This is the final step in the data pipeline:
     fetch_tweets.py / fetch_prices.py  ->  analytics.duckdb  ->  export_static.py  ->  JSON files
 
+AUTOMATIC PROCESSING:
+    This script automatically handles steps that were previously manual:
+    1. Keyword filtering - For assets with keyword_filter, auto-applies filter
+       before export (ensures adopter tweets are properly filtered)
+    2. Stats computation - Auto-computes stats.json after each asset export
+       (ensures correlation data is always up to date)
+
+    You no longer need to manually run apply_keyword_filter.py or compute_stats.py.
+
 Output structure:
     web/public/static/
         assets.json                 # Copy of asset config for frontend
@@ -15,6 +24,7 @@ Output structure:
             prices_1m_index.json    # Index for chunked 1m data
             prices_1m_2025-07.json  # Monthly chunks for 1m data
             tweet_events.json       # Tweets with aligned price data
+            stats.json              # Correlation and statistical analysis
 
 Usage:
     python export_static.py                 # Export all enabled assets
@@ -32,6 +42,8 @@ from db import (
     get_connection, init_schema, get_asset, get_enabled_assets,
     get_tweet_events
 )
+from apply_keyword_filter import apply_filter_to_asset, get_filter_stats
+from compute_stats import compute_stats_for_asset, save_stats
 
 
 # =============================================================================
@@ -713,31 +725,67 @@ def export_tweet_events_for_asset(
 
 
 def export_asset(asset_id: str, strict: bool = False) -> Dict[str, Any]:
-    """Export all data for a single asset."""
+    """Export all data for a single asset.
+
+    This function automatically handles:
+    1. Applying keyword filter for adopter assets (ensures clean tweet data)
+    2. Computing stats after export (ensures stats.json is up to date)
+    """
     conn = get_connection()
     init_schema(conn)
-    
+
     asset = get_asset(conn, asset_id)
     if not asset:
         conn.close()
         return {"status": "error", "reason": f"Asset '{asset_id}' not found"}
-    
+
     print(f"\nExporting {asset['name']} ({asset_id})...")
-    
+
     output_dir = PUBLIC_DATA_DIR / asset_id
-    
+
+    # =========================================================================
+    # PRE-EXPORT: Auto-apply keyword filter for assets with keyword_filter
+    # This ensures adopter tweets are properly filtered before export
+    # =========================================================================
+    keyword_filter = asset.get("keyword_filter")
+    if keyword_filter:
+        filter_stats = get_filter_stats(conn, asset_id)
+        total_tweets = filter_stats.get("total", 0)
+        filtered_out = filter_stats.get("filtered", 0)
+
+        # Check if filter needs to be (re)applied
+        # Apply if: has tweets AND (no filtered tweets OR filter not applied)
+        if total_tweets > 0 and (filtered_out == 0 or not filter_stats.get("applied")):
+            print(f"    Auto-applying keyword filter...")
+            result = apply_filter_to_asset(conn, asset_id, keyword_filter, verbose=False)
+            if result:
+                print(f"    → {result['matched']}/{result['total']} tweets match '{keyword_filter}'")
+
     # Export prices
     price_stats = export_prices_for_asset(conn, asset_id, output_dir)
-    
+
     # Export tweet events (may raise in strict mode)
     try:
         events_count = export_tweet_events_for_asset(conn, asset_id, output_dir, strict=strict)
     except ValueError as e:
         conn.close()
         return {"status": "error", "reason": str(e)}
-    
+
     conn.close()
-    
+
+    # =========================================================================
+    # POST-EXPORT: Auto-compute stats
+    # This ensures stats.json is always up to date after export
+    # =========================================================================
+    if events_count > 0:
+        try:
+            stats = compute_stats_for_asset(asset_id)
+            if stats:
+                save_stats(stats, asset_id)
+                # Don't print verbose stats - just confirm it was done
+        except Exception as e:
+            print(f"    [WARN] Stats computation failed: {e}")
+
     return {
         "status": "success",
         "prices": price_stats,
