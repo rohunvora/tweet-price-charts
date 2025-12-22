@@ -295,6 +295,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   const [timeframe, setTimeframe] = useState<Timeframe>('1d');  // Current timeframe (1d, 1h, 15m)
   const [loading, setLoading] = useState(true);           // Data loading indicator
   const [showBubbles, setShowBubbles] = useState(true);   // Toggle tweet markers visibility
+  const [showOutliersOnly, setShowOutliersOnly] = useState(false);  // Filter to outlier tweets only
   const [hoveredTweet, setHoveredTweet] = useState<TweetEvent | null>(null);  // Tooltip state
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });  // Tooltip screen position
   const [dataLoaded, setDataLoaded] = useState(false);    // Has initial data loaded?
@@ -302,6 +303,15 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   const [availableTimeframes, setAvailableTimeframes] = useState<Set<Timeframe>>(new Set(['1d']));  // Which TFs have data
   const [noData, setNoData] = useState(false);            // No data available for current TF
   const [containerWidth, setContainerWidth] = useState(800);  // For tooltip positioning
+  
+  // Check if this asset has outlier data
+  const hasOutlierData = tweetEvents.some(t => t.is_outlier !== undefined);
+  const outlierCount = tweetEvents.filter(t => t.is_outlier).length;
+  
+  // Filter tweets based on outlier toggle
+  const filteredTweets = showOutliersOnly 
+    ? tweetEvents.filter(t => t.is_outlier) 
+    : tweetEvents;
 
   // ===========================================================================
   // REF SYNC EFFECTS - Keep refs in sync with props/state
@@ -311,13 +321,13 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
   // created with useCallback don't have stale data.
   // ===========================================================================
 
-  useEffect(() => { tweetEventsRef.current = tweetEvents; }, [tweetEvents]);
+  useEffect(() => { tweetEventsRef.current = filteredTweets; }, [filteredTweets]);
   useEffect(() => { showBubblesRef.current = showBubbles; }, [showBubbles]);
   useEffect(() => { hoveredTweetRef.current = hoveredTweet; }, [hoveredTweet]);
   useEffect(() => { assetRef.current = asset; }, [asset]);
   useEffect(() => {
-    sortedTweetTimestampsRef.current = getSortedTweetTimestamps(tweetEvents);
-  }, [tweetEvents]);
+    sortedTweetTimestampsRef.current = getSortedTweetTimestamps(filteredTweets);
+  }, [filteredTweets]);
 
   // ===========================================================================
   // HELPER: Find nearest candle time (binary search)
@@ -1348,7 +1358,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       const timer = setTimeout(drawMarkers, 50);
       return () => clearTimeout(timer);
     }
-  }, [dataLoaded, showBubbles, hoveredTweet, avatarLoaded, drawMarkers]);
+  }, [dataLoaded, showBubbles, showOutliersOnly, hoveredTweet, avatarLoaded, drawMarkers]);
 
   // ===========================================================================
   // NAVIGATION HANDLERS - Quick navigation buttons
@@ -1584,6 +1594,23 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
           <span>🐦</span>
           <span>Tweets</span>
         </button>
+
+        {/* Outliers filter - only show if asset has outlier data */}
+        {hasOutlierData && (
+          <button
+            onClick={() => setShowOutliersOnly(!showOutliersOnly)}
+            className={`flex items-center gap-2 px-3 py-2 min-h-[44px] rounded text-xs transition-colors ${
+              showOutliersOnly
+                ? 'bg-amber-500/20 text-amber-400 border border-amber-500/50'
+                : 'bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+            }`}
+            title={`Show only outlier tweets (${outlierCount} of ${tweetEvents.length})`}
+          >
+            <span>⚡</span>
+            <span>Outliers</span>
+            <span className="text-[10px] opacity-70">({outlierCount})</span>
+          </button>
+        )}
 
         <div className="flex items-center gap-1 ml-2">
           <button

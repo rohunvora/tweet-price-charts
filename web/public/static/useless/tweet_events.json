@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-22T00:19:03.478942Z",
+  "generated_at": "2025-12-22T04:59:26.873368Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -24,7 +24,10 @@
       "price_1h": 0.018285190203320142,
       "price_24h": 0.02203219364150501,
       "change_1h_pct": -0.44,
-      "change_24h_pct": 19.96
+      "change_24h_pct": 19.96,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.824
     },
     {
       "tweet_id": "1928132551799099454",
@@ -43,7 +46,10 @@
       "price_1h": 0.014331115955916716,
       "price_24h": 0.012169758247447815,
       "change_1h_pct": 0.88,
-      "change_24h_pct": -14.33
+      "change_24h_pct": -14.33,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.724
     },
     {
       "tweet_id": "1929861504909578261",
@@ -62,7 +68,10 @@
       "price_1h": 0.00900662132907752,
       "price_24h": 0.007186890804779166,
       "change_1h_pct": -2.24,
-      "change_24h_pct": -21.99
+      "change_24h_pct": -21.99,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.869
     },
     {
       "tweet_id": "1930690002423267553",
@@ -81,7 +90,10 @@
       "price_1h": 0.008295340392586448,
       "price_24h": 0.00973907793791423,
       "change_1h_pct": 28.09,
-      "change_24h_pct": 50.39
+      "change_24h_pct": 50.39,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.995
     },
     {
       "tweet_id": "1930691372312371595",
@@ -100,7 +112,10 @@
       "price_1h": 0.008295340392586448,
       "price_24h": 0.00973907793791423,
       "change_1h_pct": 28.09,
-      "change_24h_pct": 50.39
+      "change_24h_pct": 50.39,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.993
     },
     {
       "tweet_id": "1931334691266740436",
@@ -119,7 +134,10 @@
       "price_1h": 0.008637241071123094,
       "price_24h": 0.012048859607853256,
       "change_1h_pct": -0.38,
-      "change_24h_pct": 38.97
+      "change_24h_pct": 38.97,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.971
     },
     {
       "tweet_id": "1932046846827856078",
@@ -138,7 +156,10 @@
       "price_1h": 0.015872760073343505,
       "price_24h": 0.031240739011368486,
       "change_1h_pct": 3.91,
-      "change_24h_pct": 104.51
+      "change_24h_pct": 104.51,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 1.0
     },
     {
       "tweet_id": "1932047780941345040",
@@ -157,7 +178,10 @@
       "price_1h": 0.015872760073343505,
       "price_24h": 0.031240739011368486,
       "change_1h_pct": 3.91,
-      "change_24h_pct": 104.51
+      "change_24h_pct": 104.51,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.998
     },
     {
       "tweet_id": "1932421604425748647",
@@ -176,7 +200,10 @@
       "price_1h": 0.03499889453438188,
       "price_24h": 0.04467302492856265,
       "change_1h_pct": 12.03,
-      "change_24h_pct": 43.0
+      "change_24h_pct": 43.0,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.979
     },
     {
       "tweet_id": "1932523594338238782",
@@ -195,7 +222,10 @@
       "price_1h": 0.038529528199024554,
       "price_24h": 0.05372446757356544,
       "change_1h_pct": -3.7,
-      "change_24h_pct": 34.28
+      "change_24h_pct": 34.28,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.943
     },
     {
       "tweet_id": "1932731918157779344",
@@ -214,7 +244,10 @@
       "price_1h": 0.046709691550891025,
       "price_24h": 0.04157376680432069,
       "change_1h_pct": 15.46,
-      "change_24h_pct": 2.76
+      "change_24h_pct": 2.76,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.176
     },
     {
       "tweet_id": "1932809754579021907",
@@ -233,7 +266,10 @@
       "price_1h": 0.04111585063856416,
       "price_24h": 0.04268901216602056,
       "change_1h_pct": -6.42,
-      "change_24h_pct": -2.84
+      "change_24h_pct": -2.84,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.181
     },
     {
       "tweet_id": "1932872989298544822",
@@ -252,7 +288,10 @@
       "price_1h": 0.05372446757356544,
       "price_24h": 0.049416532292138604,
       "change_1h_pct": -1.36,
-      "change_24h_pct": -9.27
+      "change_24h_pct": -9.27,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.514
     },
     {
       "tweet_id": "1933170213681291475",
@@ -271,7 +310,10 @@
       "price_1h": 0.04492618360860935,
       "price_24h": 0.04057281020675546,
       "change_1h_pct": 5.24,
-      "change_24h_pct": -4.96
+      "change_24h_pct": -4.96,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.324
     },
     {
       "tweet_id": "1934358074598236185",
@@ -290,7 +332,10 @@
       "price_1h": 0.0916126839642647,
       "price_24h": 0.07665248061021923,
       "change_1h_pct": -1.95,
-      "change_24h_pct": -17.96
+      "change_24h_pct": -17.96,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.798
     },
     {
       "tweet_id": "1934987637879972220",
@@ -309,7 +354,10 @@
       "price_1h": 0.0753155308199429,
       "price_24h": 0.08883821956145428,
       "change_1h_pct": 3.35,
-      "change_24h_pct": 21.91
+      "change_24h_pct": 21.91,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.864
     },
     {
       "tweet_id": "1934998692567588982",
@@ -328,7 +376,10 @@
       "price_1h": 0.07887168796392884,
       "price_24h": 0.0961833210884924,
       "change_1h_pct": 4.72,
-      "change_24h_pct": 27.71
+      "change_24h_pct": 27.71,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.929
     },
     {
       "tweet_id": "1935060598741442956",
@@ -347,7 +398,10 @@
       "price_1h": 0.07774238234111847,
       "price_24h": 0.0975192845406746,
       "change_1h_pct": -9.59,
-      "change_24h_pct": 13.42
+      "change_24h_pct": 13.42,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.693
     },
     {
       "tweet_id": "1935194245222002689",
@@ -366,7 +420,10 @@
       "price_1h": 0.08432955006998707,
       "price_24h": 0.09805557625427153,
       "change_1h_pct": -2.99,
-      "change_24h_pct": 12.8
+      "change_24h_pct": 12.8,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.679
     },
     {
       "tweet_id": "1935282743828471992",
@@ -385,7 +442,10 @@
       "price_1h": 0.08542645695910435,
       "price_24h": 0.0845430481821795,
       "change_1h_pct": -2.26,
-      "change_24h_pct": -3.28
+      "change_24h_pct": -3.28,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.231
     },
     {
       "tweet_id": "1935294746718593114",
@@ -404,7 +464,10 @@
       "price_1h": 0.09084238911559991,
       "price_24h": 0.0848822934270212,
       "change_1h_pct": 6.34,
-      "change_24h_pct": -0.64
+      "change_24h_pct": -0.64,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.057
     },
     {
       "tweet_id": "1935404621716947234",
@@ -423,7 +486,10 @@
       "price_1h": 0.0975192845406746,
       "price_24h": 0.08129430102067634,
       "change_1h_pct": -3.65,
-      "change_24h_pct": -19.68
+      "change_24h_pct": -19.68,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.819
     },
     {
       "tweet_id": "1935429013943574662",
@@ -442,7 +508,10 @@
       "price_1h": 0.10092492338466524,
       "price_24h": 0.07795246721359562,
       "change_1h_pct": 2.88,
-      "change_24h_pct": -20.54
+      "change_24h_pct": -20.54,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.831
     },
     {
       "tweet_id": "1935464441262522429",
@@ -461,7 +530,10 @@
       "price_1h": 0.10233468095687405,
       "price_24h": 0.08631094539760727,
       "change_1h_pct": -1.67,
-      "change_24h_pct": -17.07
+      "change_24h_pct": -17.07,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.776
     },
     {
       "tweet_id": "1935537677501149649",
@@ -480,7 +552,10 @@
       "price_1h": 0.09805557625427153,
       "price_24h": 0.08487733475239446,
       "change_1h_pct": 1.67,
-      "change_24h_pct": -11.99
+      "change_24h_pct": -11.99,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.648
     },
     {
       "tweet_id": "1935804482215936115",
@@ -499,7 +574,10 @@
       "price_1h": 0.08287453875021494,
       "price_24h": 0.0811374597204721,
       "change_1h_pct": 6.31,
-      "change_24h_pct": 4.09
+      "change_24h_pct": 4.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.274
     },
     {
       "tweet_id": "1936710404761067907",
@@ -518,7 +596,10 @@
       "price_1h": 0.09759063023587426,
       "price_24h": 0.09769755798392112,
       "change_1h_pct": 1.47,
-      "change_24h_pct": 1.58
+      "change_24h_pct": 1.58,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.126
     },
     {
       "tweet_id": "1937146381770060286",
@@ -537,7 +618,10 @@
       "price_1h": 0.10182508104050171,
       "price_24h": 0.1273705611837252,
       "change_1h_pct": 1.69,
-      "change_24h_pct": 27.21
+      "change_24h_pct": 27.21,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.926
     },
     {
       "tweet_id": "1937211714874822968",
@@ -556,7 +640,10 @@
       "price_1h": 0.09396585624634755,
       "price_24h": 0.13774701150373075,
       "change_1h_pct": -5.09,
-      "change_24h_pct": 39.14
+      "change_24h_pct": 39.14,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.974
     },
     {
       "tweet_id": "1937233357961605424",
@@ -575,7 +662,10 @@
       "price_1h": 0.09371612241178215,
       "price_24h": 0.1367243894789798,
       "change_1h_pct": -0.27,
-      "change_24h_pct": 45.5
+      "change_24h_pct": 45.5,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.983
     },
     {
       "tweet_id": "1937415111561412751",
@@ -594,7 +684,10 @@
       "price_1h": 0.1325480975706051,
       "price_24h": 0.1435545970030252,
       "change_1h_pct": -2.53,
-      "change_24h_pct": 5.56
+      "change_24h_pct": 5.56,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.36
     },
     {
       "tweet_id": "1937445899833078074",
@@ -613,7 +706,10 @@
       "price_1h": 0.13315466500912773,
       "price_24h": 0.14690860172490525,
       "change_1h_pct": -6.4,
-      "change_24h_pct": 3.27
+      "change_24h_pct": 3.27,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.226
     },
     {
       "tweet_id": "1937573890743570655",
@@ -632,7 +728,10 @@
       "price_1h": 0.1367243894789798,
       "price_24h": 0.13874698886787953,
       "change_1h_pct": -0.74,
-      "change_24h_pct": 0.73
+      "change_24h_pct": 0.73,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.062
     },
     {
       "tweet_id": "1937715769955221806",
@@ -651,7 +750,10 @@
       "price_1h": 0.13099813751875192,
       "price_24h": 0.12337858017143152,
       "change_1h_pct": 2.17,
-      "change_24h_pct": -3.77
+      "change_24h_pct": -3.77,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.255
     },
     {
       "tweet_id": "1937758832144576570",
@@ -670,7 +772,10 @@
       "price_1h": 0.1435545970030252,
       "price_24h": 0.12249854317881596,
       "change_1h_pct": 4.37,
-      "change_24h_pct": -10.94
+      "change_24h_pct": -10.94,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.595
     },
     {
       "tweet_id": "1937958535683523039",
@@ -689,7 +794,10 @@
       "price_1h": 0.13174358089448052,
       "price_24h": 0.1299253310972676,
       "change_1h_pct": -4.07,
-      "change_24h_pct": -5.39
+      "change_24h_pct": -5.39,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.35
     },
     {
       "tweet_id": "1938277686528409994",
@@ -708,7 +816,10 @@
       "price_1h": 0.1297407449841026,
       "price_24h": 0.13972596702601583,
       "change_1h_pct": -7.04,
-      "change_24h_pct": 0.11
+      "change_24h_pct": 0.11,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.017
     },
     {
       "tweet_id": "1938317509767356811",
@@ -727,7 +838,10 @@
       "price_1h": 0.12854364910402427,
       "price_24h": 0.14138949640464776,
       "change_1h_pct": -1.06,
-      "change_24h_pct": 8.82
+      "change_24h_pct": 8.82,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.493
     },
     {
       "tweet_id": "1938339260387479896",
@@ -746,7 +860,10 @@
       "price_1h": 0.13463707747006878,
       "price_24h": 0.14203875884414824,
       "change_1h_pct": 4.74,
-      "change_24h_pct": 10.5
+      "change_24h_pct": 10.5,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.569
     },
     {
       "tweet_id": "1938347041970688433",
@@ -765,7 +882,10 @@
       "price_1h": 0.13747232573474272,
       "price_24h": 0.13992792052518196,
       "change_1h_pct": 2.11,
-      "change_24h_pct": 3.93
+      "change_24h_pct": 3.93,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.264
     },
     {
       "tweet_id": "1939794168756548056",
@@ -784,7 +904,10 @@
       "price_1h": 0.21247673081001897,
       "price_24h": 0.1759007980646623,
       "change_1h_pct": -4.3,
-      "change_24h_pct": -20.78
+      "change_24h_pct": -20.78,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.845
     },
     {
       "tweet_id": "1939828697999319353",
@@ -803,7 +926,10 @@
       "price_1h": 0.2056748237349461,
       "price_24h": 0.18058919984982624,
       "change_1h_pct": -3.35,
-      "change_24h_pct": -15.14
+      "change_24h_pct": -15.14,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.736
     },
     {
       "tweet_id": "1940148797067161709",
@@ -822,7 +948,10 @@
       "price_1h": 0.1759007980646623,
       "price_24h": 0.2621226337897006,
       "change_1h_pct": -0.27,
-      "change_24h_pct": 48.61
+      "change_24h_pct": 48.61,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.988
     },
     {
       "tweet_id": "1940179531194904655",
@@ -841,7 +970,10 @@
       "price_1h": 0.18058919984982624,
       "price_24h": 0.25555736923196726,
       "change_1h_pct": 6.13,
-      "change_24h_pct": 50.18
+      "change_24h_pct": 50.18,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.99
     },
     {
       "tweet_id": "1940194115020628238",
@@ -860,7 +992,10 @@
       "price_1h": 0.1920174929182539,
       "price_24h": 0.2584237015301377,
       "change_1h_pct": 6.33,
-      "change_24h_pct": 43.1
+      "change_24h_pct": 43.1,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.981
     },
     {
       "tweet_id": "1940207169808523268",
@@ -879,7 +1014,10 @@
       "price_1h": 0.21644020485885557,
       "price_24h": 0.26277525659061335,
       "change_1h_pct": 12.72,
-      "change_24h_pct": 36.85
+      "change_24h_pct": 36.85,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.955
     },
     {
       "tweet_id": "1940211090992009306",
@@ -898,7 +1036,10 @@
       "price_1h": 0.21644020485885557,
       "price_24h": 0.26277525659061335,
       "change_1h_pct": 12.72,
-      "change_24h_pct": 36.85
+      "change_24h_pct": 36.85,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.952
     },
     {
       "tweet_id": "1940289213557293440",
@@ -917,7 +1058,10 @@
       "price_1h": 0.2297488158781831,
       "price_24h": 0.24746796284253275,
       "change_1h_pct": -5.45,
-      "change_24h_pct": 1.84
+      "change_24h_pct": 1.84,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.14
     },
     {
       "tweet_id": "1940340474549776468",
@@ -936,7 +1080,10 @@
       "price_1h": 0.2345225351706197,
       "price_24h": 0.27357609052318327,
       "change_1h_pct": -3.57,
-      "change_24h_pct": 12.49
+      "change_24h_pct": 12.49,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.669
     },
     {
       "tweet_id": "1940410767351644456",
@@ -955,7 +1102,10 @@
       "price_1h": 0.23818870321962524,
       "price_24h": 0.25916444883805473,
       "change_1h_pct": -2.77,
-      "change_24h_pct": 5.79
+      "change_24h_pct": 5.79,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.364
     },
     {
       "tweet_id": "1940483240584008003",
@@ -974,7 +1124,10 @@
       "price_1h": 0.2694364913841806,
       "price_24h": 0.2536995227371784,
       "change_1h_pct": 2.03,
-      "change_24h_pct": -3.92
+      "change_24h_pct": -3.92,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.26
     },
     {
       "tweet_id": "1940534662641692775",
@@ -993,7 +1146,10 @@
       "price_1h": 0.2584237015301377,
       "price_24h": 0.24445779000697693,
       "change_1h_pct": 1.12,
-      "change_24h_pct": -4.34
+      "change_24h_pct": -4.34,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.288
     },
     {
       "tweet_id": "1940671111609426115",
@@ -1012,7 +1168,10 @@
       "price_1h": 0.2768183464863692,
       "price_24h": 0.24312636193485415,
       "change_1h_pct": 9.79,
-      "change_24h_pct": -3.57
+      "change_24h_pct": -3.57,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.245
     },
     {
       "tweet_id": "1940706879375921494",
@@ -1031,7 +1190,10 @@
       "price_1h": 0.2629070748319429,
       "price_24h": 0.2360589103710657,
       "change_1h_pct": -3.9,
-      "change_24h_pct": -13.71
+      "change_24h_pct": -13.71,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.705
     },
     {
       "tweet_id": "1940735261421588609",
@@ -1050,7 +1212,10 @@
       "price_1h": 0.2620703971758622,
       "price_24h": 0.2286010158168829,
       "change_1h_pct": 0.62,
-      "change_24h_pct": -12.23
+      "change_24h_pct": -12.23,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.66
     },
     {
       "tweet_id": "1940764047013826606",
@@ -1069,7 +1234,10 @@
       "price_1h": 0.25916444883805473,
       "price_24h": 0.2559948095509373,
       "change_1h_pct": -3.15,
-      "change_24h_pct": -4.33
+      "change_24h_pct": -4.33,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.286
     },
     {
       "tweet_id": "1941916023784919548",
@@ -1088,7 +1256,10 @@
       "price_1h": 0.2823698033870846,
       "price_24h": 0.27597937578890963,
       "change_1h_pct": -3.71,
-      "change_24h_pct": -5.89
+      "change_24h_pct": -5.89,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.371
     },
     {
       "tweet_id": "1942118749823250484",
@@ -1107,7 +1278,10 @@
       "price_1h": 0.27641258672617075,
       "price_24h": 0.22698554441371896,
       "change_1h_pct": -2.29,
-      "change_24h_pct": -19.76
+      "change_24h_pct": -19.76,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.821
     },
     {
       "tweet_id": "1942323356742881575",
@@ -1126,7 +1300,10 @@
       "price_1h": 0.2526769921516566,
       "price_24h": 0.23118436383393803,
       "change_1h_pct": -1.76,
-      "change_24h_pct": -10.12
+      "change_24h_pct": -10.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.56
     },
     {
       "tweet_id": "1942544503476269283",
@@ -1145,7 +1322,10 @@
       "price_1h": 0.2575136067125821,
       "price_24h": 0.27123954051684246,
       "change_1h_pct": 1.61,
-      "change_24h_pct": 7.02
+      "change_24h_pct": 7.02,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.426
     },
     {
       "tweet_id": "1942572531967267237",
@@ -1164,7 +1344,10 @@
       "price_1h": 0.23795196266508814,
       "price_24h": 0.27119036207371044,
       "change_1h_pct": -2.01,
-      "change_24h_pct": 11.68
+      "change_24h_pct": 11.68,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.631
     },
     {
       "tweet_id": "1942577239989637512",
@@ -1183,7 +1366,10 @@
       "price_1h": 0.23795196266508814,
       "price_24h": 0.27119036207371044,
       "change_1h_pct": -2.01,
-      "change_24h_pct": 11.68
+      "change_24h_pct": 11.68,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.629
     },
     {
       "tweet_id": "1942674822124707895",
@@ -1202,7 +1388,10 @@
       "price_1h": 0.23118436383393803,
       "price_24h": 0.2626912926314557,
       "change_1h_pct": -1.59,
-      "change_24h_pct": 11.82
+      "change_24h_pct": 11.82,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.643
     },
     {
       "tweet_id": "1942824639840858532",
@@ -1221,7 +1410,10 @@
       "price_1h": 0.253078138760727,
       "price_24h": 0.3159714765536627,
       "change_1h_pct": 18.07,
-      "change_24h_pct": 47.41
+      "change_24h_pct": 47.41,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.986
     },
     {
       "tweet_id": "1942828196648321299",
@@ -1240,7 +1432,10 @@
       "price_1h": 0.24026103632264284,
       "price_24h": 0.31966908154231133,
       "change_1h_pct": -5.06,
-      "change_24h_pct": 26.31
+      "change_24h_pct": 26.31,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.919
     },
     {
       "tweet_id": "1942902051144384725",
@@ -1259,7 +1454,10 @@
       "price_1h": 0.2778940196673764,
       "price_24h": 0.31099278268762937,
       "change_1h_pct": 2.45,
-      "change_24h_pct": 14.66
+      "change_24h_pct": 14.66,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.729
     },
     {
       "tweet_id": "1942925087067296138",
@@ -1278,7 +1476,10 @@
       "price_1h": 0.27119036207371044,
       "price_24h": 0.29816185660679273,
       "change_1h_pct": -2.41,
-      "change_24h_pct": 7.29
+      "change_24h_pct": 7.29,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.44
     },
     {
       "tweet_id": "1942947571183358200",
@@ -1297,7 +1498,10 @@
       "price_1h": 0.25884039480970333,
       "price_24h": 0.29787713515869263,
       "change_1h_pct": -2.82,
-      "change_24h_pct": 11.84
+      "change_24h_pct": 11.84,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.645
     },
     {
       "tweet_id": "1943021112335675719",
@@ -1316,7 +1520,10 @@
       "price_1h": 0.2626912926314557,
       "price_24h": 0.3082281946084835,
       "change_1h_pct": 5.53,
-      "change_24h_pct": 23.83
+      "change_24h_pct": 23.83,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.893
     },
     {
       "tweet_id": "1943035334973129207",
@@ -1335,7 +1542,10 @@
       "price_1h": 0.2829570636676897,
       "price_24h": 0.3178650685288993,
       "change_1h_pct": 7.71,
-      "change_24h_pct": 21.0
+      "change_24h_pct": 21.0,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.85
     },
     {
       "tweet_id": "1943038009731092830",
@@ -1354,7 +1564,10 @@
       "price_1h": 0.2937243805113757,
       "price_24h": 0.31614561839676736,
       "change_1h_pct": 3.81,
-      "change_24h_pct": 11.73
+      "change_24h_pct": 11.73,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.636
     },
     {
       "tweet_id": "1943047968401297707",
@@ -1373,7 +1586,10 @@
       "price_1h": 0.2937243805113757,
       "price_24h": 0.31614561839676736,
       "change_1h_pct": 3.81,
-      "change_24h_pct": 11.73
+      "change_24h_pct": 11.73,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.633
     },
     {
       "tweet_id": "1943060597240930570",
@@ -1392,7 +1608,10 @@
       "price_1h": 0.28389281059703675,
       "price_24h": 0.3225349767232277,
       "change_1h_pct": -3.35,
-      "change_24h_pct": 9.81
+      "change_24h_pct": 9.81,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.545
     },
     {
       "tweet_id": "1943071502456226074",
@@ -1411,7 +1630,10 @@
       "price_1h": 0.30125735001435355,
       "price_24h": 0.328619956840869,
       "change_1h_pct": 6.12,
-      "change_24h_pct": 15.75
+      "change_24h_pct": 15.75,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.757
     },
     {
       "tweet_id": "1943076700998308044",
@@ -1430,7 +1652,10 @@
       "price_1h": 0.30125735001435355,
       "price_24h": 0.328619956840869,
       "change_1h_pct": 6.12,
-      "change_24h_pct": 15.75
+      "change_24h_pct": 15.75,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.755
     },
     {
       "tweet_id": "1943189124661297442",
@@ -1449,7 +1674,10 @@
       "price_1h": 0.30859606420825153,
       "price_24h": 0.2827562002675932,
       "change_1h_pct": -3.46,
-      "change_24h_pct": -11.55
+      "change_24h_pct": -11.55,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.619
     },
     {
       "tweet_id": "1943208427448058277",
@@ -1468,7 +1696,10 @@
       "price_1h": 0.3043852387717034,
       "price_24h": 0.289857898577381,
       "change_1h_pct": -1.36,
-      "change_24h_pct": -6.07
+      "change_24h_pct": -6.07,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.381
     },
     {
       "tweet_id": "1943254995056443763",
@@ -1487,7 +1718,10 @@
       "price_1h": 0.31099278268762937,
       "price_24h": 0.2509650666859293,
       "change_1h_pct": 0.97,
-      "change_24h_pct": -18.52
+      "change_24h_pct": -18.52,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.805
     },
     {
       "tweet_id": "1943275183294263576",
@@ -1506,7 +1740,10 @@
       "price_1h": 0.29816185660679273,
       "price_24h": 0.26123486259557016,
       "change_1h_pct": -4.13,
-      "change_24h_pct": -16.0
+      "change_24h_pct": -16.0,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.76
     },
     {
       "tweet_id": "1943396238260392220",
@@ -1525,7 +1762,10 @@
       "price_1h": 0.31614561839676736,
       "price_24h": 0.23881312035091906,
       "change_1h_pct": -0.54,
-      "change_24h_pct": -24.87
+      "change_24h_pct": -24.87,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.91
     },
     {
       "tweet_id": "1943423516503630209",
@@ -1544,7 +1784,10 @@
       "price_1h": 0.328619956840869,
       "price_24h": 0.25261186561983173,
       "change_1h_pct": 1.89,
-      "change_24h_pct": -21.68
+      "change_24h_pct": -21.68,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.862
     },
     {
       "tweet_id": "1943435225314312257",
@@ -1563,7 +1806,10 @@
       "price_1h": 0.3153572697925185,
       "price_24h": 0.24992202460891647,
       "change_1h_pct": -4.04,
-      "change_24h_pct": -23.95
+      "change_24h_pct": -23.95,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.898
     },
     {
       "tweet_id": "1944155738525298890",
@@ -1582,7 +1828,10 @@
       "price_1h": 0.2897027005229202,
       "price_24h": 0.2592285164826898,
       "change_1h_pct": -0.46,
-      "change_24h_pct": -10.93
+      "change_24h_pct": -10.93,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.593
     },
     {
       "tweet_id": "1944169238106718559",
@@ -1601,7 +1850,10 @@
       "price_1h": 0.2897027005229202,
       "price_24h": 0.2592285164826898,
       "change_1h_pct": -0.46,
-      "change_24h_pct": -10.93
+      "change_24h_pct": -10.93,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.59
     },
     {
       "tweet_id": "1944477701987033359",
@@ -1620,7 +1872,10 @@
       "price_1h": 0.2524907412814239,
       "price_24h": 0.29244005370408055,
       "change_1h_pct": -4.89,
-      "change_24h_pct": 10.16
+      "change_24h_pct": 10.16,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.562
     },
     {
       "tweet_id": "1944520913040330945",
@@ -1639,7 +1894,10 @@
       "price_1h": 0.2749160402739626,
       "price_24h": 0.3230812169277618,
       "change_1h_pct": 6.05,
-      "change_24h_pct": 24.63
+      "change_24h_pct": 24.63,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.907
     },
     {
       "tweet_id": "1944522334947410272",
@@ -1658,7 +1916,10 @@
       "price_1h": 0.2749160402739626,
       "price_24h": 0.3230812169277618,
       "change_1h_pct": 6.05,
-      "change_24h_pct": 24.63
+      "change_24h_pct": 24.63,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.905
     },
     {
       "tweet_id": "1944624094118302004",
@@ -1677,7 +1938,10 @@
       "price_1h": 0.3131686733234637,
       "price_24h": 0.3406639125360758,
       "change_1h_pct": 0.25,
-      "change_24h_pct": 9.05
+      "change_24h_pct": 9.05,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.5
     },
     {
       "tweet_id": "1944629511993086057",
@@ -1696,7 +1960,10 @@
       "price_1h": 0.3131686733234637,
       "price_24h": 0.3406639125360758,
       "change_1h_pct": 0.25,
-      "change_24h_pct": 9.05
+      "change_24h_pct": 9.05,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.498
     },
     {
       "tweet_id": "1944814061826290015",
@@ -1715,7 +1982,10 @@
       "price_1h": 0.2891518833879557,
       "price_24h": 0.35402810386810224,
       "change_1h_pct": -0.16,
-      "change_24h_pct": 22.24
+      "change_24h_pct": 22.24,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.874
     },
     {
       "tweet_id": "1944826765056106893",
@@ -1734,7 +2004,10 @@
       "price_1h": 0.29244005370408055,
       "price_24h": 0.3376457198716889,
       "change_1h_pct": 1.14,
-      "change_24h_pct": 16.77
+      "change_24h_pct": 16.77,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.774
     },
     {
       "tweet_id": "1944848612871065696",
@@ -1753,7 +2026,10 @@
       "price_1h": 0.2844723909874549,
       "price_24h": 0.35842361287767827,
       "change_1h_pct": -2.72,
-      "change_24h_pct": 22.56
+      "change_24h_pct": 22.56,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.883
     },
     {
       "tweet_id": "1944874028805840971",
@@ -1772,7 +2048,10 @@
       "price_1h": 0.3230812169277618,
       "price_24h": 0.36768573772601076,
       "change_1h_pct": 3.74,
-      "change_24h_pct": 18.06
+      "change_24h_pct": 18.06,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.8
     },
     {
       "tweet_id": "1945031148217815511",
@@ -1791,7 +2070,10 @@
       "price_1h": 0.3572305230625166,
       "price_24h": 0.3636626065637713,
       "change_1h_pct": 9.07,
-      "change_24h_pct": 11.03
+      "change_24h_pct": 11.03,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.605
     },
     {
       "tweet_id": "1945038595959501051",
@@ -1810,7 +2092,10 @@
       "price_1h": 0.3572305230625166,
       "price_24h": 0.3636626065637713,
       "change_1h_pct": 9.07,
-      "change_24h_pct": 11.03
+      "change_24h_pct": 11.03,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.602
     },
     {
       "tweet_id": "1945048710129271250",
@@ -1829,7 +2114,10 @@
       "price_1h": 0.36001120174539913,
       "price_24h": 0.37023920593609194,
       "change_1h_pct": 0.78,
-      "change_24h_pct": 3.64
+      "change_24h_pct": 3.64,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.248
     },
     {
       "tweet_id": "1945064137450459611",
@@ -1848,7 +2136,10 @@
       "price_1h": 0.3435125455740169,
       "price_24h": 0.36039240635509,
       "change_1h_pct": -4.58,
-      "change_24h_pct": 0.11
+      "change_24h_pct": 0.11,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.014
     },
     {
       "tweet_id": "1945073036803084312",
@@ -1867,7 +2158,10 @@
       "price_1h": 0.3435125455740169,
       "price_24h": 0.36039240635509,
       "change_1h_pct": -4.58,
-      "change_24h_pct": 0.11
+      "change_24h_pct": 0.11,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.012
     },
     {
       "tweet_id": "1945092324540788884",
@@ -1886,7 +2180,10 @@
       "price_1h": 0.331738416345729,
       "price_24h": 0.3699629514224091,
       "change_1h_pct": -2.59,
-      "change_24h_pct": 8.64
+      "change_24h_pct": 8.64,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.483
     },
     {
       "tweet_id": "1945142641559027719",
@@ -1905,7 +2202,10 @@
       "price_1h": 0.3482885399448556,
       "price_24h": 0.3533901166674872,
       "change_1h_pct": 1.9,
-      "change_24h_pct": 3.39
+      "change_24h_pct": 3.39,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.238
     },
     {
       "tweet_id": "1945160583294165261",
@@ -1924,7 +2224,10 @@
       "price_1h": 0.35402810386810224,
       "price_24h": 0.34893706494854043,
       "change_1h_pct": 1.65,
-      "change_24h_pct": 0.19
+      "change_24h_pct": 0.19,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.029
     },
     {
       "tweet_id": "1945164493778043115",
@@ -1943,7 +2246,10 @@
       "price_1h": 0.35402810386810224,
       "price_24h": 0.34893706494854043,
       "change_1h_pct": 1.65,
-      "change_24h_pct": 0.19
+      "change_24h_pct": 0.19,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.026
     },
     {
       "tweet_id": "1945235411413987442",
@@ -1962,7 +2268,10 @@
       "price_1h": 0.3555230395010808,
       "price_24h": 0.34539682606955646,
       "change_1h_pct": -3.31,
-      "change_24h_pct": -6.06
+      "change_24h_pct": -6.06,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.379
     },
     {
       "tweet_id": "1945245894296920156",
@@ -1981,7 +2290,10 @@
       "price_1h": 0.33212749480881526,
       "price_24h": 0.3371183443736631,
       "change_1h_pct": -6.58,
-      "change_24h_pct": -5.18
+      "change_24h_pct": -5.18,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.333
     },
     {
       "tweet_id": "1945411422399467719",
@@ -2000,7 +2312,10 @@
       "price_1h": 0.36039240635509,
       "price_24h": 0.35127408363102874,
       "change_1h_pct": -2.66,
-      "change_24h_pct": -5.12
+      "change_24h_pct": -5.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.331
     },
     {
       "tweet_id": "1945443784449196501",
@@ -2019,7 +2334,10 @@
       "price_1h": 0.3699629514224091,
       "price_24h": 0.3358940299212143,
       "change_1h_pct": 1.84,
-      "change_24h_pct": -7.54
+      "change_24h_pct": -7.54,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.448
     },
     {
       "tweet_id": "1945463932908671277",
@@ -2038,7 +2356,10 @@
       "price_1h": 0.34373030246080855,
       "price_24h": 0.33375660199454393,
       "change_1h_pct": -7.09,
-      "change_24h_pct": -9.79
+      "change_24h_pct": -9.79,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.54
     },
     {
       "tweet_id": "1945594516183904486",
@@ -2057,7 +2378,10 @@
       "price_1h": 0.3371183443736631,
       "price_24h": 0.34072103334697396,
       "change_1h_pct": -2.4,
-      "change_24h_pct": -1.35
+      "change_24h_pct": -1.35,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.11
     },
     {
       "tweet_id": "1945637035118620889",
@@ -2076,7 +2400,10 @@
       "price_1h": 0.35954258143757545,
       "price_24h": 0.31259409930751914,
       "change_1h_pct": 10.68,
-      "change_24h_pct": -3.77
+      "change_24h_pct": -3.77,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.252
     },
     {
       "tweet_id": "1945637958469423305",
@@ -2095,7 +2422,10 @@
       "price_1h": 0.35954258143757545,
       "price_24h": 0.31259409930751914,
       "change_1h_pct": 10.68,
-      "change_24h_pct": -3.77
+      "change_24h_pct": -3.77,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.25
     },
     {
       "tweet_id": "1945807918898798943",
@@ -2114,7 +2444,10 @@
       "price_1h": 0.33375660199454393,
       "price_24h": 0.3328621225327885,
       "change_1h_pct": -0.64,
-      "change_24h_pct": -0.9
+      "change_24h_pct": -0.9,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.069
     },
     {
       "tweet_id": "1945817679018787228",
@@ -2133,7 +2466,10 @@
       "price_1h": 0.3502027211015586,
       "price_24h": 0.3159108973265247,
       "change_1h_pct": 4.93,
-      "change_24h_pct": -5.35
+      "change_24h_pct": -5.35,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.34
     },
     {
       "tweet_id": "1947367309074395214",
@@ -2152,7 +2488,10 @@
       "price_1h": 0.3159001926989639,
       "price_24h": 0.286901241841607,
       "change_1h_pct": 2.57,
-      "change_24h_pct": -6.85
+      "change_24h_pct": -6.85,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.419
     },
     {
       "tweet_id": "1947566919436902781",
@@ -2171,7 +2510,10 @@
       "price_1h": 0.26224225593831807,
       "price_24h": 0.3363717207881224,
       "change_1h_pct": -2.92,
-      "change_24h_pct": 24.52
+      "change_24h_pct": 24.52,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.902
     },
     {
       "tweet_id": "1947578208301277511",
@@ -2190,7 +2532,10 @@
       "price_1h": 0.26825665627825657,
       "price_24h": 0.34184672217641243,
       "change_1h_pct": 2.29,
-      "change_24h_pct": 30.36
+      "change_24h_pct": 30.36,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.936
     },
     {
       "tweet_id": "1947582936112632168",
@@ -2209,7 +2554,10 @@
       "price_1h": 0.27906231064962794,
       "price_24h": 0.33904148064050676,
       "change_1h_pct": 4.03,
-      "change_24h_pct": 26.39
+      "change_24h_pct": 26.39,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.924
     },
     {
       "tweet_id": "1947769192498774157",
@@ -2228,7 +2576,10 @@
       "price_1h": 0.318133562510843,
       "price_24h": 0.28826730277184004,
       "change_1h_pct": 4.42,
-      "change_24h_pct": -5.38
+      "change_24h_pct": -5.38,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.348
     },
     {
       "tweet_id": "1947778640608887232",
@@ -2247,7 +2598,10 @@
       "price_1h": 0.318133562510843,
       "price_24h": 0.28826730277184004,
       "change_1h_pct": 4.42,
-      "change_24h_pct": -5.38
+      "change_24h_pct": -5.38,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.345
     },
     {
       "tweet_id": "1947949561747526063",
@@ -2266,7 +2620,10 @@
       "price_1h": 0.33591708602004183,
       "price_24h": 0.29170109935638616,
       "change_1h_pct": -0.92,
-      "change_24h_pct": -13.96
+      "change_24h_pct": -13.96,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.712
     },
     {
       "tweet_id": "1948100032739029305",
@@ -2285,7 +2642,10 @@
       "price_1h": 0.28788308034707466,
       "price_24h": 0.34201268464272205,
       "change_1h_pct": -6.45,
-      "change_24h_pct": 11.13
+      "change_24h_pct": 11.13,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.61
     },
     {
       "tweet_id": "1948138191569162637",
@@ -2304,7 +2664,10 @@
       "price_1h": 0.29567462763752766,
       "price_24h": 0.3275066149852744,
       "change_1h_pct": 2.57,
-      "change_24h_pct": 13.61
+      "change_24h_pct": 13.61,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.698
     },
     {
       "tweet_id": "1948260137161970051",
@@ -2323,7 +2686,10 @@
       "price_1h": 0.3111465577306215,
       "price_24h": 0.30356871637766636,
       "change_1h_pct": -2.16,
-      "change_24h_pct": -4.54
+      "change_24h_pct": -4.54,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.3
     },
     {
       "tweet_id": "1948281009432084972",
@@ -2342,7 +2708,10 @@
       "price_1h": 0.28860292199371007,
       "price_24h": 0.2936923322745857,
       "change_1h_pct": -4.76,
-      "change_24h_pct": -3.08
+      "change_24h_pct": -3.08,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.207
     },
     {
       "tweet_id": "1948286385066041771",
@@ -2361,7 +2730,10 @@
       "price_1h": 0.28860292199371007,
       "price_24h": 0.2936923322745857,
       "change_1h_pct": -4.76,
-      "change_24h_pct": -3.08
+      "change_24h_pct": -3.08,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.205
     },
     {
       "tweet_id": "1948369695318429889",
@@ -2380,7 +2752,10 @@
       "price_1h": 0.3089518498321551,
       "price_24h": 0.32081255292231786,
       "change_1h_pct": 1.03,
-      "change_24h_pct": 4.91
+      "change_24h_pct": 4.91,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.319
     },
     {
       "tweet_id": "1948465736156152043",
@@ -2399,7 +2774,10 @@
       "price_1h": 0.31686237279695645,
       "price_24h": 0.2967173332198674,
       "change_1h_pct": -7.35,
-      "change_24h_pct": -13.24
+      "change_24h_pct": -13.24,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.69
     },
     {
       "tweet_id": "1948487796517109765",
@@ -2418,7 +2796,10 @@
       "price_1h": 0.3275066149852744,
       "price_24h": 0.3129900707072373,
       "change_1h_pct": 3.36,
-      "change_24h_pct": -1.22
+      "change_24h_pct": -1.22,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.098
     },
     {
       "tweet_id": "1949018735156527396",
@@ -2437,7 +2818,10 @@
       "price_1h": 0.37628605277004634,
       "price_24h": 0.3831728104358078,
       "change_1h_pct": 0.31,
-      "change_24h_pct": 2.14
+      "change_24h_pct": 2.14,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.145
     },
     {
       "tweet_id": "1949083631395185151",
@@ -2456,7 +2840,10 @@
       "price_1h": 0.4022267574137444,
       "price_24h": 0.370839695369,
       "change_1h_pct": 1.59,
-      "change_24h_pct": -6.34
+      "change_24h_pct": -6.34,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.393
     },
     {
       "tweet_id": "1949119052208644339",
@@ -2475,7 +2862,10 @@
       "price_1h": 0.3954714442687818,
       "price_24h": 0.37337360822733123,
       "change_1h_pct": 1.28,
-      "change_24h_pct": -4.37
+      "change_24h_pct": -4.37,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.293
     },
     {
       "tweet_id": "1949152477925802478",
@@ -2494,7 +2884,10 @@
       "price_1h": 0.39434336910743406,
       "price_24h": 0.3619439420096652,
       "change_1h_pct": 0.42,
-      "change_24h_pct": -7.83
+      "change_24h_pct": -7.83,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.46
     },
     {
       "tweet_id": "1949191082329432499",
@@ -2513,7 +2906,10 @@
       "price_1h": 0.3877999649078028,
       "price_24h": 0.36792529918256334,
       "change_1h_pct": 1.12,
-      "change_24h_pct": -4.06
+      "change_24h_pct": -4.06,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.271
     },
     {
       "tweet_id": "1949464956421996916",
@@ -2532,7 +2928,10 @@
       "price_1h": 0.37337360822733123,
       "price_24h": 0.39157441039545526,
       "change_1h_pct": 0.53,
-      "change_24h_pct": 5.43
+      "change_24h_pct": 5.43,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.352
     },
     {
       "tweet_id": "1949499538793697560",
@@ -2551,7 +2950,10 @@
       "price_1h": 0.3619439420096652,
       "price_24h": 0.410020411893,
       "change_1h_pct": -0.81,
-      "change_24h_pct": 12.36
+      "change_24h_pct": 12.36,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.662
     },
     {
       "tweet_id": "1949512185412980989",
@@ -2570,7 +2972,10 @@
       "price_1h": 0.3627337149832044,
       "price_24h": 0.4080604424923761,
       "change_1h_pct": 0.22,
-      "change_24h_pct": 12.74
+      "change_24h_pct": 12.74,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.676
     },
     {
       "tweet_id": "1949715957552730545",
@@ -2589,7 +2994,10 @@
       "price_1h": 0.4012071604756921,
       "price_24h": 0.3135458256,
       "change_1h_pct": 12.07,
-      "change_24h_pct": -12.41
+      "change_24h_pct": -12.41,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.664
     },
     {
       "tweet_id": "1949753848697938163",
@@ -2608,7 +3016,10 @@
       "price_1h": 0.39405062729499074,
       "price_24h": 0.31833287679359795,
       "change_1h_pct": 2.51,
-      "change_24h_pct": -17.18
+      "change_24h_pct": -17.18,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.781
     },
     {
       "tweet_id": "1949792594516382124",
@@ -2627,7 +3038,10 @@
       "price_1h": 0.3891256690273681,
       "price_24h": 0.3266038444788795,
       "change_1h_pct": -2.21,
-      "change_24h_pct": -17.92
+      "change_24h_pct": -17.92,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.795
     },
     {
       "tweet_id": "1949834368429539813",
@@ -2646,7 +3060,10 @@
       "price_1h": 0.410020411893,
       "price_24h": 0.306814506907922,
       "change_1h_pct": 5.32,
-      "change_24h_pct": -21.19
+      "change_24h_pct": -21.19,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.855
     },
     {
       "tweet_id": "1949920959668113520",
@@ -2665,7 +3082,10 @@
       "price_1h": 0.37393317368,
       "price_24h": 0.30450979453247523,
       "change_1h_pct": -2.33,
-      "change_24h_pct": -20.46
+      "change_24h_pct": -20.46,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.829
     },
     {
       "tweet_id": "1950142195937198476",
@@ -2684,7 +3104,10 @@
       "price_1h": 0.3266038444788795,
       "price_24h": 0.30913082719898577,
       "change_1h_pct": 2.38,
-      "change_24h_pct": -3.1
+      "change_24h_pct": -3.1,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.217
     },
     {
       "tweet_id": "1950219400495116470",
@@ -2703,7 +3126,10 @@
       "price_1h": 0.3030292498048588,
       "price_24h": 0.2861406040089419,
       "change_1h_pct": -2.47,
-      "change_24h_pct": -7.9
+      "change_24h_pct": -7.9,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.462
     },
     {
       "tweet_id": "1950435042372591726",
@@ -2722,7 +3148,10 @@
       "price_1h": 0.303082660782587,
       "price_24h": 0.32908358246574465,
       "change_1h_pct": 1.97,
-      "change_24h_pct": 10.71
+      "change_24h_pct": 10.71,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.576
     },
     {
       "tweet_id": "1950560031163797683",
@@ -2741,7 +3170,10 @@
       "price_1h": 0.2861406040089419,
       "price_24h": 0.30579843744418356,
       "change_1h_pct": -1.9,
-      "change_24h_pct": 4.84
+      "change_24h_pct": 4.84,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.312
     },
     {
       "tweet_id": "1950577418906800130",
@@ -2760,7 +3192,10 @@
       "price_1h": 0.29023024133373404,
       "price_24h": 0.3042685739216369,
       "change_1h_pct": 1.43,
-      "change_24h_pct": 6.34
+      "change_24h_pct": 6.34,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.39
     },
     {
       "tweet_id": "1950653032846291259",
@@ -2779,7 +3214,10 @@
       "price_1h": 0.29497515181727335,
       "price_24h": 0.28609853139076896,
       "change_1h_pct": 0.3,
-      "change_24h_pct": -2.72
+      "change_24h_pct": -2.72,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.169
     },
     {
       "tweet_id": "1950769445737009497",
@@ -2798,7 +3236,10 @@
       "price_1h": 0.32908358246574465,
       "price_24h": 0.24327954333599996,
       "change_1h_pct": 0.13,
-      "change_24h_pct": -25.98
+      "change_24h_pct": -25.98,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.914
     },
     {
       "tweet_id": "1950825310242447412",
@@ -2817,7 +3258,10 @@
       "price_1h": 0.3057482771876971,
       "price_24h": 0.24996186534677067,
       "change_1h_pct": -3.02,
-      "change_24h_pct": -20.71
+      "change_24h_pct": -20.71,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.84
     },
     {
       "tweet_id": "1951230193080713283",
@@ -2836,7 +3280,10 @@
       "price_1h": 0.2397884170973386,
       "price_24h": 0.23676159742691158,
       "change_1h_pct": -0.73,
-      "change_24h_pct": -1.98
+      "change_24h_pct": -1.98,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.143
     },
     {
       "tweet_id": "1951986746268233998",
@@ -2855,7 +3302,10 @@
       "price_1h": 0.22971123541888544,
       "price_24h": 0.24326812079724744,
       "change_1h_pct": -0.05,
-      "change_24h_pct": 5.85
+      "change_24h_pct": 5.85,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.369
     },
     {
       "tweet_id": "1952057603300970810",
@@ -2874,7 +3324,10 @@
       "price_1h": 0.22648703287499997,
       "price_24h": 0.26986754722399997,
       "change_1h_pct": -4.53,
-      "change_24h_pct": 13.75
+      "change_24h_pct": 13.75,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.707
     },
     {
       "tweet_id": "1952234381738750205",
@@ -2893,7 +3346,10 @@
       "price_1h": 0.2499399948358422,
       "price_24h": 0.265987637932301,
       "change_1h_pct": 2.15,
-      "change_24h_pct": 8.71
+      "change_24h_pct": 8.71,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.488
     },
     {
       "tweet_id": "1952426941409099975",
@@ -2912,7 +3368,10 @@
       "price_1h": 0.27174567999044164,
       "price_24h": 0.2342973078506609,
       "change_1h_pct": 0.7,
-      "change_24h_pct": -13.18
+      "change_24h_pct": -13.18,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.688
     },
     {
       "tweet_id": "1952664530556739780",
@@ -2931,7 +3390,10 @@
       "price_1h": 0.24612249404216413,
       "price_24h": 0.19077945266331944,
       "change_1h_pct": -1.8,
-      "change_24h_pct": -23.88
+      "change_24h_pct": -23.88,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.895
     },
     {
       "tweet_id": "1952777589442883657",
@@ -2950,7 +3412,10 @@
       "price_1h": 0.22397778688925865,
       "price_24h": 0.18196304301675156,
       "change_1h_pct": -4.4,
-      "change_24h_pct": -22.34
+      "change_24h_pct": -22.34,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.876
     },
     {
       "tweet_id": "1952961813273833703",
@@ -2969,7 +3434,10 @@
       "price_1h": 0.18597957348,
       "price_24h": 0.1882345219916171,
       "change_1h_pct": -1.5,
-      "change_24h_pct": -0.31
+      "change_24h_pct": -0.31,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.043
     },
     {
       "tweet_id": "1953079870419877949",
@@ -2988,7 +3456,10 @@
       "price_1h": 0.19196593703648607,
       "price_24h": 0.20809939731971808,
       "change_1h_pct": 0.19,
-      "change_24h_pct": 8.61
+      "change_24h_pct": 8.61,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.481
     },
     {
       "tweet_id": "1953098314011848729",
@@ -3007,7 +3478,10 @@
       "price_1h": 0.1859721093,
       "price_24h": 0.22477004311259843,
       "change_1h_pct": -3.12,
-      "change_24h_pct": 17.09
+      "change_24h_pct": 17.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.779
     },
     {
       "tweet_id": "1953128515240403183",
@@ -3026,7 +3500,10 @@
       "price_1h": 0.18196304301675156,
       "price_24h": 0.2222520089865681,
       "change_1h_pct": -0.95,
-      "change_24h_pct": 20.99
+      "change_24h_pct": 20.99,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.848
     },
     {
       "tweet_id": "1953429721619878374",
@@ -3045,7 +3522,10 @@
       "price_1h": 0.20809939731971808,
       "price_24h": 0.20910889115525438,
       "change_1h_pct": -0.61,
-      "change_24h_pct": -0.13
+      "change_24h_pct": -0.13,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.019
     },
     {
       "tweet_id": "1954100154711126274",
@@ -3064,7 +3544,10 @@
       "price_1h": 0.2058645578648385,
       "price_24h": 0.2538168476533257,
       "change_1h_pct": 6.8,
-      "change_24h_pct": 31.67
+      "change_24h_pct": 31.67,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.938
     },
     {
       "tweet_id": "1954108492932846030",
@@ -3083,7 +3566,10 @@
       "price_1h": 0.20381257386945867,
       "price_24h": 0.24548381036934913,
       "change_1h_pct": -1.0,
-      "change_24h_pct": 19.25
+      "change_24h_pct": 19.25,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.812
     },
     {
       "tweet_id": "1954125042775687494",
@@ -3102,7 +3588,10 @@
       "price_1h": 0.20364610586576315,
       "price_24h": 0.24153256193086678,
       "change_1h_pct": -0.08,
-      "change_24h_pct": 18.51
+      "change_24h_pct": 18.51,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.802
     },
     {
       "tweet_id": "1954232025809846683",
@@ -3121,7 +3610,10 @@
       "price_1h": 0.21556642741063736,
       "price_24h": 0.25438506909291325,
       "change_1h_pct": -3.29,
-      "change_24h_pct": 14.12
+      "change_24h_pct": 14.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.717
     },
     {
       "tweet_id": "1954524844910919880",
@@ -3140,7 +3632,10 @@
       "price_1h": 0.24691998723301342,
       "price_24h": 0.24960619210512752,
       "change_1h_pct": -0.11,
-      "change_24h_pct": 0.97
+      "change_24h_pct": 0.97,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.076
     },
     {
       "tweet_id": "1954529007828865245",
@@ -3159,7 +3654,10 @@
       "price_1h": 0.244279632709,
       "price_24h": 0.24366590109816494,
       "change_1h_pct": -1.07,
-      "change_24h_pct": -1.32
+      "change_24h_pct": -1.32,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.105
     },
     {
       "tweet_id": "1954542899208581176",
@@ -3178,7 +3676,10 @@
       "price_1h": 0.244279632709,
       "price_24h": 0.24366590109816494,
       "change_1h_pct": -1.07,
-      "change_24h_pct": -1.32
+      "change_24h_pct": -1.32,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.102
     },
     {
       "tweet_id": "1954623073837256823",
@@ -3197,7 +3698,10 @@
       "price_1h": 0.2559106998054388,
       "price_24h": 0.23848797930697652,
       "change_1h_pct": -3.19,
-      "change_24h_pct": -9.78
+      "change_24h_pct": -9.78,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.536
     },
     {
       "tweet_id": "1954755211148325249",
@@ -3216,7 +3720,10 @@
       "price_1h": 0.2632579271244379,
       "price_24h": 0.20264943427973006,
       "change_1h_pct": 0.69,
-      "change_24h_pct": -22.49
+      "change_24h_pct": -22.49,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.879
     },
     {
       "tweet_id": "1955250323703926881",
@@ -3235,7 +3742,10 @@
       "price_1h": 0.205217107831144,
       "price_24h": 0.20294173345830185,
       "change_1h_pct": 0.92,
-      "change_24h_pct": -0.2
+      "change_24h_pct": -0.2,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.031
     },
     {
       "tweet_id": "1955313312876339588",
@@ -3254,7 +3764,10 @@
       "price_1h": 0.21173209626217868,
       "price_24h": 0.234564957798,
       "change_1h_pct": -3.26,
-      "change_24h_pct": 7.17
+      "change_24h_pct": 7.17,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.433
     },
     {
       "tweet_id": "1955622816025641014",
@@ -3273,7 +3786,10 @@
       "price_1h": 0.21261599289683145,
       "price_24h": 0.28617603908930456,
       "change_1h_pct": 3.41,
-      "change_24h_pct": 39.19
+      "change_24h_pct": 39.19,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.976
     },
     {
       "tweet_id": "1955687840559636901",
@@ -3292,7 +3808,10 @@
       "price_1h": 0.219297693703033,
       "price_24h": 0.2686771534535668,
       "change_1h_pct": -5.78,
-      "change_24h_pct": 15.44
+      "change_24h_pct": 15.44,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.745
     },
     {
       "tweet_id": "1955705316806676512",
@@ -3311,7 +3830,10 @@
       "price_1h": 0.22132258692555376,
       "price_24h": 0.27090286955490794,
       "change_1h_pct": 0.92,
-      "change_24h_pct": 23.53
+      "change_24h_pct": 23.53,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.888
     },
     {
       "tweet_id": "1955712766355906814",
@@ -3330,7 +3852,10 @@
       "price_1h": 0.2204180916008822,
       "price_24h": 0.2669084258026091,
       "change_1h_pct": -0.41,
-      "change_24h_pct": 20.6
+      "change_24h_pct": 20.6,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.838
     },
     {
       "tweet_id": "1955714847905030313",
@@ -3349,7 +3874,10 @@
       "price_1h": 0.2204180916008822,
       "price_24h": 0.2669084258026091,
       "change_1h_pct": -0.41,
-      "change_24h_pct": 20.6
+      "change_24h_pct": 20.6,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.836
     },
     {
       "tweet_id": "1955717307902103585",
@@ -3368,7 +3896,10 @@
       "price_1h": 0.2204180916008822,
       "price_24h": 0.2669084258026091,
       "change_1h_pct": -0.41,
-      "change_24h_pct": 20.6
+      "change_24h_pct": 20.6,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.833
     },
     {
       "tweet_id": "1955892457599619414",
@@ -3387,7 +3918,10 @@
       "price_1h": 0.27434478446058486,
       "price_24h": 0.28198137527296513,
       "change_1h_pct": 0.33,
-      "change_24h_pct": 3.12
+      "change_24h_pct": 3.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.221
     },
     {
       "tweet_id": "1955932283510382802",
@@ -3406,7 +3940,10 @@
       "price_1h": 0.3040898669248517,
       "price_24h": 0.2889017572278926,
       "change_1h_pct": 4.94,
-      "change_24h_pct": -0.3
+      "change_24h_pct": -0.3,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.04
     },
     {
       "tweet_id": "1956046646883529171",
@@ -3425,7 +3962,10 @@
       "price_1h": 0.27090286955490794,
       "price_24h": 0.31595889996247395,
       "change_1h_pct": 0.83,
-      "change_24h_pct": 17.6
+      "change_24h_pct": 17.6,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.79
     },
     {
       "tweet_id": "1956055251561185747",
@@ -3444,7 +3984,10 @@
       "price_1h": 0.2669084258026091,
       "price_24h": 0.2902766354696487,
       "change_1h_pct": -1.47,
-      "change_24h_pct": 7.15
+      "change_24h_pct": 7.15,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.431
     },
     {
       "tweet_id": "1956055257131221299",
@@ -3463,7 +4006,10 @@
       "price_1h": 0.2669084258026091,
       "price_24h": 0.2902766354696487,
       "change_1h_pct": -1.47,
-      "change_24h_pct": 7.15
+      "change_24h_pct": 7.15,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.429
     },
     {
       "tweet_id": "1956082783186772401",
@@ -3482,7 +4028,10 @@
       "price_1h": 0.25716142,
       "price_24h": 0.2887071660697315,
       "change_1h_pct": -3.65,
-      "change_24h_pct": 8.17
+      "change_24h_pct": 8.17,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.471
     },
     {
       "tweet_id": "1956218661527806028",
@@ -3501,7 +4050,10 @@
       "price_1h": 0.27561012885057995,
       "price_24h": 0.3004262090068821,
       "change_1h_pct": 7.04,
-      "change_24h_pct": 16.67
+      "change_24h_pct": 16.67,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.769
     },
     {
       "tweet_id": "1956269220519366832",
@@ -3520,7 +4072,10 @@
       "price_1h": 0.2889017572278926,
       "price_24h": 0.2976928428869669,
       "change_1h_pct": 2.39,
-      "change_24h_pct": 5.5
+      "change_24h_pct": 5.5,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.357
     },
     {
       "tweet_id": "1956325109423128880",
@@ -3539,7 +4094,10 @@
       "price_1h": 0.2979320948190379,
       "price_24h": 0.3460161019029873,
       "change_1h_pct": -6.9,
-      "change_24h_pct": 8.12
+      "change_24h_pct": 8.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.469
     },
     {
       "tweet_id": "1956373999065133369",
@@ -3558,7 +4116,10 @@
       "price_1h": 0.3275503372768175,
       "price_24h": 0.31411378075541346,
       "change_1h_pct": -2.68,
-      "change_24h_pct": -6.67
+      "change_24h_pct": -6.67,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.412
     },
     {
       "tweet_id": "1956378529765183565",
@@ -3577,7 +4138,10 @@
       "price_1h": 0.3275503372768175,
       "price_24h": 0.31411378075541346,
       "change_1h_pct": -2.68,
-      "change_24h_pct": -6.67
+      "change_24h_pct": -6.67,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.41
     },
     {
       "tweet_id": "1956379137393746190",
@@ -3596,7 +4160,10 @@
       "price_1h": 0.3275503372768175,
       "price_24h": 0.31411378075541346,
       "change_1h_pct": -2.68,
-      "change_24h_pct": -6.67
+      "change_24h_pct": -6.67,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.407
     },
     {
       "tweet_id": "1956382944131489836",
@@ -3615,7 +4182,10 @@
       "price_1h": 0.3275503372768175,
       "price_24h": 0.31411378075541346,
       "change_1h_pct": -2.68,
-      "change_24h_pct": -6.67
+      "change_24h_pct": -6.67,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.405
     },
     {
       "tweet_id": "1956462855672443091",
@@ -3634,7 +4204,10 @@
       "price_1h": 0.28811714751815937,
       "price_24h": 0.36105362511535716,
       "change_1h_pct": 0.84,
-      "change_24h_pct": 26.37
+      "change_24h_pct": 26.37,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.921
     },
     {
       "tweet_id": "1956619798462259314",
@@ -3653,7 +4226,10 @@
       "price_1h": 0.2976928428869669,
       "price_24h": 0.3589246128978524,
       "change_1h_pct": -1.51,
-      "change_24h_pct": 18.75
+      "change_24h_pct": 18.75,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.81
     },
     {
       "tweet_id": "1956768921018925170",
@@ -3672,7 +4248,10 @@
       "price_1h": 0.3449817554196024,
       "price_24h": 0.3476911139890081,
       "change_1h_pct": 2.75,
-      "change_24h_pct": 3.56
+      "change_24h_pct": 3.56,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.243
     },
     {
       "tweet_id": "1957527622956773869",
@@ -3691,7 +4270,10 @@
       "price_1h": 0.2839880121634835,
       "price_24h": 0.2828806499960385,
       "change_1h_pct": -1.1,
-      "change_24h_pct": -1.49
+      "change_24h_pct": -1.49,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.114
     },
     {
       "tweet_id": "1957638957426147754",
@@ -3710,7 +4292,10 @@
       "price_1h": 0.2775907688710499,
       "price_24h": 0.2679608350948006,
       "change_1h_pct": 1.08,
-      "change_24h_pct": -2.43
+      "change_24h_pct": -2.43,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.152
     },
     {
       "tweet_id": "1957893222086373551",
@@ -3729,7 +4314,10 @@
       "price_1h": 0.2738792614838966,
       "price_24h": 0.29786346235341543,
       "change_1h_pct": -3.18,
-      "change_24h_pct": 5.3
+      "change_24h_pct": 5.3,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.336
     },
     {
       "tweet_id": "1957901813270909436",
@@ -3748,7 +4336,10 @@
       "price_1h": 0.2686463821127264,
       "price_24h": 0.28745560634137357,
       "change_1h_pct": -1.91,
-      "change_24h_pct": 4.96
+      "change_24h_pct": 4.96,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.321
     },
     {
       "tweet_id": "1957924080885330087",
@@ -3767,7 +4358,10 @@
       "price_1h": 0.24862061657187273,
       "price_24h": 0.28953213999196037,
       "change_1h_pct": -7.45,
-      "change_24h_pct": 7.77
+      "change_24h_pct": 7.77,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.455
     },
     {
       "tweet_id": "1957932673063649422",
@@ -3786,7 +4380,10 @@
       "price_1h": 0.24921619662895167,
       "price_24h": 0.2838946233894911,
       "change_1h_pct": 0.24,
-      "change_24h_pct": 14.19
+      "change_24h_pct": 14.19,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.719
     },
     {
       "tweet_id": "1958159290633433169",
@@ -3805,7 +4402,10 @@
       "price_1h": 0.27448085911500003,
       "price_24h": 0.24097920536024214,
       "change_1h_pct": 0.21,
-      "change_24h_pct": -12.02
+      "change_24h_pct": -12.02,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.65
     },
     {
       "tweet_id": "1958266894877614480",
@@ -3824,7 +4424,10 @@
       "price_1h": 0.28953213999196037,
       "price_24h": 0.22176516239381733,
       "change_1h_pct": 0.72,
-      "change_24h_pct": -22.85
+      "change_24h_pct": -22.85,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.886
     },
     {
       "tweet_id": "1958421090205626652",
@@ -3843,7 +4446,10 @@
       "price_1h": 0.2577602491280687,
       "price_24h": 0.2356652428649005,
       "change_1h_pct": -0.59,
-      "change_24h_pct": -9.11
+      "change_24h_pct": -9.11,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.507
     },
     {
       "tweet_id": "1958545830270378021",
@@ -3862,7 +4468,10 @@
       "price_1h": 0.2282081982497989,
       "price_24h": 0.21945688358393065,
       "change_1h_pct": -1.22,
-      "change_24h_pct": -5.0
+      "change_24h_pct": -5.0,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.326
     },
     {
       "tweet_id": "1958600299938984365",
@@ -3881,7 +4490,10 @@
       "price_1h": 0.22306578892561532,
       "price_24h": 0.24074096396436226,
       "change_1h_pct": -1.28,
-      "change_24h_pct": 6.54
+      "change_24h_pct": 6.54,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.398
     },
     {
       "tweet_id": "1959676556261118007",
@@ -3900,7 +4512,10 @@
       "price_1h": 0.263357856,
       "price_24h": 0.24197558894801188,
       "change_1h_pct": -1.24,
-      "change_24h_pct": -9.26
+      "change_24h_pct": -9.26,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.512
     },
     {
       "tweet_id": "1959691078375707135",
@@ -3919,7 +4534,10 @@
       "price_1h": 0.2700657410047101,
       "price_24h": 0.24831482065918772,
       "change_1h_pct": 2.55,
-      "change_24h_pct": -5.71
+      "change_24h_pct": -5.71,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.362
     },
     {
       "tweet_id": "1959710612776427657",
@@ -3938,7 +4556,10 @@
       "price_1h": 0.2747612530266655,
       "price_24h": 0.24218613514301468,
       "change_1h_pct": 2.76,
-      "change_24h_pct": -9.43
+      "change_24h_pct": -9.43,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.521
     },
     {
       "tweet_id": "1960062486260117575",
@@ -3957,7 +4578,10 @@
       "price_1h": 0.24218613514301468,
       "price_24h": 0.22082138447691366,
       "change_1h_pct": -1.08,
-      "change_24h_pct": -9.8
+      "change_24h_pct": -9.8,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.543
     },
     {
       "tweet_id": "1960216728006205449",
@@ -3976,7 +4600,10 @@
       "price_1h": 0.2222670242755456,
       "price_24h": 0.22756548359122958,
       "change_1h_pct": -1.19,
-      "change_24h_pct": 1.16
+      "change_24h_pct": 1.16,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.088
     },
     {
       "tweet_id": "1960421419382124714",
@@ -3995,7 +4622,10 @@
       "price_1h": 0.22366696924217444,
       "price_24h": 0.23799146400290327,
       "change_1h_pct": 1.29,
-      "change_24h_pct": 7.78
+      "change_24h_pct": 7.78,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.457
     },
     {
       "tweet_id": "1960559843435073785",
@@ -4014,7 +4644,10 @@
       "price_1h": 0.22756548359122958,
       "price_24h": 0.20857623491157531,
       "change_1h_pct": 1.61,
-      "change_24h_pct": -6.87
+      "change_24h_pct": -6.87,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.421
     },
     {
       "tweet_id": "1960633280044138804",
@@ -4033,7 +4666,10 @@
       "price_1h": 0.23154983779391491,
       "price_24h": 0.21111652977935083,
       "change_1h_pct": -0.55,
-      "change_24h_pct": -9.33
+      "change_24h_pct": -9.33,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.519
     },
     {
       "tweet_id": "1960804754474590624",
@@ -4052,7 +4688,10 @@
       "price_1h": 0.236074243851,
       "price_24h": 0.21764726094954284,
       "change_1h_pct": 2.0,
-      "change_24h_pct": -5.96
+      "change_24h_pct": -5.96,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.374
     },
     {
       "tweet_id": "1961136326373261562",
@@ -4071,7 +4710,10 @@
       "price_1h": 0.21296060238853742,
       "price_24h": 0.20035420760052103,
       "change_1h_pct": -3.85,
-      "change_24h_pct": -9.54
+      "change_24h_pct": -9.54,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.526
     },
     {
       "tweet_id": "1961315996163039252",
@@ -4090,7 +4732,10 @@
       "price_1h": 0.21689675335538974,
       "price_24h": 0.21401484332400314,
       "change_1h_pct": 0.4,
-      "change_24h_pct": -0.93
+      "change_24h_pct": -0.93,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.074
     },
     {
       "tweet_id": "1961333662122742176",
@@ -4109,7 +4754,10 @@
       "price_1h": 0.2153841683394032,
       "price_24h": 0.21677537151999998,
       "change_1h_pct": -0.7,
-      "change_24h_pct": -0.06
+      "change_24h_pct": -0.06,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.002
     },
     {
       "tweet_id": "1961392465111322979",
@@ -4128,7 +4776,10 @@
       "price_1h": 0.20146472812193408,
       "price_24h": 0.2163383070338277,
       "change_1h_pct": -1.17,
-      "change_24h_pct": 6.12
+      "change_24h_pct": 6.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.386
     },
     {
       "tweet_id": "1961496762838892743",
@@ -4147,7 +4798,10 @@
       "price_1h": 0.19336385222691582,
       "price_24h": 0.21101928032748565,
       "change_1h_pct": -3.49,
-      "change_24h_pct": 5.32
+      "change_24h_pct": 5.32,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.338
     },
     {
       "tweet_id": "1961513712528904451",
@@ -4166,7 +4820,10 @@
       "price_1h": 0.191824417327059,
       "price_24h": 0.2116151474405847,
       "change_1h_pct": -0.8,
-      "change_24h_pct": 9.44
+      "change_24h_pct": 9.44,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.524
     },
     {
       "tweet_id": "1962657811017482311",
@@ -4185,7 +4842,10 @@
       "price_1h": 0.1698987569121699,
       "price_24h": 0.17864303577392804,
       "change_1h_pct": -1.12,
-      "change_24h_pct": 3.97
+      "change_24h_pct": 3.97,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.267
     },
     {
       "tweet_id": "1962756311717715968",
@@ -4204,7 +4864,10 @@
       "price_1h": 0.17142547822692317,
       "price_24h": 0.17912057680810584,
       "change_1h_pct": 1.58,
-      "change_24h_pct": 6.14
+      "change_24h_pct": 6.14,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.388
     },
     {
       "tweet_id": "1963549895765168361",
@@ -4223,7 +4886,10 @@
       "price_1h": 0.1568769142410179,
       "price_24h": 0.1595114911656617,
       "change_1h_pct": 0.8,
-      "change_24h_pct": 2.5
+      "change_24h_pct": 2.5,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.16
     },
     {
       "tweet_id": "1964062348387455104",
@@ -4242,7 +4908,10 @@
       "price_1h": 0.17545717974400887,
       "price_24h": 0.2010534051908978,
       "change_1h_pct": 0.5,
-      "change_24h_pct": 15.16
+      "change_24h_pct": 15.16,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.738
     },
     {
       "tweet_id": "1964289155040477248",
@@ -4261,7 +4930,10 @@
       "price_1h": 0.189276801285,
       "price_24h": 0.21670851672349492,
       "change_1h_pct": -2.03,
-      "change_24h_pct": 12.17
+      "change_24h_pct": 12.17,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.657
     },
     {
       "tweet_id": "1964361622291648964",
@@ -4280,7 +4952,10 @@
       "price_1h": 0.1863995907750097,
       "price_24h": 0.2182655053449218,
       "change_1h_pct": -1.18,
-      "change_24h_pct": 15.72
+      "change_24h_pct": 15.72,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.75
     },
     {
       "tweet_id": "1964431885595217987",
@@ -4299,7 +4974,10 @@
       "price_1h": 0.20763708614437842,
       "price_24h": 0.21208361701958972,
       "change_1h_pct": 3.27,
-      "change_24h_pct": 5.49
+      "change_24h_pct": 5.49,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.355
     },
     {
       "tweet_id": "1964555928797130774",
@@ -4318,7 +4996,10 @@
       "price_1h": 0.21087083037519924,
       "price_24h": 0.2135514772393095,
       "change_1h_pct": -0.85,
-      "change_24h_pct": 0.41
+      "change_24h_pct": 0.41,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.05
     },
     {
       "tweet_id": "1964845242034630941",
@@ -4337,7 +5018,10 @@
       "price_1h": 0.21105557737705338,
       "price_24h": 0.2464703294787902,
       "change_1h_pct": 0.44,
-      "change_24h_pct": 17.3
+      "change_24h_pct": 17.3,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.783
     },
     {
       "tweet_id": "1964963658586562710",
@@ -4356,7 +5040,10 @@
       "price_1h": 0.22546590665500005,
       "price_24h": 0.22758605278153426,
       "change_1h_pct": 1.54,
-      "change_24h_pct": 2.5
+      "change_24h_pct": 2.5,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.157
     },
     {
       "tweet_id": "1964990478904152394",
@@ -4375,7 +5062,10 @@
       "price_1h": 0.22458245485182912,
       "price_24h": 0.22531303632801267,
       "change_1h_pct": -0.39,
-      "change_24h_pct": -0.07
+      "change_24h_pct": -0.07,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.005
     },
     {
       "tweet_id": "1965024141427274154",
@@ -4394,7 +5084,10 @@
       "price_1h": 0.22846324120500003,
       "price_24h": 0.22714588385279105,
       "change_1h_pct": 5.16,
-      "change_24h_pct": 4.55
+      "change_24h_pct": 4.55,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.302
     },
     {
       "tweet_id": "1965035639944225033",
@@ -4413,7 +5106,10 @@
       "price_1h": 0.22846324120500003,
       "price_24h": 0.22369957233045537,
       "change_1h_pct": 5.16,
-      "change_24h_pct": 2.96
+      "change_24h_pct": 2.96,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.19
     },
     {
       "tweet_id": "1965043581845938242",
@@ -4432,7 +5128,10 @@
       "price_1h": 0.22789179030718476,
       "price_24h": 0.22267806546709573,
       "change_1h_pct": -0.25,
-      "change_24h_pct": -2.53
+      "change_24h_pct": -2.53,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.164
     },
     {
       "tweet_id": "1965091123627733488",
@@ -4451,7 +5150,10 @@
       "price_1h": 0.24205553172192026,
       "price_24h": 0.2397386797307912,
       "change_1h_pct": 0.76,
-      "change_24h_pct": -0.21
+      "change_24h_pct": -0.21,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.033
     },
     {
       "tweet_id": "1965387975287550026",
@@ -4470,7 +5172,10 @@
       "price_1h": 0.2216703426216077,
       "price_24h": 0.21053256640828785,
       "change_1h_pct": -2.7,
-      "change_24h_pct": -7.59
+      "change_24h_pct": -7.59,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.45
     },
     {
       "tweet_id": "1965900242764620123",
@@ -4489,7 +5194,10 @@
       "price_1h": 0.2170092785439542,
       "price_24h": 0.24172051068117745,
       "change_1h_pct": 0.08,
-      "change_24h_pct": 11.48
+      "change_24h_pct": 11.48,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.614
     },
     {
       "tweet_id": "1965922793050059188",
@@ -4508,7 +5216,10 @@
       "price_1h": 0.21457130212673842,
       "price_24h": 0.25232415541797565,
       "change_1h_pct": -0.74,
-      "change_24h_pct": 16.73
+      "change_24h_pct": 16.73,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.771
     },
     {
       "tweet_id": "1966103846897537256",
@@ -4527,7 +5238,10 @@
       "price_1h": 0.2549250293124453,
       "price_24h": 0.26335803156340554,
       "change_1h_pct": 4.0,
-      "change_24h_pct": 7.44
+      "change_24h_pct": 7.44,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.445
     },
     {
       "tweet_id": "1966173369134625043",
@@ -4546,7 +5260,10 @@
       "price_1h": 0.25562203241557296,
       "price_24h": 0.27147833578559655,
       "change_1h_pct": 4.31,
-      "change_24h_pct": 10.78
+      "change_24h_pct": 10.78,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.581
     },
     {
       "tweet_id": "1966425708969791555",
@@ -4565,7 +5282,10 @@
       "price_1h": 0.2677492551186229,
       "price_24h": 0.2683946666684398,
       "change_1h_pct": -1.96,
-      "change_24h_pct": -1.73
+      "change_24h_pct": -1.73,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.131
     },
     {
       "tweet_id": "1966507385368838423",
@@ -4584,7 +5304,10 @@
       "price_1h": 0.27125474293564467,
       "price_24h": 0.26772840124741093,
       "change_1h_pct": -1.2,
-      "change_24h_pct": -2.49
+      "change_24h_pct": -2.49,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.155
     },
     {
       "tweet_id": "1966798588471579037",
@@ -4603,7 +5326,10 @@
       "price_1h": 0.26152000218704424,
       "price_24h": 0.2865842186744424,
       "change_1h_pct": -1.81,
-      "change_24h_pct": 7.6
+      "change_24h_pct": 7.6,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.452
     },
     {
       "tweet_id": "1966830431036395768",
@@ -4622,7 +5348,10 @@
       "price_1h": 0.26990681761554847,
       "price_24h": 0.28812248859972733,
       "change_1h_pct": 1.53,
-      "change_24h_pct": 8.38
+      "change_24h_pct": 8.38,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.476
     },
     {
       "tweet_id": "1966853613981954163",
@@ -4641,7 +5370,10 @@
       "price_1h": 0.2700360737867701,
       "price_24h": 0.28941395610970116,
       "change_1h_pct": 1.78,
-      "change_24h_pct": 9.08
+      "change_24h_pct": 9.08,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.502
     },
     {
       "tweet_id": "1966891419248836946",
@@ -4660,7 +5392,10 @@
       "price_1h": 0.2768318493679024,
       "price_24h": 0.29209778133394304,
       "change_1h_pct": 4.24,
-      "change_24h_pct": 9.99
+      "change_24h_pct": 9.99,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.552
     },
     {
       "tweet_id": "1967097986611376311",
@@ -4679,7 +5414,10 @@
       "price_1h": 0.2893418826926501,
       "price_24h": 0.2608166870939647,
       "change_1h_pct": -1.89,
-      "change_24h_pct": -11.56
+      "change_24h_pct": -11.56,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.621
     },
     {
       "tweet_id": "1967583083466793297",
@@ -4698,7 +5436,10 @@
       "price_1h": 0.25172413843101316,
       "price_24h": 0.22587403404882814,
       "change_1h_pct": -2.96,
-      "change_24h_pct": -12.92
+      "change_24h_pct": -12.92,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.683
     },
     {
       "tweet_id": "1967876187969208601",
@@ -4717,7 +5458,10 @@
       "price_1h": 0.2278179665038284,
       "price_24h": 0.22723956635376114,
       "change_1h_pct": -1.0,
-      "change_24h_pct": -1.25
+      "change_24h_pct": -1.25,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.1
     },
     {
       "tweet_id": "1967899045826851285",
@@ -4736,7 +5480,10 @@
       "price_1h": 0.22893529529828366,
       "price_24h": 0.23232922427292782,
       "change_1h_pct": -0.02,
-      "change_24h_pct": 1.46
+      "change_24h_pct": 1.46,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.112
     },
     {
       "tweet_id": "1967943234396512582",
@@ -4755,7 +5502,10 @@
       "price_1h": 0.2259690034918534,
       "price_24h": 0.22870707383645572,
       "change_1h_pct": 0.01,
-      "change_24h_pct": 1.22
+      "change_24h_pct": 1.22,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.095
     },
     {
       "tweet_id": "1967959789914214465",
@@ -4774,7 +5524,10 @@
       "price_1h": 0.2247158129179207,
       "price_24h": 0.22849600431334,
       "change_1h_pct": -0.12,
-      "change_24h_pct": 1.56
+      "change_24h_pct": 1.56,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.119
     },
     {
       "tweet_id": "1967965035805778282",
@@ -4793,7 +5546,10 @@
       "price_1h": 0.22253451208111047,
       "price_24h": 0.22842052074440014,
       "change_1h_pct": 0.1,
-      "change_24h_pct": 2.75
+      "change_24h_pct": 2.75,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.171
     },
     {
       "tweet_id": "1968018208834937004",
@@ -4812,7 +5568,10 @@
       "price_1h": 0.2204447609591938,
       "price_24h": 0.22081738985051294,
       "change_1h_pct": -0.02,
-      "change_24h_pct": 0.15
+      "change_24h_pct": 0.15,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.024
     },
     {
       "tweet_id": "1968284875812909410",
@@ -4831,7 +5590,10 @@
       "price_1h": 0.22869964424076872,
       "price_24h": 0.2319448407519026,
       "change_1h_pct": 0.11,
-      "change_24h_pct": 1.53
+      "change_24h_pct": 1.53,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.117
     },
     {
       "tweet_id": "1968400109558776283",
@@ -4850,7 +5612,10 @@
       "price_1h": 0.2216393068699064,
       "price_24h": 0.22181990630309956,
       "change_1h_pct": -0.87,
-      "change_24h_pct": -0.78
+      "change_24h_pct": -0.78,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.064
     },
     {
       "tweet_id": "1968739074467860987",
@@ -4869,7 +5634,10 @@
       "price_1h": 0.2221217872536869,
       "price_24h": 0.22458691011072499,
       "change_1h_pct": -1.43,
-      "change_24h_pct": -0.33
+      "change_24h_pct": -0.33,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.045
     },
     {
       "tweet_id": "1969073500586430577",
@@ -4888,7 +5656,10 @@
       "price_1h": 0.2247488013807644,
       "price_24h": 0.19518944382056905,
       "change_1h_pct": -0.56,
-      "change_24h_pct": -13.64
+      "change_24h_pct": -13.64,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.7
     },
     {
       "tweet_id": "1969836545432797228",
@@ -4907,7 +5678,10 @@
       "price_1h": 0.18782495063097404,
       "price_24h": 0.16086609352642384,
       "change_1h_pct": -0.04,
-      "change_24h_pct": -14.39
+      "change_24h_pct": -14.39,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.726
     },
     {
       "tweet_id": "1970199967181787260",
@@ -4926,7 +5700,10 @@
       "price_1h": 0.1611298894706752,
       "price_24h": 0.1605048231929605,
       "change_1h_pct": -0.06,
-      "change_24h_pct": -0.45
+      "change_24h_pct": -0.45,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.055
     },
     {
       "tweet_id": "1970842820664508856",
@@ -4945,7 +5722,10 @@
       "price_1h": 0.15167231838636924,
       "price_24h": 0.15493958011359263,
       "change_1h_pct": 0.94,
-      "change_24h_pct": 3.12
+      "change_24h_pct": 3.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.219
     },
     {
       "tweet_id": "1971496946541195374",
@@ -4964,7 +5744,10 @@
       "price_1h": 0.14583129515892504,
       "price_24h": 0.15699158284217912,
       "change_1h_pct": 1.2,
-      "change_24h_pct": 8.95
+      "change_24h_pct": 8.95,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.495
     },
     {
       "tweet_id": "1971613778463625267",
@@ -4983,7 +5766,10 @@
       "price_1h": 0.14715812599654252,
       "price_24h": 0.15492900857461214,
       "change_1h_pct": -0.46,
-      "change_24h_pct": 4.8
+      "change_24h_pct": 4.8,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.31
     },
     {
       "tweet_id": "1971669228542382289",
@@ -5002,7 +5788,10 @@
       "price_1h": 0.14679625216681663,
       "price_24h": 0.15242832823350413,
       "change_1h_pct": 2.08,
-      "change_24h_pct": 5.99
+      "change_24h_pct": 5.99,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.376
     },
     {
       "tweet_id": "1972664795787612287",
@@ -5021,7 +5810,10 @@
       "price_1h": 0.15225953762649613,
       "price_24h": 0.17009941026530895,
       "change_1h_pct": -0.8,
-      "change_24h_pct": 10.82
+      "change_24h_pct": 10.82,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.588
     },
     {
       "tweet_id": "1972750678482411731",
@@ -5040,7 +5832,10 @@
       "price_1h": 0.14688546546224743,
       "price_24h": 0.15944224101105853,
       "change_1h_pct": -2.52,
-      "change_24h_pct": 5.82
+      "change_24h_pct": 5.82,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.367
     },
     {
       "tweet_id": "1973117363542433801",
@@ -5059,7 +5854,10 @@
       "price_1h": 0.1652224780896928,
       "price_24h": 0.19891214262949522,
       "change_1h_pct": 1.4,
-      "change_24h_pct": 22.08
+      "change_24h_pct": 22.08,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.871
     },
     {
       "tweet_id": "1973316021730541862",
@@ -5078,7 +5876,10 @@
       "price_1h": 0.17531070113133293,
       "price_24h": 0.19201122624772757,
       "change_1h_pct": 0.49,
-      "change_24h_pct": 10.06
+      "change_24h_pct": 10.06,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.557
     },
     {
       "tweet_id": "1973584533107908698",
@@ -5097,7 +5898,10 @@
       "price_1h": 0.18648567017148862,
       "price_24h": 0.2328260861303655,
       "change_1h_pct": -0.95,
-      "change_24h_pct": 23.66
+      "change_24h_pct": 23.66,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.89
     },
     {
       "tweet_id": "1973605860283732406",
@@ -5116,7 +5920,10 @@
       "price_1h": 0.18064177673743465,
       "price_24h": 0.2303638953560679,
       "change_1h_pct": -2.07,
-      "change_24h_pct": 24.89
+      "change_24h_pct": 24.89,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.912
     },
     {
       "tweet_id": "1974124016777429335",
@@ -5135,7 +5942,10 @@
       "price_1h": 0.22835775290495158,
       "price_24h": 0.24093950681587734,
       "change_1h_pct": -1.04,
-      "change_24h_pct": 4.41
+      "change_24h_pct": 4.41,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.295
     },
     {
       "tweet_id": "1974133647637889420",
@@ -5154,7 +5964,10 @@
       "price_1h": 0.22528271927116328,
       "price_24h": 0.24929233620961463,
       "change_1h_pct": -0.85,
-      "change_24h_pct": 9.71
+      "change_24h_pct": 9.71,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.533
     },
     {
       "tweet_id": "1974465639365439538",
@@ -5173,7 +5986,10 @@
       "price_1h": 0.23505324445203074,
       "price_24h": 0.24523544013342724,
       "change_1h_pct": 2.4,
-      "change_24h_pct": 6.84
+      "change_24h_pct": 6.84,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.417
     },
     {
       "tweet_id": "1974475256392736930",
@@ -5192,7 +6008,10 @@
       "price_1h": 0.24429188697005466,
       "price_24h": 0.24982819987715907,
       "change_1h_pct": 7.15,
-      "change_24h_pct": 9.58
+      "change_24h_pct": 9.58,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.529
     },
     {
       "tweet_id": "1975291874228260971",
@@ -5211,7 +6030,10 @@
       "price_1h": 0.26237119539652237,
       "price_24h": 0.28094668050731886,
       "change_1h_pct": 4.74,
-      "change_24h_pct": 12.16
+      "change_24h_pct": 12.16,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.655
     },
     {
       "tweet_id": "1975463444070453304",
@@ -5230,7 +6052,10 @@
       "price_1h": 0.2811694080276828,
       "price_24h": 0.3257168459117969,
       "change_1h_pct": -1.59,
-      "change_24h_pct": 14.0
+      "change_24h_pct": 14.0,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.714
     },
     {
       "tweet_id": "1975642321463968020",
@@ -5249,7 +6074,10 @@
       "price_1h": 0.2839755616533764,
       "price_24h": 0.3810655493674875,
       "change_1h_pct": 1.94,
-      "change_24h_pct": 36.79
+      "change_24h_pct": 36.79,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.95
     },
     {
       "tweet_id": "1975644344989122590",
@@ -5268,7 +6096,10 @@
       "price_1h": 0.2863435327214846,
       "price_24h": 0.38102245466074514,
       "change_1h_pct": 2.48,
-      "change_24h_pct": 36.36
+      "change_24h_pct": 36.36,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.948
     },
     {
       "tweet_id": "1975645579486052390",
@@ -5287,7 +6118,10 @@
       "price_1h": 0.28798501111397673,
       "price_24h": 0.3791590536997034,
       "change_1h_pct": 2.55,
-      "change_24h_pct": 35.02
+      "change_24h_pct": 35.02,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.945
     },
     {
       "tweet_id": "1975803715215872029",
@@ -5306,7 +6140,10 @@
       "price_1h": 0.3370224207157061,
       "price_24h": 0.3612707956283042,
       "change_1h_pct": 1.4,
-      "change_24h_pct": 8.69
+      "change_24h_pct": 8.69,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.486
     },
     {
       "tweet_id": "1975882484362457260",
@@ -5325,7 +6162,10 @@
       "price_1h": 0.33532874440106275,
       "price_24h": 0.35389304841620955,
       "change_1h_pct": -2.96,
-      "change_24h_pct": 2.41
+      "change_24h_pct": 2.41,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.15
     },
     {
       "tweet_id": "1976039819684847680",
@@ -5344,7 +6184,10 @@
       "price_1h": 0.37102703414333454,
       "price_24h": 0.4101686096886994,
       "change_1h_pct": -0.45,
-      "change_24h_pct": 10.05
+      "change_24h_pct": 10.05,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.555
     },
     {
       "tweet_id": "1976207499758887011",
@@ -5363,7 +6206,10 @@
       "price_1h": 0.35012477047575574,
       "price_24h": 0.36360916537875737,
       "change_1h_pct": 0.19,
-      "change_24h_pct": 4.05
+      "change_24h_pct": 4.05,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.269
     },
     {
       "tweet_id": "1976262469929648568",
@@ -5382,7 +6228,10 @@
       "price_1h": 0.3426414135523288,
       "price_24h": 0.36029582957154493,
       "change_1h_pct": -1.76,
-      "change_24h_pct": 3.3
+      "change_24h_pct": 3.3,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.233
     },
     {
       "tweet_id": "1976282886375375208",
@@ -5401,7 +6250,10 @@
       "price_1h": 0.3562615761923163,
       "price_24h": 0.35904113009982175,
       "change_1h_pct": 2.4,
-      "change_24h_pct": 3.2
+      "change_24h_pct": 3.2,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.224
     },
     {
       "tweet_id": "1976326259312558206",
@@ -5420,7 +6272,10 @@
       "price_1h": 0.35058530286514433,
       "price_24h": 0.34518252685119283,
       "change_1h_pct": 0.63,
-      "change_24h_pct": -0.92
+      "change_24h_pct": -0.92,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.071
     },
     {
       "tweet_id": "1976356507210924091",
@@ -5439,7 +6294,10 @@
       "price_1h": 0.4026975931998407,
       "price_24h": 0.3631363047774716,
       "change_1h_pct": 8.25,
-      "change_24h_pct": -2.39
+      "change_24h_pct": -2.39,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.148
     },
     {
       "tweet_id": "1976397198368834012",
@@ -5458,7 +6316,10 @@
       "price_1h": 0.41237052530954277,
       "price_24h": 0.37056365821019566,
       "change_1h_pct": -0.54,
-      "change_24h_pct": -10.62
+      "change_24h_pct": -10.62,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.574
     },
     {
       "tweet_id": "1976752045429252347",
@@ -5477,7 +6338,10 @@
       "price_1h": 0.3698300797844079,
       "price_24h": 0.22887144443208796,
       "change_1h_pct": 0.4,
-      "change_24h_pct": -37.87
+      "change_24h_pct": -37.87,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.962
     },
     {
       "tweet_id": "1976756472252899824",
@@ -5496,7 +6360,10 @@
       "price_1h": 0.3695361370307371,
       "price_24h": 0.233460134269168,
       "change_1h_pct": -0.27,
-      "change_24h_pct": -36.99
+      "change_24h_pct": -36.99,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.957
     },
     {
       "tweet_id": "1977135281997513091",
@@ -5515,7 +6382,10 @@
       "price_1h": 0.23463261615203895,
       "price_24h": 0.2696109137539364,
       "change_1h_pct": -3.57,
-      "change_24h_pct": 10.8
+      "change_24h_pct": 10.8,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.586
     },
     {
       "tweet_id": "1977135285629862319",
@@ -5534,7 +6404,10 @@
       "price_1h": 0.23463261615203895,
       "price_24h": 0.2696109137539364,
       "change_1h_pct": -3.57,
-      "change_24h_pct": 10.8
+      "change_24h_pct": 10.8,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.583
     },
     {
       "tweet_id": "1977464897488466319",
@@ -5553,7 +6426,10 @@
       "price_1h": 0.2687444678209772,
       "price_24h": 0.37317629803009317,
       "change_1h_pct": -0.12,
-      "change_24h_pct": 38.69
+      "change_24h_pct": 38.69,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.969
     },
     {
       "tweet_id": "1977464905654559189",
@@ -5572,7 +6448,10 @@
       "price_1h": 0.2687444678209772,
       "price_24h": 0.37317629803009317,
       "change_1h_pct": -0.12,
-      "change_24h_pct": 38.69
+      "change_24h_pct": 38.69,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.967
     },
     {
       "tweet_id": "1977464913594634252",
@@ -5591,7 +6470,10 @@
       "price_1h": 0.2687444678209772,
       "price_24h": 0.37317629803009317,
       "change_1h_pct": -0.12,
-      "change_24h_pct": 38.69
+      "change_24h_pct": 38.69,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.964
     },
     {
       "tweet_id": "1977763946099589521",
@@ -5610,7 +6492,10 @@
       "price_1h": 0.376468390637044,
       "price_24h": 0.3364707782512035,
       "change_1h_pct": 8.43,
-      "change_24h_pct": -3.09
+      "change_24h_pct": -3.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.214
     },
     {
       "tweet_id": "1977763951585657294",
@@ -5629,7 +6514,10 @@
       "price_1h": 0.376468390637044,
       "price_24h": 0.3364707782512035,
       "change_1h_pct": 8.43,
-      "change_24h_pct": -3.09
+      "change_24h_pct": -3.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.212
     },
     {
       "tweet_id": "1977763956597887304",
@@ -5648,7 +6536,10 @@
       "price_1h": 0.376468390637044,
       "price_24h": 0.3364707782512035,
       "change_1h_pct": 8.43,
-      "change_24h_pct": -3.09
+      "change_24h_pct": -3.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.21
     },
     {
       "tweet_id": "1978090548649972013",
@@ -5667,7 +6558,10 @@
       "price_1h": 0.35757363058827435,
       "price_24h": 0.40437294796733547,
       "change_1h_pct": -1.19,
-      "change_24h_pct": 11.74
+      "change_24h_pct": 11.74,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.638
     },
     {
       "tweet_id": "1978193353012330706",
@@ -5686,7 +6580,10 @@
       "price_1h": 0.3659399409576557,
       "price_24h": 0.4119749777745396,
       "change_1h_pct": -0.46,
-      "change_24h_pct": 12.06
+      "change_24h_pct": 12.06,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.652
     },
     {
       "tweet_id": "1978403923841913136",
@@ -5705,7 +6602,10 @@
       "price_1h": 0.40121013198388467,
       "price_24h": 0.3723528291490173,
       "change_1h_pct": -4.8,
-      "change_24h_pct": -11.65
+      "change_24h_pct": -11.65,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.626
     },
     {
       "tweet_id": "1978767752450961636",
@@ -5724,7 +6624,10 @@
       "price_1h": 0.3688227686054722,
       "price_24h": 0.32023188542752873,
       "change_1h_pct": 0.05,
-      "change_24h_pct": -13.13
+      "change_24h_pct": -13.13,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.686
     },
     {
       "tweet_id": "1979118969110884598",
@@ -5743,7 +6646,10 @@
       "price_1h": 0.32127792357232526,
       "price_24h": 0.30784246858928915,
       "change_1h_pct": 1.23,
-      "change_24h_pct": -3.0
+      "change_24h_pct": -3.0,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.198
     },
     {
       "tweet_id": "1979118973120585849",
@@ -5762,7 +6668,10 @@
       "price_1h": 0.32127792357232526,
       "price_24h": 0.30784246858928915,
       "change_1h_pct": 1.23,
-      "change_24h_pct": -3.0
+      "change_24h_pct": -3.0,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.195
     },
     {
       "tweet_id": "1979150124027699238",
@@ -5781,7 +6690,10 @@
       "price_1h": 0.334810247804373,
       "price_24h": 0.3209338720716451,
       "change_1h_pct": -0.53,
-      "change_24h_pct": -4.65
+      "change_24h_pct": -4.65,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.305
     },
     {
       "tweet_id": "1979199368465883567",
@@ -5800,7 +6712,10 @@
       "price_1h": 0.26520082291236724,
       "price_24h": 0.31379786805398036,
       "change_1h_pct": -9.35,
-      "change_24h_pct": 7.26
+      "change_24h_pct": 7.26,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.438
     },
     {
       "tweet_id": "1979217283483594995",
@@ -5819,7 +6734,10 @@
       "price_1h": 0.2779554254267292,
       "price_24h": 0.3233327178559339,
       "change_1h_pct": 5.33,
-      "change_24h_pct": 22.52
+      "change_24h_pct": 22.52,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.881
     },
     {
       "tweet_id": "1979269227337978284",
@@ -5838,7 +6756,10 @@
       "price_1h": 0.31277784136080405,
       "price_24h": 0.32067766809116305,
       "change_1h_pct": 0.38,
-      "change_24h_pct": 2.92
+      "change_24h_pct": 2.92,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.186
     },
     {
       "tweet_id": "1979924572960096297",
@@ -5857,7 +6778,10 @@
       "price_1h": 0.286399607847683,
       "price_24h": 0.35353138693896075,
       "change_1h_pct": -3.2,
-      "change_24h_pct": 19.5
+      "change_24h_pct": 19.5,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.817
     },
     {
       "tweet_id": "1980297018946810132",
@@ -5876,7 +6800,10 @@
       "price_1h": 0.34872493507005303,
       "price_24h": 0.2987866424907084,
       "change_1h_pct": -0.47,
-      "change_24h_pct": -14.72
+      "change_24h_pct": -14.72,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.731
     },
     {
       "tweet_id": "1980645626493665722",
@@ -5895,7 +6822,10 @@
       "price_1h": 0.3001896464959257,
       "price_24h": 0.3117036507062638,
       "change_1h_pct": 1.0,
-      "change_24h_pct": 4.88
+      "change_24h_pct": 4.88,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.317
     },
     {
       "tweet_id": "1980665123158004094",
@@ -5914,7 +6844,10 @@
       "price_1h": 0.29628101165660614,
       "price_24h": 0.3150639752557127,
       "change_1h_pct": -1.47,
-      "change_24h_pct": 4.78
+      "change_24h_pct": 4.78,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.307
     },
     {
       "tweet_id": "1980668431541150047",
@@ -5933,7 +6866,10 @@
       "price_1h": 0.2941968347531632,
       "price_24h": 0.31107757246126344,
       "change_1h_pct": -0.84,
-      "change_24h_pct": 4.85
+      "change_24h_pct": 4.85,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.314
     },
     {
       "tweet_id": "1980692671086641569",
@@ -5952,7 +6888,10 @@
       "price_1h": 0.29941948858528045,
       "price_24h": 0.3057837877430454,
       "change_1h_pct": 0.41,
-      "change_24h_pct": 2.54
+      "change_24h_pct": 2.54,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.167
     },
     {
       "tweet_id": "1980695566163038699",
@@ -5971,7 +6910,10 @@
       "price_1h": 0.301219020323524,
       "price_24h": 0.3040748520638225,
       "change_1h_pct": 0.68,
-      "change_24h_pct": 1.64
+      "change_24h_pct": 1.64,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.129
     },
     {
       "tweet_id": "1981084493923442814",
@@ -5990,7 +6932,10 @@
       "price_1h": 0.3248680304930567,
       "price_24h": 0.283629003933173,
       "change_1h_pct": 3.95,
-      "change_24h_pct": -9.25
+      "change_24h_pct": -9.25,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.51
     },
     {
       "tweet_id": "1981335288501743782",
@@ -6009,7 +6954,10 @@
       "price_1h": 0.2780829590730089,
       "price_24h": 0.2876320737041165,
       "change_1h_pct": -0.15,
-      "change_24h_pct": 3.28
+      "change_24h_pct": 3.28,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.229
     },
     {
       "tweet_id": "1981385142653354469",
@@ -6028,7 +6976,10 @@
       "price_1h": 0.287823190470426,
       "price_24h": 0.28965479600637106,
       "change_1h_pct": 1.12,
-      "change_24h_pct": 1.76
+      "change_24h_pct": 1.76,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.138
     },
     {
       "tweet_id": "1981421927676989844",
@@ -6047,7 +6998,10 @@
       "price_1h": 0.2901005479944702,
       "price_24h": 0.2963069389746159,
       "change_1h_pct": -1.71,
-      "change_24h_pct": 0.4
+      "change_24h_pct": 0.4,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.048
     },
     {
       "tweet_id": "1981457128670851153",
@@ -6066,7 +7020,10 @@
       "price_1h": 0.2890742793903843,
       "price_24h": 0.2903569938981886,
       "change_1h_pct": 2.48,
-      "change_24h_pct": 2.93
+      "change_24h_pct": 2.93,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.188
     },
     {
       "tweet_id": "1981685213542404481",
@@ -6085,7 +7042,10 @@
       "price_1h": 0.2951363334670983,
       "price_24h": 0.2874670115270532,
       "change_1h_pct": 3.38,
-      "change_24h_pct": 0.69
+      "change_24h_pct": 0.69,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.06
     },
     {
       "tweet_id": "1981685444917227707",
@@ -6104,7 +7064,10 @@
       "price_1h": 0.29721761342160347,
       "price_24h": 0.28728126248905694,
       "change_1h_pct": 4.3,
-      "change_24h_pct": 0.81
+      "change_24h_pct": 0.81,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.067
     },
     {
       "tweet_id": "1981744355225342115",
@@ -6123,7 +7086,10 @@
       "price_1h": 0.29190857995135766,
       "price_24h": 0.28816973069936597,
       "change_1h_pct": -0.29,
-      "change_24h_pct": -1.57
+      "change_24h_pct": -1.57,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.121
     },
     {
       "tweet_id": "1982169173850542392",
@@ -6142,7 +7108,10 @@
       "price_1h": 0.2944143650136813,
       "price_24h": 0.3051808982588863,
       "change_1h_pct": 0.46,
-      "change_24h_pct": 4.13
+      "change_24h_pct": 4.13,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.276
     },
     {
       "tweet_id": "1982759870106382365",
@@ -6161,7 +7130,10 @@
       "price_1h": 0.3192003659679656,
       "price_24h": 0.2872221410500595,
       "change_1h_pct": -1.11,
-      "change_24h_pct": -11.02
+      "change_24h_pct": -11.02,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.6
     },
     {
       "tweet_id": "1982759873688563856",
@@ -6180,7 +7152,10 @@
       "price_1h": 0.3192003659679656,
       "price_24h": 0.2872221410500595,
       "change_1h_pct": -1.11,
-      "change_24h_pct": -11.02
+      "change_24h_pct": -11.02,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.598
     },
     {
       "tweet_id": "1982793735940309038",
@@ -6199,7 +7174,10 @@
       "price_1h": 0.30949825851560586,
       "price_24h": 0.29023438151613734,
       "change_1h_pct": -0.43,
-      "change_24h_pct": -6.63
+      "change_24h_pct": -6.63,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.402
     },
     {
       "tweet_id": "1982835775512117307",
@@ -6218,7 +7196,10 @@
       "price_1h": 0.30775919876918323,
       "price_24h": 0.2974025340481445,
       "change_1h_pct": -1.18,
-      "change_24h_pct": -4.51
+      "change_24h_pct": -4.51,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.298
     },
     {
       "tweet_id": "1983086172730458276",
@@ -6237,7 +7218,10 @@
       "price_1h": 0.29226361592576866,
       "price_24h": 0.28125690198959596,
       "change_1h_pct": -0.08,
-      "change_24h_pct": -3.84
+      "change_24h_pct": -3.84,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.257
     },
     {
       "tweet_id": "1983123509162250258",
@@ -6256,7 +7240,10 @@
       "price_1h": 0.2877128413652213,
       "price_24h": 0.28157350506841755,
       "change_1h_pct": 0.82,
-      "change_24h_pct": -1.33
+      "change_24h_pct": -1.33,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.107
     },
     {
       "tweet_id": "1983522594792919360",
@@ -6275,7 +7262,10 @@
       "price_1h": 0.2840347744313239,
       "price_24h": 0.29024648947873743,
       "change_1h_pct": 0.33,
-      "change_24h_pct": 2.52
+      "change_24h_pct": 2.52,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.162
     },
     {
       "tweet_id": "1983542144041124335",
@@ -6294,7 +7284,10 @@
       "price_1h": 0.28106546051048864,
       "price_24h": 0.2906496616214297,
       "change_1h_pct": -0.4,
-      "change_24h_pct": 2.99
+      "change_24h_pct": 2.99,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.193
     },
     {
       "tweet_id": "1983632564737699987",
@@ -6313,7 +7306,10 @@
       "price_1h": 0.29656372995825797,
       "price_24h": 0.2722307011261673,
       "change_1h_pct": 4.26,
-      "change_24h_pct": -4.29
+      "change_24h_pct": -4.29,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.281
     },
     {
       "tweet_id": "1983835950636487085",
@@ -6332,7 +7328,10 @@
       "price_1h": 0.30786263602366004,
       "price_24h": 0.248033095758761,
       "change_1h_pct": 3.95,
-      "change_24h_pct": -16.25
+      "change_24h_pct": -16.25,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.764
     },
     {
       "tweet_id": "1983995382062276945",
@@ -6351,7 +7350,10 @@
       "price_1h": 0.2634209238383901,
       "price_24h": 0.2455110358259714,
       "change_1h_pct": -3.05,
-      "change_24h_pct": -9.64
+      "change_24h_pct": -9.64,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.531
     },
     {
       "tweet_id": "1984138028403556401",
@@ -6370,7 +7372,10 @@
       "price_1h": 0.24606869336193912,
       "price_24h": 0.23108668739914404,
       "change_1h_pct": 1.84,
-      "change_24h_pct": -4.36
+      "change_24h_pct": -4.36,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.29
     },
     {
       "tweet_id": "1984231678923952161",
@@ -6389,7 +7394,10 @@
       "price_1h": 0.2457971658854683,
       "price_24h": 0.22935240710128887,
       "change_1h_pct": 0.65,
-      "change_24h_pct": -6.09
+      "change_24h_pct": -6.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.383
     },
     {
       "tweet_id": "1984351525427200225",
@@ -6408,7 +7416,10 @@
       "price_1h": 0.2424044960935067,
       "price_24h": 0.23402148358523855,
       "change_1h_pct": -0.49,
-      "change_24h_pct": -3.93
+      "change_24h_pct": -3.93,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.262
     },
     {
       "tweet_id": "1985348805139525723",
@@ -6427,7 +7438,10 @@
       "price_1h": 0.19833675108454624,
       "price_24h": 0.18944783561498657,
       "change_1h_pct": 1.04,
-      "change_24h_pct": -3.49
+      "change_24h_pct": -3.49,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.24
     },
     {
       "tweet_id": "1985411400525570239",
@@ -6446,7 +7460,10 @@
       "price_1h": 0.19773915905031558,
       "price_24h": 0.15922025338555648,
       "change_1h_pct": 8.24,
-      "change_24h_pct": -12.85
+      "change_24h_pct": -12.85,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.681
     },
     {
       "tweet_id": "1985723679536218223",
@@ -6465,7 +7482,10 @@
       "price_1h": 0.16842213208864995,
       "price_24h": 0.1521512472665736,
       "change_1h_pct": -8.48,
-      "change_24h_pct": -17.32
+      "change_24h_pct": -17.32,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.786
     },
     {
       "tweet_id": "1985738534624387130",
@@ -6484,7 +7504,10 @@
       "price_1h": 0.1641646989005831,
       "price_24h": 0.1570000272485706,
       "change_1h_pct": -2.71,
-      "change_24h_pct": -6.95
+      "change_24h_pct": -6.95,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.424
     },
     {
       "tweet_id": "1985944724138586258",
@@ -6503,7 +7526,10 @@
       "price_1h": 0.14978867427673612,
       "price_24h": 0.18151473470380985,
       "change_1h_pct": 0.63,
-      "change_24h_pct": 21.94
+      "change_24h_pct": 21.94,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.867
     },
     {
       "tweet_id": "1986050961480048816",
@@ -6522,7 +7548,10 @@
       "price_1h": 0.14971861314908116,
       "price_24h": 0.16891027321820423,
       "change_1h_pct": -0.92,
-      "change_24h_pct": 11.78
+      "change_24h_pct": 11.78,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.64
     },
     {
       "tweet_id": "1986139244646297875",
@@ -6541,7 +7570,10 @@
       "price_1h": 0.1566098821846882,
       "price_24h": 0.1586700002720762,
       "change_1h_pct": 0.43,
-      "change_24h_pct": 1.75
+      "change_24h_pct": 1.75,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.136
     },
     {
       "tweet_id": "1986299027281924111",
@@ -6560,7 +7592,10 @@
       "price_1h": 0.1815840243296932,
       "price_24h": 0.1543716724956249,
       "change_1h_pct": -0.89,
-      "change_24h_pct": -15.74
+      "change_24h_pct": -15.74,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.752
     },
     {
       "tweet_id": "1986396001876189406",
@@ -6579,7 +7614,10 @@
       "price_1h": 0.1674411154670349,
       "price_24h": 0.14826723822883123,
       "change_1h_pct": 0.24,
-      "change_24h_pct": -11.24
+      "change_24h_pct": -11.24,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.612
     },
     {
       "tweet_id": "1986796163429761180",
@@ -6598,7 +7636,10 @@
       "price_1h": 0.15708428992731288,
       "price_24h": 0.16846418826782178,
       "change_1h_pct": 3.12,
-      "change_24h_pct": 10.59
+      "change_24h_pct": 10.59,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.571
     },
     {
       "tweet_id": "1986820182312980820",
@@ -6617,7 +7658,10 @@
       "price_1h": 0.1597267895198315,
       "price_24h": 0.1681928780702347,
       "change_1h_pct": 1.94,
-      "change_24h_pct": 7.34
+      "change_24h_pct": 7.34,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.443
     },
     {
       "tweet_id": "1986854091629158820",
@@ -6636,7 +7680,10 @@
       "price_1h": 0.156913497377705,
       "price_24h": 0.16952157592956052,
       "change_1h_pct": -1.32,
-      "change_24h_pct": 6.61
+      "change_24h_pct": 6.61,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.4
     },
     {
       "tweet_id": "1986887099098747346",
@@ -6655,7 +7702,10 @@
       "price_1h": 0.15155343945264432,
       "price_24h": 0.1682961776139867,
       "change_1h_pct": -0.51,
-      "change_24h_pct": 10.48
+      "change_24h_pct": 10.48,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.567
     },
     {
       "tweet_id": "1986897822382170512",
@@ -6674,7 +7724,10 @@
       "price_1h": 0.1455995814399739,
       "price_24h": 0.16788184326346464,
       "change_1h_pct": -4.78,
-      "change_24h_pct": 9.79
+      "change_24h_pct": 9.79,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.538
     },
     {
       "tweet_id": "1986921956944343195",
@@ -6693,7 +7746,10 @@
       "price_1h": 0.15252530047877402,
       "price_24h": 0.16728941538228673,
       "change_1h_pct": 3.51,
-      "change_24h_pct": 13.53
+      "change_24h_pct": 13.53,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.695
     },
     {
       "tweet_id": "1987519869500186666",
@@ -6712,7 +7768,10 @@
       "price_1h": 0.16188109541589252,
       "price_24h": 0.20914628102196592,
       "change_1h_pct": 0.39,
-      "change_24h_pct": 29.71
+      "change_24h_pct": 29.71,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.933
     },
     {
       "tweet_id": "1987528642340024573",
@@ -6731,7 +7790,10 @@
       "price_1h": 0.16519131792624028,
       "price_24h": 0.20566027646048712,
       "change_1h_pct": 1.46,
-      "change_24h_pct": 26.31
+      "change_24h_pct": 26.31,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.917
     },
     {
       "tweet_id": "1987556428857348106",
@@ -6750,7 +7812,10 @@
       "price_1h": 0.16397860567834124,
       "price_24h": 0.21011441714980367,
       "change_1h_pct": -0.25,
-      "change_24h_pct": 27.82
+      "change_24h_pct": 27.82,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.931
     },
     {
       "tweet_id": "1987609679438967216",
@@ -6769,7 +7834,10 @@
       "price_1h": 0.16437079406612093,
       "price_24h": 0.22269468532816836,
       "change_1h_pct": 1.43,
-      "change_24h_pct": 37.42
+      "change_24h_pct": 37.42,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.96
     },
     {
       "tweet_id": "1987751399669534996",
@@ -6788,7 +7856,10 @@
       "price_1h": 0.2044067612865296,
       "price_24h": 0.21188283934155683,
       "change_1h_pct": 7.59,
-      "change_24h_pct": 11.52
+      "change_24h_pct": 11.52,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.617
     },
     {
       "tweet_id": "1987806209928200424",
@@ -6807,7 +7878,10 @@
       "price_1h": 0.21292320532782003,
       "price_24h": 0.21060775083869762,
       "change_1h_pct": 0.85,
-      "change_24h_pct": -0.25
+      "change_24h_pct": -0.25,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.036
     },
     {
       "tweet_id": "1987809492801581168",
@@ -6826,7 +7900,10 @@
       "price_1h": 0.2101451465303161,
       "price_24h": 0.21144301057047804,
       "change_1h_pct": -0.17,
-      "change_24h_pct": 0.45
+      "change_24h_pct": 0.45,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.052
     },
     {
       "tweet_id": "1988180902451527686",
@@ -6845,7 +7922,10 @@
       "price_1h": 0.2042103431740108,
       "price_24h": 0.17156341640064537,
       "change_1h_pct": -3.18,
-      "change_24h_pct": -18.66
+      "change_24h_pct": -18.66,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.807
     },
     {
       "tweet_id": "1988358236639044023",
@@ -6864,7 +7944,10 @@
       "price_1h": 0.18863000907013594,
       "price_24h": 0.18595130582892277,
       "change_1h_pct": -0.33,
-      "change_24h_pct": -1.74
+      "change_24h_pct": -1.74,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.133
     },
     {
       "tweet_id": "1988563902670487826",
@@ -6883,7 +7966,10 @@
       "price_1h": 0.17218991101097159,
       "price_24h": 0.16400221920867128,
       "change_1h_pct": 1.43,
-      "change_24h_pct": -3.39
+      "change_24h_pct": -3.39,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.236
     },
     {
       "tweet_id": "1988618030201418187",
@@ -6902,7 +7988,10 @@
       "price_1h": 0.176556971631073,
       "price_24h": 0.16979790694778985,
       "change_1h_pct": 1.11,
-      "change_24h_pct": -2.76
+      "change_24h_pct": -2.76,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.174
     },
     {
       "tweet_id": "1988699981767921951",
@@ -6921,7 +8010,10 @@
       "price_1h": 0.19005510208434473,
       "price_24h": 0.17332018331345872,
       "change_1h_pct": 0.96,
-      "change_24h_pct": -7.93
+      "change_24h_pct": -7.93,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.464
     },
     {
       "tweet_id": "1988876708997386287",
@@ -6940,7 +8032,10 @@
       "price_1h": 0.16260196513952313,
       "price_24h": 0.1488377361216526,
       "change_1h_pct": -0.32,
-      "change_24h_pct": -8.76
+      "change_24h_pct": -8.76,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.49
     },
     {
       "tweet_id": "1989086026376310940",
@@ -6959,7 +8054,10 @@
       "price_1h": 0.17348571928103915,
       "price_24h": 0.1453097178522749,
       "change_1h_pct": 1.33,
-      "change_24h_pct": -15.13
+      "change_24h_pct": -15.13,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.733
     },
     {
       "tweet_id": "1989357766922977515",
@@ -6978,7 +8076,10 @@
       "price_1h": 0.14355247261573434,
       "price_24h": 0.1484517943192482,
       "change_1h_pct": -2.22,
-      "change_24h_pct": 1.12
+      "change_24h_pct": 1.12,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.083
     },
     {
       "tweet_id": "1989370469087109449",
@@ -6997,7 +8098,10 @@
       "price_1h": 0.15520271161228347,
       "price_24h": 0.1500956671873633,
       "change_1h_pct": 6.56,
-      "change_24h_pct": 3.05
+      "change_24h_pct": 3.05,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.2
     },
     {
       "tweet_id": "1989761400093159568",
@@ -7016,7 +8120,10 @@
       "price_1h": 0.14809782400800903,
       "price_24h": 0.14568075446354498,
       "change_1h_pct": 0.64,
-      "change_24h_pct": -1.01
+      "change_24h_pct": -1.01,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.081
     },
     {
       "tweet_id": "1990124918231781627",
@@ -7035,7 +8142,10 @@
       "price_1h": 0.1467274924954261,
       "price_24h": 0.11404142541136549,
       "change_1h_pct": 1.07,
-      "change_24h_pct": -21.45
+      "change_24h_pct": -21.45,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.857
     },
     {
       "tweet_id": "1990367260209193038",
@@ -7054,7 +8164,10 @@
       "price_1h": 0.11596352427794815,
       "price_24h": 0.10904573820138887,
       "change_1h_pct": -0.82,
-      "change_24h_pct": -6.74
+      "change_24h_pct": -6.74,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.414
     },
     {
       "tweet_id": "1990707864214663666",
@@ -7073,7 +8186,10 @@
       "price_1h": 0.1105146273920763,
       "price_24h": 0.12654788628496721,
       "change_1h_pct": -0.55,
-      "change_24h_pct": 13.88
+      "change_24h_pct": 13.88,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.71
     },
     {
       "tweet_id": "1990866981625434138",
@@ -7092,7 +8208,10 @@
       "price_1h": 0.12270100011438519,
       "price_24h": 0.12483373598803303,
       "change_1h_pct": 1.31,
-      "change_24h_pct": 3.07
+      "change_24h_pct": 3.07,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.202
     },
     {
       "tweet_id": "1990888948806099071",
@@ -7111,7 +8230,10 @@
       "price_1h": 0.12213182660588558,
       "price_24h": 0.12370591557674249,
       "change_1h_pct": -2.42,
-      "change_24h_pct": -1.16
+      "change_24h_pct": -1.16,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.086
     },
     {
       "tweet_id": "1991089430237528269",
@@ -7130,7 +8252,10 @@
       "price_1h": 0.12272860238409557,
       "price_24h": 0.12794194065806377,
       "change_1h_pct": 0.81,
-      "change_24h_pct": 5.09
+      "change_24h_pct": 5.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.329
     },
     {
       "tweet_id": "1991265218781962419",
@@ -7149,7 +8274,10 @@
       "price_1h": 0.1214119617331558,
       "price_24h": 0.12359292165949698,
       "change_1h_pct": -1.63,
-      "change_24h_pct": 0.14
+      "change_24h_pct": 0.14,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.021
     },
     {
       "tweet_id": "1991782955854033208",
@@ -7168,7 +8296,10 @@
       "price_1h": 0.11142672536798172,
       "price_24h": 0.09561095318541525,
       "change_1h_pct": -1.71,
-      "change_24h_pct": -15.66
+      "change_24h_pct": -15.66,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.748
     },
     {
       "tweet_id": "1991850032870608975",
@@ -7187,7 +8318,10 @@
       "price_1h": 0.10705717584794373,
       "price_24h": 0.09085241789379142,
       "change_1h_pct": -1.61,
-      "change_24h_pct": -16.5
+      "change_24h_pct": -16.5,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.767
     },
     {
       "tweet_id": "1991863184475762825",
@@ -7206,7 +8340,10 @@
       "price_1h": 0.10439951964049603,
       "price_24h": 0.09028332815909902,
       "change_1h_pct": -2.0,
-      "change_24h_pct": -15.25
+      "change_24h_pct": -15.25,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.743
     },
     {
       "tweet_id": "1991917523974168920",
@@ -7225,7 +8362,10 @@
       "price_1h": 0.1040062815308324,
       "price_24h": 0.0830414868513215,
       "change_1h_pct": -1.71,
-      "change_24h_pct": -21.52
+      "change_24h_pct": -21.52,
+      "is_outlier": true,
+      "outlier_type": "dump",
+      "impact_percentile": 0.86
     },
     {
       "tweet_id": "1992254285124354449",
@@ -7244,7 +8384,10 @@
       "price_1h": 0.08473238741852882,
       "price_24h": 0.10084605108492949,
       "change_1h_pct": 1.43,
-      "change_24h_pct": 20.72
+      "change_24h_pct": 20.72,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.843
     },
     {
       "tweet_id": "1992286965161439612",
@@ -7263,7 +8406,10 @@
       "price_1h": 0.08479109491874244,
       "price_24h": 0.09665120098034372,
       "change_1h_pct": -0.29,
-      "change_24h_pct": 13.66
+      "change_24h_pct": 13.66,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.702
     },
     {
       "tweet_id": "1992299895697649897",
@@ -7282,7 +8428,10 @@
       "price_1h": 0.08453464790981625,
       "price_24h": 0.09557120893398356,
       "change_1h_pct": -1.28,
-      "change_24h_pct": 11.61
+      "change_24h_pct": 11.61,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.624
     },
     {
       "tweet_id": "1992681473883722229",
@@ -7301,7 +8450,10 @@
       "price_1h": 0.09727900708981684,
       "price_24h": 0.09471089437479739,
       "change_1h_pct": -1.73,
-      "change_24h_pct": -4.32
+      "change_24h_pct": -4.32,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.283
     },
     {
       "tweet_id": "1992950841096225210",
@@ -7320,7 +8472,10 @@
       "price_1h": 0.0942715970048622,
       "price_24h": 0.11341703440259499,
       "change_1h_pct": -3.54,
-      "change_24h_pct": 16.05
+      "change_24h_pct": 16.05,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.762
     },
     {
       "tweet_id": "1992992752649310434",
@@ -7339,7 +8494,10 @@
       "price_1h": 0.09347554989626178,
       "price_24h": 0.11312130620316246,
       "change_1h_pct": -0.64,
-      "change_24h_pct": 20.24
+      "change_24h_pct": 20.24,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.826
     },
     {
       "tweet_id": "1992998895656308795",
@@ -7358,7 +8516,10 @@
       "price_1h": 0.09372949744379792,
       "price_24h": 0.11048688417124765,
       "change_1h_pct": -0.41,
-      "change_24h_pct": 17.4
+      "change_24h_pct": 17.4,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.788
     },
     {
       "tweet_id": "1993018753622200402",
@@ -7377,7 +8538,10 @@
       "price_1h": 0.0952984006931966,
       "price_24h": 0.1114383533911635,
       "change_1h_pct": 2.07,
-      "change_24h_pct": 19.35
+      "change_24h_pct": 19.35,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.814
     },
     {
       "tweet_id": "1993063653382463700",
@@ -7396,7 +8560,10 @@
       "price_1h": 0.096863447290593,
       "price_24h": 0.11107475422091075,
       "change_1h_pct": 2.59,
-      "change_24h_pct": 17.65
+      "change_24h_pct": 17.65,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.793
     },
     {
       "tweet_id": "1993069669209497984",
@@ -7415,7 +8582,10 @@
       "price_1h": 0.09844853504367797,
       "price_24h": 0.11420251420371068,
       "change_1h_pct": 4.33,
-      "change_24h_pct": 21.02
+      "change_24h_pct": 21.02,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.852
     },
     {
       "tweet_id": "1993304385485471839",
@@ -7434,7 +8604,10 @@
       "price_1h": 0.1146664294563192,
       "price_24h": 0.1273862062035582,
       "change_1h_pct": -0.02,
-      "change_24h_pct": 11.07
+      "change_24h_pct": 11.07,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.607
     },
     {
       "tweet_id": "1993310206793531759",
@@ -7453,7 +8626,10 @@
       "price_1h": 0.11371315766445854,
       "price_24h": 0.12674254371590787,
       "change_1h_pct": -0.67,
-      "change_24h_pct": 10.72
+      "change_24h_pct": 10.72,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.579
     },
     {
       "tweet_id": "1993317141190492556",
@@ -7472,7 +8648,10 @@
       "price_1h": 0.11405441435720431,
       "price_24h": 0.12348770107521354,
       "change_1h_pct": 0.17,
-      "change_24h_pct": 8.46
+      "change_24h_pct": 8.46,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.479
     },
     {
       "tweet_id": "1993386689285214288",
@@ -7491,7 +8670,10 @@
       "price_1h": 0.10746720446645668,
       "price_24h": 0.12339306510340689,
       "change_1h_pct": -2.05,
-      "change_24h_pct": 12.47
+      "change_24h_pct": 12.47,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.667
     },
     {
       "tweet_id": "1993638957096063461",
@@ -7510,7 +8692,10 @@
       "price_1h": 0.12420720929984691,
       "price_24h": 0.1217834296029883,
       "change_1h_pct": 0.79,
-      "change_24h_pct": -1.18
+      "change_24h_pct": -1.18,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.093
     },
     {
       "tweet_id": "1993743851102576849",
@@ -7529,7 +8714,10 @@
       "price_1h": 0.12298160310111424,
       "price_24h": 0.11686943700125767,
       "change_1h_pct": -2.37,
-      "change_24h_pct": -7.22
+      "change_24h_pct": -7.22,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.436
     },
     {
       "tweet_id": "1993862161140208124",
@@ -7548,7 +8736,10 @@
       "price_1h": 0.11305193700984308,
       "price_24h": 0.11840435841382277,
       "change_1h_pct": 0.62,
-      "change_24h_pct": 5.38
+      "change_24h_pct": 5.38,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.343
     },
     {
       "tweet_id": "1993955628486684893",
@@ -7567,7 +8758,10 @@
       "price_1h": 0.12544685529666014,
       "price_24h": 0.12192856372261815,
       "change_1h_pct": -0.05,
-      "change_24h_pct": -2.85
+      "change_24h_pct": -2.85,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.183
     },
     {
       "tweet_id": "1994138578939498821",
@@ -7586,7 +8780,10 @@
       "price_1h": 0.11446603490909114,
       "price_24h": 0.1267953868517202,
       "change_1h_pct": -2.48,
-      "change_24h_pct": 8.02
+      "change_24h_pct": 8.02,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.467
     },
     {
       "tweet_id": "1994305114035618071",
@@ -7605,7 +8802,10 @@
       "price_1h": 0.12246964499451718,
       "price_24h": 0.12150704391866686,
       "change_1h_pct": -3.45,
-      "change_24h_pct": -4.21
+      "change_24h_pct": -4.21,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.279
     },
     {
       "tweet_id": "1994398155803066495",
@@ -7624,7 +8824,10 @@
       "price_1h": 0.1177136209086181,
       "price_24h": 0.1198324100580802,
       "change_1h_pct": 1.01,
-      "change_24h_pct": 2.83
+      "change_24h_pct": 2.83,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.179
     },
     {
       "tweet_id": "1994428980036829502",
@@ -7643,7 +8846,10 @@
       "price_1h": 0.12526029689124027,
       "price_24h": 0.12153194658757113,
       "change_1h_pct": 1.86,
-      "change_24h_pct": -1.17
+      "change_24h_pct": -1.17,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.09
     },
     {
       "tweet_id": "1995871667843706945",
@@ -7662,7 +8868,10 @@
       "price_1h": 0.09626014457876422,
       "price_24h": 0.1212220165004529,
       "change_1h_pct": -1.48,
-      "change_24h_pct": 24.07
+      "change_24h_pct": 24.07,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.9
     },
     {
       "tweet_id": "1995930223020572921",
@@ -7681,7 +8890,10 @@
       "price_1h": 0.09708911444816869,
       "price_24h": 0.12417313892031653,
       "change_1h_pct": 3.41,
-      "change_24h_pct": 32.26
+      "change_24h_pct": 32.26,
+      "is_outlier": true,
+      "outlier_type": "pump",
+      "impact_percentile": 0.94
     },
     {
       "tweet_id": "1996332481243484587",
@@ -7700,7 +8912,10 @@
       "price_1h": 0.1218494791543148,
       "price_24h": 0.12177499156949026,
       "change_1h_pct": -0.93,
-      "change_24h_pct": -0.99
+      "change_24h_pct": -0.99,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.079
     },
     {
       "tweet_id": "1997027910818119737",
@@ -7719,7 +8934,10 @@
       "price_1h": 0.11095497851975678,
       "price_24h": 0.10640511486199594,
       "change_1h_pct": 2.63,
-      "change_24h_pct": -1.58
+      "change_24h_pct": -1.58,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.124
     },
     {
       "tweet_id": "1997964238875234508",
@@ -7738,7 +8956,10 @@
       "price_1h": 0.09677262029298206,
       "price_24h": 0.10246137545006717,
       "change_1h_pct": 2.33,
-      "change_24h_pct": 8.34
+      "change_24h_pct": 8.34,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.474
     },
     {
       "tweet_id": "1998428982102888542",
@@ -7757,7 +8978,10 @@
       "price_1h": 0.10031337372032224,
       "price_24h": 0.10435233884849478,
       "change_1h_pct": 2.29,
-      "change_24h_pct": 6.41
+      "change_24h_pct": 6.41,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.395
     },
     {
       "tweet_id": "1998848145703477524",
@@ -7776,7 +9000,10 @@
       "price_1h": 0.09971328060317042,
       "price_24h": 0.0916358036729987,
       "change_1h_pct": -2.43,
-      "change_24h_pct": -10.33
+      "change_24h_pct": -10.33,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.564
     },
     {
       "tweet_id": "1999197329371349130",
@@ -7795,7 +9022,10 @@
       "price_1h": 0.09116138151663675,
       "price_24h": 0.09974800710901971,
       "change_1h_pct": 0.48,
-      "change_24h_pct": 9.95
+      "change_24h_pct": 9.95,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.55
     },
     {
       "tweet_id": "1999264961529319815",
@@ -7814,7 +9044,10 @@
       "price_1h": 0.09242756146538916,
       "price_24h": 0.10246820561123227,
       "change_1h_pct": -1.4,
-      "change_24h_pct": 9.32
+      "change_24h_pct": 9.32,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.517
     },
     {
       "tweet_id": "1999421605554913786",
@@ -7833,7 +9066,10 @@
       "price_1h": 0.10107960149580747,
       "price_24h": 0.09433169157618052,
       "change_1h_pct": -3.49,
-      "change_24h_pct": -9.94
+      "change_24h_pct": -9.94,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.548
     },
     {
       "tweet_id": "2000057986304074021",
@@ -7852,7 +9088,10 @@
       "price_1h": 0.09557659864306872,
       "price_24h": 0.08736912118911937,
       "change_1h_pct": -0.55,
-      "change_24h_pct": -9.09
+      "change_24h_pct": -9.09,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.505
     },
     {
       "tweet_id": "2000567862931726562",
@@ -7871,7 +9110,10 @@
       "price_1h": 0.0858868041605597,
       "price_24h": 0.07389493464753417,
       "change_1h_pct": 1.63,
-      "change_24h_pct": -12.56
+      "change_24h_pct": -12.56,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.671
     },
     {
       "tweet_id": "2000572397603414378",
@@ -7890,7 +9132,10 @@
       "price_1h": 0.08608456760946773,
       "price_24h": 0.07387231137947738,
       "change_1h_pct": 1.76,
-      "change_24h_pct": -12.67
+      "change_24h_pct": -12.67,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.674
     },
     {
       "tweet_id": "2000513947468697797",
@@ -7909,7 +9154,10 @@
       "price_1h": 0.08575954991154645,
       "price_24h": 0.07300853584062526,
       "change_1h_pct": -0.4,
-      "change_24h_pct": -15.21
+      "change_24h_pct": -15.21,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.74
     },
     {
       "tweet_id": "2000562635423752275",
@@ -7928,7 +9176,10 @@
       "price_1h": 0.08558547568491942,
       "price_24h": 0.0737703821585894,
       "change_1h_pct": -0.54,
-      "change_24h_pct": -14.27
+      "change_24h_pct": -14.27,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.721
     },
     {
       "tweet_id": "2000981375558496644",
@@ -7947,7 +9198,10 @@
       "price_1h": 0.07331031532874095,
       "price_24h": 0.07399939968754389,
       "change_1h_pct": -0.83,
-      "change_24h_pct": 0.1
+      "change_24h_pct": 0.1,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.01
     },
     {
       "tweet_id": "2000998506996158907",
@@ -7966,7 +9220,10 @@
       "price_1h": 0.07320024063390615,
       "price_24h": 0.07299384475712656,
       "change_1h_pct": -0.02,
-      "change_24h_pct": -0.3
+      "change_24h_pct": -0.3,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.038
     },
     {
       "tweet_id": "2001027211256848832",
@@ -7985,7 +9242,10 @@
       "price_1h": 0.07519693853556501,
       "price_24h": 0.07281900346621338,
       "change_1h_pct": 3.16,
-      "change_24h_pct": -0.1
+      "change_24h_pct": -0.1,
+      "is_outlier": false,
+      "outlier_type": "normal",
+      "impact_percentile": 0.007
     }
   ],
   "keyword_filter": "useless",

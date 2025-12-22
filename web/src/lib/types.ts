@@ -39,6 +39,10 @@ export interface TweetEvent {
   likes: number;
   retweets: number;
   impressions: number;
+  // Outlier detection fields (optional - computed per-asset)
+  is_outlier?: boolean;
+  outlier_type?: 'pump' | 'dump' | 'normal' | 'unknown';
+  impact_percentile?: number | null;  // 1.0 = most impactful, 0.0 = least
 }
 
 /** Container for tweet events data */
