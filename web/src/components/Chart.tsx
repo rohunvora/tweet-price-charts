@@ -157,37 +157,85 @@ interface ChartProps {
 }
 
 /**
- * Internal representation of a tweet cluster for rendering.
- *
- * CLUSTERING EXPLAINED:
- * When tweets are close together on the X-axis (time), they get merged into
- * a single visual cluster to prevent overlap. The cluster tracks:
- * - Visual position (x, y): Where to draw the bubble (uses averages)
- * - Statistics (firstTweet, lastTweet): For calculating gap stats (actual boundaries)
- *
- * WHY SEPARATE VISUAL VS STATISTICAL POSITIONS:
- * Visual: Average position keeps the bubble centered over the tweets it represents
- * Statistical: Actual boundaries ensure % changes are zoom-independent
+ * =============================================================================
+ * TWEET CLUSTER DISPLAY - THE EXIT-TO-EXIT CONSISTENCY MODEL
+ * =============================================================================
+ * 
+ * When zoomed out, multiple tweets collapse into a single bubble (cluster).
+ * The challenge: how to position bubbles and draw connecting lines so that
+ * the visual direction (line going up/down) ALWAYS matches the % label color
+ * (green/red)?
+ * 
+ * SOLUTION: Use the SAME price reference for everything.
+ * 
+ * We use the EXIT PRICE (lastTweet.price_at_tweet) for:
+ *   1. Bubble Y position (where we draw the marker)
+ *   2. Line endpoints (connect bubble centers)
+ *   3. % calculation (price change between exit prices)
+ * 
+ * WHY THIS IS MATHEMATICALLY GUARANTEED TO BE CONSISTENT:
+ * 
+ *   Line goes UP   ⟺  curr.y < prev.y (screen coords, Y increases downward)
+ *                  ⟺  curr.exitPrice > prev.exitPrice
+ *                  ⟺  % is POSITIVE
+ *                  ⟺  GREEN ✓
+ * 
+ *   Line goes DOWN ⟺  curr.y > prev.y
+ *                  ⟺  curr.exitPrice < prev.exitPrice
+ *                  ⟺  % is NEGATIVE
+ *                  ⟺  RED ✓
+ * 
+ * The line direction and % sign are computed from the EXACT SAME two numbers,
+ * so they can NEVER disagree. This eliminates the "red line going up" bug.
+ * 
+ * SEMANTIC MEANING:
+ * - % shows: "From founder's last tweet in cluster A to last tweet in cluster B"
+ * - Time gap shows: "Silence duration from A's last tweet to B's first tweet"
+ * 
+ * ALTERNATIVES CONSIDERED (AND WHY THEY FAILED):
+ * 
+ * 1. avgPrice for bubble, boundary prices for %:
+ *    FAILED - Visual line (avgPrice→avgPrice) could contradict % (exit→entry)
+ * 
+ * 2. Entry price for incoming line endpoint:
+ *    FAILED - Lines disconnected from bubbles, looked "broken"
+ * 
+ * 3. Hiding contradictory labels:
+ *    FAILED - Patchy solution, didn't fix root cause
+ * 
+ * =============================================================================
  */
 interface TweetClusterDisplay {
   tweets: TweetEvent[];       // All tweets in this cluster
 
-  // Visual positioning
-  x: number;                  // Screen X coordinate (drifting average)
-  y: number;                  // Screen Y coordinate (exit price - where lines LEAVE)
-  entryY: number;             // Screen Y coordinate (entry price - where lines ARRIVE)
-  avgPrice: number;           // Exit price (kept for backward compat, now = lastTweet.price)
-  avgTimestamp: number;       // Average timestamp (for sorting)
-  avgChange: number | null;   // Average 1h price change (for potential future use)
+  // ==========================================================================
+  // VISUAL POSITIONING - EXIT PRICE MODEL
+  // ==========================================================================
+  // x: Drifting average of tweet X positions (keeps bubble centered horizontally)
+  // y: EXIT price (lastTweet.price) - this is THE key to visual consistency
+  x: number;
+  y: number;
+  
+  // entryY: Entry price (firstTweet.price) - kept for potential future use
+  // Currently unused for lines, but available if needed for "within-cluster" viz
+  entryY: number;
+  
+  // Legacy field - now equals lastTweet.price (exit price), kept for compat
+  avgPrice: number;
+  avgTimestamp: number;       // Average timestamp (for sorting/display)
+  avgChange: number | null;   // Average 1h price change (for future features)
 
-  // Statistical boundaries (for gap calculations)
-  // Using actual tweet boundaries ensures % change is consistent regardless of zoom
-  firstTweet: TweetEvent;     // Chronologically first tweet in cluster
-  lastTweet: TweetEvent;      // Chronologically last tweet in cluster
+  // ==========================================================================
+  // STATISTICAL BOUNDARIES
+  // ==========================================================================
+  firstTweet: TweetEvent;     // First tweet chronologically (defines entry moment)
+  lastTweet: TweetEvent;      // Last tweet chronologically (defines exit moment)
 
-  // Gap statistics (calculated after all clusters are built)
-  timeSincePrev: number | null;  // Seconds since previous cluster's lastTweet
-  pctSincePrev: number | null;   // Price % change during that gap
+  // ==========================================================================
+  // GAP STATISTICS (calculated after all clusters are built)
+  // ==========================================================================
+  timeSincePrev: number | null;  // Silence duration: prev.lastTweet → curr.firstTweet
+  pctSincePrev: number | null;   // Price change: prev.exitPrice → curr.exitPrice (NOT entry!)
 }
 
 
@@ -484,46 +532,63 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       return;
     }
 
-    // -------------------------------------------------------------------------
-    // Build clusters with X-only clustering + average positioning
-    // -------------------------------------------------------------------------
+    // =========================================================================
+    // BUILD CLUSTERS - EXIT PRICE POSITIONING
+    // =========================================================================
+    // Tweets close together on the X-axis get merged into a single bubble.
+    // 
+    // CRITICAL: Bubble Y position uses EXIT PRICE (lastTweet.price_at_tweet).
+    // This ensures lines connecting bubbles have the same direction as the
+    // % change calculation, eliminating visual contradictions.
+    // 
+    // See TweetClusterDisplay interface for full explanation.
+    // =========================================================================
     const clusters: TweetClusterDisplay[] = [];
     
-    // Helper to emit a completed cluster
+    /**
+     * Emit a completed cluster to the clusters array.
+     * 
+     * KEY INSIGHT: We position the bubble at the EXIT PRICE (last tweet's price).
+     * This is the foundation of the exit-to-exit consistency model that ensures
+     * green lines always go up and red lines always go down.
+     */
     const emitCluster = (
       tweets: TweetEvent[], 
       clusterX: number, 
-      sumPrice: number, 
       sumTimestamp: number, 
       sumChange: number, 
       changeCount: number
     ) => {
-      const avgPrice = sumPrice / tweets.length;
       const avgTimestamp = sumTimestamp / tweets.length;
       const avgChange = changeCount > 0 ? sumChange / changeCount : null;
       
-      // Get screen Y from average price
-      const y = series.priceToCoordinate(avgPrice);
-      if (y === null) return;
+      // EXIT-TO-EXIT MODEL: Position bubble at the LAST tweet's price
+      // This is the key to visual consistency - lines go bubble-to-bubble,
+      // and % is calculated exit-to-exit, so direction always matches sign.
+      const exitPrice = tweets[tweets.length - 1].price_at_tweet!;
+      const entryPrice = tweets[0].price_at_tweet!;
+      
+      const y = series.priceToCoordinate(exitPrice);     // Bubble drawn here
+      const entryY = series.priceToCoordinate(entryPrice); // Kept for reference
+      if (y === null || entryY === null) return;
       
       clusters.push({
         tweets: [...tweets],
         x: clusterX,
-        y,
-        avgPrice,
+        y,                        // EXIT price - where bubble is drawn & lines connect
+        entryY,                   // ENTRY price - available but not used for lines
+        avgPrice: exitPrice,      // Legacy field, now = exit price
         avgTimestamp,
         avgChange,
-        // tweets array is already sorted chronologically
         firstTweet: tweets[0],
         lastTweet: tweets[tweets.length - 1],
-        timeSincePrev: null,
-        pctSincePrev: null,
+        timeSincePrev: null,      // Calculated in second pass
+        pctSincePrev: null,       // Calculated in second pass
       });
     };
 
     let currentTweets: TweetEvent[] = [];
     let clusterX: number | null = null;
-    let sumPrice = 0;
     let sumTimestamp = 0;
     let sumChange = 0;
     let changeCount = 0;
@@ -539,7 +604,6 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
         currentTweets.push(tweet);
         // Drift cluster center toward new tweet (original behavior)
         clusterX = (clusterX * (currentTweets.length - 1) + x) / currentTweets.length;
-        sumPrice += tweet.price_at_tweet!;
         sumTimestamp += tweet.timestamp;
         if (tweet.change_1h_pct !== null) {
           sumChange += tweet.change_1h_pct;
@@ -548,12 +612,11 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       } else {
         // Emit previous cluster if exists
         if (currentTweets.length > 0 && clusterX !== null) {
-          emitCluster(currentTweets, clusterX, sumPrice, sumTimestamp, sumChange, changeCount);
+          emitCluster(currentTweets, clusterX, sumTimestamp, sumChange, changeCount);
         }
         // Start new cluster
         currentTweets = [tweet];
         clusterX = x;
-        sumPrice = tweet.price_at_tweet!;
         sumTimestamp = tweet.timestamp;
         sumChange = tweet.change_1h_pct ?? 0;
         changeCount = tweet.change_1h_pct !== null ? 1 : 0;
@@ -562,25 +625,71 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
     
     // Emit final cluster
     if (currentTweets.length > 0 && clusterX !== null) {
-      emitCluster(currentTweets, clusterX, sumPrice, sumTimestamp, sumChange, changeCount);
+      emitCluster(currentTweets, clusterX, sumTimestamp, sumChange, changeCount);
     }
 
-    // Calculate time gaps and price changes between clusters
-    // Uses avgPrice (where bubbles are) so line color matches visual direction
-    // TODO: Revisit this - ideally tie to actual tweet moments while keeping visual consistency
+    // =========================================================================
+    // CALCULATE GAP STATISTICS - EXIT-TO-EXIT FOR VISUAL CONSISTENCY
+    // =========================================================================
+    // 
+    // This is the SECOND HALF of the exit-to-exit consistency model.
+    // 
+    // We calculate % change as: (curr.exitPrice - prev.exitPrice) / prev.exitPrice
+    // 
+    // Because bubbles are ALSO positioned at exit prices, and lines connect
+    // bubble-to-bubble, the visual line direction is GUARANTEED to match
+    // the % sign:
+    // 
+    //   prev.exitPrice = $10, curr.exitPrice = $15
+    //   → Line goes UP (bubble at $15 is higher than $10)
+    //   → % = +50% (positive)
+    //   → Color = GREEN ✓
+    // 
+    //   prev.exitPrice = $15, curr.exitPrice = $10
+    //   → Line goes DOWN (bubble at $10 is lower than $15)
+    //   → % = -33% (negative)
+    //   → Color = RED ✓
+    // 
+    // NOTE: Time gap still uses firstTweet (entry moment) because that
+    // represents the TRUE silence duration between tweeting activity.
+    // =========================================================================
     for (let i = 1; i < clusters.length; i++) {
       const prev = clusters[i - 1];
       const curr = clusters[i];
-      curr.timeSincePrev = curr.avgTimestamp - prev.avgTimestamp;
-      if (prev.avgPrice > 0) {
-        curr.pctSincePrev = ((curr.avgPrice - prev.avgPrice) / prev.avgPrice) * 100;
+      
+      // Time gap: TRUE silence duration (last tweet → first tweet)
+      // This is semantically correct - it's how long the founder was quiet
+      curr.timeSincePrev = curr.firstTweet.timestamp - prev.lastTweet.timestamp;
+      
+      // Price change: EXIT-TO-EXIT (matches bubble positions & line direction)
+      // This ensures visual consistency - green lines go up, red lines go down
+      const prevPrice = prev.lastTweet.price_at_tweet;   // prev exit = prev bubble Y
+      const currPrice = curr.lastTweet.price_at_tweet;   // curr exit = curr bubble Y
+      if (prevPrice && currPrice && prevPrice > 0) {
+        curr.pctSincePrev = ((currPrice - prevPrice) / prevPrice) * 100;
       }
     }
 
-    // -------------------------------------------------------------------------
-    // Draw gap lines between ALL adjacent clusters (with premium glow)
-    // Labels use adaptive threshold based on visible time range (semantic zoom)
-    // -------------------------------------------------------------------------
+    // =========================================================================
+    // DRAW GAP LINES - BUBBLE-TO-BUBBLE (EXIT-TO-EXIT)
+    // =========================================================================
+    // 
+    // Lines connect bubble centers, which are at EXIT PRICES.
+    // Because % is also calculated exit-to-exit, the line direction
+    // ALWAYS matches the % sign. No visual contradictions possible.
+    // 
+    // prev.y = prev.lastTweet.price (exit)
+    // curr.y = curr.lastTweet.price (exit)
+    // Line from (prev.x, prev.y) to (curr.x, curr.y)
+    // % = (curr.exitPrice - prev.exitPrice) / prev.exitPrice
+    // 
+    // This is the THIRD AND FINAL piece of the exit-to-exit model:
+    //   1. emitCluster: positions bubble at exit price
+    //   2. gap calc: computes % as exit-to-exit
+    //   3. line drawing: connects bubbles (which are at exit prices)
+    // 
+    // All three use the same price reference = guaranteed consistency.
+    // =========================================================================
     
     // Adaptive label threshold: show labels for "significant" gaps relative to view
     // - Zoomed out (months): 24h gaps are significant
@@ -592,13 +701,14 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
       const prev = clusters[i - 1];
       const curr = clusters[i];
 
-      // Use pre-calculated gap from actual tweet boundaries
+      // Gap stats calculated in second pass above
       const gap = curr.timeSincePrev ?? 0;
       const pctChange = curr.pctSincePrev;
       const isNegative = pctChange !== null && pctChange < 0;
       const lineColor = isNegative ? '#EF5350' : '#22C55E';
 
-      // Line connects marker edges, not centers
+      // LINE ENDPOINTS: bubble-to-bubble (both at exit prices)
+      // prev.y and curr.y are exit prices, so line direction matches % sign
       const startX = prev.x + bubbleRadius + 4;
       const endX = curr.x - bubbleRadius - 4;
       const midX = (startX + endX) / 2;
