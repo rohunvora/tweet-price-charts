@@ -69,6 +69,38 @@ ADOPTER: Person who adopted/promoted an existing token
   - Results in tweet_events.json (filtered) AND tweet_events_all.json
 
 ===============================================================================
+KEYWORD SEARCH MODE (--keyword-search)
+===============================================================================
+
+USE --keyword-search WHEN:
+  The founder/adopter RARELY tweets about the token (sparse tweeter).
+
+  Example: Sam Altman (@sama) has tweeted about Worldcoin only 13 times
+  in 4 years. Fetching his entire timeline (thousands of tweets) just to
+  find 13 is wasteful. Instead, use:
+
+    python nitter_scraper.py --asset wld --keyword-search
+
+  This searches Nitter directly: nitter.net/sama/search?q=worldcoin
+  and returns ONLY tweets matching the keyword filter.
+
+WHEN TO USE:
+  - Founder has < 50 tweets about the token over their entire history
+  - You want a quick count/sample before doing a full scrape
+  - X API is rate-limited and you need tweets NOW
+
+WHEN NOT TO USE:
+  - Founder tweets frequently about the token (use --full instead)
+  - You need date-range filtering (use --since/--until instead)
+  - The keyword is very common (will return too many results)
+
+HOW IT WORKS:
+  1. Uses Nitter's user search: /{username}/search?q={keyword}
+  2. Paginates through ALL matching tweets (no date filtering)
+  3. Much faster than --full for sparse tweeters
+  4. Returns only keyword-matching tweets (no post-filtering needed)
+
+===============================================================================
 ARCHITECTURE OVERVIEW
 ===============================================================================
 
@@ -1200,6 +1232,209 @@ def scrape_asset_parallel(
 
 
 # =============================================================================
+# KEYWORD SEARCH MODE
+# =============================================================================
+#
+# This mode is for SPARSE TWEETERS - people who rarely tweet about a topic.
+# Instead of fetching their entire timeline and filtering, we search Nitter
+# directly for tweets matching the keyword.
+#
+# Example: Sam Altman tweeted about Worldcoin only 13 times in 4 years.
+#          Using --keyword-search gets those 13 tweets in seconds.
+#          Using --full would fetch thousands of tweets to find 13.
+#
+# =============================================================================
+
+def scrape_keyword_search(
+    asset_id: str,
+    keyword: Optional[str] = None,
+    headless: bool = False,
+    max_pages: int = 20,
+) -> Dict[str, Any]:
+    """
+    Keyword search mode for sparse tweeters.
+
+    Searches Nitter directly: /{username}/search?q={keyword}
+    Returns ALL tweets matching the keyword (no date filtering).
+
+    USE THIS WHEN:
+      - Founder/adopter rarely tweets about the token (< 50 tweets ever)
+      - You want to quickly count matching tweets before a full scrape
+      - X API is rate-limited
+
+    DO NOT USE WHEN:
+      - Founder tweets frequently about the token (use --full)
+      - You need date-range filtering (use --since/--until)
+
+    Args:
+        asset_id: Asset ID from assets.json
+        keyword: Override keyword (uses asset's keyword_filter if None)
+        headless: Run browser headless (not recommended - Cloudflare blocks)
+        max_pages: Maximum pages to paginate (safety limit)
+
+    Returns:
+        Summary dict with status, tweet count, and tweets
+    """
+    if not PLAYWRIGHT_AVAILABLE:
+        return {'status': 'error', 'reason': 'Playwright not installed'}
+
+    # Load asset config
+    conn = get_connection()
+    init_schema(conn)
+    load_assets_from_json(conn)
+
+    asset = get_asset(conn, asset_id)
+    if not asset:
+        conn.close()
+        return {'status': 'error', 'reason': f"Asset '{asset_id}' not found"}
+
+    username = asset['founder']
+    launch_date = asset['launch_date']
+    effective_keyword = keyword if keyword else asset.get('keyword_filter')
+
+    if not effective_keyword:
+        conn.close()
+        return {'status': 'error', 'reason': 'No keyword specified and asset has no keyword_filter'}
+
+    # Handle multiple keywords - use first one for search, others for validation
+    keywords = [k.strip() for k in effective_keyword.split(',')]
+    search_keyword = keywords[0]  # Primary keyword for Nitter search
+
+    if isinstance(launch_date, str):
+        launch_date = datetime.fromisoformat(launch_date.replace('Z', '+00:00'))
+    if launch_date.tzinfo is None:
+        launch_date = launch_date.replace(tzinfo=timezone.utc)
+
+    log(f"Asset: {asset['name']} (@{username})", "INFO")
+    log(f"Keyword search: \"{search_keyword}\"", "INFO")
+    log(f"Mode: KEYWORD SEARCH (for sparse tweeters)", "INFO")
+    log("=" * 60)
+
+    tweets = []
+    seen_ids = set()
+
+    from urllib.parse import quote_plus
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(
+            headless=headless,
+            args=['--disable-blink-features=AutomationControlled', '--no-sandbox']
+        )
+
+        context = browser.new_context(
+            viewport={'width': 1280, 'height': 900},
+            user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        )
+
+        url = f"{NITTER_INSTANCES[0]}/{username}/search?f=tweets&q={quote_plus(search_keyword)}"
+        log(f"Fetching: {url}", "INFO")
+
+        page = context.new_page()
+
+        try:
+            page.goto(url, timeout=PAGE_LOAD_TIMEOUT)
+            time.sleep(5)  # Wait for Cloudflare
+
+            if not handle_cloudflare(page):
+                browser.close()
+                conn.close()
+                return {'status': 'error', 'reason': 'Cloudflare challenge failed'}
+
+            page.wait_for_selector('.timeline-item, .error-panel', timeout=TWEET_WAIT_TIMEOUT)
+
+            # Check for error
+            error = page.query_selector('.error-panel')
+            if error:
+                error_text = error.inner_text()
+                if "No items found" in error_text:
+                    log("No tweets found matching keyword", "INFO")
+                    browser.close()
+                    conn.close()
+                    return {'status': 'success', 'tweets_found': 0, 'tweets_inserted': 0}
+
+            # Paginate through all results
+            page_num = 0
+            empty_pages = 0
+
+            while page_num < max_pages:
+                page_num += 1
+
+                # Extract tweets from current page
+                new_tweets = extract_tweets_from_page(page, target_username=username)
+                added = 0
+
+                for t in new_tweets:
+                    if t['id'] not in seen_ids:
+                        # Skip pre-launch tweets
+                        if t['timestamp'] and t['timestamp'] < launch_date:
+                            continue
+                        seen_ids.add(t['id'])
+                        tweets.append(t)
+                        added += 1
+
+                log(f"  Page {page_num}: +{added} tweets (total: {len(tweets)})", "DEBUG")
+
+                if added == 0:
+                    empty_pages += 1
+                    if empty_pages >= 3:
+                        log("  Stopping after 3 empty pages", "DEBUG")
+                        break
+                else:
+                    empty_pages = 0
+
+                # Check for more
+                load_more = page.query_selector('.show-more a')
+                if not load_more:
+                    break
+
+                try:
+                    load_more.click()
+                    wait_random(MIN_PAGE_DELAY, MAX_PAGE_DELAY, "pagination")
+                    page.wait_for_selector('.timeline-item', timeout=10000)
+                except Exception as e:
+                    log(f"Pagination ended: {e}", "DEBUG")
+                    break
+
+        except PlaywrightTimeout:
+            log("Page load timeout", "WARN")
+            browser.close()
+            conn.close()
+            return {'status': 'error', 'reason': 'Timeout loading search results'}
+        except Exception as e:
+            log(f"Error: {e}", "ERROR")
+            browser.close()
+            conn.close()
+            return {'status': 'error', 'reason': str(e)}
+
+        browser.close()
+
+    # Insert tweets
+    inserted = 0
+    if tweets:
+        inserted = insert_tweets(conn, asset_id, tweets)
+        log(f"Inserted {inserted} tweets", "OK")
+
+    conn.close()
+
+    # Summary
+    log("\n" + "=" * 60)
+    log("KEYWORD SEARCH SUMMARY", "INFO")
+    log(f"  Keyword: \"{search_keyword}\"", "INFO")
+    log(f"  Tweets found: {len(tweets)}", "INFO")
+    log(f"  Tweets inserted: {inserted}", "INFO")
+
+    return {
+        'status': 'success',
+        'mode': 'keyword_search',
+        'asset': asset_id,
+        'username': username,
+        'keyword': search_keyword,
+        'tweets_found': len(tweets),
+        'tweets_inserted': inserted,
+    }
+
+
+# =============================================================================
 # CLI
 # =============================================================================
 
@@ -1210,19 +1445,24 @@ def main():
         epilog="""
 Examples:
   # Full backfill from launch to now
-  python nitter_scraper_v2.py --asset useless --full
-  
+  python nitter_scraper.py --asset useless --full
+
   # Specific date range
-  python nitter_scraper_v2.py --asset useless --since 2025-06-01 --until 2025-07-01
-  
+  python nitter_scraper.py --asset useless --since 2025-06-01 --until 2025-07-01
+
   # Resume after interruption (skips completed chunks)
-  python nitter_scraper_v2.py --asset useless --full
-  
+  python nitter_scraper.py --asset useless --full
+
   # Start fresh (clear progress)
-  python nitter_scraper_v2.py --asset useless --full --no-resume
-  
+  python nitter_scraper.py --asset useless --full --no-resume
+
   # Non-headless mode (shows browser)
-  python nitter_scraper_v2.py --asset useless --full --no-headless
+  python nitter_scraper.py --asset useless --full --no-headless
+
+  # KEYWORD SEARCH - for sparse tweeters (< 50 tweets about topic)
+  # Use this when the founder rarely tweets about the token.
+  # Example: Sam Altman tweeted about Worldcoin only 13 times in 4 years.
+  python nitter_scraper.py --asset wld --keyword-search
 """
     )
     
@@ -1247,16 +1487,26 @@ Examples:
     # Example: --parallel 3 gives ~3x speedup for large backfills.
     parser.add_argument('--parallel', '-p', type=int, default=1, help='Number of parallel workers (default: 1, max tested: 3)')
     parser.add_argument('--clear-progress', action='store_true', help='Clear progress for asset and exit')
-    
+
+    # KEYWORD SEARCH MODE:
+    # For SPARSE TWEETERS who rarely tweet about the token.
+    # Instead of fetching their entire timeline, search Nitter directly.
+    # Example: Sam Altman tweeted about Worldcoin only 13 times in 4 years.
+    #          --keyword-search finds those 13 instantly vs fetching thousands.
+    # DO NOT USE for frequent tweeters - use --full instead.
+    parser.add_argument('--keyword-search', action='store_true',
+        help='Keyword search mode for sparse tweeters (< 50 tweets about topic)')
+
     args = parser.parse_args()
-    
+
     if args.clear_progress:
         clear_progress(args.asset)
         print(f"Cleared progress for {args.asset}")
         return
-    
-    if not (args.since and args.until) and not args.full:
-        print("ERROR: Must specify --since/--until or --full")
+
+    # Validate mode selection
+    if not args.keyword_search and not (args.since and args.until) and not args.full:
+        print("ERROR: Must specify --since/--until, --full, or --keyword-search")
         parser.print_help()
         sys.exit(1)
     
@@ -1269,8 +1519,17 @@ Examples:
     # Determine headless mode
     headless = args.headless and not args.no_headless
 
-    # Use parallel or sequential scraping
-    if args.parallel > 1:
+    # Choose scraping mode
+    if args.keyword_search:
+        # KEYWORD SEARCH MODE - for sparse tweeters
+        # Searches Nitter directly instead of fetching full timeline
+        result = scrape_keyword_search(
+            asset_id=args.asset,
+            keyword=args.keyword,
+            headless=headless,
+        )
+    elif args.parallel > 1:
+        # Parallel date-range scraping
         result = scrape_asset_parallel(
             asset_id=args.asset,
             since=args.since,
@@ -1283,6 +1542,7 @@ Examples:
             num_workers=args.parallel,
         )
     else:
+        # Sequential date-range scraping
         result = scrape_asset(
             asset_id=args.asset,
             since=args.since,
