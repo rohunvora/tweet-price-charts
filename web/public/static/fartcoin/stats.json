@@ -1,0 +1,85 @@
+{
+  "generated_at": "2025-12-22T02:53:37.680497Z",
+  "asset": "fartcoin",
+  "asset_name": "FARTCOIN",
+  "founder": "DipWheeler",
+  "summary": {
+    "total_tweets": 152,
+    "tweets_with_price": 152,
+    "date_range": {
+      "start": "2025-11-11",
+      "end": "2025-12-20"
+    },
+    "total_days_analyzed": 430
+  },
+  "daily_comparison": {
+    "tweet_day_count": 35,
+    "tweet_day_avg_return": -0.16,
+    "tweet_day_win_rate": 45.7,
+    "tweet_day_distribution": {
+      "count": 35,
+      "mean": -0.16,
+      "median": -1.01,
+      "std_dev": 9.26,
+      "min": -20.35,
+      "max": 26.16,
+      "q1": -4.43,
+      "q3": 4.56,
+      "positive_count": 16,
+      "negative_count": 19
+    },
+    "no_tweet_day_count": 394,
+    "no_tweet_day_avg_return": 1.88,
+    "no_tweet_day_win_rate": 49.2,
+    "no_tweet_day_distribution": {
+      "count": 394,
+      "mean": 1.88,
+      "median": -0.14,
+      "std_dev": 14.87,
+      "min": -41.72,
+      "max": 81.43,
+      "q1": -6.86,
+      "q3": 7.7,
+      "positive_count": 194,
+      "negative_count": 200
+    },
+    "t_statistic": -0.795,
+    "p_value": 0.4268,
+    "significant": false,
+    "confidence_label": "none"
+  },
+  "correlation": {
+    "correlation_7d": -0.285,
+    "p_value": 0.0,
+    "significant": true,
+    "sample_size": 430,
+    "strength_label": "weak"
+  },
+  "current_status": {
+    "days_since_last_tweet": 0,
+    "price_change_during_silence": null,
+    "last_tweet_date": "2025-12-20"
+  },
+  "limitations": {
+    "sample_size_warning": true,
+    "borderline_significance": false,
+    "short_history": false,
+    "notes": [
+      "Small sample: only 35 tweet-days analyzed",
+      "Win rate of 45.7% is near random (50%)",
+      "Correlation does not imply causation"
+    ]
+  },
+  "quiet_periods": [
+    {
+      "start_ts": 1763153113,
+      "end_ts": 1763415273,
+      "gap_days": 3.0,
+      "start_date": "2025-11-14",
+      "end_date": "2025-11-17",
+      "price_start": 0.24286291169566815,
+      "price_end": 0.24123771107458342,
+      "change_pct": -0.7
+    }
+  ]
+}
