@@ -53,7 +53,7 @@ import {
 import { Timeframe, TweetEvent, Candle, Asset } from '@/lib/types';
 import { loadPrices, toCandlestickData, getSortedTweetTimestamps } from '@/lib/dataLoader';
 import { formatTimeGap, formatPctChange } from '@/lib/formatters';
-import ClusterDrawer from './ClusterDrawer';
+import TweetImpactCard from './TweetImpactCard';
 
 
 // =============================================================================
@@ -308,8 +308,8 @@ export default function Chart({ tweetEvents, asset, focusTimestamp }: ChartProps
   const [noData, setNoData] = useState(false);            // No data available for current TF
   const [containerWidth, setContainerWidth] = useState(800);  // For tooltip positioning
   
-  // Drawer state - tweets to show in the cluster drawer (null = closed)
-  const [drawerTweets, setDrawerTweets] = useState<TweetEvent[] | null>(null);
+  // Tweet impact card state - single tweet to show in the card (null = closed)
+  const [selectedTweet, setSelectedTweet] = useState<TweetEvent | null>(null);
 
   // ===========================================================================
   // REF SYNC EFFECTS - Keep refs in sync with props/state
@@ -1123,9 +1123,13 @@ export default function Chart({ tweetEvents, asset, focusTimestamp }: ChartProps
 
       for (const cluster of clustersRef.current) {
         if (Math.hypot(cluster.x - x, cluster.y - y) < CLICK_RADIUS) {
-          // Open drawer to show tweets in this cluster
-          // Works for both single tweets and multi-tweet clusters
-          setDrawerTweets(cluster.tweets);
+          if (cluster.tweets.length > 1) {
+            // Multi-tweet cluster: zoom in to show individual tweets
+            zoomToClusterRef.current?.(cluster);
+          } else {
+            // Single tweet: show the Tweet Impact Card
+            setSelectedTweet(cluster.tweets[0]);
+          }
           setHoveredTweet(null);  // Clear any hover tooltip
           return;
         }
@@ -1802,36 +1806,12 @@ export default function Chart({ tweetEvents, asset, focusTimestamp }: ChartProps
         </div>
       )}
 
-      {/* Cluster drawer - shows tweets when clicking a cluster */}
-      {drawerTweets && (
-        <ClusterDrawer
-          tweets={drawerTweets}
-          onClose={() => setDrawerTweets(null)}
-          onNavigate={(timestamp) => {
-            // Close drawer and zoom to the specific tweet
-            setDrawerTweets(null);
-            
-            // Calculate a sensible range around the focus timestamp
-            const padding = timeframe === '1d' ? 3 * 86400 : 
-                           timeframe === '1h' ? 12 * 3600 : 
-                           timeframe === '15m' ? 3 * 3600 : 
-                           1 * 3600;
-            
-            const targetFrom = timestamp - padding;
-            const targetTo = timestamp + padding;
-            
-            // On daily timeframe, switch to hourly for better detail
-            // (Daily candles can't show intra-day price movement)
-            if (timeframe === '1d' && availableTimeframes.has('1h')) {
-              pendingZoomRef.current = { from: targetFrom, to: targetTo };
-              setTimeframe('1h');
-              return;
-            }
-            
-            animateToRangeRef.current?.(targetFrom, targetTo);
-          }}
-          founder={asset.founder}
-          assetColor={asset.color}
+      {/* Tweet Impact Card - shows single tweet details */}
+      {selectedTweet && (
+        <TweetImpactCard
+          tweet={selectedTweet}
+          asset={asset}
+          onClose={() => setSelectedTweet(null)}
         />
       )}
     </div>
