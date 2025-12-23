@@ -53,8 +53,8 @@ function decodeHtmlEntities(text: string): string {
 /**
  * Format market cap in human-readable form ($47M, $1.2B, etc.)
  */
-function formatMarketCap(mc: number | null): string {
-  if (mc === null) return '—';
+function formatMarketCap(mc: number | null | undefined): string {
+  if (mc == null) return '—';
   if (mc >= 1_000_000_000) return `$${(mc / 1_000_000_000).toFixed(1)}B`;
   if (mc >= 1_000_000) return `$${(mc / 1_000_000).toFixed(1)}M`;
   if (mc >= 1_000) return `$${(mc / 1_000).toFixed(1)}K`;
@@ -136,7 +136,7 @@ export default function DataTable({
       header: 'MCAP',
       cell: info => {
         const mc = info.getValue();
-        if (mc === null) return <span className="text-[var(--text-disabled)]">—</span>;
+        if (mc == null) return <span className="text-[var(--text-disabled)]">—</span>;
         return (
           <span className="text-[var(--text-secondary)] tabular-nums text-sm whitespace-nowrap">
             {formatMarketCap(mc)}
@@ -306,7 +306,7 @@ export default function DataTable({
               {/* Right: Market cap + % change stacked */}
               <div className="flex-shrink-0 text-right">
                 {/* Market cap at tweet (more intuitive than price) */}
-                {event.market_cap_at_tweet !== null && (
+                {event.market_cap_at_tweet != null && (
                   <p className="text-xs text-[var(--text-muted)] tabular-nums">
                     {formatMarketCap(event.market_cap_at_tweet)}
                   </p>
