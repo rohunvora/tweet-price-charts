@@ -1,11 +1,17 @@
 'use client';
 
 /**
- * DataTable - Primitive Tweet Table
- * ==================================
- * Three columns: Date, Tweet, Next 24H
+ * DataTable - Tweet Table with Price Context
+ * ===========================================
+ * Four columns: Date, Tweet (full text), Price, Next 24H
+ *
+ * Design rationale:
+ * - Users come here to READ tweets, not glance at truncated snippets
+ * - price_at_tweet gives context to percentages ("+48.9% @ $0.02" is meaningful)
+ * - Full tweet text avoids forcing click-through to Twitter
+ *
  * Default sort: Latest first (neutral, not cherry-picked)
- * Mobile: Stacked cards with % pinned right
+ * Mobile: Stacked cards with price + % pinned right
  */
 
 import { useMemo, useState } from 'react';
@@ -57,7 +63,7 @@ export default function DataTable({
   ]);
   const [globalFilter, setGlobalFilter] = useState('');
 
-  // Three columns only: Date, Tweet, Next 24H
+  // Four columns: Date, Tweet, Price, Next 24H
   const columns = useMemo(() => [
     columnHelper.accessor('timestamp', {
       header: 'DATE',
@@ -89,16 +95,29 @@ export default function DataTable({
             rel="noopener noreferrer"
             className="block group"
           >
-            <p
-              className="text-sm text-[var(--text-primary)] truncate group-hover:text-[var(--accent)] transition-colors max-w-[300px] md:max-w-[500px]"
-              title={decodedText}
-            >
+            <p className="text-sm text-[var(--text-primary)] whitespace-pre-wrap break-words group-hover:text-[var(--accent)] transition-colors">
               {decodedText}
             </p>
           </a>
         );
       },
       enableSorting: false,
+    }),
+
+    columnHelper.accessor('price_at_tweet', {
+      header: 'PRICE',
+      cell: info => {
+        const price = info.getValue();
+        if (price === null) return <span className="text-[var(--text-disabled)]">—</span>;
+        // Smart formatting: use precision for tiny prices, fixed for normal prices
+        const formatted = price < 0.01 ? price.toPrecision(2) : price.toFixed(2);
+        return (
+          <span className="text-[var(--text-secondary)] tabular-nums text-sm whitespace-nowrap">
+            ${formatted}
+          </span>
+        );
+      },
+      sortingFn: 'basic',
     }),
 
     columnHelper.accessor('change_24h_pct', {
@@ -154,13 +173,21 @@ export default function DataTable({
         <div className="flex items-center gap-2">
           <span>Sort:</span>
           <select
-            value={sorting[0]?.id === 'timestamp' ? (sorting[0]?.desc ? 'latest' : 'oldest') : (sorting[0]?.desc ? 'biggest-gain' : 'biggest-drop')}
+            value={
+              sorting[0]?.id === 'timestamp'
+                ? (sorting[0]?.desc ? 'latest' : 'oldest')
+                : sorting[0]?.id === 'price_at_tweet'
+                  ? (sorting[0]?.desc ? 'highest-price' : 'lowest-price')
+                  : (sorting[0]?.desc ? 'biggest-gain' : 'biggest-drop')
+            }
             onChange={(e) => {
               const val = e.target.value;
               if (val === 'latest') setSorting([{ id: 'timestamp', desc: true }]);
               else if (val === 'oldest') setSorting([{ id: 'timestamp', desc: false }]);
               else if (val === 'biggest-gain') setSorting([{ id: 'change_24h_pct', desc: true }]);
               else if (val === 'biggest-drop') setSorting([{ id: 'change_24h_pct', desc: false }]);
+              else if (val === 'highest-price') setSorting([{ id: 'price_at_tweet', desc: true }]);
+              else if (val === 'lowest-price') setSorting([{ id: 'price_at_tweet', desc: false }]);
             }}
             className="bg-[var(--surface-1)] border border-[var(--border-default)] rounded px-3 py-2.5 text-[var(--text-primary)] text-sm focus:outline-none focus:border-[var(--accent)] min-h-[44px]"
           >
@@ -168,6 +195,8 @@ export default function DataTable({
             <option value="oldest">Oldest</option>
             <option value="biggest-gain">Biggest gain</option>
             <option value="biggest-drop">Biggest drop</option>
+            <option value="highest-price">Highest price</option>
+            <option value="lowest-price">Lowest price</option>
           </select>
         </div>
 
@@ -244,8 +273,15 @@ export default function DataTable({
                 </p>
               </div>
 
-              {/* Right: % change pinned */}
+              {/* Right: Price + % change stacked */}
               <div className="flex-shrink-0 text-right">
+                {/* Price at tweet */}
+                {event.price_at_tweet !== null && (
+                  <p className="text-xs text-[var(--text-muted)] tabular-nums">
+                    ${event.price_at_tweet < 0.01 ? event.price_at_tweet.toPrecision(2) : event.price_at_tweet.toFixed(2)}
+                  </p>
+                )}
+                {/* % change */}
                 {change !== null ? (
                   <span className={`font-mono text-sm font-semibold tabular-nums ${isPositive ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}`}>
                     {isPositive ? '+' : ''}{change.toFixed(1)}%
@@ -270,10 +306,11 @@ export default function DataTable({
 }
 
 function exportToCSV(events: TweetEvent[], founder: string, assetName: string) {
-  const headers = ['Date', 'Tweet', 'Change 24h %', 'Tweet URL'];
+  const headers = ['Date', 'Tweet', 'Price', 'Change 24h %', 'Tweet URL'];
   const rows = events.map(e => [
     new Date(e.timestamp * 1000).toISOString(),
     `"${e.text.replace(/"/g, '""')}"`,
+    e.price_at_tweet?.toFixed(6) ?? '',
     e.change_24h_pct?.toFixed(2) ?? '',
     `https://twitter.com/${founder}/status/${e.tweet_id}`
   ]);
