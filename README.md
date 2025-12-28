@@ -8,6 +8,8 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 
 **https://tweet-price-charts.vercel.app**
 
+📜 [View Changelog](CHANGELOG.md)
+
 ## Current State
 
 ### What's Built
