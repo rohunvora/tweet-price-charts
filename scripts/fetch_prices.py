@@ -528,7 +528,10 @@ def fetch_coingecko_ohlcv(
             return fetch_coingecko_ohlcv(coingecko_id, timeframe, time_from, time_to)
 
         if response.status_code != 200:
-            print(f"      CoinGecko error {response.status_code}: {response.text[:200]}", flush=True)
+            from_date = datetime.utcfromtimestamp(time_from).strftime('%Y-%m-%d %H:%M')
+            to_date = datetime.utcfromtimestamp(time_to).strftime('%Y-%m-%d %H:%M')
+            print(f"      CoinGecko error {response.status_code} (from={from_date}, to={to_date}):", flush=True)
+            print(f"      {response.text[:200]}", flush=True)
             return []
 
         data = response.json()
@@ -584,25 +587,32 @@ def fetch_coingecko_all_timeframes(
     now_ts = int(datetime.utcnow().timestamp())
 
     for tf in supported_tfs:
-        print(f"    Fetching {tf} data from CoinGecko...", flush=True)
-
-        # Determine start time
+        # Determine start time FIRST so we can log it
+        start_ts = launch_timestamp
+        start_reason = "no prior data"
+        
         if conn and asset_id and not fresh:
             # Check for existing data to avoid re-fetching
             from db import get_latest_price_timestamp
             latest_ts = get_latest_price_timestamp(conn, asset_id, tf)
             if latest_ts:
-                # Start from 1 hour/day after latest to avoid duplicates
+                # TIMEZONE FIX: Use calendar.timegm() NOT .timestamp()
+                # DuckDB returns naive datetimes that must be treated as UTC
                 delta = 3600 if tf == "1h" else 86400
-                start_ts = int(latest_ts.timestamp()) + delta
+                start_ts = int(calendar.timegm(latest_ts.timetuple())) + delta
+                start_reason = f"incremental from {latest_ts.strftime('%Y-%m-%d %H:%M')} UTC"
+                
                 if start_ts >= now_ts:
-                    print(f"      Already up to date", flush=True)
+                    print(f"    Fetching {tf} data from CoinGecko... Already up to date ✓", flush=True)
                     results[tf] = []
                     continue
             else:
-                start_ts = launch_timestamp
-        else:
-            start_ts = launch_timestamp
+                start_reason = "no prior data in DB"
+        
+        # Log with clear indication of what we're doing
+        start_date = datetime.utcfromtimestamp(start_ts).strftime('%Y-%m-%d %H:%M')
+        print(f"    Fetching {tf} data from CoinGecko ({start_reason})...", flush=True)
+        print(f"      Starting from: {start_date} UTC", flush=True)
 
         # CoinGecko /ohlc/range limits:
         # - Hourly: max 31 days per request
@@ -626,7 +636,9 @@ def fetch_coingecko_all_timeframes(
                 if conn and asset_id:
                     inserted = insert_prices(conn, asset_id, tf, candles, data_source="coingecko")
                     total_inserted += inserted
-                    print(f"      Chunk {current_start} to {current_end}: {len(candles)} candles ({inserted} new)", flush=True)
+                    chunk_start_str = datetime.utcfromtimestamp(current_start).strftime('%Y-%m-%d')
+                    chunk_end_str = datetime.utcfromtimestamp(current_end).strftime('%Y-%m-%d')
+                    print(f"      {chunk_start_str} to {chunk_end_str}: {len(candles)} candles ({inserted} new)", flush=True)
                 else:
                     print(f"      Chunk: {len(candles)} candles", flush=True)
 
@@ -768,14 +780,28 @@ def fetch_geckoterminal_all_timeframes(
         stop_at_timestamps = {}
 
     results = {}
+    now_ts = int(datetime.utcnow().timestamp())
 
     for tf in timeframes:
         stop_ts = stop_at_timestamps.get(tf)
+        
         if stop_ts:
             stop_date = datetime.utcfromtimestamp(stop_ts).strftime("%Y-%m-%d %H:%M")
-            print(f"    Fetching {tf} data from GeckoTerminal (since {stop_date})...")
+            
+            # Calculate how old the data is
+            age_hours = (now_ts - stop_ts) / 3600
+            
+            # Early exit: if data is very recent, skip fetch
+            # 15m: skip if <30min old, 1h: skip if <90min old, 1d: skip if <25h old
+            min_age = {"15m": 0.5, "1h": 1.5, "1d": 25}.get(tf, 1)
+            if age_hours < min_age:
+                print(f"    Fetching {tf} data from GeckoTerminal... Already up to date ({age_hours:.1f}h old) ✓")
+                continue
+            
+            print(f"    Fetching {tf} data from GeckoTerminal (since {stop_date}, {age_hours:.1f}h ago)...")
         else:
-            print(f"    Fetching {tf} data from GeckoTerminal...")
+            # LOUD: explain why we're doing a full fetch
+            print(f"    Fetching {tf} data from GeckoTerminal... ⚠️ NO PRIOR STATE - full fetch")
 
         all_candles = []
         before_ts = None
@@ -1104,6 +1130,8 @@ def fetch_for_asset(
         # them as LOCAL time, which breaks incremental fetch logic.
         # calendar.timegm() correctly treats them as UTC. See GOTCHAS.md.
         stop_at_timestamps = {}
+        missing_state = []
+        
         if not full_fetch:
             for tf in timeframes:
                 state = get_ingestion_state(conn, asset_id, f"prices_{tf}")
@@ -1114,6 +1142,16 @@ def fetch_for_asset(
                         stop_at_timestamps[tf] = int(calendar.timegm(last_ts.timetuple()))
                     else:
                         stop_at_timestamps[tf] = int(last_ts)
+                else:
+                    missing_state.append(tf)
+        
+        # Log state status for debugging
+        if stop_at_timestamps:
+            found_tfs = ', '.join(f"{tf}:{datetime.utcfromtimestamp(ts).strftime('%m-%d %H:%M')}" 
+                                  for tf, ts in stop_at_timestamps.items())
+            print(f"    📍 Found state: {found_tfs}")
+        if missing_state:
+            print(f"    ⚠️  Missing state for: {', '.join(missing_state)} (will do full fetch)")
 
         price_data = fetch_geckoterminal_all_timeframes(
             network, pool_address, timeframes, stop_at_timestamps=stop_at_timestamps
@@ -1148,6 +1186,9 @@ def fetch_for_asset(
         # Get existing timestamp for incremental fetch
         # Use the latest "last_timestamp" across all timeframes
         fetch_from_ts = launch_ts
+        found_state = {}
+        missing_state = []
+        
         if not full_fetch:
             for tf in timeframes:
                 state = get_ingestion_state(conn, asset_id, f"prices_{tf}")
@@ -1158,9 +1199,24 @@ def fetch_for_asset(
                         ts = int(calendar.timegm(last_ts.timetuple()))
                     else:
                         ts = int(last_ts)
+                    found_state[tf] = ts
                     fetch_from_ts = max(fetch_from_ts, ts)
-            if fetch_from_ts > launch_ts:
-                print(f"    Incremental from: {datetime.utcfromtimestamp(fetch_from_ts).strftime('%Y-%m-%d %H:%M')}")
+                else:
+                    missing_state.append(tf)
+        
+        # Log state status for debugging
+        if found_state:
+            found_tfs = ', '.join(f"{tf}:{datetime.utcfromtimestamp(ts).strftime('%m-%d %H:%M')}" 
+                                  for tf, ts in found_state.items())
+            print(f"    📍 Found state: {found_tfs}")
+        if missing_state:
+            print(f"    ⚠️  Missing state for: {', '.join(missing_state)}")
+        
+        if fetch_from_ts > launch_ts:
+            age_hours = (int(datetime.utcnow().timestamp()) - fetch_from_ts) / 3600
+            print(f"    Incremental from: {datetime.utcfromtimestamp(fetch_from_ts).strftime('%Y-%m-%d %H:%M')} ({age_hours:.1f}h ago)")
+        else:
+            print(f"    ⚠️  No prior state - fetching from launch date")
 
         price_data = fetch_hyperliquid_all_timeframes(coin, fetch_from_ts, timeframes)
 
