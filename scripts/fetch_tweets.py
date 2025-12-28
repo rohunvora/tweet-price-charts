@@ -35,30 +35,58 @@ from db import (
 )
 
 
-def get_user_id(client: httpx.Client, username: str) -> Optional[str]:
-    """Get the user ID from username with retry."""
+def get_user_id(client: httpx.Client, username: str) -> tuple:
+    """
+    Get the user ID from username with retry.
+    Returns (user_id, error_reason) tuple.
+    """
     url = f"{X_API_BASE}/users/by/username/{username}"
     
     for attempt in range(3):
         try:
             response = client.get(url, timeout=30.0)
+            
+            # Granular rate limit logging
             if response.status_code == 429:
+                reset_time = response.headers.get("x-rate-limit-reset", "unknown")
+                remaining = response.headers.get("x-rate-limit-remaining", "unknown")
+                print(f"      ⚠️ RATE LIMIT 429 on user lookup")
+                print(f"         Remaining: {remaining}, Reset: {reset_time}")
                 wait = (2 ** attempt) * 15 + random.uniform(0, 5)
-                print(f"      Rate limited on user lookup, waiting {wait:.0f}s...")
+                print(f"         Waiting {wait:.0f}s (attempt {attempt + 1}/3)...")
                 time.sleep(wait)
                 continue
-            response.raise_for_status()
+            
+            if response.status_code == 403:
+                print(f"      ❌ FORBIDDEN 403 on user lookup")
+                print(f"         Response: {response.text[:200]}")
+                return None, "403 Forbidden - likely rate limit exhausted or suspended"
+            
+            if response.status_code == 401:
+                print(f"      ❌ UNAUTHORIZED 401 on user lookup")
+                return None, "401 Unauthorized - check X_BEARER_TOKEN"
+            
+            if response.status_code != 200:
+                print(f"      ❌ HTTP {response.status_code} on user lookup")
+                print(f"         Response: {response.text[:200]}")
+                return None, f"HTTP {response.status_code}"
+            
             data = response.json()
-            return data["data"]["id"]
+            if "data" not in data:
+                print(f"      ❌ User not found: @{username}")
+                return None, f"User @{username} not found"
+            
+            return data["data"]["id"], "ok"
+            
         except httpx.TimeoutException:
-            print(f"      Timeout on user lookup (attempt {attempt + 1}/3)")
+            print(f"      ⏱️ Timeout on user lookup (attempt {attempt + 1}/3)")
             time.sleep(5)
         except Exception as e:
-            print(f"      Error looking up user: {e}")
+            print(f"      ❌ Exception on user lookup: {type(e).__name__}: {e}")
             if attempt < 2:
                 time.sleep(5)
     
-    return None
+    return None, "Failed after 3 attempts"
 
 
 def fetch_tweet_page(
@@ -100,15 +128,25 @@ def fetch_tweet_page(
         try:
             response = client.get(url, params=params, timeout=30.0)
             
+            # Granular rate limit logging
             if response.status_code == 429:
-                # Rate limited - wait with exponential backoff
+                reset_time = response.headers.get("x-rate-limit-reset", "unknown")
+                remaining = response.headers.get("x-rate-limit-remaining", "unknown")
+                print(f"      ⚠️ RATE LIMIT 429 on tweet fetch")
+                print(f"         Remaining: {remaining}, Reset: {reset_time}")
                 wait = (2 ** attempt) * 30 + random.uniform(0, 10)
-                print(f"      Rate limited, waiting {wait:.0f}s (attempt {attempt + 1}/3)...")
+                print(f"         Waiting {wait:.0f}s (attempt {attempt + 1}/3)...")
                 time.sleep(wait)
                 continue
             
+            if response.status_code == 403:
+                print(f"      ❌ FORBIDDEN 403 on tweet fetch")
+                print(f"         Response: {response.text[:200]}")
+                return [], None, False
+            
             if response.status_code != 200:
-                print(f"      API error {response.status_code}: {response.text[:100]}")
+                print(f"      ❌ HTTP {response.status_code} on tweet fetch")
+                print(f"         Response: {response.text[:100]}")
                 return [], None, False
             
             data = response.json()
@@ -259,11 +297,11 @@ def fetch_for_asset(
     with httpx.Client(headers=headers) as client:
         # Get user ID first
         print(f"    Looking up @{asset['founder']}...")
-        user_id = get_user_id(client, asset["founder"])
+        user_id, error_reason = get_user_id(client, asset["founder"])
         
         if not user_id:
             conn.close()
-            return {"status": "error", "reason": "Could not look up user"}
+            return {"status": "error", "reason": error_reason}
         
         print(f"    User ID: {user_id}")
         
@@ -296,26 +334,34 @@ def fetch_for_asset(
                     continue
                 filtered_tweets.append(t)
                 
-                # Track watermarks
+                # Track watermarks using INT comparison (tweet IDs are numeric)
                 tid = t["id"]
-                if run_newest_id is None or tid > run_newest_id:
+                if run_newest_id is None or int(tid) > int(run_newest_id):
                     run_newest_id = tid
-                if run_oldest_id is None or tid < run_oldest_id:
+                if run_oldest_id is None or int(tid) < int(run_oldest_id):
                     run_oldest_id = tid
             
             total_fetched += len(tweets)
+            
+            # KEYWORD FILTER - Only store tweets matching keyword_filter
+            # This prevents DB pollution with irrelevant tweets
+            keyword_filter = asset.get("keyword_filter")
+            if keyword_filter and filtered_tweets:
+                keywords = [k.strip().lower() for k in keyword_filter.split(",")]
+                keyword_matched = []
+                for t in filtered_tweets:
+                    text_lower = t.get("text", "").lower()
+                    if any(kw in text_lower for kw in keywords):
+                        keyword_matched.append(t)
+                keyword_filtered_count = len(filtered_tweets) - len(keyword_matched)
+                filtered_tweets = keyword_matched
+                if keyword_filtered_count > 0:
+                    print(f"      (filtered {keyword_filtered_count} tweets not matching '{keyword_filter}')")
             
             # INSERT IMMEDIATELY - this is the key for resilience
             if filtered_tweets:
                 inserted = insert_tweets(conn, asset_id, filtered_tweets)
                 total_inserted += inserted
-                
-                # Update watermarks after each successful page
-                if run_newest_id and (newest_id is None or run_newest_id > newest_id):
-                    update_ingestion_state(conn, asset_id, "tweets", last_id=run_newest_id)
-                
-                if run_oldest_id:
-                    update_ingestion_state(conn, asset_id, "tweets_oldest", last_id=run_oldest_id)
             
             print(f"    Page {page}: {len(tweets)} fetched, {len(filtered_tweets)} kept, {total_inserted} total saved")
             
@@ -328,6 +374,28 @@ def fetch_for_asset(
             
             # Rate limiting between pages
             time.sleep(RATE_LIMIT_DELAY)
+    
+    # UPDATE WATERMARKS ONCE AT END (not per-page)
+    if run_newest_id and (newest_id is None or int(run_newest_id) > int(newest_id)):
+        update_ingestion_state(conn, asset_id, "tweets", last_id=run_newest_id)
+        print(f"    ✓ Saved watermark: newest_id = {run_newest_id}")
+    
+    if run_oldest_id:
+        update_ingestion_state(conn, asset_id, "tweets_oldest", last_id=run_oldest_id)
+    
+    # KEYWORD MATCH STATS - show how many tweets actually contain the keyword
+    keyword_filter = asset.get("keyword_filter")
+    if keyword_filter and total_inserted > 0:
+        keywords = [k.strip().lower() for k in keyword_filter.split(",")]
+        # Count tweets matching any keyword using LIKE
+        match_count = 0
+        for kw in keywords:
+            kw_count = conn.execute("""
+                SELECT COUNT(*) FROM tweets 
+                WHERE asset_id = ? AND LOWER(text) LIKE ?
+            """, [asset_id, f"%{kw}%"]).fetchone()[0]
+            match_count = max(match_count, kw_count)
+        print(f"    📊 Keyword matches: {match_count} tweets in DB contain '{keyword_filter}'")
     
     # Summary
     print(f"\n    Summary: {total_fetched} fetched, {total_filtered} pre-launch filtered, {total_inserted} saved")

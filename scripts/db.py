@@ -555,7 +555,7 @@ def insert_tweets(
 ) -> int:
     """
     Insert tweets into database.
-    Returns number of tweets inserted.
+    Returns number of NEW tweets inserted (not updates).
 
     IMPORTANT - Uses ON CONFLICT DO UPDATE, NOT INSERT OR IGNORE:
     We WANT to update engagement metrics (likes, retweets, impressions)
@@ -566,9 +566,16 @@ def insert_tweets(
     if not tweets:
         return 0
     
-    inserted = 0
+    new_inserts = 0
+    updated = 0
+    
     for tweet in tweets:
         try:
+            # Check if tweet already exists
+            existing = conn.execute(
+                "SELECT 1 FROM tweets WHERE id = ?", [tweet["id"]]
+            ).fetchone()
+            
             conn.execute("""
                 INSERT INTO tweets (id, asset_id, timestamp, text, likes, retweets, replies, impressions, fetched_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())
@@ -588,11 +595,19 @@ def insert_tweets(
                 tweet.get("replies", 0),
                 tweet.get("impressions", 0),
             ])
-            inserted += 1
+            
+            if existing:
+                updated += 1
+            else:
+                new_inserts += 1
+                
         except Exception as e:
             print(f"Error inserting tweet {tweet.get('id')}: {e}")
     
-    return inserted
+    if updated > 0:
+        print(f"      ({new_inserts} new, {updated} updated)")
+    
+    return new_inserts
 
 
 def insert_prices(
