@@ -240,6 +240,12 @@ def fetch_for_asset(
         conn.close()
         return {"status": "skipped", "reason": "Asset is disabled"}
     
+    # Check for skip_tweet_fetch flag (for high-volume accounts that rarely mention the asset)
+    if asset.get("skip_tweet_fetch"):
+        reason = asset.get("skip_tweet_fetch_reason", "skip_tweet_fetch flag is set")
+        conn.close()
+        return {"status": "skipped", "reason": reason}
+    
     print(f"\n{'='*60}")
     print(f"Fetching tweets for {asset['name']} (@{asset['founder']})")
     print(f"{'='*60}")

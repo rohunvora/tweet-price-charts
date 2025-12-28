@@ -240,6 +240,8 @@
       "logo": "/logos/wld.png",
       "keyword_filter": "worldcoin,wld,world coin,world id",
       "tweet_filter_note": "Only tweets mentioning Worldcoin/WLD",
+      "skip_tweet_fetch": true,
+      "skip_tweet_fetch_reason": "Sam Altman rarely tweets about WLD - manual updates only",
       "skip_timeframes": [
         "15m",
         "1m"

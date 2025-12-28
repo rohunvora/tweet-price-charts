@@ -165,7 +165,20 @@ jobs:
           source ../.venv/bin/activate 2>/dev/null || true
           python3 fetch_tweets.py 2>&1 || echo "⚠️ Tweet fetch had errors (continuing anyway)"
         continue-on-error: true
-        timeout-minutes: 10
+        timeout-minutes: 8
+
+      - name: Kill tweet fetch processes
+        if: always()
+        run: |
+          echo "🧹 Cleaning up after tweet fetch..."
+          # Kill ALL Python processes in this workspace (aggressive but necessary)
+          pgrep -f "Python.*tweet-price-charts" | xargs -r kill -9 2>/dev/null || true
+          pkill -9 -f "python3.*fetch" 2>/dev/null || true
+          pkill -9 -f "Python.*scripts" 2>/dev/null || true
+          # Remove DuckDB lock files
+          rm -f data/analytics.duckdb.wal data/analytics.duckdb.tmp 2>/dev/null || true
+          sleep 2
+          echo "✅ Cleanup complete"
 
       - name: Fetch new prices (15m, 1h, 1d)
         env:
@@ -174,21 +187,20 @@ jobs:
         run: |
           echo "Fetching new prices (incremental - only missing data)..."
           cd scripts
-          # Default mode: incremental (checks DB for last timestamp, only fetches new data)
           source ../.venv/bin/activate 2>/dev/null || true
           python3 fetch_prices.py -t 15m -t 1h -t 1d 2>&1 || echo "Price fetch had errors (continuing anyway)"
         continue-on-error: true
         timeout-minutes: 10
 
-      - name: Cleanup any orphaned processes
+      - name: Kill price fetch processes
         if: always()
         run: |
-          # Kill any Python processes that might hold DuckDB locks
-          pkill -9 -f "python.*fetch_prices" 2>/dev/null || true
-          pkill -9 -f "python.*fetch_tweets" 2>/dev/null || true
-          # Remove any stale lock files
-          rm -f data/analytics.duckdb.wal 2>/dev/null || true
-          rm -f data/analytics.duckdb.tmp 2>/dev/null || true
+          echo "🧹 Cleaning up after price fetch..."
+          pgrep -f "Python.*tweet-price-charts" | xargs -r kill -9 2>/dev/null || true
+          pkill -9 -f "python3.*fetch" 2>/dev/null || true
+          pkill -9 -f "Python.*scripts" 2>/dev/null || true
+          rm -f data/analytics.duckdb.wal data/analytics.duckdb.tmp 2>/dev/null || true
+          sleep 2
           echo "✅ Cleanup complete"
 
       - name: Compute statistics
@@ -241,14 +253,17 @@ jobs:
           PYTHON_SCRIPT
 
       - name: Cleanup before export
+        if: always()
         run: |
           echo "🧹 Killing any lingering Python processes before export..."
-          pkill -9 -f "python.*compute_stats" 2>/dev/null || true
-          pkill -9 -f "python.*fetch" 2>/dev/null || true
+          # Kill ALL Python processes that might hold DuckDB locks
+          pgrep -f "Python.*tweet-price-charts" | xargs -r kill -9 2>/dev/null || true
+          pkill -9 -f "python3" 2>/dev/null || true
+          pkill -9 -f "Python.*scripts" 2>/dev/null || true
           # Remove stale DuckDB lock files
           rm -f data/analytics.duckdb.wal 2>/dev/null || true
           rm -f data/analytics.duckdb.tmp 2>/dev/null || true
-          sleep 2
+          sleep 3
           echo "✅ Cleanup complete"
 
       - name: Export static data
