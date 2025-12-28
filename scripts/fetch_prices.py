@@ -321,7 +321,9 @@ def fetch_birdeye_all_timeframes(
     if timeframes is None:
         timeframes = TIMEFRAMES
 
-    now_ts = int(datetime.utcnow().timestamp())
+    # TIMEZONE FIX: Use calendar.timegm() on naive UTC datetime
+    # .timestamp() on naive datetime is interpreted as LOCAL time, not UTC!
+    now_ts = int(calendar.timegm(datetime.utcnow().timetuple()))
 
     # Calculate asset age in days
     asset_age_days = (now_ts - launch_timestamp) // (24 * 60 * 60)
@@ -584,7 +586,9 @@ def fetch_coingecko_all_timeframes(
     supported_tfs = [tf for tf in timeframes if tf in CG_INTERVALS]
 
     results = {}
-    now_ts = int(datetime.utcnow().timestamp())
+    # TIMEZONE FIX: Use calendar.timegm() on naive UTC datetime
+    # .timestamp() on naive datetime is interpreted as LOCAL time, not UTC!
+    now_ts = int(calendar.timegm(datetime.utcnow().timetuple()))
 
     for tf in supported_tfs:
         # Determine start time FIRST so we can log it
@@ -780,7 +784,9 @@ def fetch_geckoterminal_all_timeframes(
         stop_at_timestamps = {}
 
     results = {}
-    now_ts = int(datetime.utcnow().timestamp())
+    # TIMEZONE FIX: Use calendar.timegm() on naive UTC datetime
+    # .timestamp() on naive datetime is interpreted as LOCAL time, not UTC!
+    now_ts = int(calendar.timegm(datetime.utcnow().timetuple()))
 
     for tf in timeframes:
         stop_ts = stop_at_timestamps.get(tf)
@@ -911,7 +917,8 @@ def fetch_hyperliquid_all_timeframes(
     if timeframes is None:
         timeframes = TIMEFRAMES
 
-    now_ms = int(datetime.utcnow().timestamp() * 1000)
+    # TIMEZONE FIX: Use calendar.timegm() on naive UTC datetime
+    now_ms = int(calendar.timegm(datetime.utcnow().timetuple()) * 1000)
     launch_ms = launch_timestamp * 1000
 
     results = {}
@@ -1025,7 +1032,8 @@ def fetch_for_asset(
         else:
             launch_ts = int(datetime.fromisoformat(launch_date.replace('Z', '+00:00')).timestamp())
     else:
-        launch_ts = int(datetime.utcnow().timestamp()) - (365 * 24 * 3600)
+        # TIMEZONE FIX: calendar.timegm() for naive UTC datetime
+        launch_ts = int(calendar.timegm(datetime.utcnow().timetuple())) - (365 * 24 * 3600)
     
     print(f"    Launch: {datetime.utcfromtimestamp(launch_ts).strftime('%Y-%m-%d')}")
     
@@ -1034,7 +1042,9 @@ def fetch_for_asset(
     # =========================================================================
     # Skip granular timeframes for old assets - they have too much history
     # and APIs often have limits (e.g., GeckoTerminal 180-day paywall)
-    now_ts = int(datetime.utcnow().timestamp())
+    # TIMEZONE FIX: Use calendar.timegm() on naive UTC datetime
+    # .timestamp() on naive datetime is interpreted as LOCAL time, not UTC!
+    now_ts = int(calendar.timegm(datetime.utcnow().timetuple()))
     asset_age_days = (now_ts - launch_ts) // (24 * 60 * 60)
     
     # Get skip_timeframes from asset config (manual overrides)
@@ -1239,7 +1249,7 @@ def fetch_for_asset(
             print(f"    📍 Existing data: {found_tfs}")
         
         if fetch_from_ts > launch_ts:
-            age_hours = (int(datetime.utcnow().timestamp()) - fetch_from_ts) / 3600
+            age_hours = (int(calendar.timegm(datetime.utcnow().timetuple())) - fetch_from_ts) / 3600
             print(f"    Incremental from: {datetime.utcfromtimestamp(fetch_from_ts).strftime('%Y-%m-%d %H:%M')} ({age_hours:.1f}h ago)")
         else:
             print(f"    📍 No existing data - will fetch from launch")
