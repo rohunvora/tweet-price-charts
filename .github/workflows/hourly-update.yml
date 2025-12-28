@@ -26,13 +26,23 @@ jobs:
           fetch-depth: 1
 
       - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
+        run: |
+          # Use system Python (works on both GitHub-hosted and self-hosted runners)
+          if command -v python3 &> /dev/null; then
+            echo "Using system Python:"
+            python3 --version
+          else
+            echo "ERROR: Python3 not found"
+            exit 1
+          fi
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          # Create venv to isolate dependencies
+          python3 -m venv .venv || true
+          source .venv/bin/activate 2>/dev/null || true
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
 
       - name: Restore database from cache
         uses: actions/cache@v4
@@ -99,6 +109,7 @@ jobs:
       - name: Verify database and show status
         id: verify-db
         run: |
+          source .venv/bin/activate 2>/dev/null || true
           cd scripts
           python3 << 'PYTHON_SCRIPT'
           import sys
@@ -151,7 +162,8 @@ jobs:
         run: |
           echo "🐦 Fetching new tweets..."
           cd scripts
-          python fetch_tweets.py 2>&1 || echo "⚠️ Tweet fetch had errors (continuing anyway)"
+          source ../.venv/bin/activate 2>/dev/null || true
+          python3 fetch_tweets.py 2>&1 || echo "⚠️ Tweet fetch had errors (continuing anyway)"
         continue-on-error: true
         timeout-minutes: 10
 
@@ -163,7 +175,8 @@ jobs:
           echo "Fetching new prices (incremental - only missing data)..."
           cd scripts
           # Default mode: incremental (checks DB for last timestamp, only fetches new data)
-          python fetch_prices.py -t 15m -t 1h -t 1d 2>&1 || echo "Price fetch had errors (continuing anyway)"
+          source ../.venv/bin/activate 2>/dev/null || true
+          python3 fetch_prices.py -t 15m -t 1h -t 1d 2>&1 || echo "Price fetch had errors (continuing anyway)"
         continue-on-error: true
         timeout-minutes: 10
 
@@ -182,7 +195,8 @@ jobs:
         run: |
           echo "📈 Computing statistics..."
           cd scripts
-          python compute_stats.py 2>&1 || echo "⚠️ Stats computation had errors"
+          source ../.venv/bin/activate 2>/dev/null || true
+          python3 compute_stats.py 2>&1 || echo "⚠️ Stats computation had errors"
         continue-on-error: true
         timeout-minutes: 5
 
@@ -190,6 +204,7 @@ jobs:
         id: pre-snapshot
         run: |
           echo "📸 Capturing pre-export data counts..."
+          source .venv/bin/activate 2>/dev/null || true
           cd scripts
           python3 << 'PYTHON_SCRIPT'
           import json
@@ -230,7 +245,8 @@ jobs:
         run: |
           echo "📦 Exporting static JSON files..."
           cd scripts
-          python export_static.py --no-validate 2>&1
+          source ../.venv/bin/activate 2>/dev/null || true
+          python3 export_static.py --no-validate 2>&1
 
           # Verify export produced files
           if [ -d "../web/public/static/pump" ]; then
@@ -248,6 +264,7 @@ jobs:
         if: steps.export.outputs.export_ok == 'true'
         run: |
           echo "🔍 Validating exported data (checking for truncation)..."
+          source .venv/bin/activate 2>/dev/null || true
           cd scripts
           python3 << 'PYTHON_SCRIPT'
           import json
