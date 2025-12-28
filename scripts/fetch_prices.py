@@ -1029,6 +1029,40 @@ def fetch_for_asset(
     
     print(f"    Launch: {datetime.utcfromtimestamp(launch_ts).strftime('%Y-%m-%d')}")
     
+    # =========================================================================
+    # AGE-BASED TIMEFRAME FILTERING (applies to ALL sources)
+    # =========================================================================
+    # Skip granular timeframes for old assets - they have too much history
+    # and APIs often have limits (e.g., GeckoTerminal 180-day paywall)
+    now_ts = int(datetime.utcnow().timestamp())
+    asset_age_days = (now_ts - launch_ts) // (24 * 60 * 60)
+    
+    # Get skip_timeframes from asset config (manual overrides)
+    config_skip = set(asset.get("skip_timeframes", []))
+    
+    # Auto-skip based on age thresholds
+    auto_skipped = []
+    if asset_age_days > SKIP_1M_AFTER_DAYS and "1m" not in config_skip:
+        config_skip.add("1m")
+        auto_skipped.append(f"1m (asset is {asset_age_days}d old, threshold: {SKIP_1M_AFTER_DAYS}d)")
+    if asset_age_days > SKIP_15M_AFTER_DAYS and "15m" not in config_skip:
+        config_skip.add("15m")
+        auto_skipped.append(f"15m (asset is {asset_age_days}d old, threshold: {SKIP_15M_AFTER_DAYS}d)")
+    
+    if auto_skipped:
+        print(f"    ⏭️  Auto-skipping due to age:")
+        for s in auto_skipped:
+            print(f"       - {s}")
+    
+    # Apply timeframe filtering
+    if timeframes is None:
+        timeframes = TIMEFRAMES
+    timeframes = [tf for tf in timeframes if tf not in config_skip]
+    
+    if not timeframes:
+        conn.close()
+        return {"status": "skipped", "reason": "All timeframes skipped due to asset age"}
+    
     # Fetch based on source
     if price_source == "birdeye":
         token_mint = asset.get("token_mint")

@@ -185,6 +185,7 @@
       "logo": "/logos/wif.png",
       "keyword_filter": "wif",
       "tweet_filter_note": "Only tweets mentioning $WIF",
+      "skip_timeframes": ["15m", "1m"],
       "circulating_supply": 998839633
     },
     {
@@ -221,6 +222,7 @@
       "logo": "/logos/fartcoin.png",
       "keyword_filter": "fartcoin",
       "tweet_filter_note": "Only tweets mentioning $FARTCOIN",
+      "skip_timeframes": ["15m", "1m"],
       "circulating_supply": 999979721
     },
     {
