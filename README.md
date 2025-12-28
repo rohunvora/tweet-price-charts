@@ -6,16 +6,17 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 
 ## Live Site
 
-**https://tweet-price-rohun-voras-projects.vercel.app**
+**https://tweet-price-charts.vercel.app**
 
 ## Current State
 
 ### What's Built
 - **Interactive chart** with TradingView-style candlesticks + tweet markers as avatar bubbles
 - **Data table** sorted by price impact - instantly see which tweets moved price most
-- **8 assets tracked** across 5 networks (Solana, Hyperliquid, BSC, Monad, Base)
-- **2,125 tweet events** with aligned price data
+- **13 assets tracked** across 6 networks (Solana, Hyperliquid, BSC, Monad, Base, Ethereum)
+- **4,400+ tweet events** with aligned price data
 - **Multi-source price fetching** (GeckoTerminal, Birdeye, CoinGecko, Hyperliquid)
+- **Nitter scraper** for historical tweet backfill
 - **CLI tools** for adding assets and validating data integrity
 - **Automated hourly updates** via GitHub Actions with truncation protection
 - **Static export** for fast CDN delivery via Vercel
@@ -24,14 +25,19 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 
 | Token | Founder | Network | Tweets |
 |-------|---------|---------|--------|
-| PUMP | [@a1lon9](https://x.com/a1lon9) | Solana | 102 |
-| HYPE | [@chameleon_jeff](https://x.com/chameleon_jeff) | Hyperliquid | 34 |
-| ASTER | [@cz_binance](https://x.com/cz_binance) | BSC | 309 |
-| LAUNCHCOIN | [@pasternak](https://x.com/pasternak) | Solana | 81 |
-| JUP | [@weremeow](https://x.com/weremeow) | Solana | 664 |
-| MON | [@keoneHD](https://x.com/keoneHD) | Monad | 60 |
-| USELESS | [@theunipcs](https://x.com/theunipcs) | Solana | 426 |
+| FARTCOIN | [@DipWheeler](https://x.com/DipWheeler) | Solana | 1,865 |
+| JUP | [@weremeow](https://x.com/weremeow) | Solana | 662 |
 | ZORA | [@js_horne](https://x.com/js_horne) | Base | 449 |
+| USELESS | [@theunipcs](https://x.com/theunipcs) | Solana | 420 |
+| ASTER | [@cz_binance](https://x.com/cz_binance) | BSC | 306 |
+| WIF | [@blknoiz06](https://x.com/blknoiz06) | Solana | 300 |
+| META | [@metaproph3t](https://x.com/metaproph3t) | Solana | 140 |
+| PUMP | [@a1lon9](https://x.com/a1lon9) | Solana | 102 |
+| LAUNCHCOIN | [@pasternak](https://x.com/pasternak) | Solana | 81 |
+| MON | [@keoneHD](https://x.com/keoneHD) | Monad | 60 |
+| HYPE | [@chameleon_jeff](https://x.com/chameleon_jeff) | Hyperliquid | 35 |
+| XPL | [@pauliepunt](https://x.com/pauliepunt) | BSC | 26 |
+| WLD | [@sama](https://x.com/sama) | Ethereum | 2 |
 
 ## Features
 
@@ -52,7 +58,7 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 ### Multi-Asset Support
 - **Asset selector** dropdown to switch between tracked projects
 - **Per-asset statistics** computed independently
-- **Multi-network** - Solana, Hyperliquid, BSC, Monad
+- **Multi-network** - Solana, Hyperliquid, BSC, Monad, Base, Ethereum
 
 ## Quick Start
 
@@ -119,10 +125,13 @@ tweet-price/
 │   ├── config.py           # Global settings
 │   ├── db.py               # DuckDB database management
 │   ├── fetch_tweets.py     # X API tweet fetcher (incremental)
+│   ├── nitter_scraper.py   # Nitter-based historical tweet scraper
 │   ├── fetch_prices.py     # Multi-source price fetcher
 │   ├── align_tweets.py     # Tweet-price alignment
 │   ├── compute_stats.py    # Statistical analysis
-│   └── export_static.py    # JSON export for frontend
+│   ├── export_static.py    # JSON export for frontend
+│   ├── add_asset.py        # CLI for adding new assets
+│   └── validate_export.py  # Data integrity validation
 │
 ├── data/
 │   ├── analytics.duckdb    # Main DuckDB database
@@ -154,7 +163,7 @@ tweet-price/
 
 ## How It Works
 
-1. **Fetch tweets** from founder accounts via X API v2 (incremental with watermarks)
+1. **Fetch tweets** from founder accounts via X API v2 (incremental) or Nitter scraper (historical backfill)
 2. **Fetch prices** from multiple sources:
    - GeckoTerminal (DEX pools)
    - Birdeye (Solana historical backfill)
