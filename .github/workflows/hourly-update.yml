@@ -156,6 +156,18 @@ jobs:
           PYTHON_SCRIPT
           echo "db_verified=true" >> $GITHUB_OUTPUT
 
+      # MIGRATION: Run idempotent migration to new table architecture
+      # This creates prices_RAW_INGESTION and canonical prices tables
+      # Safe to run multiple times - skips if already migrated
+      - name: Migrate database schema (idempotent)
+        run: |
+          echo "🔄 Running database migration check..."
+          cd scripts
+          source ../.venv/bin/activate 2>/dev/null || true
+          python3 migrate_to_canonical.py
+          echo "✅ Migration check complete"
+        timeout-minutes: 5
+
       # PRICES FIRST: Critical for charts, rarely fails
       - name: Fetch new prices (15m, 1h, 1d)
         env:

@@ -91,6 +91,51 @@ See `docs/DATA_QUALITY_ISSUES.md` for detailed diagnosis and historical incident
 
 ---
 
+## DuckDB Table Architecture (READ THIS FIRST)
+
+### Two Price Tables - Using the Wrong One Causes Bugs
+
+| Table | What it is | Use for queries? |
+|-------|------------|------------------|
+| `prices` | **Canonical** (matches website JSONs) | ✅ YES - always |
+| `prices_RAW_INGESTION` | Raw API data (messy, duplicates) | ❌ NO - debugging only |
+
+### Why Two Tables?
+
+Raw API ingestion can have:
+- Duplicate timestamps from different sources
+- Timezone inconsistencies (00:00 vs 04:00 UTC)
+- Overlapping data from Birdeye, GeckoTerminal, CoinGecko
+
+The export process (`export_static.py`) cleans this up:
+1. Reads from `prices_RAW_INGESTION`
+2. Normalizes timestamps, deduplicates, applies overrides
+3. Writes to static JSONs (the source of truth)
+4. Syncs JSONs back to `prices` (canonical table)
+
+### Data Flow
+
+```
+fetch_prices.py → prices_RAW_INGESTION → export_static.py → JSONs → prices (canonical)
+                        ↓                                                    ↓
+                   (messy raw data)                              (clean, matches website)
+```
+
+### If Counts Don't Match Website
+
+Run `python export_static.py` - it syncs the canonical table after export.
+
+### For Developers/Agents
+
+- **Analysis queries:** Use `prices` (canonical)
+- **Incremental fetch logic:** Uses `prices_RAW_INGESTION` (via `get_raw_price_table()`)
+- **Export reads from:** `prices_RAW_INGESTION`
+- **Views (tweet_events):** Read from `prices` (canonical)
+
+See `db.py` header comment for full architecture documentation.
+
+---
+
 ## Database: Non-Obvious Design Decisions
 
 ### Staleness Limits in tweet_events View (db.py:139-142)

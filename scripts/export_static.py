@@ -40,7 +40,7 @@ from typing import Dict, List, Any, Optional
 from config import PUBLIC_DATA_DIR, ASSETS_FILE
 from db import (
     get_connection, init_schema, get_asset, get_enabled_assets,
-    get_tweet_events
+    get_tweet_events, get_raw_price_table
 )
 from apply_keyword_filter import apply_filter_to_asset, get_filter_stats
 from compute_stats import compute_stats_for_asset, save_stats
@@ -253,9 +253,11 @@ def export_prices_for_asset(
             print(f"    (Deleted old {tf} file)")
     
     # Get available timeframes for this asset
-    timeframes = conn.execute("""
-        SELECT DISTINCT timeframe FROM prices 
-        WHERE asset_id = ? 
+    # Read from RAW table (prices_RAW_INGESTION) after migration
+    raw_table = get_raw_price_table(conn)
+    timeframes = conn.execute(f"""
+        SELECT DISTINCT timeframe FROM {raw_table}
+        WHERE asset_id = ?
         ORDER BY timeframe
     """, [asset_id]).fetchall()
     timeframes = [t[0] for t in timeframes]
@@ -284,20 +286,23 @@ def export_timeframe(
     output_dir: Path
 ) -> int:
     """Export all data for a timeframe to JSON."""
+    # Read from RAW table (prices_RAW_INGESTION) after migration
+    raw_table = get_raw_price_table(conn)
+
     # Check for date range override (e.g., JUP only showing Apr 2025+)
     min_date = get_asset_date_range(asset_id, "prices")
 
     if min_date:
-        cursor = conn.execute("""
+        cursor = conn.execute(f"""
             SELECT timestamp, open, high, low, close, volume
-            FROM prices
+            FROM {raw_table}
             WHERE asset_id = ? AND timeframe = ? AND timestamp >= ?
             ORDER BY timestamp
         """, [asset_id, timeframe, min_date])
     else:
-        cursor = conn.execute("""
+        cursor = conn.execute(f"""
             SELECT timestamp, open, high, low, close, volume
-            FROM prices
+            FROM {raw_table}
             WHERE asset_id = ? AND timeframe = ?
             ORDER BY timestamp
         """, [asset_id, timeframe])
@@ -446,9 +451,11 @@ def export_1m_chunked(
     DO NOT switch to a single prices_1m.json - it will break the frontend.
     See GOTCHAS.md.
     """
-    cursor = conn.execute("""
+    # Read from RAW table (prices_RAW_INGESTION) after migration
+    raw_table = get_raw_price_table(conn)
+    cursor = conn.execute(f"""
         SELECT timestamp, open, high, low, close, volume
-        FROM prices
+        FROM {raw_table}
         WHERE asset_id = ? AND timeframe = '1m'
         ORDER BY timestamp
     """, [asset_id])
@@ -570,13 +577,15 @@ def export_tweet_events_for_asset(
     Raises ValueError in strict mode if data gaps exist.
     """
     # Check if asset has 1m price data, otherwise try 1h
+    # Note: We check the canonical 'prices' table here because tweet_events view
+    # reads from canonical data (tweet alignment uses clean, deduplicated prices)
     has_1m = conn.execute("""
-        SELECT COUNT(*) FROM prices 
+        SELECT COUNT(*) FROM prices
         WHERE asset_id = ? AND timeframe = '1m'
     """, [asset_id]).fetchone()[0] > 0
-    
+
     has_1h = conn.execute("""
-        SELECT COUNT(*) FROM prices 
+        SELECT COUNT(*) FROM prices
         WHERE asset_id = ? AND timeframe = '1h'
     """, [asset_id]).fetchone()[0] > 0
     
@@ -986,6 +995,23 @@ def main():
 
         # Run post-export validation
         validate_exported_data()
+
+    # =========================================================================
+    # SYNC CANONICAL TABLE from freshly exported JSONs
+    # =========================================================================
+    # After export, sync the canonical `prices` table from JSONs.
+    # This ensures DuckDB queries match the website exactly.
+    # =========================================================================
+    print("\n" + "=" * 60)
+    print("SYNCING: JSONs → prices (canonical table)")
+    print("=" * 60)
+    try:
+        from import_canonical import sync_all_from_json
+        sync_all_from_json(verbose=True)
+        print("Canonical sync complete ✓")
+    except Exception as e:
+        print(f"⚠️ Canonical sync failed: {e}")
+        print("  Run 'python import_canonical.py' manually to sync")
 
         # Print summary
         print("\n" + "=" * 60)

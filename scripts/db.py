@@ -1,12 +1,44 @@
 """
 DuckDB database management for tweet-price analytics.
-Single source of truth for all assets, tweets, and price data.
+
+=============================================================================
+DATABASE ARCHITECTURE - READ THIS FIRST
+=============================================================================
+
+⚠️  TWO PRICE TABLES - Using the wrong one causes bugs!
+
+    prices              → CANONICAL data (matches website JSONs)
+                          ✅ USE THIS FOR ALL ANALYSIS QUERIES
+
+    prices_RAW_INGESTION → Raw API data (duplicates, timezone issues, messy)
+                          ❌ NEVER QUERY FOR ANALYSIS (debugging only)
+
+DATA FLOW:
+    1. fetch_prices.py writes to → prices_RAW_INGESTION
+    2. export_static.py reads from prices_RAW_INGESTION → cleans → JSONs
+    3. import_canonical.py syncs JSONs → prices (canonical)
+
+WHY TWO TABLES?
+    Raw ingestion can have duplicates, timezone bugs, overlapping data from
+    multiple sources. The export process cleans this up and writes JSONs,
+    which are the source of truth. JSONs are imported back to `prices` so
+    DuckDB queries match the website exactly.
+
+IF COUNTS DON'T MATCH WEBSITE:
+    Run `python export_static.py` - it syncs the canonical table after export.
+
+See GOTCHAS.md for full documentation.
+=============================================================================
 
 v2.0 Changes:
 - Added data_source tracking for prices (provenance)
 - Added token_mint column to assets
 - Optimized tweet_events with pre-computed price lookups
 - Added gap detection and data quality views
+
+v3.0 Changes:
+- Split prices into canonical (prices) and raw (prices_RAW_INGESTION)
+- Added backwards-compatible table detection functions
 """
 import json
 import duckdb
@@ -27,6 +59,25 @@ def get_connection(db_path: Path = ANALYTICS_DB) -> duckdb.DuckDBPyConnection:
     DATA_DIR.mkdir(exist_ok=True)
     conn = duckdb.connect(str(db_path))
     return conn
+
+
+def get_raw_price_table(conn: duckdb.DuckDBPyConnection) -> str:
+    """
+    Return the table name for RAW price data (write target for ingestion).
+
+    BACKWARDS COMPATIBLE:
+    - Pre-migration: returns 'prices' (old schema, single table)
+    - Post-migration: returns 'prices_RAW_INGESTION' (new schema)
+
+    Use this for:
+    - insert_prices() write target
+    - get_latest_price_timestamp() for incremental fetch resumption
+    - export_static.py reading raw data for export
+
+    DO NOT use this for analysis queries - use 'prices' directly (canonical).
+    """
+    tables = [r[0] for r in conn.execute("SHOW TABLES").fetchall()]
+    return 'prices_RAW_INGESTION' if 'prices_RAW_INGESTION' in tables else 'prices'
 
 
 def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
@@ -521,12 +572,20 @@ def get_latest_price_timestamp(
     asset_id: str,
     timeframe: str
 ) -> Optional[datetime]:
-    """Get the latest price timestamp for an asset/timeframe combo."""
-    result = conn.execute("""
-        SELECT MAX(timestamp) FROM prices
+    """
+    Get the latest price timestamp for an asset/timeframe combo.
+
+    IMPORTANT: Reads from RAW table (prices_RAW_INGESTION) after migration.
+    This is correct because we need the most recent ingested data to know
+    where to resume fetching, not the canonical data (which may lag).
+    """
+    # Use raw table for incremental fetch resumption
+    table = get_raw_price_table(conn)
+    result = conn.execute(f"""
+        SELECT MAX(timestamp) FROM {table}
         WHERE asset_id = ? AND timeframe = ?
     """, [asset_id, timeframe]).fetchone()
-    
+
     return result[0] if result and result[0] else None
 
 
@@ -620,27 +679,33 @@ def insert_prices(
     """
     Insert price candles into database.
     Returns number of NEW candles inserted (not updates to existing ones).
-    
+
+    IMPORTANT: Writes to RAW table (prices_RAW_INGESTION) after migration.
+    The canonical `prices` table is synced from JSONs after export.
+
     Args:
         conn: Database connection
         asset_id: Asset identifier
         timeframe: Timeframe (1m, 15m, 1h, 1d)
         candles: List of candle dicts with timestamp_epoch, open, high, low, close, volume
         data_source: Source of data (geckoterminal, birdeye, hyperliquid, coingecko)
-    
+
     Note:
         Uses ON CONFLICT to upsert - existing candles are updated, new ones inserted.
         We count before/after to accurately report only NEW inserts (not updates).
     """
     if not candles:
         return 0
-    
+
+    # Use raw table for ingestion
+    table = get_raw_price_table(conn)
+
     # Count existing candles BEFORE insert to calculate actual new inserts
-    count_before = conn.execute("""
-        SELECT COUNT(*) FROM prices 
+    count_before = conn.execute(f"""
+        SELECT COUNT(*) FROM {table}
         WHERE asset_id = ? AND timeframe = ?
     """, [asset_id, timeframe]).fetchone()[0]
-    
+
     # Prepare data for bulk insert
     data = [
         (
@@ -656,9 +721,9 @@ def insert_prices(
         )
         for c in candles
     ]
-    
-    conn.executemany("""
-        INSERT INTO prices (asset_id, timeframe, timestamp, open, high, low, close, volume, data_source, fetched_at)
+
+    conn.executemany(f"""
+        INSERT INTO {table} (asset_id, timeframe, timestamp, open, high, low, close, volume, data_source, fetched_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now())
         ON CONFLICT (asset_id, timeframe, timestamp) DO UPDATE SET
             open = EXCLUDED.open,
@@ -669,13 +734,13 @@ def insert_prices(
             data_source = EXCLUDED.data_source,
             fetched_at = now()
     """, data)
-    
+
     # Count AFTER to get actual new inserts
-    count_after = conn.execute("""
-        SELECT COUNT(*) FROM prices 
+    count_after = conn.execute(f"""
+        SELECT COUNT(*) FROM {table}
         WHERE asset_id = ? AND timeframe = ?
     """, [asset_id, timeframe]).fetchone()[0]
-    
+
     # Return only the NEW candles (updates don't increase count)
     new_inserts = count_after - count_before
     return new_inserts

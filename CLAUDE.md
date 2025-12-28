@@ -4,6 +4,17 @@
 
 **Read `GOTCHAS.md` first.** It documents non-obvious design decisions and past debugging sessions that will save you hours of re-fixing things.
 
+## IMPORTANT: Database Architecture
+
+Before querying DuckDB, understand the two-table architecture:
+
+| Table | Purpose | Query this? |
+|-------|---------|-------------|
+| `prices` | Canonical (matches website) | ✅ YES |
+| `prices_RAW_INGESTION` | Raw messy data | ❌ NO |
+
+**TL;DR:** Query `prices`, never `prices_RAW_INGESTION`. See GOTCHAS.md "DuckDB Table Architecture" section.
+
 ## Project Overview
 
 Tweet-Price Correlation Analyzer - visualizes the relationship between founder tweets and token prices.
