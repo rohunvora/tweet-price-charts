@@ -419,8 +419,20 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M UTC")
           git commit -m "chore: hourly data update $TIMESTAMP"
-          git push
-          echo "✅ Changes pushed to repository"
+
+          # Handle potential conflicts from concurrent pushes (e.g., manual commits)
+          # Retry up to 3 times with rebase
+          for i in 1 2 3; do
+            if git push; then
+              echo "✅ Changes pushed to repository"
+              exit 0
+            fi
+            echo "⚠️ Push failed (attempt $i/3), rebasing and retrying..."
+            git pull --rebase origin main
+          done
+
+          echo "❌ Failed to push after 3 attempts"
+          exit 1
 
       - name: Save database to cache
         uses: actions/cache/save@v4
