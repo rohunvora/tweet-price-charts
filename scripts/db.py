@@ -101,6 +101,8 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
             enabled BOOLEAN DEFAULT true,
             keyword_filter VARCHAR,
             tweet_filter_note VARCHAR,
+            skip_tweet_fetch BOOLEAN DEFAULT FALSE,
+            skip_tweet_fetch_reason VARCHAR,
             created_at TIMESTAMP DEFAULT now(),
             updated_at TIMESTAMP DEFAULT now()
         )
@@ -110,6 +112,8 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
     try:
         conn.execute("ALTER TABLE assets ADD COLUMN IF NOT EXISTS token_mint VARCHAR")
         conn.execute("ALTER TABLE assets ADD COLUMN IF NOT EXISTS backfill_source VARCHAR")
+        conn.execute("ALTER TABLE assets ADD COLUMN IF NOT EXISTS skip_tweet_fetch BOOLEAN DEFAULT FALSE")
+        conn.execute("ALTER TABLE assets ADD COLUMN IF NOT EXISTS skip_tweet_fetch_reason VARCHAR")
     except:
         pass
     
@@ -413,8 +417,9 @@ def load_assets_from_json(conn: duckdb.DuckDBPyConnection, assets_file: Path = A
         conn.execute("""
             INSERT INTO assets (id, name, founder, founder_type, network, pool_address, token_mint,
                                coingecko_id, price_source, backfill_source, launch_date, 
-                               color, enabled, keyword_filter, tweet_filter_note, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())
+                               color, enabled, keyword_filter, tweet_filter_note,
+                               skip_tweet_fetch, skip_tweet_fetch_reason, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())
             ON CONFLICT (id) DO UPDATE SET
                 name = EXCLUDED.name,
                 founder = EXCLUDED.founder,
@@ -430,6 +435,8 @@ def load_assets_from_json(conn: duckdb.DuckDBPyConnection, assets_file: Path = A
                 enabled = EXCLUDED.enabled,
                 keyword_filter = EXCLUDED.keyword_filter,
                 tweet_filter_note = EXCLUDED.tweet_filter_note,
+                skip_tweet_fetch = EXCLUDED.skip_tweet_fetch,
+                skip_tweet_fetch_reason = EXCLUDED.skip_tweet_fetch_reason,
                 updated_at = now()
         """, [
             asset["id"],
@@ -447,6 +454,8 @@ def load_assets_from_json(conn: duckdb.DuckDBPyConnection, assets_file: Path = A
             asset.get("enabled", True),
             asset.get("keyword_filter"),
             asset.get("tweet_filter_note"),
+            asset.get("skip_tweet_fetch", False),
+            asset.get("skip_tweet_fetch_reason"),
         ])
         count += 1
     
@@ -457,7 +466,8 @@ def get_asset(conn: duckdb.DuckDBPyConnection, asset_id: str) -> Optional[Dict[s
     """Get a single asset by ID."""
     result = conn.execute("""
         SELECT id, name, founder, founder_type, network, pool_address, token_mint, coingecko_id,
-               price_source, backfill_source, launch_date, color, enabled, keyword_filter, tweet_filter_note
+               price_source, backfill_source, launch_date, color, enabled, keyword_filter, tweet_filter_note,
+               skip_tweet_fetch, skip_tweet_fetch_reason
         FROM assets WHERE id = ?
     """, [asset_id]).fetchone()
     
@@ -480,6 +490,8 @@ def get_asset(conn: duckdb.DuckDBPyConnection, asset_id: str) -> Optional[Dict[s
         "enabled": result[12],
         "keyword_filter": result[13],
         "tweet_filter_note": result[14],
+        "skip_tweet_fetch": result[15],
+        "skip_tweet_fetch_reason": result[16],
     }
 
 
@@ -487,7 +499,8 @@ def get_enabled_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
     """Get all enabled assets."""
     results = conn.execute("""
         SELECT id, name, founder, founder_type, network, pool_address, token_mint, coingecko_id,
-               price_source, backfill_source, launch_date, color, enabled, keyword_filter, tweet_filter_note
+               price_source, backfill_source, launch_date, color, enabled, keyword_filter, tweet_filter_note,
+               skip_tweet_fetch, skip_tweet_fetch_reason
         FROM assets WHERE enabled = true
         ORDER BY name
     """).fetchall()
@@ -509,6 +522,8 @@ def get_enabled_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
             "enabled": r[12],
             "keyword_filter": r[13],
             "tweet_filter_note": r[14],
+            "skip_tweet_fetch": r[15],
+            "skip_tweet_fetch_reason": r[16],
         }
         for r in results
     ]
@@ -518,7 +533,8 @@ def get_all_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
     """Get all assets (including disabled)."""
     results = conn.execute("""
         SELECT id, name, founder, founder_type, network, pool_address, token_mint, coingecko_id,
-               price_source, backfill_source, launch_date, color, enabled, keyword_filter, tweet_filter_note
+               price_source, backfill_source, launch_date, color, enabled, keyword_filter, tweet_filter_note,
+               skip_tweet_fetch, skip_tweet_fetch_reason
         FROM assets
         ORDER BY name
     """).fetchall()
@@ -540,6 +556,8 @@ def get_all_assets(conn: duckdb.DuckDBPyConnection) -> List[Dict[str, Any]]:
             "enabled": r[12],
             "keyword_filter": r[13],
             "tweet_filter_note": r[14],
+            "skip_tweet_fetch": r[15],
+            "skip_tweet_fetch_reason": r[16],
         }
         for r in results
     ]

@@ -451,13 +451,14 @@ def fetch_for_asset(
             
             total_fetched += len(tweets)
             
-            # KEYWORD FILTER - Only store tweets matching keyword_filter
-            # This prevents DB pollution with irrelevant tweets.
-            # Uses word-boundary matching (same as apply_keyword_filter.py) to ensure
-            # consistent filtering across fetch and export.
+            # KEYWORD FILTER - ONLY for ADOPTER assets (founder_type == "adopter")
+            # Adopters are high-volume accounts (e.g. @blknoiz06 for WIF) where only
+            # coin-specific tweets matter. Founders created the token, so ALL their tweets are relevant.
+            # Uses word-boundary matching (same as apply_keyword_filter.py) for consistency.
             # Example: "wif" matches "$WIF" but not "wifey"
+            founder_type = asset.get("founder_type")
             keyword_filter = asset.get("keyword_filter")
-            if keyword_filter and filtered_tweets:
+            if founder_type == "adopter" and keyword_filter and filtered_tweets:
                 keyword_matched = []
                 for t in filtered_tweets:
                     tweet_text = t.get("text", "")
@@ -466,7 +467,7 @@ def fetch_for_asset(
                 keyword_filtered_count = len(filtered_tweets) - len(keyword_matched)
                 filtered_tweets = keyword_matched
                 if keyword_filtered_count > 0:
-                    print(f"      (filtered {keyword_filtered_count} tweets not matching '{keyword_filter}')")
+                    print(f"      (adopter asset - filtered {keyword_filtered_count} tweets not matching '{keyword_filter}')")
             
             # INSERT IMMEDIATELY - this is the key for resilience
             if filtered_tweets:
@@ -493,14 +494,19 @@ def fetch_for_asset(
     if run_oldest_id:
         update_ingestion_state(conn, asset_id, "tweets_oldest", last_id=run_oldest_id)
     
-    # KEYWORD STATS - Since we filter at fetch time, all DB tweets should match.
-    # This count is for verification/debugging.
+    # DB STATS - Show total tweets stored for this asset
+    # For adopters: filtered to keyword matches at fetch time
+    # For founders: ALL tweets stored (no keyword filtering)
+    founder_type = asset.get("founder_type")
     keyword_filter = asset.get("keyword_filter")
-    if keyword_filter:
-        total_in_db = conn.execute("""
-            SELECT COUNT(*) FROM tweets WHERE asset_id = ?
-        """, [asset_id]).fetchone()[0]
-        print(f"    📊 Total tweets in DB for {asset_id}: {total_in_db} (all match '{keyword_filter}')")
+    total_in_db = conn.execute("""
+        SELECT COUNT(*) FROM tweets WHERE asset_id = ?
+    """, [asset_id]).fetchone()[0]
+    
+    if founder_type == "adopter" and keyword_filter:
+        print(f"    📊 Total tweets in DB for {asset_id}: {total_in_db} (adopter - filtered to '{keyword_filter}')")
+    else:
+        print(f"    📊 Total tweets in DB for {asset_id}: {total_in_db} (founder - all tweets stored)")
     
     # Summary
     print(f"\n    Summary: {total_fetched} fetched, {total_filtered} pre-launch filtered, {total_inserted} saved")
