@@ -619,7 +619,7 @@ def insert_prices(
 ) -> int:
     """
     Insert price candles into database.
-    Returns number of candles inserted.
+    Returns number of NEW candles inserted (not updates to existing ones).
     
     Args:
         conn: Database connection
@@ -627,9 +627,19 @@ def insert_prices(
         timeframe: Timeframe (1m, 15m, 1h, 1d)
         candles: List of candle dicts with timestamp_epoch, open, high, low, close, volume
         data_source: Source of data (geckoterminal, birdeye, hyperliquid, coingecko)
+    
+    Note:
+        Uses ON CONFLICT to upsert - existing candles are updated, new ones inserted.
+        We count before/after to accurately report only NEW inserts (not updates).
     """
     if not candles:
         return 0
+    
+    # Count existing candles BEFORE insert to calculate actual new inserts
+    count_before = conn.execute("""
+        SELECT COUNT(*) FROM prices 
+        WHERE asset_id = ? AND timeframe = ?
+    """, [asset_id, timeframe]).fetchone()[0]
     
     # Prepare data for bulk insert
     data = [
@@ -660,7 +670,15 @@ def insert_prices(
             fetched_at = now()
     """, data)
     
-    return len(data)
+    # Count AFTER to get actual new inserts
+    count_after = conn.execute("""
+        SELECT COUNT(*) FROM prices 
+        WHERE asset_id = ? AND timeframe = ?
+    """, [asset_id, timeframe]).fetchone()[0]
+    
+    # Return only the NEW candles (updates don't increase count)
+    new_inserts = count_after - count_before
+    return new_inserts
 
 
 def _get_tweet_events_all(

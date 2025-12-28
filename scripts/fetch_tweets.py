@@ -7,6 +7,20 @@ Features:
 - Dual watermarks: newest_id (for updates) + oldest_id (for backfill)
 - Automatic retry with exponential backoff
 - Resume capability after interruption
+- Keyword filtering at fetch time (prevents DB pollution)
+
+KEYWORD FILTERING:
+    For assets with keyword_filter set in assets.json, tweets are filtered
+    BEFORE being stored in the database. This ensures:
+    1. DB stays in sync with what will be exported to JSON
+    2. No accumulation of irrelevant tweets over time
+    3. Consistent counts between fetch and export
+    
+    The filtering uses word-boundary matching (not substring matching):
+    - "wif" matches "bought some $WIF" but NOT "wifey"
+    - Supports cashtags ($WIF) and hashtags (#WIF)
+    
+    See apply_keyword_filter.py for the matching logic.
 
 Usage:
     python fetch_tweets.py                    # Update all assets (fetch new tweets)
@@ -33,6 +47,8 @@ from db import (
     get_ingestion_state, update_ingestion_state, insert_tweets,
     load_assets_from_json
 )
+# Import keyword matching function for consistent filtering across codebase
+from apply_keyword_filter import keyword_matches
 
 
 def get_user_id(client: httpx.Client, username: str) -> tuple:
@@ -344,14 +360,16 @@ def fetch_for_asset(
             total_fetched += len(tweets)
             
             # KEYWORD FILTER - Only store tweets matching keyword_filter
-            # This prevents DB pollution with irrelevant tweets
+            # This prevents DB pollution with irrelevant tweets.
+            # Uses word-boundary matching (same as apply_keyword_filter.py) to ensure
+            # consistent filtering across fetch and export.
+            # Example: "wif" matches "$WIF" but not "wifey"
             keyword_filter = asset.get("keyword_filter")
             if keyword_filter and filtered_tweets:
-                keywords = [k.strip().lower() for k in keyword_filter.split(",")]
                 keyword_matched = []
                 for t in filtered_tweets:
-                    text_lower = t.get("text", "").lower()
-                    if any(kw in text_lower for kw in keywords):
+                    tweet_text = t.get("text", "")
+                    if keyword_matches(tweet_text, keyword_filter):
                         keyword_matched.append(t)
                 keyword_filtered_count = len(filtered_tweets) - len(keyword_matched)
                 filtered_tweets = keyword_matched
@@ -383,19 +401,14 @@ def fetch_for_asset(
     if run_oldest_id:
         update_ingestion_state(conn, asset_id, "tweets_oldest", last_id=run_oldest_id)
     
-    # KEYWORD MATCH STATS - show how many tweets actually contain the keyword
+    # KEYWORD STATS - Since we filter at fetch time, all DB tweets should match.
+    # This count is for verification/debugging.
     keyword_filter = asset.get("keyword_filter")
-    if keyword_filter and total_inserted > 0:
-        keywords = [k.strip().lower() for k in keyword_filter.split(",")]
-        # Count tweets matching any keyword using LIKE
-        match_count = 0
-        for kw in keywords:
-            kw_count = conn.execute("""
-                SELECT COUNT(*) FROM tweets 
-                WHERE asset_id = ? AND LOWER(text) LIKE ?
-            """, [asset_id, f"%{kw}%"]).fetchone()[0]
-            match_count = max(match_count, kw_count)
-        print(f"    📊 Keyword matches: {match_count} tweets in DB contain '{keyword_filter}'")
+    if keyword_filter:
+        total_in_db = conn.execute("""
+            SELECT COUNT(*) FROM tweets WHERE asset_id = ?
+        """, [asset_id]).fetchone()[0]
+        print(f"    📊 Total tweets in DB for {asset_id}: {total_in_db} (all match '{keyword_filter}')")
     
     # Summary
     print(f"\n    Summary: {total_fetched} fetched, {total_filtered} pre-launch filtered, {total_inserted} saved")
