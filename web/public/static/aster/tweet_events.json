@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T22:41:37.658560Z",
+  "generated_at": "2025-12-28T23:26:51.262947Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -20,12 +20,12 @@
       "retweets": 206,
       "replies": 642,
       "impressions": 816271,
-      "price_at_tweet": 0.20236746050295282,
-      "price_1h": 0.19566860128093472,
-      "price_24h": 0.7564594427450573,
+      "price_at_tweet": 0.20236746,
+      "price_1h": 0.1956686,
+      "price_24h": 0.75645944,
       "change_1h_pct": -3.31,
       "change_24h_pct": 273.8,
-      "market_cap_at_tweet": 1618939684.02
+      "market_cap_at_tweet": 1618939680.0
     },
     {
       "tweet_id": "1968358873556992120",
@@ -40,12 +40,12 @@
       "retweets": 2207,
       "replies": 3970,
       "impressions": 3518841,
-      "price_at_tweet": 0.3607510866372406,
-      "price_1h": 0.43579104495069354,
-      "price_24h": 0.6143758379750803,
+      "price_at_tweet": 0.36075109,
+      "price_1h": 0.43579104,
+      "price_24h": 0.61437584,
       "change_1h_pct": 20.8,
       "change_24h_pct": 70.3,
-      "market_cap_at_tweet": 2886008693.1
+      "market_cap_at_tweet": 2886008720.0
     },
     {
       "tweet_id": "1968388115153965161",
@@ -60,12 +60,12 @@
       "retweets": 294,
       "replies": 723,
       "impressions": 746131,
-      "price_at_tweet": 0.41649891481220097,
-      "price_1h": 0.4035136103546518,
-      "price_24h": 0.6325646370384786,
+      "price_at_tweet": 0.41649891,
+      "price_1h": 0.40351361,
+      "price_24h": 0.63256464,
       "change_1h_pct": -3.12,
       "change_24h_pct": 51.88,
-      "market_cap_at_tweet": 3331991318.5
+      "market_cap_at_tweet": 3331991280.0
     },
     {
       "tweet_id": "1968533125929058454",
@@ -80,12 +80,12 @@
       "retweets": 1300,
       "replies": 948,
       "impressions": 1338575,
-      "price_at_tweet": 0.4842761248270603,
-      "price_1h": 0.45634169155817134,
-      "price_24h": 0.6595381100503377,
+      "price_at_tweet": 0.48427612,
+      "price_1h": 0.45634169,
+      "price_24h": 0.65953811,
       "change_1h_pct": -5.77,
       "change_24h_pct": 36.19,
-      "market_cap_at_tweet": 3874208998.62
+      "market_cap_at_tweet": 3874208960.0
     },
     {
       "tweet_id": "1968597908413923352",
@@ -100,12 +100,12 @@
       "retweets": 3174,
       "replies": 3943,
       "impressions": 2025151,
-      "price_at_tweet": 0.47767681168381526,
-      "price_1h": 0.5572668706142578,
+      "price_at_tweet": 0.47767681,
+      "price_1h": 0.55726687,
       "price_24h": 0.59948125,
       "change_1h_pct": 16.66,
       "change_24h_pct": 25.5,
-      "market_cap_at_tweet": 3821414493.47
+      "market_cap_at_tweet": 3821414480.0
     },
     {
       "tweet_id": "1968611211676623245",
@@ -120,12 +120,12 @@
       "retweets": 713,
       "replies": 1159,
       "impressions": 806867,
-      "price_at_tweet": 0.5572668706142578,
-      "price_1h": 0.6038902987401132,
+      "price_at_tweet": 0.55726687,
+      "price_1h": 0.6038903,
       "price_24h": 0.65258233,
       "change_1h_pct": 8.37,
       "change_24h_pct": 17.1,
-      "market_cap_at_tweet": 4458134964.91
+      "market_cap_at_tweet": 4458134960.0
     },
     {
       "tweet_id": "1968776498183291072",
@@ -140,12 +140,12 @@
       "retweets": 1645,
       "replies": 2113,
       "impressions": 2122626,
-      "price_at_tweet": 0.6453400315077095,
-      "price_1h": 0.5834554535105886,
+      "price_at_tweet": 0.64534003,
+      "price_1h": 0.58345545,
       "price_24h": 0.68119817,
       "change_1h_pct": -9.59,
       "change_24h_pct": 5.56,
-      "market_cap_at_tweet": 5162720252.06
+      "market_cap_at_tweet": 5162720240.0
     },
     {
       "tweet_id": "1968896917565284860",
@@ -160,12 +160,12 @@
       "retweets": 546,
       "replies": 951,
       "impressions": 1226548,
-      "price_at_tweet": 0.6595381100503377,
+      "price_at_tweet": 0.65953811,
       "price_1h": 0.55089877,
       "price_24h": 0.90618882,
       "change_1h_pct": -16.47,
       "change_24h_pct": 37.4,
-      "market_cap_at_tweet": 5276304880.4
+      "market_cap_at_tweet": 5276304880.0
     },
     {
       "tweet_id": "1969084937014780313",
@@ -6122,7 +6122,7 @@
       "impressions": 199493,
       "price_at_tweet": 0.69279292,
       "price_1h": 0.68888656,
-      "price_24h": 0.702535189056765,
+      "price_24h": 0.70253519,
       "change_1h_pct": -0.56,
       "change_24h_pct": 1.41,
       "market_cap_at_tweet": 5542343360.0

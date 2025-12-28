@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T22:44:25.761786Z",
+  "generated_at": "2025-12-28T23:28:20.046857Z",
   "asset": "xpl",
   "asset_name": "XPL",
   "founder": "pauliepunt",
@@ -20,12 +20,12 @@
       "retweets": 50,
       "replies": 94,
       "impressions": 77956,
-      "price_at_tweet": 1.28584335318667,
-      "price_1h": 1.28584335318667,
-      "price_24h": 1.28101918980359,
+      "price_at_tweet": 1.28584335,
+      "price_1h": 1.28584335,
+      "price_24h": 1.28101919,
       "change_1h_pct": 0.0,
       "change_24h_pct": -0.38,
-      "market_cap_at_tweet": 147705601.34
+      "market_cap_at_tweet": 147705600.98
     },
     {
       "tweet_id": "1971228954771222699",
@@ -40,12 +40,12 @@
       "retweets": 15,
       "replies": 33,
       "impressions": 52938,
-      "price_at_tweet": 1.28584335318667,
-      "price_1h": 0.864832698965418,
-      "price_24h": 1.17711456487066,
+      "price_at_tweet": 1.28584335,
+      "price_1h": 0.8648327,
+      "price_24h": 1.17711456,
       "change_1h_pct": -32.74,
       "change_24h_pct": -8.46,
-      "market_cap_at_tweet": 147705601.34
+      "market_cap_at_tweet": 147705600.98
     },
     {
       "tweet_id": "1971578765450064340",
@@ -60,12 +60,12 @@
       "retweets": 24,
       "replies": 93,
       "impressions": 140393,
-      "price_at_tweet": 1.20621577838286,
-      "price_1h": 1.17711456487066,
-      "price_24h": 1.4687015614723,
+      "price_at_tweet": 1.20621578,
+      "price_1h": 1.17711456,
+      "price_24h": 1.46870156,
       "change_1h_pct": -2.41,
       "change_24h_pct": 21.76,
-      "market_cap_at_tweet": 138558733.81
+      "market_cap_at_tweet": 138558734.0
     },
     {
       "tweet_id": "1972260175961903320",
@@ -80,12 +80,12 @@
       "retweets": 53,
       "replies": 186,
       "impressions": 118316,
-      "price_at_tweet": 1.56150580943,
-      "price_1h": 1.48332218584719,
-      "price_24h": 1.32041990425993,
+      "price_at_tweet": 1.56150581,
+      "price_1h": 1.48332219,
+      "price_24h": 1.3204199,
       "change_1h_pct": -5.01,
       "change_24h_pct": -15.44,
-      "market_cap_at_tweet": 179371113.92
+      "market_cap_at_tweet": 179371113.98
     },
     {
       "tweet_id": "1973495918709391529",
@@ -100,12 +100,12 @@
       "retweets": 488,
       "replies": 687,
       "impressions": 962582,
-      "price_at_tweet": 0.93075321674144,
-      "price_1h": 0.954999469545838,
-      "price_24h": 0.945054530958676,
+      "price_at_tweet": 0.93075322,
+      "price_1h": 0.95499947,
+      "price_24h": 0.94505453,
       "change_1h_pct": 2.61,
       "change_24h_pct": 1.54,
-      "market_cap_at_tweet": 106916183.25
+      "market_cap_at_tweet": 106916183.63
     },
     {
       "tweet_id": "1975254337132593646",
@@ -120,12 +120,12 @@
       "retweets": 45,
       "replies": 64,
       "impressions": 56568,
-      "price_at_tweet": 0.904347743369305,
-      "price_1h": 0.900758523561279,
-      "price_24h": 0.978997564073948,
+      "price_at_tweet": 0.90434774,
+      "price_1h": 0.90075852,
+      "price_24h": 0.97899756,
       "change_1h_pct": -0.4,
       "change_24h_pct": 8.25,
-      "market_cap_at_tweet": 103882970.6
+      "market_cap_at_tweet": 103882970.22
     },
     {
       "tweet_id": "1975549996780163274",
@@ -140,12 +140,12 @@
       "retweets": 38,
       "replies": 110,
       "impressions": 32405,
-      "price_at_tweet": 0.978656844523288,
-      "price_1h": 0.977456559006325,
-      "price_24h": 0.866911349925579,
+      "price_at_tweet": 0.97865684,
+      "price_1h": 0.97745656,
+      "price_24h": 0.86691135,
       "change_1h_pct": -0.12,
       "change_24h_pct": -11.42,
-      "market_cap_at_tweet": 112418901.86
+      "market_cap_at_tweet": 112418901.34
     },
     {
       "tweet_id": "1977424879969603874",
@@ -160,12 +160,12 @@
       "retweets": 94,
       "replies": 171,
       "impressions": 344583,
-      "price_at_tweet": 0.434479392770455,
-      "price_1h": 0.436777541236947,
-      "price_24h": 0.435573135038039,
+      "price_at_tweet": 0.43447939,
+      "price_1h": 0.43677754,
+      "price_24h": 0.43557314,
       "change_1h_pct": 0.53,
       "change_24h_pct": 0.25,
-      "market_cap_at_tweet": 49908909.84
+      "market_cap_at_tweet": 49908909.52
     },
     {
       "tweet_id": "1988964632242057326",
@@ -180,12 +180,12 @@
       "retweets": 7,
       "replies": 58,
       "impressions": 39360,
-      "price_at_tweet": 0.266373521901213,
-      "price_1h": 0.263566411522808,
-      "price_24h": 0.235009480710214,
+      "price_at_tweet": 0.26637352,
+      "price_1h": 0.26356641,
+      "price_24h": 0.23500948,
       "change_1h_pct": -1.05,
       "change_24h_pct": -11.77,
-      "market_cap_at_tweet": 30598487.08
+      "market_cap_at_tweet": 30598486.87
     },
     {
       "tweet_id": "1993592407682850937",
@@ -200,12 +200,12 @@
       "retweets": 3,
       "replies": 31,
       "impressions": 29431,
-      "price_at_tweet": 0.211354079298632,
-      "price_1h": 0.209279912275444,
-      "price_24h": 0.215831296071945,
+      "price_at_tweet": 0.21135408,
+      "price_1h": 0.20927991,
+      "price_24h": 0.2158313,
       "change_1h_pct": -0.98,
       "change_24h_pct": 2.12,
-      "market_cap_at_tweet": 24278370.54
+      "market_cap_at_tweet": 24278370.62
     },
     {
       "tweet_id": "1998365716194709684",
@@ -220,12 +220,12 @@
       "retweets": 3,
       "replies": 46,
       "impressions": 27264,
-      "price_at_tweet": 0.159597349596012,
-      "price_1h": 0.160641085678677,
-      "price_24h": 0.174507830075877,
+      "price_at_tweet": 0.15959735,
+      "price_1h": 0.16064109,
+      "price_24h": 0.17450783,
       "change_1h_pct": 0.65,
       "change_24h_pct": 9.34,
-      "market_cap_at_tweet": 18333043.79
+      "market_cap_at_tweet": 18333043.83
     },
     {
       "tweet_id": "1998428213651869942",
@@ -240,12 +240,12 @@
       "retweets": 5,
       "replies": 12,
       "impressions": 13532,
-      "price_at_tweet": 0.159974241774949,
-      "price_1h": 0.161127536671753,
-      "price_24h": 0.171749333138959,
+      "price_at_tweet": 0.15997424,
+      "price_1h": 0.16112754,
+      "price_24h": 0.17174933,
       "change_1h_pct": 0.72,
       "change_24h_pct": 7.36,
-      "market_cap_at_tweet": 18376337.62
+      "market_cap_at_tweet": 18376337.41
     },
     {
       "tweet_id": "1999128006707511678",
@@ -260,12 +260,12 @@
       "retweets": 0,
       "replies": 4,
       "impressions": 2245,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128005168226308",
@@ -280,12 +280,12 @@
       "retweets": 9,
       "replies": 56,
       "impressions": 27985,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128008255259135",
@@ -300,12 +300,12 @@
       "retweets": 2,
       "replies": 2,
       "impressions": 2230,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128010000048160",
@@ -320,12 +320,12 @@
       "retweets": 2,
       "replies": 4,
       "impressions": 2554,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128011732398416",
@@ -340,12 +340,12 @@
       "retweets": 0,
       "replies": 2,
       "impressions": 1924,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128013594595608",
@@ -360,12 +360,12 @@
       "retweets": 2,
       "replies": 2,
       "impressions": 1801,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128015154929996",
@@ -380,12 +380,12 @@
       "retweets": 2,
       "replies": 1,
       "impressions": 2705,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128017042362399",
@@ -400,12 +400,12 @@
       "retweets": 3,
       "replies": 2,
       "impressions": 9168,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128019189784995",
@@ -420,12 +420,12 @@
       "retweets": 0,
       "replies": 1,
       "impressions": 1681,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128020724957584",
@@ -440,12 +440,12 @@
       "retweets": 2,
       "replies": 1,
       "impressions": 1671,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128022197190942",
@@ -460,12 +460,12 @@
       "retweets": 0,
       "replies": 2,
       "impressions": 2348,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128024118108184",
@@ -480,12 +480,12 @@
       "retweets": 0,
       "replies": 1,
       "impressions": 1460,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128025883955377",
@@ -500,12 +500,12 @@
       "retweets": 0,
       "replies": 6,
       "impressions": 4830,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128027444183452",
@@ -520,12 +520,12 @@
       "retweets": 0,
       "replies": 33,
       "impressions": 4760,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     }
   ]
 }

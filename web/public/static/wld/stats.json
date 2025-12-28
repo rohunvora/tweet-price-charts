@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T22:44:06.750489Z",
+  "generated_at": "2025-12-28T23:28:12.131061Z",
   "asset": "wld",
   "asset_name": "WLD",
   "founder": "sama",
@@ -13,34 +13,23 @@
     "total_days_analyzed": 888
   },
   "daily_comparison": {
-    "tweet_day_count": 2,
-    "tweet_day_avg_return": 3.27,
-    "tweet_day_win_rate": 100.0,
-    "tweet_day_distribution": {
-      "count": 2,
-      "mean": 3.27,
-      "median": 3.27,
-      "std_dev": 0.84,
-      "min": 2.43,
-      "max": 4.11,
-      "q1": 2.85,
-      "q3": 3.69,
-      "positive_count": 2,
-      "negative_count": 0
-    },
-    "no_tweet_day_count": 885,
-    "no_tweet_day_avg_return": 0.08,
-    "no_tweet_day_win_rate": 44.6,
+    "tweet_day_count": 0,
+    "tweet_day_avg_return": 0,
+    "tweet_day_win_rate": 0,
+    "tweet_day_distribution": {},
+    "no_tweet_day_count": 887,
+    "no_tweet_day_avg_return": 0.09,
+    "no_tweet_day_win_rate": 44.8,
     "no_tweet_day_distribution": {
-      "count": 885,
-      "mean": 0.08,
-      "median": -0.56,
-      "std_dev": 7.32,
+      "count": 887,
+      "mean": 0.09,
+      "median": -0.55,
+      "std_dev": 7.31,
       "min": -26.01,
       "max": 55.23,
-      "q1": -4.08,
-      "q3": 3.47,
-      "positive_count": 395,
+      "q1": -4.07,
+      "q3": 3.49,
+      "positive_count": 397,
       "negative_count": 466
     },
     "t_statistic": null,
@@ -50,14 +39,14 @@
   },
   "correlation": {
     "correlation_7d": 0.002,
-    "p_value": 0.9473,
+    "p_value": 0.9427,
     "significant": false,
     "sample_size": 888,
     "strength_label": "negligible"
   },
   "current_status": {
     "days_since_last_tweet": 412,
-    "price_change_during_silence": -79.3,
+    "price_change_during_silence": -79.4,
     "last_tweet_date": "2024-11-11"
   },
   "limitations": {
@@ -65,7 +54,7 @@
     "borderline_significance": null,
     "short_history": false,
     "notes": [
-      "Small sample: only 2 tweet-days analyzed",
+      "Small sample: only 0 tweet-days analyzed",
       "Correlation does not imply causation"
     ]
   },
@@ -76,20 +65,20 @@
       "gap_days": 474.1,
       "start_date": "2023-07-26",
       "end_date": "2024-11-11",
-      "price_start": 2.24,
-      "price_end": 2.11,
-      "change_pct": -5.8
+      "price_start": 2.1,
+      "price_end": 2.48,
+      "change_pct": 18.1
     },
     {
       "start_ts": 1731361860,
-      "end_ts": 1766979846,
-      "gap_days": 412.2,
+      "end_ts": 1766982492,
+      "gap_days": 412.3,
       "start_date": "2024-11-11",
       "end_date": "ongoing",
       "is_current": true,
-      "price_start": 2.48,
+      "price_start": 2.49,
       "price_end": 0.512276,
-      "change_pct": -79.3
+      "change_pct": -79.4
     }
   ]
 }

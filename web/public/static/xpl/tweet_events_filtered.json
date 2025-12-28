@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T22:44:15.744998Z",
+  "generated_at": "2025-12-28T23:28:15.432346Z",
   "asset": "xpl",
   "asset_name": "XPL",
   "founder": "pauliepunt",
@@ -20,12 +20,12 @@
       "retweets": 50,
       "replies": 94,
       "impressions": 77956,
-      "price_at_tweet": 1.28584335318667,
-      "price_1h": 1.28584335318667,
-      "price_24h": 1.28101918980359,
+      "price_at_tweet": 1.28584335,
+      "price_1h": 1.28584335,
+      "price_24h": 1.28101919,
       "change_1h_pct": 0.0,
       "change_24h_pct": -0.38,
-      "market_cap_at_tweet": 147705601.34
+      "market_cap_at_tweet": 147705600.98
     },
     {
       "tweet_id": "1971228954771222699",
@@ -40,12 +40,12 @@
       "retweets": 15,
       "replies": 33,
       "impressions": 52938,
-      "price_at_tweet": 1.28584335318667,
-      "price_1h": 0.864832698965418,
-      "price_24h": 1.17711456487066,
+      "price_at_tweet": 1.28584335,
+      "price_1h": 0.8648327,
+      "price_24h": 1.17711456,
       "change_1h_pct": -32.74,
       "change_24h_pct": -8.46,
-      "market_cap_at_tweet": 147705601.34
+      "market_cap_at_tweet": 147705600.98
     },
     {
       "tweet_id": "1972260175961903320",
@@ -60,12 +60,12 @@
       "retweets": 53,
       "replies": 186,
       "impressions": 118316,
-      "price_at_tweet": 1.56150580943,
-      "price_1h": 1.48332218584719,
-      "price_24h": 1.32041990425993,
+      "price_at_tweet": 1.56150581,
+      "price_1h": 1.48332219,
+      "price_24h": 1.3204199,
       "change_1h_pct": -5.01,
       "change_24h_pct": -15.44,
-      "market_cap_at_tweet": 179371113.92
+      "market_cap_at_tweet": 179371113.98
     },
     {
       "tweet_id": "1973495918709391529",
@@ -80,12 +80,12 @@
       "retweets": 488,
       "replies": 687,
       "impressions": 962582,
-      "price_at_tweet": 0.93075321674144,
-      "price_1h": 0.954999469545838,
-      "price_24h": 0.945054530958676,
+      "price_at_tweet": 0.93075322,
+      "price_1h": 0.95499947,
+      "price_24h": 0.94505453,
       "change_1h_pct": 2.61,
       "change_24h_pct": 1.54,
-      "market_cap_at_tweet": 106916183.25
+      "market_cap_at_tweet": 106916183.63
     },
     {
       "tweet_id": "1993592407682850937",
@@ -100,12 +100,12 @@
       "retweets": 3,
       "replies": 31,
       "impressions": 29431,
-      "price_at_tweet": 0.211354079298632,
-      "price_1h": 0.209279912275444,
-      "price_24h": 0.215831296071945,
+      "price_at_tweet": 0.21135408,
+      "price_1h": 0.20927991,
+      "price_24h": 0.2158313,
       "change_1h_pct": -0.98,
       "change_24h_pct": 2.12,
-      "market_cap_at_tweet": 24278370.54
+      "market_cap_at_tweet": 24278370.62
     },
     {
       "tweet_id": "1999128006707511678",
@@ -120,12 +120,12 @@
       "retweets": 0,
       "replies": 4,
       "impressions": 2245,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128017042362399",
@@ -140,12 +140,12 @@
       "retweets": 3,
       "replies": 2,
       "impressions": 9168,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128019189784995",
@@ -160,12 +160,12 @@
       "retweets": 0,
       "replies": 1,
       "impressions": 1681,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128022197190942",
@@ -180,12 +180,12 @@
       "retweets": 0,
       "replies": 2,
       "impressions": 2348,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     },
     {
       "tweet_id": "1999128024118108184",
@@ -200,12 +200,12 @@
       "retweets": 0,
       "replies": 1,
       "impressions": 1460,
-      "price_at_tweet": 0.164235321342164,
-      "price_1h": 0.161173164136918,
-      "price_24h": 0.158588544046534,
+      "price_at_tweet": 0.16423532,
+      "price_1h": 0.16117316,
+      "price_24h": 0.15858854,
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
-      "market_cap_at_tweet": 18865810.4
+      "market_cap_at_tweet": 18865810.24
     }
   ],
   "keyword_filter": "xpl,plasma",
