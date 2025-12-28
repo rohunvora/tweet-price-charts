@@ -13,8 +13,8 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 ### What's Built
 - **Interactive chart** with TradingView-style candlesticks + tweet markers as avatar bubbles
 - **Data table** sorted by price impact - instantly see which tweets moved price most
-- **13 assets tracked** across 6 networks (Solana, Hyperliquid, BSC, Monad, Base, Ethereum)
-- **4,400+ tweet events** with aligned price data
+- **14 assets tracked** across 7 networks (Solana, Hyperliquid, BSC, Monad, Base, Ethereum, Zcash)
+- **4,500+ tweet events** with aligned price data
 - **Multi-source price fetching** (GeckoTerminal, Birdeye, CoinGecko, Hyperliquid)
 - **Nitter scraper** for historical tweet backfill
 - **CLI tools** for adding assets and validating data integrity
@@ -38,6 +38,7 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 | HYPE | [@chameleon_jeff](https://x.com/chameleon_jeff) | Hyperliquid | 35 |
 | XPL | [@pauliepunt](https://x.com/pauliepunt) | BSC | 26 |
 | WLD | [@sama](https://x.com/sama) | Ethereum | 2 |
+| ZEC | [@mert_](https://x.com/mert_) | Zcash | 89 |
 
 ## Features
 
