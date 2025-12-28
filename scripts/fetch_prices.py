@@ -1125,33 +1125,32 @@ def fetch_for_asset(
 
         # Get existing timestamps for incremental fetch (only fetch what's new)
         #
+        # CRITICAL: Check the actual prices table, NOT ingestion_state!
+        # The ingestion_state table can be out of sync with actual data.
+        #
         # TIMEZONE GOTCHA - Use calendar.timegm(), NOT datetime.timestamp():
         # DuckDB returns naive datetime objects. Using .timestamp() interprets
         # them as LOCAL time, which breaks incremental fetch logic.
         # calendar.timegm() correctly treats them as UTC. See GOTCHAS.md.
+        from db import get_latest_price_timestamp
+        
         stop_at_timestamps = {}
-        missing_state = []
         
         if not full_fetch:
             for tf in timeframes:
-                state = get_ingestion_state(conn, asset_id, f"prices_{tf}")
-                if state and state.get("last_timestamp"):
-                    last_ts = state["last_timestamp"]
-                    if hasattr(last_ts, 'year'):
-                        # Naive datetime from DB - treat as UTC (NOT local time!)
-                        stop_at_timestamps[tf] = int(calendar.timegm(last_ts.timetuple()))
-                    else:
-                        stop_at_timestamps[tf] = int(last_ts)
-                else:
-                    missing_state.append(tf)
+                # Check ACTUAL prices table - this is the source of truth
+                latest_ts = get_latest_price_timestamp(conn, asset_id, tf)
+                if latest_ts:
+                    # Naive datetime from DB - treat as UTC (NOT local time!)
+                    stop_at_timestamps[tf] = int(calendar.timegm(latest_ts.timetuple()))
         
-        # Log state status for debugging
+        # Log what we found in the actual data
         if stop_at_timestamps:
             found_tfs = ', '.join(f"{tf}:{datetime.utcfromtimestamp(ts).strftime('%m-%d %H:%M')}" 
                                   for tf, ts in stop_at_timestamps.items())
-            print(f"    📍 Found state: {found_tfs}")
-        if missing_state:
-            print(f"    ⚠️  Missing state for: {', '.join(missing_state)} (will do full fetch)")
+            print(f"    📍 Existing data: {found_tfs}")
+        else:
+            print(f"    📍 No existing data - will fetch from launch")
 
         price_data = fetch_geckoterminal_all_timeframes(
             network, pool_address, timeframes, stop_at_timestamps=stop_at_timestamps
@@ -1184,39 +1183,32 @@ def fetch_for_asset(
             timeframes = TIMEFRAMES
 
         # Get existing timestamp for incremental fetch
-        # Use the latest "last_timestamp" across all timeframes
+        # CRITICAL: Check actual prices table, NOT ingestion_state!
+        from db import get_latest_price_timestamp
+        
         fetch_from_ts = launch_ts
-        found_state = {}
-        missing_state = []
+        found_data = {}
         
         if not full_fetch:
             for tf in timeframes:
-                state = get_ingestion_state(conn, asset_id, f"prices_{tf}")
-                if state and state.get("last_timestamp"):
-                    last_ts = state["last_timestamp"]
-                    # Handle datetime (treat as UTC) or raw timestamp
-                    if hasattr(last_ts, 'year'):
-                        ts = int(calendar.timegm(last_ts.timetuple()))
-                    else:
-                        ts = int(last_ts)
-                    found_state[tf] = ts
+                # Check ACTUAL prices table - this is the source of truth
+                latest_ts = get_latest_price_timestamp(conn, asset_id, tf)
+                if latest_ts:
+                    ts = int(calendar.timegm(latest_ts.timetuple()))
+                    found_data[tf] = ts
                     fetch_from_ts = max(fetch_from_ts, ts)
-                else:
-                    missing_state.append(tf)
         
-        # Log state status for debugging
-        if found_state:
+        # Log what we found
+        if found_data:
             found_tfs = ', '.join(f"{tf}:{datetime.utcfromtimestamp(ts).strftime('%m-%d %H:%M')}" 
-                                  for tf, ts in found_state.items())
-            print(f"    📍 Found state: {found_tfs}")
-        if missing_state:
-            print(f"    ⚠️  Missing state for: {', '.join(missing_state)}")
+                                  for tf, ts in found_data.items())
+            print(f"    📍 Existing data: {found_tfs}")
         
         if fetch_from_ts > launch_ts:
             age_hours = (int(datetime.utcnow().timestamp()) - fetch_from_ts) / 3600
             print(f"    Incremental from: {datetime.utcfromtimestamp(fetch_from_ts).strftime('%Y-%m-%d %H:%M')} ({age_hours:.1f}h ago)")
         else:
-            print(f"    ⚠️  No prior state - fetching from launch date")
+            print(f"    📍 No existing data - will fetch from launch")
 
         price_data = fetch_hyperliquid_all_timeframes(coin, fetch_from_ts, timeframes)
 
