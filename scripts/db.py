@@ -516,6 +516,20 @@ def get_ingestion_state(
     }
 
 
+def get_latest_price_timestamp(
+    conn: duckdb.DuckDBPyConnection,
+    asset_id: str,
+    timeframe: str
+) -> Optional[datetime]:
+    """Get the latest price timestamp for an asset/timeframe combo."""
+    result = conn.execute("""
+        SELECT MAX(timestamp) FROM prices
+        WHERE asset_id = ? AND timeframe = ?
+    """, [asset_id, timeframe]).fetchone()
+    
+    return result[0] if result and result[0] else None
+
+
 def update_ingestion_state(
     conn: duckdb.DuckDBPyConnection,
     asset_id: str,
