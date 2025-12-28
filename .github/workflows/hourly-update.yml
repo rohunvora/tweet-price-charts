@@ -223,12 +223,24 @@ jobs:
               json.dump(snapshot, f)
           PYTHON_SCRIPT
 
+      - name: Cleanup before export
+        run: |
+          echo "🧹 Killing any lingering Python processes before export..."
+          pkill -9 -f "python.*compute_stats" 2>/dev/null || true
+          pkill -9 -f "python.*fetch" 2>/dev/null || true
+          # Remove stale DuckDB lock files
+          rm -f data/analytics.duckdb.wal 2>/dev/null || true
+          rm -f data/analytics.duckdb.tmp 2>/dev/null || true
+          sleep 2
+          echo "✅ Cleanup complete"
+
       - name: Export static data
         id: export
         run: |
           echo "📦 Exporting static JSON files..."
+          source .venv/bin/activate 2>/dev/null || true
           cd scripts
-          python export_static.py --no-validate 2>&1
+          python3 export_static.py --no-validate 2>&1
 
           # Verify export produced files
           if [ -d "../web/public/static/pump" ]; then
