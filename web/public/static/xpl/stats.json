@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T22:32:19.202902Z",
+  "generated_at": "2025-12-28T22:44:32.922727Z",
   "asset": "xpl",
   "asset_name": "XPL",
   "founder": "pauliepunt",
@@ -103,7 +103,7 @@
     },
     {
       "start_ts": 1765464237,
-      "end_ts": 1766979139,
+      "end_ts": 1766979872,
       "gap_days": 17.5,
       "start_date": "2025-12-11",
       "end_date": "ongoing",

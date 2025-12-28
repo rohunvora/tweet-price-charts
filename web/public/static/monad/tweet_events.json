@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-28T22:31:00.499172Z",
+  "generated_at": "2025-12-28T22:43:15.226018Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 60,
+  "count": 61,
   "events": [
     {
       "tweet_id": "1992934059283206194",
@@ -1206,6 +1206,26 @@
       "change_1h_pct": -2.11,
       "change_24h_pct": -9.67,
       "market_cap_at_tweet": 205509886.72
+    },
+    {
+      "tweet_id": "2002999327124603073",
+      "asset_id": "monad",
+      "asset_name": "MON",
+      "founder": "keoneHD",
+      "asset_color": "#836EF9",
+      "timestamp": 1766387228,
+      "timestamp_iso": "2025-12-22T02:07:08Z",
+      "text": "If you are excited about Monad and I don\u2019t follow you, let me know what got you interested and what you\u2019d like to see",
+      "likes": 923,
+      "retweets": 26,
+      "replies": 440,
+      "impressions": 39972,
+      "price_at_tweet": 0.02001703,
+      "price_1h": 0.02015636,
+      "price_24h": 0.01959739,
+      "change_1h_pct": 0.7,
+      "change_24h_pct": -2.1,
+      "market_cap_at_tweet": 216796112.76
     }
   ]
 }

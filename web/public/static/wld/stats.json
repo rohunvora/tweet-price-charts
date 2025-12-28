@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T22:31:58.134330Z",
+  "generated_at": "2025-12-28T22:44:06.750489Z",
   "asset": "wld",
   "asset_name": "WLD",
   "founder": "sama",
@@ -10,7 +10,7 @@
       "start": "2023-07-26",
       "end": "2024-11-11"
     },
-    "total_days_analyzed": 720
+    "total_days_analyzed": 888
   },
   "daily_comparison": {
     "tweet_day_count": 2,
@@ -28,20 +28,20 @@
       "positive_count": 2,
       "negative_count": 0
     },
-    "no_tweet_day_count": 717,
-    "no_tweet_day_avg_return": 0.14,
-    "no_tweet_day_win_rate": 45.0,
+    "no_tweet_day_count": 885,
+    "no_tweet_day_avg_return": 0.08,
+    "no_tweet_day_win_rate": 44.6,
     "no_tweet_day_distribution": {
-      "count": 717,
-      "mean": 0.14,
-      "median": -0.47,
-      "std_dev": 7.4,
-      "min": -22.83,
+      "count": 885,
+      "mean": 0.08,
+      "median": -0.56,
+      "std_dev": 7.32,
+      "min": -26.01,
       "max": 55.23,
-      "q1": -4.32,
-      "q3": 3.6,
-      "positive_count": 323,
-      "negative_count": 373
+      "q1": -4.08,
+      "q3": 3.47,
+      "positive_count": 395,
+      "negative_count": 466
     },
     "t_statistic": null,
     "p_value": null,
@@ -49,15 +49,15 @@
     "confidence_label": "insufficient_data"
   },
   "correlation": {
-    "correlation_7d": -0.02,
-    "p_value": 0.59,
+    "correlation_7d": 0.002,
+    "p_value": 0.9473,
     "significant": false,
-    "sample_size": 720,
+    "sample_size": 888,
     "strength_label": "negligible"
   },
   "current_status": {
     "days_since_last_tweet": 412,
-    "price_change_during_silence": -58.6,
+    "price_change_during_silence": -79.3,
     "last_tweet_date": "2024-11-11"
   },
   "limitations": {
@@ -82,14 +82,14 @@
     },
     {
       "start_ts": 1731361860,
-      "end_ts": 1766979118,
+      "end_ts": 1766979846,
       "gap_days": 412.2,
       "start_date": "2024-11-11",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 2.48,
-      "price_end": 1.027,
-      "change_pct": -58.6
+      "price_end": 0.512276,
+      "change_pct": -79.3
     }
   ]
 }

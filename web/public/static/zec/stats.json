@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T22:32:26.335071Z",
+  "generated_at": "2025-12-28T22:44:40.698405Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -10,7 +10,7 @@
       "start": "2025-08-06",
       "end": "2025-12-25"
     },
-    "total_days_analyzed": 3344
+    "total_days_analyzed": 3346
   },
   "daily_comparison": {
     "tweet_day_count": 38,
@@ -28,36 +28,36 @@
       "positive_count": 18,
       "negative_count": 20
     },
-    "no_tweet_day_count": 3305,
+    "no_tweet_day_count": 3307,
     "no_tweet_day_avg_return": 0.19,
     "no_tweet_day_win_rate": 49.5,
     "no_tweet_day_distribution": {
-      "count": 3305,
+      "count": 3307,
       "mean": 0.19,
       "median": -0.02,
       "std_dev": 7.78,
       "min": -83.03,
       "max": 249.76,
-      "q1": -2.82,
+      "q1": -2.81,
       "q3": 2.82,
-      "positive_count": 1636,
+      "positive_count": 1638,
       "negative_count": 1661
     },
-    "t_statistic": 0.878,
-    "p_value": 0.3801,
+    "t_statistic": 0.874,
+    "p_value": 0.3824,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.224,
+    "correlation_7d": 0.23,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 3344,
+    "sample_size": 3346,
     "strength_label": "weak"
   },
   "current_status": {
     "days_since_last_tweet": 3,
-    "price_change_during_silence": 0.0,
+    "price_change_during_silence": 17.8,
     "last_tweet_date": "2025-12-25"
   },
   "limitations": {
@@ -173,14 +173,14 @@
     },
     {
       "start_ts": 1766675040,
-      "end_ts": 1766979146,
+      "end_ts": 1766979880,
       "gap_days": 3.5,
       "start_date": "2025-12-25",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 437.18,
-      "price_end": 437.18,
-      "change_pct": 0.0
+      "price_end": 515.05,
+      "change_pct": 17.8
     }
   ]
 }
