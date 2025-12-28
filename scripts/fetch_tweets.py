@@ -50,6 +50,68 @@ from db import (
 # Import keyword matching function for consistent filtering across codebase
 from apply_keyword_filter import keyword_matches
 
+# Path to fetch state file (persists between runs)
+FETCH_STATE_FILE = DATA_DIR / "fetch_state.json"
+
+
+def read_fetch_state() -> dict:
+    """
+    Read the fetch state from disk.
+    
+    Returns state dict with structure:
+    {
+        "tweets": {
+            "last_run": "2025-12-28T15:05:00Z",
+            "skipped_assets": ["asset1", "asset2"],
+            "skip_reason": "rate_limit"
+        }
+    }
+    """
+    try:
+        if FETCH_STATE_FILE.exists():
+            with open(FETCH_STATE_FILE) as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"    ⚠️ Could not read fetch state: {e}")
+    return {}
+
+
+def write_fetch_state(state: dict) -> None:
+    """Write the fetch state to disk."""
+    try:
+        # Ensure data directory exists
+        FETCH_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(FETCH_STATE_FILE, "w") as f:
+            json.dump(state, f, indent=2)
+    except Exception as e:
+        print(f"    ⚠️ Could not write fetch state: {e}")
+
+
+def prioritize_assets(assets: list, skipped_ids: list) -> list:
+    """
+    Reorder assets so previously-skipped ones come first.
+    
+    This ensures assets that were rate-limited in the previous run
+    get priority in the next run.
+    """
+    if not skipped_ids:
+        return assets
+    
+    skipped_set = set(skipped_ids)
+    priority = []
+    normal = []
+    
+    for asset in assets:
+        if asset["id"] in skipped_set:
+            priority.append(asset)
+        else:
+            normal.append(asset)
+    
+    if priority:
+        print(f"    📋 Prioritizing {len(priority)} previously-skipped assets: {[a['id'] for a in priority]}")
+    
+    return priority + normal
+
 
 def get_user_id(client: httpx.Client, username: str) -> tuple:
     """
@@ -475,6 +537,11 @@ def fetch_all_assets(
 ) -> Dict[str, Any]:
     """
     Fetch tweets for all enabled assets.
+    
+    Features:
+    - Reads previous run state to prioritize skipped assets
+    - Writes state file after completion for next run
+    - Stops early on rate limits to preserve quota
     """
     conn = get_connection()
     init_schema(conn)
@@ -482,6 +549,17 @@ def fetch_all_assets(
     
     assets = get_enabled_assets(conn)
     conn.close()
+    
+    # READ PREVIOUS STATE - prioritize assets that were skipped last time
+    prev_state = read_fetch_state()
+    prev_tweet_state = prev_state.get("tweets", {})
+    prev_skipped = prev_tweet_state.get("skipped_assets", [])
+    
+    if prev_skipped:
+        print(f"\n📋 Previous run skipped {len(prev_skipped)} assets due to: {prev_tweet_state.get('skip_reason', 'unknown')}")
+    
+    # Reorder assets: previously-skipped come first
+    assets = prioritize_assets(assets, prev_skipped)
     
     print(f"\nFetching tweets for {len(assets)} enabled assets...")
     if backfill:
@@ -493,10 +571,12 @@ def fetch_all_assets(
     
     results = {}
     rate_limit_hit = False
+    skipped_assets = []  # Track assets skipped this run
     
     for asset in assets:
         # If we hit rate limits, skip remaining assets
         if rate_limit_hit:
+            skipped_assets.append(asset["id"])
             results[asset["id"]] = {"status": "skipped", "reason": "Rate limit hit on earlier asset"}
             continue
         
@@ -514,6 +594,20 @@ def fetch_all_assets(
         
         # Pause between assets to avoid rate limits
         time.sleep(2)
+    
+    # WRITE STATE - save skipped assets for next run to prioritize
+    new_state = read_fetch_state()  # Preserve other keys (e.g., prices state)
+    new_state["tweets"] = {
+        "last_run": datetime.now(timezone.utc).isoformat(),
+        "skipped_assets": skipped_assets,
+        "skip_reason": "rate_limit" if rate_limit_hit else "none",
+        "total_assets": len(assets),
+        "completed_assets": len(assets) - len(skipped_assets),
+    }
+    write_fetch_state(new_state)
+    
+    if skipped_assets:
+        print(f"\n💾 Saved state: {len(skipped_assets)} skipped assets will be prioritized next run")
     
     # Print summary
     print("\n" + "=" * 60)

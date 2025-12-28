@@ -1039,20 +1039,28 @@ def fetch_for_asset(
                 }
 
     elif price_source == "coingecko":
+        # CoinGecko Pro API - requires API key
         coingecko_id = asset.get("coingecko_id")
         if not coingecko_id:
             conn.close()
-            return {"status": "error", "reason": "No coingecko_id configured for CoinGecko backfill"}
+            return {"status": "error", "reason": "No coingecko_id configured"}
+        
+        if not COINGECKO_API_KEY:
+            conn.close()
+            return {"status": "error", "reason": "COINGECKO_API_KEY not set - required for CoinGecko assets"}
+        
+        print(f"    CoinGecko ID: {coingecko_id} (using Pro API)")
 
-        # CoinGecko only supports 1h and 1d
+        # CoinGecko Pro API only supports 1h and 1d
         if timeframes is None:
             timeframes = ["1h", "1d"]
         else:
             timeframes = [tf for tf in timeframes if tf in ["1h", "1d"]]
 
         if not timeframes:
+            print("      No supported timeframes for CoinGecko (only 1h, 1d)")
             conn.close()
-            return {"status": "error", "reason": "CoinGecko only supports 1h and 1d timeframes"}
+            return results
 
         # Pass conn and asset_id for progressive saving
         price_data = fetch_coingecko_all_timeframes(
@@ -1062,7 +1070,7 @@ def fetch_for_asset(
             fresh=fresh or full_fetch
         )
 
-        # Track results
+        # Track results - data is already inserted by fetch_coingecko_all_timeframes
         for tf, candles in price_data.items():
             if candles:
                 latest_ts = max(c["timestamp_epoch"] for c in candles)
@@ -1126,52 +1134,6 @@ def fetch_for_asset(
                 
                 results["timeframes"][tf] = {
                     "count": inserted,
-                    "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
-                }
-    
-    elif price_source == "coingecko":
-        # Use CoinGecko Pro API for all CoinGecko assets
-        coingecko_id = asset.get("coingecko_id")
-        
-        if not coingecko_id:
-            conn.close()
-            return {"status": "error", "reason": "No coingecko_id configured"}
-        
-        if not COINGECKO_API_KEY:
-            conn.close()
-            return {"status": "error", "reason": "COINGECKO_API_KEY not set - required for CoinGecko assets"}
-        
-        print(f"    CoinGecko ID: {coingecko_id} (using Pro API)")
-        
-        # CoinGecko Pro API only supports 1h and 1d
-        if timeframes is None:
-            timeframes = ["1h", "1d"]
-        else:
-            timeframes = [tf for tf in timeframes if tf in ["1h", "1d"]]
-        
-        if not timeframes:
-            print("      No supported timeframes for CoinGecko (only 1h, 1d)")
-            conn.close()
-            return results
-        
-        # Use the Pro API function with incremental fetching
-        price_data = fetch_coingecko_all_timeframes(
-            coingecko_id, launch_ts, timeframes,
-            conn=conn,
-            asset_id=asset_id,
-            fresh=full_fetch
-        )
-        
-        # Track results - data is already inserted by fetch_coingecko_all_timeframes
-        for tf, candles in price_data.items():
-            if candles:
-                latest_ts = max(c["timestamp_epoch"] for c in candles)
-                update_ingestion_state(
-                    conn, asset_id, f"prices_{tf}",
-                    last_timestamp=datetime.utcfromtimestamp(latest_ts)
-                )
-                results["timeframes"][tf] = {
-                    "count": len(candles),
                     "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
                 }
 

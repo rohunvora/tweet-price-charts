@@ -156,6 +156,31 @@ jobs:
           PYTHON_SCRIPT
           echo "db_verified=true" >> $GITHUB_OUTPUT
 
+      # PRICES FIRST: Critical for charts, rarely fails
+      - name: Fetch new prices (15m, 1h, 1d)
+        env:
+          BIRDEYE_API_KEY: ${{ secrets.BIRDEYE_API_KEY }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+        run: |
+          echo "💰 Fetching new prices (incremental - only missing data)..."
+          cd scripts
+          source ../.venv/bin/activate 2>/dev/null || true
+          python3 fetch_prices.py -t 15m -t 1h -t 1d 2>&1 || echo "Price fetch had errors (continuing anyway)"
+        continue-on-error: true
+        timeout-minutes: 10
+
+      - name: Kill price fetch processes
+        if: always()
+        run: |
+          echo "🧹 Cleaning up after price fetch..."
+          pgrep -f "Python.*tweet-price-charts" | xargs -r kill -9 2>/dev/null || true
+          pkill -9 -f "python3.*fetch" 2>/dev/null || true
+          pkill -9 -f "Python.*scripts" 2>/dev/null || true
+          rm -f data/analytics.duckdb.wal data/analytics.duckdb.tmp 2>/dev/null || true
+          sleep 2
+          echo "✅ Cleanup complete"
+
+      # TWEETS SECOND: May hit rate limits, but prices already updated
       - name: Fetch new tweets
         env:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
@@ -176,29 +201,6 @@ jobs:
           pkill -9 -f "python3.*fetch" 2>/dev/null || true
           pkill -9 -f "Python.*scripts" 2>/dev/null || true
           # Remove DuckDB lock files
-          rm -f data/analytics.duckdb.wal data/analytics.duckdb.tmp 2>/dev/null || true
-          sleep 2
-          echo "✅ Cleanup complete"
-
-      - name: Fetch new prices (15m, 1h, 1d)
-        env:
-          BIRDEYE_API_KEY: ${{ secrets.BIRDEYE_API_KEY }}
-          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-        run: |
-          echo "Fetching new prices (incremental - only missing data)..."
-          cd scripts
-          source ../.venv/bin/activate 2>/dev/null || true
-          python3 fetch_prices.py -t 15m -t 1h -t 1d 2>&1 || echo "Price fetch had errors (continuing anyway)"
-        continue-on-error: true
-        timeout-minutes: 10
-
-      - name: Kill price fetch processes
-        if: always()
-        run: |
-          echo "🧹 Cleaning up after price fetch..."
-          pgrep -f "Python.*tweet-price-charts" | xargs -r kill -9 2>/dev/null || true
-          pkill -9 -f "python3.*fetch" 2>/dev/null || true
-          pkill -9 -f "Python.*scripts" 2>/dev/null || true
           rm -f data/analytics.duckdb.wal data/analytics.duckdb.tmp 2>/dev/null || true
           sleep 2
           echo "✅ Cleanup complete"
