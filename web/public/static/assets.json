@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated_at": "2025-12-23T21:46:30.259986Z",
+  "generated_at": "2025-12-26T23:05:00.977980Z",
   "assets": [
     {
       "id": "pump",
@@ -133,6 +133,17 @@
       "color": "#000000",
       "logo": "/logos/wld.png",
       "enabled": true
+    },
+    {
+      "id": "zec",
+      "name": "ZEC",
+      "founder": "mert",
+      "network": "zcash",
+      "launch_date": "2016-10-28T00:00:00Z",
+      "color": "#F4B728",
+      "logo": "/logos/zec.png",
+      "enabled": true,
+      "data_note": "1h data unavailable for 2016-2018 - CoinGecko only has daily granularity for early history"
     }
   ]
 }

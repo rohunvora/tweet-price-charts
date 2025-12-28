@@ -246,6 +246,30 @@
       ],
       "circulating_supply": 10000000000,
       "supply_unstable": true
+    },
+    {
+      "id": "zec",
+      "name": "ZEC",
+      "founder": "mert",
+      "founder_type": "adopter",
+      "network": "zcash",
+      "pool_address": null,
+      "token_mint": null,
+      "coingecko_id": "zcash",
+      "price_source": "coingecko",
+      "backfill_source": "coingecko",
+      "launch_date": "2016-10-28T00:00:00Z",
+      "color": "#F4B728",
+      "enabled": true,
+      "logo": "/logos/zec.png",
+      "keyword_filter": "zec,zcash",
+      "tweet_filter_note": "Only tweets mentioning $ZEC or Zcash",
+      "data_note": "ADOPTER ASSET (mert tweets about ZEC). Limited 1h granularity pre-2021. Only 38 tweet-days analyzed with 47.4% win rate (near random). Correlation weak (0.224) but statistically significant. Skip 15m/1m timeframes due to CoinGecko API limits for legacy coins.",
+      "skip_timeframes": [
+        "15m",
+        "1m"
+      ],
+      "circulating_supply": 16500000
     }
   ]
 }
