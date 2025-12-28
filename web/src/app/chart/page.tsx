@@ -240,15 +240,29 @@ function ChartPageContent() {
           >
             Data Table
           </Link>
+          <Link
+            href="/about"
+            className="px-3 py-2 min-h-[44px] flex items-center text-xs font-medium bg-[var(--surface-2)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md interactive"
+          >
+            About
+          </Link>
         </div>
-        
-        {/* Mobile: Data link */}
-        <Link
-          href={`/data?asset=${selectedAsset.id}`}
-          className="md:hidden ml-auto px-3 py-2.5 min-h-[44px] flex items-center text-sm text-[var(--text-secondary)] interactive rounded-md"
-        >
-          Data
-        </Link>
+
+        {/* Mobile: Data + About links */}
+        <div className="md:hidden ml-auto flex items-center gap-1">
+          <Link
+            href={`/data?asset=${selectedAsset.id}`}
+            className="px-3 py-2.5 min-h-[44px] flex items-center text-sm text-[var(--text-secondary)] interactive rounded-md"
+          >
+            Data
+          </Link>
+          <Link
+            href="/about"
+            className="px-3 py-2.5 min-h-[44px] flex items-center text-sm text-[var(--text-secondary)] interactive rounded-md"
+          >
+            About
+          </Link>
+        </div>
       </div>
 
       {/* Chart area */}
