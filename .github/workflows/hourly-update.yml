@@ -12,7 +12,9 @@ env:
 
 jobs:
   update-data:
-    runs-on: ubuntu-latest
+    # Use self-hosted runner to bypass Cloudflare blocking GitHub's datacenter IPs
+    # The runner is on satoshi's Mac with a clean residential IP
+    runs-on: self-hosted
 
     permissions:
       contents: write  # Needed to push commits
