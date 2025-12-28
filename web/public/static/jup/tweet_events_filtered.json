@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-21T23:13:41.838716Z",
+  "generated_at": "2025-12-28T22:29:52.681575Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
@@ -24,7 +24,8 @@
       "price_1h": 0.657485,
       "price_24h": 0.5850757472982093,
       "change_1h_pct": 0.0,
-      "change_24h_pct": -11.01
+      "change_24h_pct": -11.01,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1752739122593300577",
@@ -43,7 +44,8 @@
       "price_1h": 0.657485,
       "price_24h": 0.6000755485696038,
       "change_1h_pct": 0.0,
-      "change_24h_pct": -8.73
+      "change_24h_pct": -8.73,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1752899493786481096",
@@ -62,7 +64,8 @@
       "price_1h": 0.6574850002490257,
       "price_24h": 0.5920302774368338,
       "change_1h_pct": -2.62,
-      "change_24h_pct": -12.32
+      "change_24h_pct": -12.32,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1752899681120829714",
@@ -81,7 +84,8 @@
       "price_1h": 0.6574850002490257,
       "price_24h": 0.5920302774368338,
       "change_1h_pct": -2.62,
-      "change_24h_pct": -12.32
+      "change_24h_pct": -12.32,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1752931609458958844",
@@ -100,7 +104,8 @@
       "price_1h": 0.641682087093238,
       "price_24h": 0.5994407465508714,
       "change_1h_pct": -3.57,
-      "change_24h_pct": -9.92
+      "change_24h_pct": -9.92,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1753006955126526314",
@@ -119,7 +124,8 @@
       "price_1h": 0.5850757472982093,
       "price_24h": 0.5920048971677466,
       "change_1h_pct": 0.63,
-      "change_24h_pct": 1.82
+      "change_24h_pct": 1.82,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1753259109875589254",
@@ -138,7 +144,8 @@
       "price_1h": 0.5979580049735598,
       "price_24h": 0.6171219156548677,
       "change_1h_pct": 1.0,
-      "change_24h_pct": 4.24
+      "change_24h_pct": 4.24,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1753765422481162613",
@@ -157,7 +164,8 @@
       "price_1h": 0.5834079875635022,
       "price_24h": 0.5391340379156675,
       "change_1h_pct": 1.26,
-      "change_24h_pct": -6.42
+      "change_24h_pct": -6.42,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1755249047777268211",
@@ -176,7 +184,8 @@
       "price_1h": 0.5531532378148458,
       "price_24h": 0.548904151721321,
       "change_1h_pct": 5.77,
-      "change_24h_pct": 4.95
+      "change_24h_pct": 4.95,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1755650718042620104",
@@ -195,7 +204,8 @@
       "price_1h": 0.5345629619278285,
       "price_24h": 0.5067628487049255,
       "change_1h_pct": -0.41,
-      "change_24h_pct": -5.59
+      "change_24h_pct": -5.59,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1757129887570133078",
@@ -214,7 +224,8 @@
       "price_1h": 0.49078951528470016,
       "price_24h": 0.47980321127534736,
       "change_1h_pct": 0.77,
-      "change_24h_pct": -1.48
+      "change_24h_pct": -1.48,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1757754842179575933",
@@ -233,7 +244,8 @@
       "price_1h": 0.4957524238110949,
       "price_24h": 0.5442248650982521,
       "change_1h_pct": -0.52,
-      "change_24h_pct": 9.21
+      "change_24h_pct": 9.21,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1758416592948392354",
@@ -252,7 +264,8 @@
       "price_1h": 0.5279301472707029,
       "price_24h": 0.5102170822271079,
       "change_1h_pct": 0.49,
-      "change_24h_pct": -2.88
+      "change_24h_pct": -2.88,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1762748221409915015",
@@ -271,7 +284,8 @@
       "price_1h": 0.49961353695438077,
       "price_24h": 0.5304307489601673,
       "change_1h_pct": -0.39,
-      "change_24h_pct": 5.75
+      "change_24h_pct": 5.75,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1764304344545894904",
@@ -290,7 +304,8 @@
       "price_1h": 0.5980187123698634,
       "price_24h": 0.6214230977806114,
       "change_1h_pct": -0.07,
-      "change_24h_pct": 3.84
+      "change_24h_pct": 3.84,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1768433961020350647",
@@ -309,7 +324,8 @@
       "price_1h": 0.9069961462718302,
       "price_24h": 1.1017924576799576,
       "change_1h_pct": -0.26,
-      "change_24h_pct": 21.16
+      "change_24h_pct": 21.16,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1770047450822406487",
@@ -328,7 +344,8 @@
       "price_1h": 1.1745324352854691,
       "price_24h": 1.1709131471552432,
       "change_1h_pct": -5.31,
-      "change_24h_pct": -5.6
+      "change_24h_pct": -5.6,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1778181900323987601",
@@ -347,7 +364,8 @@
       "price_1h": 1.3540547965848273,
       "price_24h": 1.2632522256941456,
       "change_1h_pct": 1.18,
-      "change_24h_pct": -5.6
+      "change_24h_pct": -5.6,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1778959192197562707",
@@ -366,7 +384,8 @@
       "price_1h": 1.0375927966609695,
       "price_24h": 0.8807896177732006,
       "change_1h_pct": -1.82,
-      "change_24h_pct": -16.66
+      "change_24h_pct": -16.66,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1781005348423225761",
@@ -385,7 +404,8 @@
       "price_1h": 0.9934704988601737,
       "price_24h": 1.060383416301582,
       "change_1h_pct": 3.48,
-      "change_24h_pct": 10.45
+      "change_24h_pct": 10.45,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1783856905930314227",
@@ -404,7 +424,8 @@
       "price_1h": 1.009239827995897,
       "price_24h": 0.9839590067260383,
       "change_1h_pct": -1.05,
-      "change_24h_pct": -3.53
+      "change_24h_pct": -3.53,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1787671380181278949",
@@ -423,7 +444,8 @@
       "price_1h": 1.1215106967093593,
       "price_24h": 1.1107374302273294,
       "change_1h_pct": -1.02,
-      "change_24h_pct": -1.97
+      "change_24h_pct": -1.97,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1787671383222186270",
@@ -442,7 +464,8 @@
       "price_1h": 1.1215106967093593,
       "price_24h": 1.1107374302273294,
       "change_1h_pct": -1.02,
-      "change_24h_pct": -1.97
+      "change_24h_pct": -1.97,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1791093613889507561",
@@ -461,7 +484,8 @@
       "price_1h": 1.1736962187055033,
       "price_24h": 1.2219427312811373,
       "change_1h_pct": -1.01,
-      "change_24h_pct": 3.06
+      "change_24h_pct": 3.06,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1791672608397942797",
@@ -480,7 +504,8 @@
       "price_1h": 1.232325347900499,
       "price_24h": 1.2365029787597028,
       "change_1h_pct": 0.97,
-      "change_24h_pct": 1.31
+      "change_24h_pct": 1.31,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1791789796538601876",
@@ -499,7 +524,8 @@
       "price_1h": 1.2880537223735158,
       "price_24h": 1.2429759111237533,
       "change_1h_pct": 1.48,
-      "change_24h_pct": -2.07
+      "change_24h_pct": -2.07,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1796966551481909640",
@@ -518,7 +544,8 @@
       "price_1h": 1.0990289365802266,
       "price_24h": 1.0942472649305701,
       "change_1h_pct": 0.11,
-      "change_24h_pct": -0.33
+      "change_24h_pct": -0.33,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1797254427666968762",
@@ -537,7 +564,8 @@
       "price_1h": 1.0808009876461473,
       "price_24h": 1.0896260028134943,
       "change_1h_pct": 0.09,
-      "change_24h_pct": 0.91
+      "change_24h_pct": 0.91,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1797978994048176547",
@@ -556,7 +584,8 @@
       "price_1h": 1.085575958492229,
       "price_24h": 1.158867451705984,
       "change_1h_pct": 0.58,
-      "change_24h_pct": 7.37
+      "change_24h_pct": 7.37,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1798178622639145373",
@@ -575,7 +604,8 @@
       "price_1h": 1.1466930721276516,
       "price_24h": 1.1561100297881788,
       "change_1h_pct": 0.54,
-      "change_24h_pct": 1.36
+      "change_24h_pct": 1.36,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1800067138306314722",
@@ -594,7 +624,8 @@
       "price_1h": 1.0031467581375797,
       "price_24h": 0.945759004848843,
       "change_1h_pct": 0.47,
-      "change_24h_pct": -5.27
+      "change_24h_pct": -5.27,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1800123699838042325",
@@ -613,7 +644,8 @@
       "price_1h": 0.9887489837075366,
       "price_24h": 0.9389447402856282,
       "change_1h_pct": 1.75,
-      "change_24h_pct": -3.37
+      "change_24h_pct": -3.37,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1802235257048949009",
@@ -632,7 +664,8 @@
       "price_1h": 0.8527440487465955,
       "price_24h": 0.90513239265061,
       "change_1h_pct": -0.2,
-      "change_24h_pct": 5.93
+      "change_24h_pct": 5.93,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1802640750951194933",
@@ -651,7 +684,8 @@
       "price_1h": 0.8931790185393009,
       "price_24h": 0.787432292638147,
       "change_1h_pct": -1.42,
-      "change_24h_pct": -13.09
+      "change_24h_pct": -13.09,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1803358438447083673",
@@ -670,7 +704,8 @@
       "price_1h": 0.7702423912320145,
       "price_24h": 0.7845995031689136,
       "change_1h_pct": 0.17,
-      "change_24h_pct": 2.04
+      "change_24h_pct": 2.04,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1803453096661590363",
@@ -689,7 +724,8 @@
       "price_1h": 0.73270927082713,
       "price_24h": 0.8143455145695091,
       "change_1h_pct": 0.36,
-      "change_24h_pct": 11.55
+      "change_24h_pct": 11.55,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1803575355225092528",
@@ -708,7 +744,8 @@
       "price_1h": 0.7699691757109182,
       "price_24h": 0.7796962006501457,
       "change_1h_pct": -0.61,
-      "change_24h_pct": 0.65
+      "change_24h_pct": 0.65,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1805585762106106159",
@@ -727,7 +764,8 @@
       "price_1h": 0.7894942303367081,
       "price_24h": 0.7912855787345028,
       "change_1h_pct": 1.96,
-      "change_24h_pct": 2.19
+      "change_24h_pct": 2.19,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1805929376317427775",
@@ -746,7 +784,8 @@
       "price_1h": 0.7912855787345028,
       "price_24h": 0.7699342845432317,
       "change_1h_pct": -1.09,
-      "change_24h_pct": -3.76
+      "change_24h_pct": -3.76,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1807667442778599619",
@@ -765,7 +804,8 @@
       "price_1h": 0.8313920973964462,
       "price_24h": 0.8637869039227087,
       "change_1h_pct": -0.04,
-      "change_24h_pct": 3.85
+      "change_24h_pct": 3.85,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1807689721973477699",
@@ -784,7 +824,8 @@
       "price_1h": 0.8344536013335468,
       "price_24h": 0.8641663706501889,
       "change_1h_pct": 0.62,
-      "change_24h_pct": 4.21
+      "change_24h_pct": 4.21,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1809039991429025976",
@@ -803,7 +844,8 @@
       "price_1h": 0.7567858087637688,
       "price_24h": 0.737259832228441,
       "change_1h_pct": -3.7,
-      "change_24h_pct": -6.19
+      "change_24h_pct": -6.19,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1811632066733441342",
@@ -822,7 +864,8 @@
       "price_1h": 0.7420894818052771,
       "price_24h": 0.7628228348408916,
       "change_1h_pct": 1.24,
-      "change_24h_pct": 4.07
+      "change_24h_pct": 4.07,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1813061440829345899",
@@ -841,7 +884,8 @@
       "price_1h": 0.8955028016966194,
       "price_24h": 0.9188108420218495,
       "change_1h_pct": -0.11,
-      "change_24h_pct": 2.49
+      "change_24h_pct": 2.49,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1813473058151366737",
@@ -860,7 +904,8 @@
       "price_1h": 0.9400986919488663,
       "price_24h": 0.9213546083278769,
       "change_1h_pct": 0.8,
-      "change_24h_pct": -1.21
+      "change_24h_pct": -1.21,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1815123396943872258",
@@ -879,7 +924,8 @@
       "price_1h": 1.015993451757109,
       "price_24h": 1.0317316662801796,
       "change_1h_pct": -2.52,
-      "change_24h_pct": -1.01
+      "change_24h_pct": -1.01,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1816980436330979390",
@@ -898,7 +944,8 @@
       "price_1h": 1.0563171654576673,
       "price_24h": 1.089808913831651,
       "change_1h_pct": -1.29,
-      "change_24h_pct": 1.84
+      "change_24h_pct": 1.84,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1818160477312373222",
@@ -917,7 +964,8 @@
       "price_1h": 1.0773912224971938,
       "price_24h": 1.058810079226793,
       "change_1h_pct": 0.23,
-      "change_24h_pct": -1.5
+      "change_24h_pct": -1.5,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1818670417378431186",
@@ -936,7 +984,8 @@
       "price_1h": 1.0576393891803553,
       "price_24h": 0.9939657321656501,
       "change_1h_pct": -0.14,
-      "change_24h_pct": -6.16
+      "change_24h_pct": -6.16,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1822800669969154419",
@@ -955,7 +1004,8 @@
       "price_1h": 0.7903467941569285,
       "price_24h": 0.8027619886767956,
       "change_1h_pct": -1.02,
-      "change_24h_pct": 0.53
+      "change_24h_pct": 0.53,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1822802764004741374",
@@ -974,7 +1024,8 @@
       "price_1h": 0.7903467941569285,
       "price_24h": 0.8027619886767956,
       "change_1h_pct": -1.02,
-      "change_24h_pct": 0.53
+      "change_24h_pct": 0.53,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1823223131269443654",
@@ -993,7 +1044,8 @@
       "price_1h": 0.8139024127798729,
       "price_24h": 0.8030128642709975,
       "change_1h_pct": -0.63,
-      "change_24h_pct": -1.96
+      "change_24h_pct": -1.96,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1823743922763661776",
@@ -1012,7 +1064,8 @@
       "price_1h": 0.8324472621313087,
       "price_24h": 0.7811482371624212,
       "change_1h_pct": 1.14,
-      "change_24h_pct": -5.09
+      "change_24h_pct": -5.09,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1828389328931954927",
@@ -1031,7 +1084,8 @@
       "price_1h": 0.8562705577873687,
       "price_24h": 0.793876358983661,
       "change_1h_pct": -1.48,
-      "change_24h_pct": -8.66
+      "change_24h_pct": -8.66,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1831455654009086448",
@@ -1050,7 +1104,8 @@
       "price_1h": 0.7308298696489934,
       "price_24h": 0.7136120869034488,
       "change_1h_pct": 0.45,
-      "change_24h_pct": -1.92
+      "change_24h_pct": -1.92,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1831538813476250094",
@@ -1069,7 +1124,8 @@
       "price_1h": 0.7295325879160766,
       "price_24h": 0.7075935688308578,
       "change_1h_pct": -0.54,
-      "change_24h_pct": -3.53
+      "change_24h_pct": -3.53,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1832262100762480855",
@@ -1088,7 +1144,8 @@
       "price_1h": 0.6852779138438458,
       "price_24h": 0.6979931045774777,
       "change_1h_pct": 0.06,
-      "change_24h_pct": 1.91
+      "change_24h_pct": 1.91,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1832354344349659545",
@@ -1107,7 +1164,8 @@
       "price_1h": 0.6990946653347666,
       "price_24h": 0.7009018377854246,
       "change_1h_pct": 0.43,
-      "change_24h_pct": 0.69
+      "change_24h_pct": 0.69,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1833425551908081831",
@@ -1126,7 +1184,8 @@
       "price_1h": 0.7330128013116597,
       "price_24h": 0.7161504217238595,
       "change_1h_pct": 1.34,
-      "change_24h_pct": -0.99
+      "change_24h_pct": -0.99,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1833437251147337878",
@@ -1145,7 +1204,8 @@
       "price_1h": 0.7289435935326493,
       "price_24h": 0.7094248274643954,
       "change_1h_pct": -0.56,
-      "change_24h_pct": -3.22
+      "change_24h_pct": -3.22,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1836584098154058136",
@@ -1164,7 +1224,8 @@
       "price_1h": 0.7347182299511613,
       "price_24h": 0.7952316277158866,
       "change_1h_pct": 0.43,
-      "change_24h_pct": 8.7
+      "change_24h_pct": 8.7,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1837147530397995157",
@@ -1183,7 +1244,8 @@
       "price_1h": 0.8599845238080485,
       "price_24h": 0.8437736249484284,
       "change_1h_pct": -0.1,
-      "change_24h_pct": -1.99
+      "change_24h_pct": -1.99,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1838556097189458188",
@@ -1202,7 +1264,8 @@
       "price_1h": 0.8301347194203951,
       "price_24h": 0.8815841592516951,
       "change_1h_pct": -1.48,
-      "change_24h_pct": 4.62
+      "change_24h_pct": 4.62,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1841458737350844849",
@@ -1221,7 +1284,8 @@
       "price_1h": 0.8062960082173747,
       "price_24h": 0.7405832068000209,
       "change_1h_pct": -2.45,
-      "change_24h_pct": -10.4
+      "change_24h_pct": -10.4,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1843709384846946591",
@@ -1240,7 +1304,8 @@
       "price_1h": 0.7502395819796902,
       "price_24h": 0.7294326437972204,
       "change_1h_pct": -0.43,
-      "change_24h_pct": -3.19
+      "change_24h_pct": -3.19,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1848004827264991504",
@@ -1259,7 +1324,8 @@
       "price_1h": 0.9282859846082325,
       "price_24h": 0.9698157510994586,
       "change_1h_pct": -0.52,
-      "change_24h_pct": 3.93
+      "change_24h_pct": 3.93,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1849373647116673346",
@@ -1278,7 +1344,8 @@
       "price_1h": 1.0679798103673102,
       "price_24h": 0.9968526573814613,
       "change_1h_pct": -1.5,
-      "change_24h_pct": -8.06
+      "change_24h_pct": -8.06,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1851013888210583914",
@@ -1297,7 +1364,8 @@
       "price_1h": 1.0283423711933266,
       "price_24h": 1.0603354405097023,
       "change_1h_pct": 0.09,
-      "change_24h_pct": 3.2
+      "change_24h_pct": 3.2,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1853524538400866678",
@@ -1316,7 +1384,8 @@
       "price_1h": 0.8786015678793567,
       "price_24h": 0.9379725289472359,
       "change_1h_pct": 0.24,
-      "change_24h_pct": 7.02
+      "change_24h_pct": 7.02,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1854015175147626539",
@@ -1335,7 +1404,8 @@
       "price_1h": 0.9495101169148348,
       "price_24h": 1.0361388419276878,
       "change_1h_pct": 3.46,
-      "change_24h_pct": 12.89
+      "change_24h_pct": 12.89,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1856059207411495169",
@@ -1354,7 +1424,8 @@
       "price_1h": 1.2322354505313708,
       "price_24h": 1.1612137089728563,
       "change_1h_pct": 0.76,
-      "change_24h_pct": -5.04
+      "change_24h_pct": -5.04,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1856067914006442180",
@@ -1373,7 +1444,8 @@
       "price_1h": 1.2203927501353975,
       "price_24h": 1.138300309608605,
       "change_1h_pct": -0.96,
-      "change_24h_pct": -7.62
+      "change_24h_pct": -7.62,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1857971606041276674",
@@ -1392,7 +1464,8 @@
       "price_1h": 1.1148370482002472,
       "price_24h": 1.1557606125833775,
       "change_1h_pct": -0.98,
-      "change_24h_pct": 2.66
+      "change_24h_pct": 2.66,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1858158479443382455",
@@ -1411,7 +1484,8 @@
       "price_1h": 1.2603216710859833,
       "price_24h": 1.2062904424563863,
       "change_1h_pct": 1.73,
-      "change_24h_pct": -2.63
+      "change_24h_pct": -2.63,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1858363349760967022",
@@ -1430,7 +1504,8 @@
       "price_1h": 1.1675078545287432,
       "price_24h": 1.176485568195356,
       "change_1h_pct": -2.02,
-      "change_24h_pct": -1.26
+      "change_24h_pct": -1.26,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1858897021060739256",
@@ -1449,7 +1524,8 @@
       "price_1h": 1.1844074137018337,
       "price_24h": 1.1179870014131883,
       "change_1h_pct": 1.04,
-      "change_24h_pct": -4.63
+      "change_24h_pct": -4.63,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1861095375530320222",
@@ -1468,7 +1544,8 @@
       "price_1h": 1.1150225945409034,
       "price_24h": 1.0005111704866338,
       "change_1h_pct": -1.97,
-      "change_24h_pct": -12.04
+      "change_24h_pct": -12.04,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1861107201127186925",
@@ -1487,7 +1564,8 @@
       "price_1h": 1.1150225945409034,
       "price_24h": 1.0005111704866338,
       "change_1h_pct": -1.97,
-      "change_24h_pct": -12.04
+      "change_24h_pct": -12.04,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1861139133793738810",
@@ -1506,7 +1584,8 @@
       "price_1h": 1.0915197789966076,
       "price_24h": 1.0030832103427287,
       "change_1h_pct": -2.11,
-      "change_24h_pct": -10.04
+      "change_24h_pct": -10.04,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1862533288688222556",
@@ -1525,7 +1604,8 @@
       "price_1h": 1.164929050706638,
       "price_24h": 1.1561263415839937,
       "change_1h_pct": -1.4,
-      "change_24h_pct": -2.14
+      "change_24h_pct": -2.14,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1863331338662851026",
@@ -1544,7 +1624,8 @@
       "price_1h": 1.2531092739404859,
       "price_24h": 1.1560098869619937,
       "change_1h_pct": -0.31,
-      "change_24h_pct": -8.03
+      "change_24h_pct": -8.03,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1863980214545489974",
@@ -1563,7 +1644,8 @@
       "price_1h": 1.1835100181705658,
       "price_24h": 1.3092006262663252,
       "change_1h_pct": -0.71,
-      "change_24h_pct": 9.83
+      "change_24h_pct": 9.83,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1864153437132185631",
@@ -1582,7 +1664,8 @@
       "price_1h": 1.2436336793377887,
       "price_24h": 1.319948144378869,
       "change_1h_pct": -1.24,
-      "change_24h_pct": 4.82
+      "change_24h_pct": 4.82,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1864470353793196208",
@@ -1601,7 +1684,8 @@
       "price_1h": 1.297940671789413,
       "price_24h": 1.3283700729279626,
       "change_1h_pct": -0.68,
-      "change_24h_pct": 1.65
+      "change_24h_pct": 1.65,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1867306523535585552",
@@ -1620,7 +1704,8 @@
       "price_1h": 1.174752149194728,
       "price_24h": 1.103197602121959,
       "change_1h_pct": 0.05,
-      "change_24h_pct": -6.04
+      "change_24h_pct": -6.04,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1870351402134077641",
@@ -1639,7 +1724,8 @@
       "price_1h": 0.8812960991349378,
       "price_24h": 0.8197203025907938,
       "change_1h_pct": -1.09,
-      "change_24h_pct": -8.0
+      "change_24h_pct": -8.0,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1879166749716943295",
@@ -1658,7 +1744,8 @@
       "price_1h": 0.7946548868016892,
       "price_24h": 0.7825681313954836,
       "change_1h_pct": -1.66,
-      "change_24h_pct": -3.15
+      "change_24h_pct": -3.15,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1879183245574856773",
@@ -1677,7 +1764,8 @@
       "price_1h": 0.7904150079800079,
       "price_24h": 0.7865491625556528,
       "change_1h_pct": -0.53,
-      "change_24h_pct": -1.02
+      "change_24h_pct": -1.02,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1882320341000974447",
@@ -1696,7 +1784,8 @@
       "price_1h": 0.7728052804102442,
       "price_24h": 0.8058498643013979,
       "change_1h_pct": -0.99,
-      "change_24h_pct": 3.24
+      "change_24h_pct": 3.24,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1882690549049852014",
@@ -1715,7 +1804,8 @@
       "price_1h": 0.8353796081596079,
       "price_24h": 0.8374823939381647,
       "change_1h_pct": 4.67,
-      "change_24h_pct": 4.93
+      "change_24h_pct": 4.93,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1883075571464212801",
@@ -1734,7 +1824,8 @@
       "price_1h": 0.864906922383084,
       "price_24h": 0.9205454247417483,
       "change_1h_pct": 1.82,
-      "change_24h_pct": 8.37
+      "change_24h_pct": 8.37,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1883120041484484988",
@@ -1753,7 +1844,8 @@
       "price_1h": 0.8448790408902375,
       "price_24h": 0.9208501751002766,
       "change_1h_pct": -0.49,
-      "change_24h_pct": 8.45
+      "change_24h_pct": 8.45,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1883541957613584692",
@@ -1772,7 +1864,8 @@
       "price_1h": 0.9119527883649604,
       "price_24h": 0.969223106742276,
       "change_1h_pct": 1.04,
-      "change_24h_pct": 7.39
+      "change_24h_pct": 7.39,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1884942735674617921",
@@ -1791,7 +1884,8 @@
       "price_1h": 1.1084512894626433,
       "price_24h": 1.0317193451337234,
       "change_1h_pct": -0.36,
-      "change_24h_pct": -7.26
+      "change_24h_pct": -7.26,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1885235523771326760",
@@ -1810,7 +1904,8 @@
       "price_1h": 1.0458730718981146,
       "price_24h": 1.030868246708424,
       "change_1h_pct": -0.76,
-      "change_24h_pct": -2.18
+      "change_24h_pct": -2.18,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1887955224368922810",
@@ -1829,7 +1924,8 @@
       "price_1h": 0.8348622524846949,
       "price_24h": 0.8045204823187242,
       "change_1h_pct": -1.37,
-      "change_24h_pct": -4.95
+      "change_24h_pct": -4.95,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1888493637052543227",
@@ -1848,7 +1944,8 @@
       "price_1h": 0.8761280390967583,
       "price_24h": 0.8086275737625365,
       "change_1h_pct": 2.99,
-      "change_24h_pct": -4.95
+      "change_24h_pct": -4.95,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1888758462064333306",
@@ -1867,7 +1964,8 @@
       "price_1h": 0.7999244586114221,
       "price_24h": 0.8432964998944946,
       "change_1h_pct": -2.37,
-      "change_24h_pct": 2.93
+      "change_24h_pct": 2.93,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1889046289419288785",
@@ -1886,7 +1984,8 @@
       "price_1h": 0.8437305043693898,
       "price_24h": 0.8355601017167016,
       "change_1h_pct": 0.26,
-      "change_24h_pct": -0.71
+      "change_24h_pct": -0.71,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1889196131424330166",
@@ -1905,7 +2004,8 @@
       "price_1h": 0.8492200223078262,
       "price_24h": 0.8193498306285117,
       "change_1h_pct": -0.91,
-      "change_24h_pct": -4.4
+      "change_24h_pct": -4.4,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1891664435321647186",
@@ -1924,7 +2024,8 @@
       "price_1h": 0.823783366908698,
       "price_24h": 0.7092832657455245,
       "change_1h_pct": 0.98,
-      "change_24h_pct": -13.05
+      "change_24h_pct": -13.05,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1894413331559321751",
@@ -1943,7 +2044,8 @@
       "price_1h": 0.678823878353819,
       "price_24h": 0.7026049937165878,
       "change_1h_pct": 2.98,
-      "change_24h_pct": 6.58
+      "change_24h_pct": 6.58,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1896948862151213097",
@@ -1962,7 +2064,8 @@
       "price_1h": 0.6409094781372673,
       "price_24h": 0.6541890347695185,
       "change_1h_pct": 0.6,
-      "change_24h_pct": 2.69
+      "change_24h_pct": 2.69,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1897701444691935291",
@@ -1981,7 +2084,8 @@
       "price_1h": 0.624615272349228,
       "price_24h": 0.5985065152691241,
       "change_1h_pct": -0.8,
-      "change_24h_pct": -4.95
+      "change_24h_pct": -4.95,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1903164835262763373",
@@ -2000,7 +2104,8 @@
       "price_1h": 0.5116269595784539,
       "price_24h": 0.5251397624038475,
       "change_1h_pct": 0.99,
-      "change_24h_pct": 3.65
+      "change_24h_pct": 3.65,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1905291178750480677",
@@ -2019,7 +2124,8 @@
       "price_1h": 0.5402125333719487,
       "price_24h": 0.5058159001852714,
       "change_1h_pct": -0.29,
-      "change_24h_pct": -6.64
+      "change_24h_pct": -6.64,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1906220938859020474",
@@ -2038,7 +2144,8 @@
       "price_1h": 0.4834250379372379,
       "price_24h": 0.4861772408638029,
       "change_1h_pct": 0.79,
-      "change_24h_pct": 1.37
+      "change_24h_pct": 1.37,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1907491928314363962",
@@ -2057,7 +2164,8 @@
       "price_1h": 0.40859810121440143,
       "price_24h": 0.3653447572410439,
       "change_1h_pct": 1.55,
-      "change_24h_pct": -9.2
+      "change_24h_pct": -9.2,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1908704614633165212",
@@ -2076,7 +2184,8 @@
       "price_1h": 0.38513236829175695,
       "price_24h": 0.33748826781698166,
       "change_1h_pct": 0.91,
-      "change_24h_pct": -11.58
+      "change_24h_pct": -11.58,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1909072233013670337",
@@ -2095,7 +2204,8 @@
       "price_1h": 0.33726143859857827,
       "price_24h": 0.34249314517625795,
       "change_1h_pct": -0.07,
-      "change_24h_pct": 1.48
+      "change_24h_pct": 1.48,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1910009988418003224",
@@ -2114,7 +2224,8 @@
       "price_1h": 0.3474205019636469,
       "price_24h": 0.36367222747695016,
       "change_1h_pct": 1.76,
-      "change_24h_pct": 6.52
+      "change_24h_pct": 6.52,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1912060203429658814",
@@ -2133,7 +2244,8 @@
       "price_1h": 0.3826485990257915,
       "price_24h": 0.3604096041571237,
       "change_1h_pct": 0.19,
-      "change_24h_pct": -5.64
+      "change_24h_pct": -5.64,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1915649472438428098",
@@ -2152,7 +2264,8 @@
       "price_1h": 0.46968262870727934,
       "price_24h": 0.5025198885415523,
       "change_1h_pct": 1.02,
-      "change_24h_pct": 8.09
+      "change_24h_pct": 8.09,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1915956293065441396",
@@ -2171,7 +2284,8 @@
       "price_1h": 0.4833048176250279,
       "price_24h": 0.4801814351064598,
       "change_1h_pct": -0.71,
-      "change_24h_pct": -1.35
+      "change_24h_pct": -1.35,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1917972285597565385",
@@ -2190,7 +2304,8 @@
       "price_1h": 0.46128796219670315,
       "price_24h": 0.45877718835357273,
       "change_1h_pct": -2.62,
-      "change_24h_pct": -3.15
+      "change_24h_pct": -3.15,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1922457704783613956",
@@ -2209,7 +2324,8 @@
       "price_1h": 0.5636724988719226,
       "price_24h": 0.5328846975478144,
       "change_1h_pct": -1.59,
-      "change_24h_pct": -6.97
+      "change_24h_pct": -6.97,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1924498258724110400",
@@ -2228,7 +2344,8 @@
       "price_1h": 0.4778608020778903,
       "price_24h": 0.4984095022142738,
       "change_1h_pct": 2.33,
-      "change_24h_pct": 6.73
+      "change_24h_pct": 6.73,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1925205280931115173",
@@ -2247,7 +2364,8 @@
       "price_1h": 0.5297436350295819,
       "price_24h": 0.5460670212764224,
       "change_1h_pct": -0.41,
-      "change_24h_pct": 2.66
+      "change_24h_pct": 2.66,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1929995672260096242",
@@ -2266,7 +2384,8 @@
       "price_1h": 0.5508954668010857,
       "price_24h": 0.5491326459477394,
       "change_1h_pct": 0.47,
-      "change_24h_pct": 0.15
+      "change_24h_pct": 0.15,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1931177537885147268",
@@ -2285,7 +2404,8 @@
       "price_1h": 0.45176794179962276,
       "price_24h": 0.464304026036719,
       "change_1h_pct": 0.37,
-      "change_24h_pct": 3.16
+      "change_24h_pct": 3.16,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1932000080954790214",
@@ -2304,7 +2424,8 @@
       "price_1h": 0.4517442658871129,
       "price_24h": 0.47080514479625474,
       "change_1h_pct": 0.32,
-      "change_24h_pct": 4.55
+      "change_24h_pct": 4.55,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1935345957090074683",
@@ -2323,7 +2444,8 @@
       "price_1h": 0.3904457770269146,
       "price_24h": 0.4058242420647199,
       "change_1h_pct": 0.14,
-      "change_24h_pct": 4.09
+      "change_24h_pct": 4.09,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1943718935540773169",
@@ -2342,7 +2464,8 @@
       "price_1h": 0.5057564481478849,
       "price_24h": 0.46977210095587935,
       "change_1h_pct": 0.41,
-      "change_24h_pct": -6.73
+      "change_24h_pct": -6.73,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1946847209158488254",
@@ -2361,7 +2484,8 @@
       "price_1h": 0.5493353979039517,
       "price_24h": 0.5845400303980862,
       "change_1h_pct": 0.58,
-      "change_24h_pct": 7.02
+      "change_24h_pct": 7.02,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1946887316158788048",
@@ -2380,7 +2504,8 @@
       "price_1h": 0.5452470872123965,
       "price_24h": 0.5945478153249512,
       "change_1h_pct": -0.55,
-      "change_24h_pct": 8.44
+      "change_24h_pct": 8.44,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1947366201245520059",
@@ -2399,7 +2524,8 @@
       "price_1h": 0.6227895058156203,
       "price_24h": 0.6191478065541837,
       "change_1h_pct": -1.88,
-      "change_24h_pct": -2.46
+      "change_24h_pct": -2.46,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1947516883013669231",
@@ -2418,7 +2544,8 @@
       "price_1h": 0.6459195636319288,
       "price_24h": 0.6197628792022128,
       "change_1h_pct": 4.77,
-      "change_24h_pct": 0.53
+      "change_24h_pct": 0.53,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1947520520377012485",
@@ -2437,7 +2564,8 @@
       "price_1h": 0.6459195636319288,
       "price_24h": 0.6197628792022128,
       "change_1h_pct": 4.77,
-      "change_24h_pct": 0.53
+      "change_24h_pct": 0.53,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1947761581775065346",
@@ -2456,7 +2584,8 @@
       "price_1h": 0.6222583411006769,
       "price_24h": 0.5690901020124892,
       "change_1h_pct": -1.29,
-      "change_24h_pct": -9.72
+      "change_24h_pct": -9.72,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1948098007863374148",
@@ -2475,7 +2604,8 @@
       "price_1h": 0.5690901020124892,
       "price_24h": 0.5541508105417868,
       "change_1h_pct": -2.58,
-      "change_24h_pct": -5.13
+      "change_24h_pct": -5.13,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1948645790488166706",
@@ -2494,7 +2624,8 @@
       "price_1h": 0.5311821315064359,
       "price_24h": 0.5525912029822226,
       "change_1h_pct": 0.82,
-      "change_24h_pct": 4.88
+      "change_24h_pct": 4.88,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1949913154256785497",
@@ -2513,7 +2644,8 @@
       "price_1h": 0.5738451604607137,
       "price_24h": 0.5333576737089908,
       "change_1h_pct": -0.44,
-      "change_24h_pct": -7.47
+      "change_24h_pct": -7.47,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1950477562188014033",
@@ -2532,7 +2664,8 @@
       "price_1h": 0.5317438919198365,
       "price_24h": 0.5327352967679999,
       "change_1h_pct": 0.51,
-      "change_24h_pct": 0.69
+      "change_24h_pct": 0.69,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1950993913163968710",
@@ -2551,7 +2684,8 @@
       "price_1h": 0.5083276705927092,
       "price_24h": 0.48026093835017075,
       "change_1h_pct": 1.02,
-      "change_24h_pct": -4.56
+      "change_24h_pct": -4.56,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1952766322523132307",
@@ -2570,7 +2704,8 @@
       "price_1h": 0.47860808983693803,
       "price_24h": 0.45821423830924185,
       "change_1h_pct": 0.38,
-      "change_24h_pct": -3.9
+      "change_24h_pct": -3.9,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1953740696654852585",
@@ -2589,7 +2724,8 @@
       "price_1h": 0.492339628624912,
       "price_24h": 0.5025565091207741,
       "change_1h_pct": -0.61,
-      "change_24h_pct": 1.45
+      "change_24h_pct": 1.45,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1954055137921581509",
@@ -2608,7 +2744,8 @@
       "price_1h": 0.5006236363023108,
       "price_24h": 0.5417012818316642,
       "change_1h_pct": -0.52,
-      "change_24h_pct": 7.64
+      "change_24h_pct": 7.64,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1954115206503706659",
@@ -2627,7 +2764,8 @@
       "price_1h": 0.5115102613413154,
       "price_24h": 0.5325619948661694,
       "change_1h_pct": -0.98,
-      "change_24h_pct": 3.1
+      "change_24h_pct": 3.1,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1954161441956585944",
@@ -2646,7 +2784,8 @@
       "price_1h": 0.5251645367429293,
       "price_24h": 0.5185069090377633,
       "change_1h_pct": 0.22,
-      "change_24h_pct": -1.05
+      "change_24h_pct": -1.05,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1997996543870415305",
@@ -2665,7 +2804,8 @@
       "price_1h": 0.2258402946810437,
       "price_24h": 0.2215261626181225,
       "change_1h_pct": -0.11,
-      "change_24h_pct": -2.02
+      "change_24h_pct": -2.02,
+      "market_cap_at_tweet": null
     },
     {
       "tweet_id": "1998380985566597464",
@@ -2684,7 +2824,8 @@
       "price_1h": 0.2196258156477726,
       "price_24h": 0.23072245070672504,
       "change_1h_pct": -0.82,
-      "change_24h_pct": 4.19
+      "change_24h_pct": 4.19,
+      "market_cap_at_tweet": null
     }
   ],
   "keyword_filter": "jup,jupiter",

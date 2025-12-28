@@ -1,13 +1,13 @@
 {
-  "generated_at": "2025-12-22T05:26:08.963684Z",
+  "generated_at": "2025-12-28T22:31:58.134330Z",
   "asset": "wld",
   "asset_name": "WLD",
   "founder": "sama",
   "summary": {
-    "total_tweets": 4,
+    "total_tweets": 2,
     "tweets_with_price": 2,
     "date_range": {
-      "start": "2023-07-24",
+      "start": "2023-07-26",
       "end": "2024-11-11"
     },
     "total_days_analyzed": 720
@@ -49,14 +49,14 @@
     "confidence_label": "insufficient_data"
   },
   "correlation": {
-    "correlation_7d": -0.021,
-    "p_value": 0.5652,
+    "correlation_7d": -0.02,
+    "p_value": 0.59,
     "significant": false,
     "sample_size": 720,
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 405,
+    "days_since_last_tweet": 412,
     "price_change_during_silence": -58.6,
     "last_tweet_date": "2024-11-11"
   },
@@ -82,8 +82,8 @@
     },
     {
       "start_ts": 1731361860,
-      "end_ts": 1766399168,
-      "gap_days": 405.5,
+      "end_ts": 1766979118,
+      "gap_days": 412.2,
       "start_date": "2024-11-11",
       "end_date": "ongoing",
       "is_current": true,

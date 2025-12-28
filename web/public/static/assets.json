@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated_at": "2025-12-26T23:05:00.977980Z",
+  "generated_at": "2025-12-28T22:28:51.280723Z",
   "assets": [
     {
       "id": "pump",
@@ -143,7 +143,7 @@
       "color": "#F4B728",
       "logo": "/logos/zec.png",
       "enabled": true,
-      "data_note": "1h data unavailable for 2016-2018 - CoinGecko only has daily granularity for early history"
+      "data_note": "ADOPTER ASSET (mert tweets about ZEC). Limited 1h granularity pre-2021. Only 38 tweet-days analyzed with 47.4% win rate (near random). Correlation weak (0.224) but statistically significant. Skip 15m/1m timeframes due to CoinGecko API limits for legacy coins."
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-22T04:13:24.058912Z",
+  "generated_at": "2025-12-28T22:29:29.661602Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
@@ -10,7 +10,7 @@
       "start": "2024-10-24",
       "end": "2025-12-20"
     },
-    "total_days_analyzed": 430
+    "total_days_analyzed": 436
   },
   "daily_comparison": {
     "tweet_day_count": 280,
@@ -28,36 +28,36 @@
       "positive_count": 137,
       "negative_count": 143
     },
-    "no_tweet_day_count": 149,
-    "no_tweet_day_avg_return": 2.75,
-    "no_tweet_day_win_rate": 49.0,
+    "no_tweet_day_count": 155,
+    "no_tweet_day_avg_return": 2.68,
+    "no_tweet_day_win_rate": 49.7,
     "no_tweet_day_distribution": {
-      "count": 149,
-      "mean": 2.75,
-      "median": -0.28,
-      "std_dev": 17.68,
+      "count": 155,
+      "mean": 2.68,
+      "median": -0.25,
+      "std_dev": 17.35,
       "min": -38.15,
       "max": 81.43,
-      "q1": -8.51,
-      "q3": 10.36,
-      "positive_count": 73,
-      "negative_count": 76
+      "q1": -8.29,
+      "q3": 10.04,
+      "positive_count": 77,
+      "negative_count": 78
     },
-    "t_statistic": -1.084,
-    "p_value": 0.2791,
+    "t_statistic": -1.053,
+    "p_value": 0.2928,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.323,
+    "correlation_7d": 0.338,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 430,
+    "sample_size": 436,
     "strength_label": "weak"
   },
   "current_status": {
-    "days_since_last_tweet": 0,
-    "price_change_during_silence": null,
+    "days_since_last_tweet": 8,
+    "price_change_during_silence": 5.8,
     "last_tweet_date": "2025-12-20"
   },
   "limitations": {
@@ -359,6 +359,17 @@
       "price_start": 0.24286291169566815,
       "price_end": 0.24123771107458342,
       "change_pct": -0.7
+    },
+    {
+      "start_ts": 1766254914,
+      "end_ts": 1766978969,
+      "gap_days": 8.4,
+      "start_date": "2025-12-20",
+      "end_date": "ongoing",
+      "is_current": true,
+      "price_start": 0.29081158034108184,
+      "price_end": 0.30778620347863594,
+      "change_pct": 5.8
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-21T20:25:42.602291Z",
+  "generated_at": "2025-12-28T22:32:04.531426Z",
   "asset": "xpl",
   "asset_name": "XPL",
   "founder": "pauliepunt",
@@ -24,7 +24,8 @@
       "price_1h": 1.28584335318667,
       "price_24h": 1.28101918980359,
       "change_1h_pct": 0.0,
-      "change_24h_pct": -0.38
+      "change_24h_pct": -0.38,
+      "market_cap_at_tweet": 147705601.34
     },
     {
       "tweet_id": "1971228954771222699",
@@ -43,7 +44,8 @@
       "price_1h": 0.864832698965418,
       "price_24h": 1.17711456487066,
       "change_1h_pct": -32.74,
-      "change_24h_pct": -8.46
+      "change_24h_pct": -8.46,
+      "market_cap_at_tweet": 147705601.34
     },
     {
       "tweet_id": "1972260175961903320",
@@ -62,7 +64,8 @@
       "price_1h": 1.48332218584719,
       "price_24h": 1.32041990425993,
       "change_1h_pct": -5.01,
-      "change_24h_pct": -15.44
+      "change_24h_pct": -15.44,
+      "market_cap_at_tweet": 179371113.92
     },
     {
       "tweet_id": "1973495918709391529",
@@ -81,7 +84,8 @@
       "price_1h": 0.954999469545838,
       "price_24h": 0.945054530958676,
       "change_1h_pct": 2.61,
-      "change_24h_pct": 1.54
+      "change_24h_pct": 1.54,
+      "market_cap_at_tweet": 106916183.25
     },
     {
       "tweet_id": "1993592407682850937",
@@ -100,7 +104,8 @@
       "price_1h": 0.209279912275444,
       "price_24h": 0.215831296071945,
       "change_1h_pct": -0.98,
-      "change_24h_pct": 2.12
+      "change_24h_pct": 2.12,
+      "market_cap_at_tweet": 24278370.54
     },
     {
       "tweet_id": "1999128006707511678",
@@ -119,7 +124,8 @@
       "price_1h": 0.161173164136918,
       "price_24h": 0.158588544046534,
       "change_1h_pct": -1.86,
-      "change_24h_pct": -3.44
+      "change_24h_pct": -3.44,
+      "market_cap_at_tweet": 18865810.4
     },
     {
       "tweet_id": "1999128017042362399",
@@ -138,7 +144,8 @@
       "price_1h": 0.161173164136918,
       "price_24h": 0.158588544046534,
       "change_1h_pct": -1.86,
-      "change_24h_pct": -3.44
+      "change_24h_pct": -3.44,
+      "market_cap_at_tweet": 18865810.4
     },
     {
       "tweet_id": "1999128019189784995",
@@ -157,7 +164,8 @@
       "price_1h": 0.161173164136918,
       "price_24h": 0.158588544046534,
       "change_1h_pct": -1.86,
-      "change_24h_pct": -3.44
+      "change_24h_pct": -3.44,
+      "market_cap_at_tweet": 18865810.4
     },
     {
       "tweet_id": "1999128022197190942",
@@ -176,7 +184,8 @@
       "price_1h": 0.161173164136918,
       "price_24h": 0.158588544046534,
       "change_1h_pct": -1.86,
-      "change_24h_pct": -3.44
+      "change_24h_pct": -3.44,
+      "market_cap_at_tweet": 18865810.4
     },
     {
       "tweet_id": "1999128024118108184",
@@ -195,7 +204,8 @@
       "price_1h": 0.161173164136918,
       "price_24h": 0.158588544046534,
       "change_1h_pct": -1.86,
-      "change_24h_pct": -3.44
+      "change_24h_pct": -3.44,
+      "market_cap_at_tweet": 18865810.4
     }
   ],
   "keyword_filter": "xpl,plasma",

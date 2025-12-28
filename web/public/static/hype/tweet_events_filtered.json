@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-21T22:34:42.866155Z",
+  "generated_at": "2025-12-28T22:29:36.332874Z",
   "asset": "hype",
   "asset_name": "HYPE",
   "founder": "chameleon_jeff",
@@ -24,7 +24,8 @@
       "price_1h": 7.3,
       "price_24h": 9.01,
       "change_1h_pct": 2.1,
-      "change_24h_pct": 26.01
+      "change_24h_pct": 26.01,
+      "market_cap_at_tweet": 1704930777.55
     },
     {
       "tweet_id": "1879086717900386782",
@@ -43,7 +44,8 @@
       "price_1h": 21.71,
       "price_24h": 22.64,
       "change_1h_pct": 0.84,
-      "change_24h_pct": 5.16
+      "change_24h_pct": 5.16,
+      "market_cap_at_tweet": 5133868481.21
     },
     {
       "tweet_id": "1880914204645028310",
@@ -62,7 +64,8 @@
       "price_1h": 20.7,
       "price_24h": 20.32,
       "change_1h_pct": -2.68,
-      "change_24h_pct": -4.47
+      "change_24h_pct": -4.47,
+      "market_cap_at_tweet": 5071870998.39
     },
     {
       "tweet_id": "1884046704292552725",
@@ -81,7 +84,8 @@
       "price_1h": 22.61,
       "price_24h": 23.01,
       "change_1h_pct": 5.95,
-      "change_24h_pct": 7.83
+      "change_24h_pct": 7.83,
+      "market_cap_at_tweet": 5088562628.38
     },
     {
       "tweet_id": "1890443240186462684",
@@ -100,7 +104,8 @@
       "price_1h": 27.21,
       "price_24h": 26.23,
       "change_1h_pct": 0.0,
-      "change_24h_pct": -3.6
+      "change_24h_pct": -3.6,
+      "market_cap_at_tweet": 6488275028.97
     },
     {
       "tweet_id": "1898739434000191823",
@@ -119,7 +124,8 @@
       "price_1h": 15.0,
       "price_24h": 14.79,
       "change_1h_pct": -1.06,
-      "change_24h_pct": -2.44
+      "change_24h_pct": -2.44,
+      "market_cap_at_tweet": 3614930152.12
     },
     {
       "tweet_id": "1900218435562578130",
@@ -138,7 +144,8 @@
       "price_1h": 12.25,
       "price_24h": 13.98,
       "change_1h_pct": -0.97,
-      "change_24h_pct": 13.02
+      "change_24h_pct": 13.02,
+      "market_cap_at_tweet": 2949649471.09
     },
     {
       "tweet_id": "1908351044486390176",
@@ -157,7 +164,8 @@
       "price_1h": 12.2,
       "price_24h": 11.77,
       "change_1h_pct": -0.33,
-      "change_24h_pct": -3.84
+      "change_24h_pct": -3.84,
+      "market_cap_at_tweet": 2918650729.68
     },
     {
       "tweet_id": "1908524506110672979",
@@ -176,7 +184,8 @@
       "price_1h": 12.01,
       "price_24h": 11.53,
       "change_1h_pct": 0.08,
-      "change_24h_pct": -3.92
+      "change_24h_pct": -3.92,
+      "market_cap_at_tweet": 2861422284.0
     },
     {
       "tweet_id": "1912116883521954037",
@@ -195,7 +204,8 @@
       "price_1h": 16.44,
       "price_24h": 14.93,
       "change_1h_pct": 0.49,
-      "change_24h_pct": -8.74
+      "change_24h_pct": -8.74,
+      "market_cap_at_tweet": 3901072380.52
     },
     {
       "tweet_id": "1917742026826866705",
@@ -214,7 +224,8 @@
       "price_1h": 18.94,
       "price_24h": 20.23,
       "change_1h_pct": 1.12,
-      "change_24h_pct": 8.01
+      "change_24h_pct": 8.01,
+      "market_cap_at_tweet": 4466203281.61
     },
     {
       "tweet_id": "1921502111566856208",
@@ -233,7 +244,8 @@
       "price_1h": 25.13,
       "price_24h": 24.6,
       "change_1h_pct": -0.48,
-      "change_24h_pct": -2.57
+      "change_24h_pct": -2.57,
+      "market_cap_at_tweet": 6020909389.25
     },
     {
       "tweet_id": "1928883871644528890",
@@ -252,7 +264,8 @@
       "price_1h": 32.54,
       "price_24h": 32.02,
       "change_1h_pct": 0.25,
-      "change_24h_pct": -1.36
+      "change_24h_pct": -1.36,
+      "market_cap_at_tweet": 7740147278.22
     },
     {
       "tweet_id": "1929753039969440212",
@@ -271,7 +284,8 @@
       "price_1h": 36.54,
       "price_24h": 36.21,
       "change_1h_pct": 0.16,
-      "change_24h_pct": -0.74
+      "change_24h_pct": -0.74,
+      "market_cap_at_tweet": 8698723743.36
     },
     {
       "tweet_id": "1942813529675116932",
@@ -290,7 +304,8 @@
       "price_1h": 38.87,
       "price_24h": 40.68,
       "change_1h_pct": -0.74,
-      "change_24h_pct": 3.88
+      "change_24h_pct": 3.88,
+      "market_cap_at_tweet": 9337774720.12
     },
     {
       "tweet_id": "1954125933885173895",
@@ -309,7 +324,8 @@
       "price_1h": 41.63,
       "price_24h": 43.8,
       "change_1h_pct": -0.64,
-      "change_24h_pct": 4.53
+      "change_24h_pct": 4.53,
+      "market_cap_at_tweet": 9991132808.3
     },
     {
       "tweet_id": "1970481506570375642",
@@ -328,7 +344,8 @@
       "price_1h": 48.01,
       "price_24h": 43.57,
       "change_1h_pct": -1.23,
-      "change_24h_pct": -10.37
+      "change_24h_pct": -10.37,
+      "market_cap_at_tweet": 11591144768.77
     },
     {
       "tweet_id": "1977066751717429516",
@@ -347,7 +364,8 @@
       "price_1h": 38.88,
       "price_24h": 37.96,
       "change_1h_pct": -0.79,
-      "change_24h_pct": -3.14
+      "change_24h_pct": -3.14,
+      "market_cap_at_tweet": 9344928275.83
     },
     {
       "tweet_id": "1977578610329534958",
@@ -366,7 +384,8 @@
       "price_1h": 39.77,
       "price_24h": 43.24,
       "change_1h_pct": -1.34,
-      "change_24h_pct": 7.27
+      "change_24h_pct": 7.27,
+      "market_cap_at_tweet": 9611994355.67
     },
     {
       "tweet_id": "1979591612704723253",
@@ -385,7 +404,8 @@
       "price_1h": 35.77,
       "price_24h": 37.25,
       "change_1h_pct": -0.22,
-      "change_24h_pct": 3.91
+      "change_24h_pct": 3.91,
+      "market_cap_at_tweet": 8548499073.45
     },
     {
       "tweet_id": "1981236176247017606",
@@ -404,7 +424,8 @@
       "price_1h": 37.87,
       "price_24h": 40.29,
       "change_1h_pct": 3.27,
-      "change_24h_pct": 9.87
+      "change_24h_pct": 9.87,
+      "market_cap_at_tweet": 8744029596.19
     },
     {
       "tweet_id": "1989388141044830540",
@@ -423,7 +444,8 @@
       "price_1h": 36.72,
       "price_24h": 38.59,
       "change_1h_pct": -0.27,
-      "change_24h_pct": 4.81
+      "change_24h_pct": 4.81,
+      "market_cap_at_tweet": 8779797374.74
     },
     {
       "tweet_id": "1992608580730839281",
@@ -442,7 +464,8 @@
       "price_1h": 31.51,
       "price_24h": 31.508,
       "change_1h_pct": 1.58,
-      "change_24h_pct": 1.57
+      "change_24h_pct": 1.57,
+      "market_cap_at_tweet": 7396776604.14
     },
     {
       "tweet_id": "1993339777811169357",
@@ -461,7 +484,8 @@
       "price_1h": 32.136,
       "price_24h": 34.665,
       "change_1h_pct": -1.65,
-      "change_24h_pct": 6.09
+      "change_24h_pct": 6.09,
+      "market_cap_at_tweet": 7791414427.47
     }
   ],
   "keyword_filter": "hype,hyperliquid",
