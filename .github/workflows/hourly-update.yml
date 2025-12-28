@@ -44,32 +44,52 @@ jobs:
       - name: Create data directory
         run: mkdir -p data
 
-      - name: Check if database exists (from cache)
+      - name: Validate database (prefer larger of cache vs release)
         id: check-db
-        run: |
-          if [ -f "data/analytics.duckdb" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-            SIZE=$(du -h data/analytics.duckdb | cut -f1)
-            echo "✅ Database found in cache ($SIZE)"
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-            echo "⚠️ Database not found in cache"
-          fi
-
-      - name: Download database from release (if not cached)
-        if: steps.check-db.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "📥 Downloading database from release..."
-          if gh release download database --pattern "analytics.duckdb" --dir data/ 2>/dev/null; then
-            SIZE=$(du -h data/analytics.duckdb | cut -f1)
-            echo "✅ Downloaded database from release ($SIZE)"
+          CACHE_SIZE=0
+          RELEASE_SIZE=0
+          
+          # Check cache size
+          if [ -f "data/analytics.duckdb" ]; then
+            CACHE_SIZE=$(stat -c%s "data/analytics.duckdb" 2>/dev/null || stat -f%z "data/analytics.duckdb" 2>/dev/null || echo 0)
+            echo "📦 Cache database: $(numfmt --to=iec $CACHE_SIZE 2>/dev/null || echo ${CACHE_SIZE} bytes)"
           else
-            echo "❌ No database release found!"
-            echo "To bootstrap: create a release tagged 'database' with analytics.duckdb attached"
-            exit 1
+            echo "📦 Cache database: not found"
           fi
+          
+          # Check release size (via API to avoid downloading)
+          RELEASE_INFO=$(gh api repos/${{ github.repository }}/releases/tags/database --jq '.assets[] | select(.name=="analytics.duckdb") | .size' 2>/dev/null || echo 0)
+          RELEASE_SIZE=${RELEASE_INFO:-0}
+          echo "☁️  Release database: $(numfmt --to=iec $RELEASE_SIZE 2>/dev/null || echo ${RELEASE_SIZE} bytes)"
+          
+          # Decision: use larger database
+          if [ "$RELEASE_SIZE" -gt "$CACHE_SIZE" ]; then
+            echo "⬇️  Release is larger - downloading fresh copy..."
+            rm -f data/analytics.duckdb
+            if gh release download database --pattern "analytics.duckdb" --dir data/ 2>/dev/null; then
+              SIZE=$(du -h data/analytics.duckdb | cut -f1)
+              echo "✅ Downloaded database from release ($SIZE)"
+            else
+              echo "❌ Download failed!"
+              exit 1
+            fi
+          elif [ "$CACHE_SIZE" -gt 0 ]; then
+            echo "✅ Using cached database (same size or larger)"
+          else
+            echo "⬇️  No cache - downloading from release..."
+            if gh release download database --pattern "analytics.duckdb" --dir data/ 2>/dev/null; then
+              SIZE=$(du -h data/analytics.duckdb | cut -f1)
+              echo "✅ Downloaded database from release ($SIZE)"
+            else
+              echo "❌ No database found in cache or release!"
+              exit 1
+            fi
+          fi
+          
+          echo "db_validated=true" >> $GITHUB_OUTPUT
 
       # YAML HEREDOC SYNTAX FOR INLINE PYTHON
       # DO NOT use `python -c "..."` for multiline code - YAML parsing breaks.
@@ -136,13 +156,25 @@ jobs:
       - name: Fetch new prices (15m, 1h, 1d)
         env:
           BIRDEYE_API_KEY: ${{ secrets.BIRDEYE_API_KEY }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         run: |
           echo "Fetching new prices (incremental - only missing data)..."
           cd scripts
           # Default mode: incremental (checks DB for last timestamp, only fetches new data)
           python fetch_prices.py -t 15m -t 1h -t 1d 2>&1 || echo "Price fetch had errors (continuing anyway)"
         continue-on-error: true
-        timeout-minutes: 5
+        timeout-minutes: 10
+
+      - name: Cleanup any orphaned processes
+        if: always()
+        run: |
+          # Kill any Python processes that might hold DuckDB locks
+          pkill -9 -f "python.*fetch_prices" 2>/dev/null || true
+          pkill -9 -f "python.*fetch_tweets" 2>/dev/null || true
+          # Remove any stale lock files
+          rm -f data/analytics.duckdb.wal 2>/dev/null || true
+          rm -f data/analytics.duckdb.tmp 2>/dev/null || true
+          echo "✅ Cleanup complete"
 
       - name: Compute statistics
         run: |

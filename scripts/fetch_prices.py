@@ -36,7 +36,6 @@ from db import (
 
 # API endpoints
 GT_API = "https://api.geckoterminal.com/api/v2"
-CG_API = "https://api.coingecko.com/api/v3"
 HL_API = "https://api.hyperliquid.xyz/info"
 BE_API = "https://public-api.birdeye.so"
 
@@ -824,102 +823,7 @@ def fetch_geckoterminal_all_timeframes(
 
 
 # =============================================================================
-# COINGECKO FETCHER (EXISTING)
-# =============================================================================
-
-def fetch_coingecko_daily(
-    coingecko_id: str,
-    days: int = 365
-) -> List[Dict]:
-    """Fetch daily OHLCV data from CoinGecko."""
-    url = f"{CG_API}/coins/{coingecko_id}/ohlc"
-    params = {
-        "vs_currency": "usd",
-        "days": days,
-    }
-    
-    with httpx.Client(timeout=30.0) as client:
-        response = client.get(url, params=params)
-        
-        if response.status_code == 429:
-            print("      Rate limited, waiting 60s...")
-            time.sleep(60)
-            return fetch_coingecko_daily(coingecko_id, days)
-        
-        if response.status_code != 200:
-            print(f"      Error {response.status_code}: {response.text[:200]}")
-            return []
-        
-        ohlc_data = response.json()
-        
-        if not ohlc_data:
-            return []
-        
-        candles = []
-        for candle in ohlc_data:
-            ts_ms, o, h, l, c = candle
-            candles.append({
-                "timestamp_epoch": int(ts_ms / 1000),
-                "open": float(o),
-                "high": float(h),
-                "low": float(l),
-                "close": float(c),
-                "volume": 0.0,
-            })
-        
-        return candles
-
-
-def fetch_coingecko_hourly(
-    coingecko_id: str,
-    days: int = 30
-) -> List[Dict]:
-    """
-    Fetch hourly price data from CoinGecko market_chart endpoint.
-    Free tier: up to 30 days of hourly data.
-    """
-    url = f"{CG_API}/coins/{coingecko_id}/market_chart"
-    params = {
-        "vs_currency": "usd",
-        "days": days,
-    }
-    
-    with httpx.Client(timeout=30.0) as client:
-        response = client.get(url, params=params)
-        
-        if response.status_code == 429:
-            print("      Rate limited, waiting 60s...")
-            time.sleep(60)
-            return fetch_coingecko_hourly(coingecko_id, days)
-        
-        if response.status_code != 200:
-            print(f"      Error {response.status_code}: {response.text[:200]}")
-            return []
-        
-        data = response.json()
-        prices = data.get("prices", [])
-        
-        if not prices:
-            return []
-        
-        # market_chart returns [timestamp_ms, price] pairs
-        # We'll create pseudo-OHLC candles (all same since it's just price)
-        candles = []
-        for ts_ms, price in prices:
-            candles.append({
-                "timestamp_epoch": int(ts_ms / 1000),
-                "open": float(price),
-                "high": float(price),
-                "low": float(price),
-                "close": float(price),
-                "volume": 0.0,
-            })
-        
-        return candles
-
-
-# =============================================================================
-# HYPERLIQUID FETCHER (EXISTING)
+# HYPERLIQUID FETCHER
 # =============================================================================
 
 def fetch_hyperliquid_ohlcv(
@@ -1226,53 +1130,50 @@ def fetch_for_asset(
                 }
     
     elif price_source == "coingecko":
+        # Use CoinGecko Pro API for all CoinGecko assets
         coingecko_id = asset.get("coingecko_id")
         
         if not coingecko_id:
             conn.close()
             return {"status": "error", "reason": "No coingecko_id configured"}
         
-        print(f"    CoinGecko ID: {coingecko_id}")
+        if not COINGECKO_API_KEY:
+            conn.close()
+            return {"status": "error", "reason": "COINGECKO_API_KEY not set - required for CoinGecko assets"}
         
-        # Fetch daily data
-        print(f"    Fetching daily data...")
-        candles = fetch_coingecko_daily(coingecko_id, days=90)
+        print(f"    CoinGecko ID: {coingecko_id} (using Pro API)")
         
-        if candles:
-            # OUTLIER DETECTION: Remove outliers before insertion
-            candles = filter_outliers(candles, asset_id, "1d")
-            
-            inserted = insert_prices(conn, asset_id, "1d", candles, data_source="coingecko")
-            latest_ts = max(c["timestamp_epoch"] for c in candles)
-            update_ingestion_state(
-                conn, asset_id, "prices_1d",
-                last_timestamp=datetime.utcfromtimestamp(latest_ts)
-            )
-            results["timeframes"]["1d"] = {
-                "count": inserted,
-                "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
-            }
-            print(f"      Inserted {inserted} daily candles")
+        # CoinGecko Pro API only supports 1h and 1d
+        if timeframes is None:
+            timeframes = ["1h", "1d"]
+        else:
+            timeframes = [tf for tf in timeframes if tf in ["1h", "1d"]]
         
-        # Also fetch hourly data (30 days max on free tier)
-        print(f"    Fetching hourly data (30 days)...")
-        hourly_candles = fetch_coingecko_hourly(coingecko_id, days=30)
+        if not timeframes:
+            print("      No supported timeframes for CoinGecko (only 1h, 1d)")
+            conn.close()
+            return results
         
-        if hourly_candles:
-            # OUTLIER DETECTION: Remove outliers before insertion
-            hourly_candles = filter_outliers(hourly_candles, asset_id, "1h")
-            
-            inserted = insert_prices(conn, asset_id, "1h", hourly_candles, data_source="coingecko")
-            latest_ts = max(c["timestamp_epoch"] for c in hourly_candles)
-            update_ingestion_state(
-                conn, asset_id, "prices_1h",
-                last_timestamp=datetime.utcfromtimestamp(latest_ts)
-            )
-            results["timeframes"]["1h"] = {
-                "count": inserted,
-                "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
-            }
-            print(f"      Inserted {inserted} hourly candles")
+        # Use the Pro API function with incremental fetching
+        price_data = fetch_coingecko_all_timeframes(
+            coingecko_id, launch_ts, timeframes,
+            conn=conn,
+            asset_id=asset_id,
+            fresh=full_fetch
+        )
+        
+        # Track results - data is already inserted by fetch_coingecko_all_timeframes
+        for tf, candles in price_data.items():
+            if candles:
+                latest_ts = max(c["timestamp_epoch"] for c in candles)
+                update_ingestion_state(
+                    conn, asset_id, f"prices_{tf}",
+                    last_timestamp=datetime.utcfromtimestamp(latest_ts)
+                )
+                results["timeframes"][tf] = {
+                    "count": len(candles),
+                    "latest": datetime.utcfromtimestamp(latest_ts).isoformat(),
+                }
 
     elif price_source == "hyperliquid":
         coin = asset.get("name", asset_id.upper())
