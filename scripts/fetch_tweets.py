@@ -146,13 +146,28 @@ def fetch_tweet_page(
             
             # Granular rate limit logging
             if response.status_code == 429:
-                reset_time = response.headers.get("x-rate-limit-reset", "unknown")
-                remaining = response.headers.get("x-rate-limit-remaining", "unknown")
+                reset_ts = response.headers.get("x-rate-limit-reset", "0")
+                remaining = response.headers.get("x-rate-limit-remaining", "0")
+                
+                # Calculate actual wait time
+                try:
+                    reset_epoch = int(reset_ts)
+                    now_epoch = int(time.time())
+                    wait_seconds = max(0, reset_epoch - now_epoch + 5)  # +5 buffer
+                except:
+                    wait_seconds = 60
+                
                 print(f"      ⚠️ RATE LIMIT 429 on tweet fetch")
-                print(f"         Remaining: {remaining}, Reset: {reset_time}")
-                wait = (2 ** attempt) * 30 + random.uniform(0, 10)
-                print(f"         Waiting {wait:.0f}s (attempt {attempt + 1}/3)...")
-                time.sleep(wait)
+                print(f"         Remaining: {remaining}, Reset in: {wait_seconds}s")
+                
+                # If reset is > 2 minutes away, don't wait - just fail fast
+                if wait_seconds > 120:
+                    print(f"         Rate limit reset too far away ({wait_seconds}s) - skipping")
+                    return [], None, False  # Signal to skip this asset
+                
+                # Otherwise wait for the actual reset time
+                print(f"         Waiting {wait_seconds}s until reset...")
+                time.sleep(wait_seconds)
                 continue
             
             if response.status_code == 403:
@@ -321,6 +336,7 @@ def fetch_for_asset(
     # Track watermarks for this run
     run_newest_id = None
     run_oldest_id = None
+    fetch_failed = False  # Track if we hit rate limits or other errors
     
     with httpx.Client(headers=headers) as client:
         # Get user ID first
@@ -334,6 +350,7 @@ def fetch_for_asset(
         print(f"    User ID: {user_id}")
         
         # Fetch pages
+        
         while page < max_pages:
             page += 1
             
@@ -346,6 +363,7 @@ def fetch_for_asset(
             
             if not success:
                 print(f"    Page {page}: Failed to fetch, stopping")
+                fetch_failed = True  # Mark that we failed (likely rate limit)
                 break
             
             if not tweets:
@@ -432,6 +450,15 @@ def fetch_for_asset(
     
     conn.close()
     
+    # If we failed to fetch (e.g., rate limit) AND got no tweets, report as error
+    if fetch_failed and total_fetched == 0:
+        return {
+            "status": "error",
+            "reason": "rate limit or fetch failure",
+            "fetched": 0,
+            "inserted": 0,
+        }
+    
     return {
         "status": "success",
         "fetched": total_fetched,
@@ -465,13 +492,25 @@ def fetch_all_assets(
         print("Mode: UPDATE (fetching new tweets only)")
     
     results = {}
+    rate_limit_hit = False
+    
     for asset in assets:
+        # If we hit rate limits, skip remaining assets
+        if rate_limit_hit:
+            results[asset["id"]] = {"status": "skipped", "reason": "Rate limit hit on earlier asset"}
+            continue
+        
         result = fetch_for_asset(
             asset["id"], 
             full_fetch=full_fetch,
             backfill=backfill
         )
         results[asset["id"]] = result
+        
+        # Check if this asset hit rate limits (indicated by 0 fetched after error)
+        if result.get("status") == "error" and "rate limit" in result.get("reason", "").lower():
+            rate_limit_hit = True
+            print("\n⚠️ Rate limit hit - skipping remaining assets to preserve quota")
         
         # Pause between assets to avoid rate limits
         time.sleep(2)
