@@ -297,8 +297,14 @@ def fetch_for_asset(
         since_id = None
         until_id = None
     
-    # Set up HTTP client
-    headers = {"Authorization": f"Bearer {X_BEARER_TOKEN}"}
+    # Set up HTTP client with browser-like headers
+    # This helps bypass Cloudflare protection on some datacenter IPs (e.g., GitHub Actions)
+    headers = {
+        "Authorization": f"Bearer {X_BEARER_TOKEN}",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
     
     total_fetched = 0
     total_inserted = 0
