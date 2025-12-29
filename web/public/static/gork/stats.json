@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-29T03:23:09.938700Z",
+  "generated_at": "2025-12-29T03:34:31.231871Z",
   "asset": "gork",
   "asset_name": "GORK",
   "founder": "elonmusk",
   "summary": {
-    "total_tweets": 104,
-    "tweets_with_price": 104,
+    "total_tweets": 106,
+    "tweets_with_price": 106,
     "date_range": {
       "start": "2025-05-02",
       "end": "2025-11-14"
@@ -49,14 +49,14 @@
     "confidence_label": "weak"
   },
   "correlation": {
-    "correlation_7d": 0.731,
+    "correlation_7d": 0.73,
     "p_value": 0.0,
     "significant": true,
     "sample_size": 243,
     "strength_label": "strong"
   },
   "current_status": {
-    "days_since_last_tweet": 44,
+    "days_since_last_tweet": 45,
     "price_change_during_silence": -21.7,
     "last_tweet_date": "2025-11-14"
   },
@@ -134,8 +134,8 @@
     },
     {
       "start_ts": 1763112960,
-      "end_ts": 1766996589,
-      "gap_days": 44.9,
+      "end_ts": 1766997271,
+      "gap_days": 45.0,
       "start_date": "2025-11-14",
       "end_date": "ongoing",
       "is_current": true,
