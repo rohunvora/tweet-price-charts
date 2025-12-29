@@ -286,9 +286,8 @@
       "name": "GORK",
       "founder": "elonmusk",
       "network": "solana",
-      "pool_address": "38PgzpJYu2HkiYvV8qePFakB8tuobPdGm2FFEn7Dpump",
-      "price_source": "geckoterminal",
-      "backfill_source": "birdeye",
+      "token_mint": "38PgzpJYu2HkiYvV8qePFakB8tuobPdGm2FFEn7Dpump",
+      "price_source": "birdeye",
       "launch_date": "2025-04-30T00:00:00Z",
       "color": "#3B82F6",
       "enabled": true,
@@ -298,7 +297,10 @@
       "tweet_filter_note": "Only tweets mentioning $GORK",
       "use_nitter_keyword_search": true,
       "first_tweet_date": "2025-05-03T00:00:00Z",
-      "last_tweet_date": "2025-05-21T23:59:59Z"
+      "last_tweet_date": "2025-05-21T23:59:59Z",
+      "reply_to_accounts": [
+        "gork"
+      ]
     }
   ]
 }

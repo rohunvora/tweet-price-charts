@@ -757,7 +757,23 @@ def export_asset(asset_id: str, strict: bool = False) -> Dict[str, Any]:
     # This ensures adopter tweets are properly filtered before export
     # =========================================================================
     keyword_filter = asset.get("keyword_filter")
-    if keyword_filter:
+
+    # Load extra config from assets.json (not stored in DB)
+    use_nitter_keyword_search = False
+    reply_to_accounts = None
+    try:
+        import json
+        assets_json_path = Path(__file__).parent / "assets.json"
+        with open(assets_json_path) as f:
+            assets_json_data = {a["id"]: a for a in json.load(f).get("assets", [])}
+        asset_json = assets_json_data.get(asset_id, {})
+        reply_to_accounts = asset_json.get("reply_to_accounts")
+        use_nitter_keyword_search = asset_json.get("use_nitter_keyword_search", False)
+    except Exception:
+        pass
+
+    if keyword_filter and not use_nitter_keyword_search:
+        # Standard keyword filter: apply text-based filtering
         filter_stats = get_filter_stats(conn, asset_id)
         total_tweets = filter_stats.get("total", 0)
         filtered_out = filter_stats.get("filtered", 0)
@@ -766,9 +782,17 @@ def export_asset(asset_id: str, strict: bool = False) -> Dict[str, Any]:
         # Apply if: has tweets AND (no filtered tweets OR filter not applied)
         if total_tweets > 0 and (filtered_out == 0 or not filter_stats.get("applied")):
             print(f"    Auto-applying keyword filter...")
-            result = apply_filter_to_asset(conn, asset_id, keyword_filter, verbose=False)
+            result = apply_filter_to_asset(
+                conn, asset_id, keyword_filter,
+                reply_to_accounts=reply_to_accounts,
+                verbose=False
+            )
             if result:
                 print(f"    → {result['matched']}/{result['total']} tweets match '{keyword_filter}'")
+    elif keyword_filter and use_nitter_keyword_search:
+        # Nitter keyword search: tweets already filtered by the search itself
+        # Include all scraped tweets (the search WAS the filter)
+        print(f"    Nitter keyword search - all scraped tweets included (search was the filter)")
 
     # Export prices
     price_stats = export_prices_for_asset(conn, asset_id, output_dir)

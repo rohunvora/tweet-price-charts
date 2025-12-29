@@ -486,6 +486,7 @@ def add_asset_to_config(
     use_nitter_keyword_search: bool = False,
     first_tweet_date: str = None,
     last_tweet_date: str = None,
+    price_source_override: str = None,
 ) -> dict:
     """
     Add a new asset to the config.
@@ -498,18 +499,42 @@ def add_asset_to_config(
         use_nitter_keyword_search: If True, use Nitter keyword-search instead of X API.
         first_tweet_date: Date of first known tweet (YYYY-MM-DD). For parallel optimization.
         last_tweet_date: Date when activity tapers (YYYY-MM-DD). Sparse after this.
+        price_source_override: Explicit price source ('coingecko', 'birdeye', 'geckoterminal').
     """
 
-    # Determine price source based on inputs
-    if network and pool_address:
-        price_source = "geckoterminal"
-        backfill_source = "birdeye" if network == "solana" else None
+    # Determine price source based on explicit flag or inputs
+    # Priority: explicit --price-source > auto-detect from inputs
+    if price_source_override:
+        # Explicit override - user knows what they're doing
+        price_source = price_source_override
+        # Set backfill based on source
+        if price_source == "coingecko":
+            backfill_source = None
+        elif price_source == "birdeye":
+            backfill_source = None  # Birdeye IS the primary, no backfill needed
+        elif price_source == "geckoterminal":
+            # GT may have gaps, use Birdeye for backfill on supported chains
+            backfill_source = "birdeye" if network in ["solana", "ethereum", "bsc", "base", "arbitrum"] else None
     elif coingecko_id:
+        # Has CoinGecko listing - use CoinGecko (mainstream token)
         price_source = "coingecko"
         backfill_source = None
         network = network or "ethereum"  # Default for CoinGecko tokens
+    elif token_mint and network:
+        # On-chain token with mint address - use Birdeye (broader coverage)
+        price_source = "birdeye"
+        backfill_source = None
+    elif pool_address and network:
+        # Has specific pool address - use GeckoTerminal
+        price_source = "geckoterminal"
+        backfill_source = "birdeye" if network in ["solana", "ethereum", "bsc", "base", "arbitrum"] else None
     else:
-        raise ValueError("Must provide either coingecko_id or (network + pool_address)")
+        raise ValueError(
+            "Must provide one of:\n"
+            "  --coingecko <id>              (for listed tokens)\n"
+            "  --network <chain> --mint <addr>  (for on-chain tokens)\n"
+            "  --network <chain> --pool <addr>  (for specific DEX pools)"
+        )
 
     asset = {
         "id": asset_id,
@@ -592,11 +617,29 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # CoinGecko-listed token
-  python add_asset.py mytoken --name "My Token" --founder user123 --coingecko my-token-id
+  # Mainstream token with CoinGecko listing (uses CoinGecko API)
+  python add_asset.py mytoken --name "My Token" --founder user123 \\
+      --coingecko my-token-id --launch-date 2024-01-01
 
-  # Solana DEX token
-  python add_asset.py mytoken --name "My Token" --founder user123 --network solana --pool 0x123...
+  # On-chain token via Birdeye (default for unlisted tokens)
+  python add_asset.py mytoken --name "My Token" --founder user123 \\
+      --network solana --mint TokenMintAddress123... --launch-date 2024-06-01
+
+  # Specific DEX pool via GeckoTerminal
+  python add_asset.py mytoken --name "My Token" --founder user123 \\
+      --network solana --pool PoolAddress123... --launch-date 2024-06-01
+
+  # Explicit price source override (when auto-detection isn't right)
+  python add_asset.py mytoken --name "My Token" --founder user123 \\
+      --price-source birdeye --network solana --mint TokenMint123... \\
+      --launch-date 2024-06-01
+
+  # Adopter asset (filters tweets by keyword)
+  python add_asset.py gork --name "GORK" --founder elonmusk \\
+      --founder-type adopter --keyword-filter "gork" \\
+      --network solana --mint 38PgzpJYu2HkiYvV8qePFakB8tuobPdGm2FFEn7Dpump \\
+      --use-nitter-keyword-search --first-tweet-date 2025-05-03 \\
+      --launch-date 2025-04-30
 
   # Update existing asset
   python add_asset.py mytoken --refresh
@@ -607,7 +650,15 @@ Examples:
     parser.add_argument("--name", help="Display name for the asset")
     parser.add_argument("--founder", help="Twitter handle of the founder (without @)")
     parser.add_argument("--coingecko", dest="coingecko_id", help="CoinGecko ID for price data")
-    parser.add_argument("--network", choices=["solana", "ethereum", "bsc", "base", "hyperliquid", "monad", "arbitrum", "polygon", "optimism", "avalanche"], help="Blockchain network")
+    parser.add_argument(
+        "--network",
+        choices=[
+            "solana", "ethereum", "bsc", "base", "arbitrum", "polygon",
+            "optimism", "avalanche", "hyperliquid", "monad", "sui", "zcash"
+        ],
+        help="Blockchain network. Birdeye supports: solana, ethereum, bsc, base, arbitrum, polygon, sui. "
+             "GeckoTerminal supports 200+ chains."
+    )
     parser.add_argument("--pool", dest="pool_address", help="DEX pool address (for GeckoTerminal)")
     parser.add_argument("--mint", dest="token_mint", help="Token mint/contract address")
     parser.add_argument("--color", default="#3B82F6", help="Brand color (hex, default: #3B82F6)")
@@ -652,6 +703,31 @@ Examples:
              "Sparse tail from this date to now is handled as single chunk."
     )
 
+    # Price source selection
+    # This is the PRIMARY way to specify where price data comes from.
+    # Each source has different coverage - see documentation for when to use each.
+    parser.add_argument(
+        "--price-source",
+        choices=["coingecko", "birdeye", "geckoterminal"],
+        help="""Primary price data source (explicit override).
+
+        coingecko: Mainstream tokens with exchange listings. Requires --coingecko.
+                   Best for: Listed coins, long history (back to 2013).
+
+        birdeye: On-chain/DEX tokens on any chain. Requires --network + --mint.
+                 Best for: Low marketcap tokens, memecoins, unlisted tokens.
+                 Covers: Solana, ETH, BSC, Base, Arbitrum, and more.
+
+        geckoterminal: Specific DEX pools. Requires --network + --pool.
+                       Best for: When you have a specific pool address.
+                       Note: Limited to pools GT actively tracks.
+
+        Default behavior (if not specified):
+          - If --coingecko provided → coingecko
+          - Else → birdeye (broader on-chain coverage)
+        """
+    )
+
     parser.add_argument("--refresh", action="store_true", help="Refresh data for existing asset")
     parser.add_argument("--dry-run", action="store_true", help="Validate only, don't add or fetch")
     parser.add_argument("--skip-tweets", action="store_true", help="Skip tweet fetching")
@@ -687,9 +763,31 @@ Examples:
         if not args.founder:
             print_error("--founder is required for new assets")
             sys.exit(1)
-        if not args.coingecko_id and not args.pool_address:
-            print_error("Must provide --coingecko or --pool for price data")
+
+        # Validate price data requirements
+        # Need at least one of: coingecko_id, token_mint+network, pool_address+network
+        has_coingecko = bool(args.coingecko_id)
+        has_onchain = bool(args.token_mint and args.network)
+        has_pool = bool(args.pool_address and args.network)
+
+        if not (has_coingecko or has_onchain or has_pool):
+            print_error("Must provide price data source. Options:")
+            print("  --coingecko <id>                    (mainstream listed tokens)")
+            print("  --network <chain> --mint <address>  (on-chain tokens via Birdeye)")
+            print("  --network <chain> --pool <address>  (specific DEX pool via GeckoTerminal)")
             sys.exit(1)
+
+        # Validate --price-source requirements
+        if args.price_source:
+            if args.price_source == "coingecko" and not args.coingecko_id:
+                print_error("--price-source coingecko requires --coingecko <id>")
+                sys.exit(1)
+            if args.price_source == "birdeye" and not (args.token_mint and args.network):
+                print_error("--price-source birdeye requires --network and --mint")
+                sys.exit(1)
+            if args.price_source == "geckoterminal" and not (args.pool_address and args.network):
+                print_error("--price-source geckoterminal requires --network and --pool")
+                sys.exit(1)
 
         # Validate adopter-specific requirements
         if args.founder_type == "adopter" and not args.keyword_filter:
@@ -727,6 +825,24 @@ Examples:
                 print_error("--network is required when using --pool")
                 sys.exit(1)
             print_success(f"  Pool: {args.pool_address[:20]}... on {args.network}")
+
+        # Validate token mint if provided
+        if args.token_mint:
+            print_success(f"  Token: {args.token_mint[:20]}... on {args.network}")
+
+        # Show determined price source
+        if args.price_source:
+            determined_source = args.price_source
+            print_success(f"  Price source: {determined_source} (explicit)")
+        elif args.coingecko_id:
+            determined_source = "coingecko"
+            print_success(f"  Price source: {determined_source} (has CoinGecko listing)")
+        elif args.token_mint and args.network:
+            determined_source = "birdeye"
+            print_success(f"  Price source: {determined_source} (on-chain token)")
+        elif args.pool_address and args.network:
+            determined_source = "geckoterminal"
+            print_success(f"  Price source: {determined_source} (DEX pool)")
 
     # Data source discovery (when --discover or --auto-best)
     discovered_sources = []
@@ -794,13 +910,20 @@ Examples:
             use_nitter_keyword_search=args.use_nitter_keyword_search,
             first_tweet_date=args.first_tweet_date,
             last_tweet_date=args.last_tweet_date,
+            price_source_override=args.price_source,
         )
         save_assets(config)
         print_success(f"Added {args.asset_id} to assets.json")
 
     # Run pipeline scripts
+    # ORDER MATTERS: Prices first (validates data source works), then tweets
     steps = []
 
+    # 1. PRICES FIRST - fail fast if price source is misconfigured
+    if not args.skip_prices:
+        steps.append(("Fetching prices", "fetch_prices.py", ["--asset", args.asset_id]))
+
+    # 2. TWEETS SECOND - only after we know price source works
     if not args.skip_tweets:
         if args.use_nitter_keyword_search and args.first_tweet_date:
             # PARALLEL KEYWORD SEARCH - best of both worlds
@@ -827,9 +950,6 @@ Examples:
         else:
             # Default: X API
             steps.append(("Fetching tweets", "fetch_tweets.py", ["--asset", args.asset_id]))
-
-    if not args.skip_prices:
-        steps.append(("Fetching prices", "fetch_prices.py", ["--asset", args.asset_id]))
 
     # NOTE: compute_stats.py is called internally by export_static.py after JSON export
     # No separate step needed - stats are computed with fresh data

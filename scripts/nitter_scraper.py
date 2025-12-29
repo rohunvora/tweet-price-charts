@@ -1260,6 +1260,8 @@ def scrape_asset_parallel(
 def scrape_keyword_search(
     asset_id: str,
     keyword: Optional[str] = None,
+    since: Optional[str] = None,
+    until: Optional[str] = None,
     headless: bool = False,
     max_pages: int = 20,
 ) -> Dict[str, Any]:
@@ -1267,16 +1269,13 @@ def scrape_keyword_search(
     Keyword search mode for sparse tweeters.
 
     Searches Nitter directly: /{username}/search?q={keyword}
-    Returns ALL tweets matching the keyword (no date filtering).
+    Optionally filters by date range with &since= and &until= parameters.
 
     USE THIS WHEN:
       - Founder/adopter rarely tweets about the token (< 50 tweets ever)
       - You want to quickly count matching tweets before a full scrape
       - X API is rate-limited
-
-    DO NOT USE WHEN:
-      - Founder tweets frequently about the token (use --full)
-      - You need date-range filtering (use --since/--until)
+      - You need to backfill a specific date range (use --since/--until)
 
     Args:
         asset_id: Asset ID from assets.json
@@ -1339,7 +1338,14 @@ def scrape_keyword_search(
         )
 
         url = f"{NITTER_INSTANCES[0]}/{username}/search?f=tweets&q={quote_plus(search_keyword)}"
+        # Add date range if specified
+        if since:
+            url += f"&since={since}"
+        if until:
+            url += f"&until={until}"
         log(f"Fetching: {url}", "INFO")
+        if since or until:
+            log(f"Date range: {since or 'start'} to {until or 'now'}", "INFO")
 
         page = context.new_page()
 
@@ -1863,11 +1869,13 @@ Examples:
             headless=headless,
         )
     elif args.keyword_search:
-        # SIMPLE KEYWORD SEARCH - single thread, all history
-        # Use when no date bounds known
+        # SIMPLE KEYWORD SEARCH - single thread
+        # Supports optional --since/--until for date range filtering
         result = scrape_keyword_search(
             asset_id=args.asset,
             keyword=args.keyword,
+            since=args.since,
+            until=args.until,
             headless=headless,
         )
     elif args.parallel > 1:
