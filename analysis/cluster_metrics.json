@@ -1,19 +1,76 @@
 {
-  "generated_at": "2025-12-29T22:52:04.912962Z",
+  "generated_at": "2025-12-29T23:16:25.398026Z",
   "window_minutes": 15,
   "assets": {
-    "pump": {
-      "raw_tweet_count": 102,
-      "cluster_event_count": 99,
-      "reduction_ratio": 0.03,
+    "zec": {
+      "raw_tweet_count": 89,
+      "cluster_event_count": 83,
+      "reduction_ratio": 0.07,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "singleton_pct": 92.8,
+      "multi_tweet_pct": 7.2,
+      "thread_clusters": 0
+    },
+    "fartcoin": {
+      "raw_tweet_count": 1876,
+      "cluster_event_count": 1484,
+      "reduction_ratio": 0.21,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 2,
+        "p99": 4,
+        "max": 7
+      },
+      "singleton_pct": 80.9,
+      "multi_tweet_pct": 19.1,
+      "thread_clusters": 0
+    },
+    "useless": {
+      "raw_tweet_count": 435,
+      "cluster_event_count": 411,
+      "reduction_ratio": 0.06,
       "cluster_size_distribution": {
         "p50": 1,
         "p90": 1,
         "p99": 3,
         "max": 3
       },
-      "singleton_pct": 98.0,
-      "multi_tweet_pct": 2.0
+      "singleton_pct": 95.4,
+      "multi_tweet_pct": 4.6,
+      "thread_clusters": 0
+    },
+    "gork": {
+      "raw_tweet_count": 106,
+      "cluster_event_count": 50,
+      "reduction_ratio": 0.53,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 4,
+        "p99": 14,
+        "max": 14
+      },
+      "singleton_pct": 58.0,
+      "multi_tweet_pct": 42.0,
+      "thread_clusters": 0
+    },
+    "wld": {
+      "raw_tweet_count": 2,
+      "cluster_event_count": 2,
+      "reduction_ratio": 0.0,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 1,
+        "max": 1
+      },
+      "singleton_pct": 100.0,
+      "multi_tweet_pct": 0.0,
+      "thread_clusters": 0
     },
     "wif": {
       "raw_tweet_count": 300,
@@ -26,12 +83,139 @@
         "max": 5
       },
       "singleton_pct": 92.8,
-      "multi_tweet_pct": 7.2
+      "multi_tweet_pct": 7.2,
+      "thread_clusters": 0
+    },
+    "meta": {
+      "raw_tweet_count": 142,
+      "cluster_event_count": 103,
+      "reduction_ratio": 0.27,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 2,
+        "p99": 3,
+        "max": 4
+      },
+      "singleton_pct": 72.8,
+      "multi_tweet_pct": 27.2,
+      "thread_clusters": 0
+    },
+    "jup": {
+      "raw_tweet_count": 680,
+      "cluster_event_count": 524,
+      "reduction_ratio": 0.23,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 2,
+        "p99": 4,
+        "max": 26
+      },
+      "singleton_pct": 85.5,
+      "multi_tweet_pct": 14.5,
+      "thread_clusters": 0
+    },
+    "aster": {
+      "raw_tweet_count": 318,
+      "cluster_event_count": 266,
+      "reduction_ratio": 0.16,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 2,
+        "p99": 4,
+        "max": 4
+      },
+      "singleton_pct": 83.1,
+      "multi_tweet_pct": 16.9,
+      "thread_clusters": 0
+    },
+    "hype": {
+      "raw_tweet_count": 35,
+      "cluster_event_count": 31,
+      "reduction_ratio": 0.11,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 2,
+        "p99": 2,
+        "max": 2
+      },
+      "singleton_pct": 87.1,
+      "multi_tweet_pct": 12.9,
+      "thread_clusters": 0
+    },
+    "zora": {
+      "raw_tweet_count": 449,
+      "cluster_event_count": 310,
+      "reduction_ratio": 0.31,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 2,
+        "p99": 5,
+        "max": 10
+      },
+      "singleton_pct": 68.4,
+      "multi_tweet_pct": 31.6,
+      "thread_clusters": 0
+    },
+    "pump": {
+      "raw_tweet_count": 102,
+      "cluster_event_count": 99,
+      "reduction_ratio": 0.03,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 3,
+        "max": 3
+      },
+      "singleton_pct": 98.0,
+      "multi_tweet_pct": 2.0,
+      "thread_clusters": 0
+    },
+    "xpl": {
+      "raw_tweet_count": 26,
+      "cluster_event_count": 13,
+      "reduction_ratio": 0.5,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 14,
+        "max": 14
+      },
+      "singleton_pct": 92.3,
+      "multi_tweet_pct": 7.7,
+      "thread_clusters": 0
+    },
+    "monad": {
+      "raw_tweet_count": 66,
+      "cluster_event_count": 59,
+      "reduction_ratio": 0.11,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 4,
+        "max": 4
+      },
+      "singleton_pct": 91.5,
+      "multi_tweet_pct": 8.5,
+      "thread_clusters": 0
+    },
+    "believe": {
+      "raw_tweet_count": 81,
+      "cluster_event_count": 77,
+      "reduction_ratio": 0.05,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "singleton_pct": 94.8,
+      "multi_tweet_pct": 5.2,
+      "thread_clusters": 0
     }
   },
   "overall": {
-    "raw_tweet_count": 402,
-    "cluster_event_count": 375,
-    "reduction_ratio": 0.07
+    "raw_tweet_count": 4707,
+    "cluster_event_count": 3788,
+    "reduction_ratio": 0.2
   }
 }
