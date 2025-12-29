@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T03:34:31.231871Z",
+  "generated_at": "2025-12-29T03:57:30.069053Z",
   "asset": "gork",
   "asset_name": "GORK",
   "founder": "elonmusk",
@@ -134,7 +134,7 @@
     },
     {
       "start_ts": 1763112960,
-      "end_ts": 1766997271,
+      "end_ts": 1766998650,
       "gap_days": 45.0,
       "start_date": "2025-11-14",
       "end_date": "ongoing",

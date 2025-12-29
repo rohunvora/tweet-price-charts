@@ -295,19 +295,23 @@ def fetch_birdeye_all_timeframes(
     chain: str = "solana",
     conn=None,
     asset_id: str = None,
-    fresh: bool = False
+    fresh: bool = False,
+    force: bool = False,
+    end_ts: int = None
 ) -> Dict[str, List[Dict]]:
     """
     Fetch all timeframes for a token from Birdeye with progressive saving.
 
     Args:
         token_mint: Token mint address
-        launch_timestamp: Launch date as Unix timestamp (seconds)
+        launch_timestamp: Start timestamp (or --since override)
         timeframes: List of timeframes to fetch (default: all)
         chain: Blockchain
         conn: DuckDB connection for progressive saving (optional)
         asset_id: Asset ID for DB operations (required if conn provided)
         fresh: If True, ignore resume points and fetch from scratch
+        force: If True, bypass age-based timeframe skipping
+        end_ts: End timestamp (--until override). None = fetch to now.
 
     Returns dict of timeframe -> candles.
 
@@ -325,25 +329,31 @@ def fetch_birdeye_all_timeframes(
     # .timestamp() on naive datetime is interpreted as LOCAL time, not UTC!
     now_ts = int(calendar.timegm(datetime.utcnow().timetuple()))
 
+    # Use end_ts if provided (--until), otherwise fetch to now
+    fetch_until_ts = end_ts if end_ts else now_ts
+
     # Calculate asset age in days
     asset_age_days = (now_ts - launch_timestamp) // (24 * 60 * 60)
 
-    # Filter timeframes based on asset age
+    # Filter timeframes based on asset age (unless force=True)
     filtered_timeframes = []
     skipped = []
-    for tf in timeframes:
-        if tf == "1m" and asset_age_days > SKIP_1M_AFTER_DAYS:
-            skipped.append(f"1m (asset is {asset_age_days}d old, threshold: {SKIP_1M_AFTER_DAYS}d)")
-            continue
-        if tf == "15m" and asset_age_days > SKIP_15M_AFTER_DAYS:
-            skipped.append(f"15m (asset is {asset_age_days}d old, threshold: {SKIP_15M_AFTER_DAYS}d)")
-            continue
-        filtered_timeframes.append(tf)
+    if not force:
+        for tf in timeframes:
+            if tf == "1m" and asset_age_days > SKIP_1M_AFTER_DAYS:
+                skipped.append(f"1m (asset is {asset_age_days}d old, threshold: {SKIP_1M_AFTER_DAYS}d)")
+                continue
+            if tf == "15m" and asset_age_days > SKIP_15M_AFTER_DAYS:
+                skipped.append(f"15m (asset is {asset_age_days}d old, threshold: {SKIP_15M_AFTER_DAYS}d)")
+                continue
+            filtered_timeframes.append(tf)
 
-    if skipped:
-        print(f"    Skipping timeframes due to asset age:", flush=True)
-        for s in skipped:
-            print(f"      - {s}", flush=True)
+        if skipped:
+            print(f"    Skipping timeframes due to asset age:", flush=True)
+            for s in skipped:
+                print(f"      - {s}", flush=True)
+    else:
+        filtered_timeframes = timeframes
 
     # Sort by priority order (1d first = most useful data first)
     priority_map = {tf: i for i, tf in enumerate(BIRDEYE_PRIORITY_ORDER)}
@@ -386,10 +396,10 @@ def fetch_birdeye_all_timeframes(
         page = 0
         total_inserted = 0
 
-        while current_from < now_ts:
+        while current_from < fetch_until_ts:
             page += 1
             candles = fetch_birdeye_ohlcv(
-                token_mint, tf, current_from, now_ts, chain
+                token_mint, tf, current_from, fetch_until_ts, chain
             )
 
             if not candles:
@@ -975,7 +985,10 @@ def fetch_for_asset(
     timeframes: List[str] = None,
     backfill: bool = False,
     recent_only: bool = False,
-    fresh: bool = False
+    fresh: bool = False,
+    force: bool = False,
+    since: str = None,
+    until: str = None
 ) -> Dict[str, Any]:
     """
     Fetch prices for a specific asset.
@@ -985,8 +998,11 @@ def fetch_for_asset(
         full_fetch: If True, fetch all history (ignore last_timestamp)
         timeframes: Specific timeframes to fetch (default: based on price_source)
         backfill: If True, use backfill_source (Birdeye) for historical data
+        force: If True, bypass age-based timeframe skipping
         recent_only: If True, only fetch 1-2 pages (for quick hourly updates)
         fresh: If True, ignore resume points (for Birdeye backfills)
+        since: Start date (YYYY-MM-DD) for date-range fetching
+        until: End date (YYYY-MM-DD) for date-range fetching
 
     Returns fetch result stats.
     """
@@ -1034,8 +1050,35 @@ def fetch_for_asset(
     else:
         # TIMEZONE FIX: calendar.timegm() for naive UTC datetime
         launch_ts = int(calendar.timegm(datetime.utcnow().timetuple())) - (365 * 24 * 3600)
-    
+
     print(f"    Launch: {datetime.utcfromtimestamp(launch_ts).strftime('%Y-%m-%d')}")
+
+    # =========================================================================
+    # DATE RANGE OVERRIDE (--since / --until)
+    # =========================================================================
+    # Allows fetching specific date ranges instead of full history.
+    # Useful for: adding 1m data for specific periods (e.g., tweet storms)
+    # =========================================================================
+    start_ts = launch_ts
+    end_ts = None  # None = fetch to now
+
+    if since:
+        try:
+            since_dt = datetime.strptime(since, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+            start_ts = int(since_dt.timestamp())
+            print(f"    📅 --since {since}: Starting from {since}")
+        except ValueError:
+            print(f"    ⚠️ Invalid --since format: {since} (expected YYYY-MM-DD)")
+
+    if until:
+        try:
+            until_dt = datetime.strptime(until, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+            # End at 23:59:59 of the until date
+            until_dt = until_dt.replace(hour=23, minute=59, second=59)
+            end_ts = int(until_dt.timestamp())
+            print(f"    📅 --until {until}: Ending at {until}")
+        except ValueError:
+            print(f"    ⚠️ Invalid --until format: {until} (expected YYYY-MM-DD)")
     
     # =========================================================================
     # AGE-BASED TIMEFRAME FILTERING (applies to ALL sources)
@@ -1050,19 +1093,22 @@ def fetch_for_asset(
     # Get skip_timeframes from asset config (manual overrides)
     config_skip = set(asset.get("skip_timeframes", []))
     
-    # Auto-skip based on age thresholds
+    # Auto-skip based on age thresholds (unless --force is used)
     auto_skipped = []
-    if asset_age_days > SKIP_1M_AFTER_DAYS and "1m" not in config_skip:
-        config_skip.add("1m")
-        auto_skipped.append(f"1m (asset is {asset_age_days}d old, threshold: {SKIP_1M_AFTER_DAYS}d)")
-    if asset_age_days > SKIP_15M_AFTER_DAYS and "15m" not in config_skip:
-        config_skip.add("15m")
-        auto_skipped.append(f"15m (asset is {asset_age_days}d old, threshold: {SKIP_15M_AFTER_DAYS}d)")
-    
-    if auto_skipped:
-        print(f"    ⏭️  Auto-skipping due to age:")
-        for s in auto_skipped:
-            print(f"       - {s}")
+    if not force:
+        if asset_age_days > SKIP_1M_AFTER_DAYS and "1m" not in config_skip:
+            config_skip.add("1m")
+            auto_skipped.append(f"1m (asset is {asset_age_days}d old, threshold: {SKIP_1M_AFTER_DAYS}d)")
+        if asset_age_days > SKIP_15M_AFTER_DAYS and "15m" not in config_skip:
+            config_skip.add("15m")
+            auto_skipped.append(f"15m (asset is {asset_age_days}d old, threshold: {SKIP_15M_AFTER_DAYS}d)")
+
+        if auto_skipped:
+            print(f"    ⏭️  Auto-skipping due to age:")
+            for s in auto_skipped:
+                print(f"       - {s}")
+    elif asset_age_days > SKIP_1M_AFTER_DAYS:
+        print(f"    ⚠️  --force: Bypassing age threshold ({asset_age_days}d > {SKIP_1M_AFTER_DAYS}d)")
     
     # Apply timeframe filtering
     if timeframes is None:
@@ -1085,11 +1131,13 @@ def fetch_for_asset(
 
         # Pass conn and asset_id for progressive saving
         price_data = fetch_birdeye_all_timeframes(
-            token_mint, launch_ts, timeframes,
+            token_mint, start_ts, timeframes,
             chain=asset.get("network", "solana"),
             conn=conn,
             asset_id=asset_id,
-            fresh=fresh or full_fetch  # --fresh or --full means start fresh
+            fresh=fresh or full_fetch,  # --fresh or --full means start fresh
+            force=force,
+            end_ts=end_ts
         )
 
         # With progressive saving, data is already in DB, but we still track results
@@ -1419,6 +1467,21 @@ def main():
         action="store_true",
         help="Ignore resume points and fetch from scratch (Birdeye backfills)"
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Bypass age-based timeframe skipping (e.g., fetch 1m data for old assets)"
+    )
+    parser.add_argument(
+        "--since",
+        type=str,
+        help="Start date for fetching (YYYY-MM-DD). Use with --timeframe for specific ranges."
+    )
+    parser.add_argument(
+        "--until",
+        type=str,
+        help="End date for fetching (YYYY-MM-DD). Defaults to now if --since provided."
+    )
 
     args = parser.parse_args()
     
@@ -1435,7 +1498,10 @@ def main():
             timeframes=timeframes,
             backfill=args.backfill,
             recent_only=args.recent,
-            fresh=args.fresh
+            fresh=args.fresh,
+            force=args.force,
+            since=args.since,
+            until=args.until
         )
     else:
         fetch_all_assets(

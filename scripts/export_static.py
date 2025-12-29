@@ -210,6 +210,7 @@ def export_prices_for_asset(
     conn,
     asset_id: str,
     output_dir: Path,
+    force: bool = False,
 ) -> Dict[str, int]:
     """
     Export price data for a single asset.
@@ -217,6 +218,9 @@ def export_prices_for_asset(
     Uses age-based thresholds from config.py to auto-skip granular timeframes.
     Also respects skip_timeframes from assets.json.
     Deletes old files for skipped timeframes.
+
+    Args:
+        force: If True, bypass age-based skipping for granular timeframes.
 
     Returns dict of timeframe -> candle count.
     """
@@ -236,7 +240,7 @@ def export_prices_for_asset(
         SELECT launch_date FROM assets WHERE id = ?
     """, [asset_id]).fetchone()
 
-    if asset_info and asset_info[0]:
+    if asset_info and asset_info[0] and not force:
         days_old = (datetime.utcnow() - asset_info[0]).days
         if days_old > SKIP_1M_AFTER_DAYS and "1m" not in skip_timeframes:
             skip_timeframes.add("1m")
@@ -244,6 +248,8 @@ def export_prices_for_asset(
         if days_old > SKIP_15M_AFTER_DAYS and "15m" not in skip_timeframes:
             skip_timeframes.add("15m")
             print(f"    (Skipping 15m data - asset is {days_old} days old, threshold: {SKIP_15M_AFTER_DAYS}d)")
+    elif force:
+        print(f"    (--force: Bypassing age-based timeframe skipping)")
 
     # Delete existing files for skipped timeframes
     for tf in skip_timeframes:
@@ -733,12 +739,15 @@ def export_tweet_events_for_asset(
     return len(events)
 
 
-def export_asset(asset_id: str, strict: bool = False) -> Dict[str, Any]:
+def export_asset(asset_id: str, strict: bool = False, force: bool = False) -> Dict[str, Any]:
     """Export all data for a single asset.
 
     This function automatically handles:
     1. Applying keyword filter for adopter assets (ensures clean tweet data)
     2. Computing stats after export (ensures stats.json is up to date)
+
+    Args:
+        force: If True, bypass age-based timeframe skipping (e.g., export 1m data for old assets).
     """
     conn = get_connection()
     init_schema(conn)
@@ -795,7 +804,7 @@ def export_asset(asset_id: str, strict: bool = False) -> Dict[str, Any]:
         print(f"    Nitter keyword search - all scraped tweets included (search was the filter)")
 
     # Export prices
-    price_stats = export_prices_for_asset(conn, asset_id, output_dir)
+    price_stats = export_prices_for_asset(conn, asset_id, output_dir, force=force)
 
     # =========================================================================
     # SYNC PRICES TO CANONICAL TABLE (before tweet alignment)
@@ -839,28 +848,28 @@ def export_asset(asset_id: str, strict: bool = False) -> Dict[str, Any]:
     }
 
 
-def export_all_assets(strict: bool = False) -> Dict[str, Any]:
+def export_all_assets(strict: bool = False, force: bool = False) -> Dict[str, Any]:
     """Export data for all enabled assets."""
     conn = get_connection()
     init_schema(conn)
-    
+
     assets = get_enabled_assets(conn)
     conn.close()
-    
+
     print(f"Exporting {len(assets)} enabled assets...")
     if strict:
         print("STRICT MODE: Will fail if any tweets lack price data")
-    
+
     results = {}
     for asset in assets:
-        result = export_asset(asset["id"], strict=strict)
+        result = export_asset(asset["id"], strict=strict, force=force)
         results[asset["id"]] = result
-        
+
         # In strict mode, stop on first error
         if strict and result.get("status") == "error":
             print(f"\nSTRICT MODE FAILURE: {result.get('reason')}")
             break
-    
+
     return results
 
 
@@ -1011,7 +1020,12 @@ def main():
         action="store_true",
         help="Skip post-export validation"
     )
-    
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Bypass age-based timeframe skipping (e.g., export 1m data for old assets)"
+    )
+
     args = parser.parse_args()
     
     print("=" * 60)
@@ -1025,10 +1039,10 @@ def main():
     export_assets_json()
     
     if args.asset:
-        result = export_asset(args.asset, strict=args.strict)
+        result = export_asset(args.asset, strict=args.strict, force=args.force)
         print(f"\nResult: {result}")
     else:
-        results = export_all_assets(strict=args.strict)
+        results = export_all_assets(strict=args.strict, force=args.force)
 
         # Run post-export validation
         validate_exported_data()
