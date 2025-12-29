@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T00:46:44.757587Z",
+  "generated_at": "2025-12-29T01:15:58.606967Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
@@ -10,7 +10,7 @@
       "start": "2025-04-23",
       "end": "2025-12-12"
     },
-    "total_days_analyzed": 250
+    "total_days_analyzed": 251
   },
   "daily_comparison": {
     "tweet_day_count": 143,
@@ -28,36 +28,36 @@
       "positive_count": 66,
       "negative_count": 77
     },
-    "no_tweet_day_count": 106,
-    "no_tweet_day_avg_return": 0.14,
-    "no_tweet_day_win_rate": 44.3,
+    "no_tweet_day_count": 107,
+    "no_tweet_day_avg_return": 0.16,
+    "no_tweet_day_win_rate": 44.9,
     "no_tweet_day_distribution": {
-      "count": 106,
-      "mean": 0.14,
-      "median": -0.99,
-      "std_dev": 8.17,
+      "count": 107,
+      "mean": 0.16,
+      "median": -0.91,
+      "std_dev": 8.13,
       "min": -16.56,
       "max": 33.02,
-      "q1": -4.36,
-      "q3": 3.54,
-      "positive_count": 47,
+      "q1": -4.34,
+      "q3": 3.53,
+      "positive_count": 48,
       "negative_count": 59
     },
-    "t_statistic": 0.872,
-    "p_value": 0.3841,
+    "t_statistic": 0.862,
+    "p_value": 0.3896,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
     "correlation_7d": 0.136,
-    "p_value": 0.0313,
+    "p_value": 0.0307,
     "significant": true,
-    "sample_size": 250,
+    "sample_size": 251,
     "strength_label": "negligible"
   },
   "current_status": {
     "days_since_last_tweet": 16,
-    "price_change_during_silence": -12.4,
+    "price_change_during_silence": -10.4,
     "last_tweet_date": "2025-12-12"
   },
   "limitations": {
@@ -65,7 +65,7 @@
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Limited history: 250 days may not capture full market cycles",
+      "Limited history: 251 days may not capture full market cycles",
       "Win rate of 46.2% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -203,14 +203,14 @@
     },
     {
       "start_ts": 1765550371,
-      "end_ts": 1766987204,
-      "gap_days": 16.6,
+      "end_ts": 1766988958,
+      "gap_days": 16.7,
       "start_date": "2025-12-12",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.04892157,
-      "price_end": 0.04283331,
-      "change_pct": -12.4
+      "price_end": 0.04385344,
+      "change_pct": -10.4
     }
   ]
 }

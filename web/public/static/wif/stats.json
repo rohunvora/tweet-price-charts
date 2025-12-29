@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T00:46:13.812465Z",
+  "generated_at": "2025-12-29T01:15:32.153426Z",
   "asset": "wif",
   "asset_name": "WIF",
   "founder": "blknoiz06",
@@ -10,7 +10,7 @@
       "start": "2023-12-14",
       "end": "2025-12-07"
     },
-    "total_days_analyzed": 758
+    "total_days_analyzed": 759
   },
   "daily_comparison": {
     "tweet_day_count": 180,
@@ -28,23 +28,23 @@
       "positive_count": 107,
       "negative_count": 73
     },
-    "no_tweet_day_count": 577,
+    "no_tweet_day_count": 578,
     "no_tweet_day_avg_return": 1.63,
-    "no_tweet_day_win_rate": 43.3,
+    "no_tweet_day_win_rate": 43.4,
     "no_tweet_day_distribution": {
-      "count": 577,
+      "count": 578,
       "mean": 1.63,
-      "median": -1.28,
-      "std_dev": 31.94,
+      "median": -1.23,
+      "std_dev": 31.92,
       "min": -40.3,
       "max": 679.06,
-      "q1": -5.08,
-      "q3": 3.51,
-      "positive_count": 250,
+      "q1": -5.06,
+      "q3": 3.49,
+      "positive_count": 251,
       "negative_count": 327
     },
-    "t_statistic": 1.398,
-    "p_value": 0.1626,
+    "t_statistic": 1.399,
+    "p_value": 0.1622,
     "significant": false,
     "confidence_label": "none"
   },
@@ -52,12 +52,12 @@
     "correlation_7d": 0.402,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 758,
+    "sample_size": 759,
     "strength_label": "moderate"
   },
   "current_status": {
     "days_since_last_tweet": 21,
-    "price_change_during_silence": -20.6,
+    "price_change_during_silence": -19.3,
     "last_tweet_date": "2025-12-07"
   },
   "limitations": {
@@ -511,14 +511,14 @@
     },
     {
       "start_ts": 1765140780,
-      "end_ts": 1766987173,
+      "end_ts": 1766988932,
       "gap_days": 21.4,
       "start_date": "2025-12-07",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.38866563,
-      "price_end": 0.30867062,
-      "change_pct": -20.6
+      "price_end": 0.31357945,
+      "change_pct": -19.3
     }
   ]
 }

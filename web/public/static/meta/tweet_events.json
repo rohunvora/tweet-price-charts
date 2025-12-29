@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-29T00:45:45.928824Z",
+  "generated_at": "2025-12-29T01:15:04.086266Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 140,
+  "count": 142,
   "events": [
     {
       "tweet_id": "1975223659758596572",
@@ -2806,6 +2806,46 @@
       "change_1h_pct": 2.03,
       "change_24h_pct": 3.66,
       "market_cap_at_tweet": 139708226.46
+    },
+    {
+      "tweet_id": "2002930773348007974",
+      "asset_id": "meta",
+      "asset_name": "META",
+      "founder": "metaproph3t",
+      "asset_color": "#3B82F6",
+      "timestamp": 1766370883,
+      "timestamp_iso": "2025-12-21T21:34:43Z",
+      "text": "update:\n\njust had an amazing call with @spenserskates, the founder of Amplitude, where he helped me think through some of our current business decisions\n\nthank you Spenser and thank you @matthuang for connecting! https://t.co/hbh7CHEjls",
+      "likes": 237,
+      "retweets": 3,
+      "replies": 59,
+      "impressions": 22129,
+      "price_at_tweet": 6.39737837,
+      "price_1h": 6.34972064,
+      "price_24h": 6.28217014,
+      "change_1h_pct": -0.74,
+      "change_24h_pct": -1.8,
+      "market_cap_at_tweet": 141654961.34
+    },
+    {
+      "tweet_id": "2004920685290832316",
+      "asset_id": "meta",
+      "asset_name": "META",
+      "founder": "metaproph3t",
+      "asset_color": "#3B82F6",
+      "timestamp": 1766845315,
+      "timestamp_iso": "2025-12-27T09:21:55Z",
+      "text": "happy holidays to the futards\n\nI\u2019ve never been more convinced that MetaDAO is a category-defining crypto project\n\nthe future is already here - entrepreneurs are getting value from tapping a distributed set of investors, and tokenholders are getting value from MetaDAO\u2019s ownership",
+      "likes": 211,
+      "retweets": 14,
+      "replies": 55,
+      "impressions": 10443,
+      "price_at_tweet": 6.28760413,
+      "price_1h": 6.2890883,
+      "price_24h": 6.3561055,
+      "change_1h_pct": 0.02,
+      "change_24h_pct": 1.09,
+      "market_cap_at_tweet": 139224267.89
     }
   ]
 }
