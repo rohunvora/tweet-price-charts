@@ -146,10 +146,11 @@ function withAlpha(color: string, alpha: number): string {
 
 /**
  * Available timeframe options shown in the UI.
- * 1m is excluded because it generates too much data and is rarely useful
- * for the tweet-to-price analysis use case.
+ * 1m is shown only for assets that have 1m data (detected via prices_1m_index.json).
+ * Most older assets skip 1m due to data volume, so the button will be disabled.
  */
 const TIMEFRAMES: { label: string; value: Timeframe }[] = [
+  { label: '1m', value: '1m' },
   { label: '15m', value: '15m' },
   { label: '1h', value: '1h' },
   { label: '1D', value: '1d' },
