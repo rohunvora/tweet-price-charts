@@ -732,6 +732,7 @@ Examples:
     parser.add_argument("--dry-run", action="store_true", help="Validate only, don't add or fetch")
     parser.add_argument("--skip-tweets", action="store_true", help="Skip tweet fetching")
     parser.add_argument("--skip-prices", action="store_true", help="Skip price fetching")
+    parser.add_argument("--skip-supply", action="store_true", help="Skip supply fetching (for market cap)")
     parser.add_argument("--discover", action="store_true", help="Discover best price source (probe all available sources)")
     parser.add_argument("--auto-best", action="store_true", help="Automatically use the best discovered source")
 
@@ -950,6 +951,11 @@ Examples:
         else:
             # Default: X API
             steps.append(("Fetching tweets", "fetch_tweets.py", ["--asset", args.asset_id]))
+
+    # 3. SUPPLY - fetch circulating supply for market cap calculation
+    # Must run before export (export uses supply to compute market_cap_at_tweet)
+    if not args.skip_supply:
+        steps.append(("Fetching supply", "fetch_supply.py", [args.asset_id, "--update"]))
 
     # NOTE: compute_stats.py is called internally by export_static.py after JSON export
     # No separate step needed - stats are computed with fresh data

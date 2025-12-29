@@ -12,6 +12,7 @@ import json
 import httpx
 import argparse
 from pathlib import Path
+from typing import Optional
 
 # RPC endpoints by network
 RPC_ENDPOINTS = {
@@ -156,7 +157,7 @@ def get_hyperliquid_supply(coingecko_id: str) -> dict:
     }
 
 
-def fetch_asset_supply(asset: dict) -> dict | None:
+def fetch_asset_supply(asset: dict) -> Optional[dict]:
     """
     Fetch supply for a single asset based on its network and token info.
     """

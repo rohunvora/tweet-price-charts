@@ -17,7 +17,7 @@
       "enabled": true,
       "logo": "/logos/pump.png",
       "keyword_filter": "pump",
-      "circulating_supply": 999989252038
+      "circulating_supply": 999989249571
     },
     {
       "id": "hype",
@@ -300,7 +300,8 @@
       "last_tweet_date": "2025-05-21T23:59:59Z",
       "reply_to_accounts": [
         "gork"
-      ]
+      ],
+      "circulating_supply": 999851772
     }
   ]
 }
