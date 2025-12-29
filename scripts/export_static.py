@@ -773,6 +773,19 @@ def export_asset(asset_id: str, strict: bool = False) -> Dict[str, Any]:
     # Export prices
     price_stats = export_prices_for_asset(conn, asset_id, output_dir)
 
+    # =========================================================================
+    # SYNC PRICES TO CANONICAL TABLE (before tweet alignment)
+    # The tweet_events view joins against 'prices' (canonical), not RAW.
+    # For new assets, canonical is empty until we sync from the just-exported JSONs.
+    # This ensures tweets can be aligned with prices during export.
+    # =========================================================================
+    try:
+        from import_canonical import sync_asset
+        sync_asset(conn, asset_id, verbose=False)
+    except Exception as e:
+        print(f"    [WARN] Price sync failed: {e}")
+        # Continue anyway - tweet alignment might still work if some canonical data exists
+
     # Export tweet events (may raise in strict mode)
     try:
         events_count = export_tweet_events_for_asset(conn, asset_id, output_dir, strict=strict)

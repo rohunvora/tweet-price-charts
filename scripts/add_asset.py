@@ -761,8 +761,9 @@ Examples:
     if not args.skip_prices:
         steps.append(("Fetching prices", "fetch_prices.py", ["--asset", args.asset_id]))
 
+    # NOTE: compute_stats.py is called internally by export_static.py after JSON export
+    # No separate step needed - stats are computed with fresh data
     steps.extend([
-        ("Computing statistics", "compute_stats.py", ["--asset", args.asset_id]),
         ("Exporting static files", "export_static.py", ["--asset", args.asset_id]),
         ("Caching avatar", "cache_avatars.py", ["--asset", args.asset_id]),
     ])
