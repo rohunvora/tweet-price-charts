@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T06:18:33.404805Z",
+  "generated_at": "2025-12-29T07:17:04.133618Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
@@ -13482,9 +13482,9 @@
       "impressions": 8914,
       "price_at_tweet": 0.20037108,
       "price_1h": 0.20001249,
-      "price_24h": 0.20200363,
+      "price_24h": 0.20008527,
       "change_1h_pct": -0.18,
-      "change_24h_pct": 0.81,
+      "change_24h_pct": -0.14,
       "market_cap_at_tweet": null
     },
     {
@@ -13502,9 +13502,9 @@
       "impressions": 16772,
       "price_at_tweet": 0.20037108,
       "price_1h": 0.20001249,
-      "price_24h": 0.20200363,
+      "price_24h": 0.20008527,
       "change_1h_pct": -0.18,
-      "change_24h_pct": 0.81,
+      "change_24h_pct": -0.14,
       "market_cap_at_tweet": null
     },
     {
@@ -13522,9 +13522,9 @@
       "impressions": 11599,
       "price_at_tweet": 0.20044847,
       "price_1h": 0.20032107,
-      "price_24h": 0.20200363,
+      "price_24h": 0.19907545,
       "change_1h_pct": -0.06,
-      "change_24h_pct": 0.78,
+      "change_24h_pct": -0.68,
       "market_cap_at_tweet": null
     },
     {
@@ -13542,9 +13542,9 @@
       "impressions": 13505,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20200363,
+      "price_24h": 0.19907545,
       "change_1h_pct": -0.15,
-      "change_24h_pct": 0.84,
+      "change_24h_pct": -0.62,
       "market_cap_at_tweet": null
     },
     {
@@ -13562,9 +13562,9 @@
       "impressions": 1690,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20200363,
+      "price_24h": 0.19907545,
       "change_1h_pct": -0.15,
-      "change_24h_pct": 0.84,
+      "change_24h_pct": -0.62,
       "market_cap_at_tweet": null
     },
     {
@@ -13582,9 +13582,9 @@
       "impressions": 4158,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20200363,
+      "price_24h": 0.19907545,
       "change_1h_pct": -0.15,
-      "change_24h_pct": 0.84,
+      "change_24h_pct": -0.62,
       "market_cap_at_tweet": null
     },
     {
@@ -13602,9 +13602,9 @@
       "impressions": 2775,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20200363,
+      "price_24h": 0.19907545,
       "change_1h_pct": -0.15,
-      "change_24h_pct": 0.84,
+      "change_24h_pct": -0.62,
       "market_cap_at_tweet": null
     }
   ]
