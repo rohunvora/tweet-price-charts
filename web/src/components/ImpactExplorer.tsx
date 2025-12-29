@@ -231,8 +231,6 @@ export default function ImpactExplorer() {
     );
   }
 
-  const positiveRate = stats.total > 0 ? (stats.positive / stats.total * 100).toFixed(0) : 0;
-
   return (
     <div className="bg-[var(--surface-1)] border border-[var(--border-subtle)] rounded-xl overflow-hidden">
       {/* Header */}
@@ -241,7 +239,7 @@ export default function ImpactExplorer() {
           Impact Explorer
         </h3>
         <p className="text-sm text-[var(--text-secondary)]">
-          Every dot is a tweet. Hover to see details, click to open.
+          Every dot is a tweet. Green = price went up after. Red = price went down.
         </p>
       </div>
 
@@ -368,31 +366,10 @@ export default function ImpactExplorer() {
         </div>
       </div>
 
-      {/* Stats Footer */}
-      <div className="p-4 border-t border-[var(--border-subtle)] bg-[var(--surface-0)]">
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <div className="text-2xl font-bold text-[var(--text-primary)] tabular-nums">
-              {stats.total.toLocaleString()}
-            </div>
-            <div className="text-xs text-[var(--text-secondary)]">tweets</div>
-          </div>
-          <div>
-            <div className={`text-2xl font-bold tabular-nums ${
-              Number(positiveRate) >= 50 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'
-            }`}>
-              {positiveRate}%
-            </div>
-            <div className="text-xs text-[var(--text-secondary)]">positive {impactMetric}</div>
-          </div>
-          <div>
-            <div className={`text-2xl font-bold tabular-nums ${
-              stats.avgImpact >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'
-            }`}>
-              {stats.avgImpact >= 0 ? '+' : ''}{stats.avgImpact.toFixed(1)}%
-            </div>
-            <div className="text-xs text-[var(--text-secondary)]">avg {impactMetric} impact</div>
-          </div>
+      {/* Simple footer - just tweet count */}
+      <div className="p-3 border-t border-[var(--border-subtle)] bg-[var(--surface-0)]">
+        <div className="text-center text-sm text-[var(--text-muted)]">
+          {stats.total.toLocaleString()} tweets
         </div>
       </div>
 

@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import ImpactExplorer from '@/components/ImpactExplorer';
+import TweetTimeHeatmap from '@/components/TweetTimeHeatmap';
+import SilencesExplorer from '@/components/SilencesExplorer';
+import AssetGrid from '@/components/AssetGrid';
 
 /**
  * About Page
  * ==========
- * Interactive explainer page inspired by loggingsucks.com
- * Shows the data first, explains second.
+ * Museum-like experience showing tweets and prices.
+ * Show, don't tell. Let users discover patterns themselves.
  */
 export default function AboutPage() {
   return (
@@ -19,174 +22,75 @@ export default function AboutPage() {
           ← Chart
         </Link>
         <div className="flex-1" />
-        <Link
-          href="/data"
-          className="px-3 py-1.5 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md transition-colors"
-        >
-          Data
-        </Link>
+        <span className="text-xs text-[var(--text-muted)]">tweetcharts.xyz</span>
       </header>
 
       {/* Main content */}
       <main className="flex-1 max-w-4xl mx-auto px-4 py-8 md:py-12 w-full">
-        {/* Hero - Show, don't tell */}
-        <section className="mb-12">
+        {/* Hero */}
+        <section className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-2 tracking-tight">
-            Founder tweets. Price moves.
+            What happens when founders tweet?
           </h1>
-          <p className="text-lg text-[var(--text-secondary)] mb-6">
-            Or do they? Explore the data yourself.
+          <p className="text-lg text-[var(--text-secondary)]">
+            We tracked 4,400+ tweets from 13 token founders. Here's what the data shows.
           </p>
+        </section>
 
-          {/* Impact Explorer - THE INTERACTIVE ELEMENT */}
+        {/* Module 1: Impact Explorer */}
+        <section className="mb-10">
           <ImpactExplorer />
         </section>
 
-        {/* How to Read Section */}
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
-            What you&apos;re looking at
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {/* Each dot */}
-            <div className="bg-[var(--surface-1)] border border-[var(--border-subtle)] rounded-xl p-5">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="flex gap-1">
-                  <div className="w-3 h-3 rounded-full bg-[var(--positive)]" />
-                  <div className="w-3 h-3 rounded-full bg-[var(--negative)]" />
-                </div>
-                <span className="text-[var(--text-primary)] font-medium">Each dot = one tweet</span>
-              </div>
-              <p className="text-sm text-[var(--text-secondary)]">
-                <span className="text-[var(--positive)]">Green</span> means price went up after the tweet.
-                <span className="text-[var(--negative)]"> Red</span> means it went down.
-                The further from center, the bigger the move.
-              </p>
-            </div>
-
-            {/* Time axis */}
-            <div className="bg-[var(--surface-1)] border border-[var(--border-subtle)] rounded-xl p-5">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="text-[var(--text-muted)]">←  →</div>
-                <span className="text-[var(--text-primary)] font-medium">Time flows left to right</span>
-              </div>
-              <p className="text-sm text-[var(--text-secondary)]">
-                Older tweets on the left, recent on the right.
-                Filter by time range to focus on specific periods.
-              </p>
-            </div>
-
-            {/* Hover */}
-            <div className="bg-[var(--surface-1)] border border-[var(--border-subtle)] rounded-xl p-5">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="text-lg">👆</div>
-                <span className="text-[var(--text-primary)] font-medium">Hover for details</span>
-              </div>
-              <p className="text-sm text-[var(--text-secondary)]">
-                See the actual tweet text, which asset, and precise % impact.
-                Click any dot to open the original tweet on X.
-              </p>
-            </div>
-
-            {/* Stats */}
-            <div className="bg-[var(--surface-1)] border border-[var(--border-subtle)] rounded-xl p-5">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="text-lg tabular-nums font-bold text-[var(--text-primary)]">%</div>
-                <span className="text-[var(--text-primary)] font-medium">Summary stats below</span>
-              </div>
-              <p className="text-sm text-[var(--text-secondary)]">
-                Total tweets, % that were followed by positive price action,
-                and average impact across the dataset.
-              </p>
-            </div>
-          </div>
+        {/* Module 2: Time of Day */}
+        <section className="mb-10">
+          <TweetTimeHeatmap />
         </section>
 
-        {/* The Caveat - Interactive would be even better */}
-        <section className="mb-12">
-          <div className="bg-gradient-to-r from-[var(--negative-muted)] to-[var(--surface-1)] border border-[var(--border-subtle)] rounded-xl p-6">
-            <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-3">
-              The caveat you should know
-            </h2>
-
-            <div className="space-y-4 text-[var(--text-secondary)]">
-              <p>
-                <span className="text-[var(--text-primary)] font-medium">Correlation ≠ causation.</span>{' '}
-                A green dot doesn&apos;t mean the tweet <em>caused</em> the pump.
-                Maybe the whole market was up. Maybe insiders knew before the tweet.
-              </p>
-
-              <p>
-                <span className="text-[var(--text-primary)] font-medium">Survivorship bias.</span>{' '}
-                We track projects with active founders. The dead projects with silent founders aren&apos;t here.
-              </p>
-
-              <p>
-                <span className="text-[var(--text-primary)] font-medium">This is not financial advice.</span>{' '}
-                It&apos;s a research tool. Don&apos;t ape based on vibes and dots.
-              </p>
-            </div>
-          </div>
+        {/* Module 3: Silences */}
+        <section className="mb-10">
+          <SilencesExplorer />
         </section>
 
-        {/* Data Sources - Collapsed by default would be nice */}
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
-            Where the data comes from
-          </h2>
-
-          <div className="bg-[var(--surface-1)] border border-[var(--border-subtle)] rounded-xl divide-y divide-[var(--border-subtle)]">
-            <div className="p-4 flex justify-between items-center">
-              <span className="text-[var(--text-primary)] font-medium">Tweets</span>
-              <span className="text-[var(--text-secondary)] text-sm">X API + Nitter historical backfill</span>
-            </div>
-            <div className="p-4 flex justify-between items-center">
-              <span className="text-[var(--text-primary)] font-medium">Prices</span>
-              <span className="text-[var(--text-secondary)] text-sm">GeckoTerminal, Birdeye, CoinGecko, Hyperliquid</span>
-            </div>
-            <div className="p-4 flex justify-between items-center">
-              <span className="text-[var(--text-primary)] font-medium">Impact calculation</span>
-              <span className="text-[var(--text-secondary)] text-sm">% change 1h and 24h after tweet</span>
-            </div>
-            <div className="p-4 flex justify-between items-center">
-              <span className="text-[var(--text-primary)] font-medium">Outlier removal</span>
-              <span className="text-[var(--text-secondary)] text-sm">5-sigma threshold for price glitches</span>
-            </div>
-            <div className="p-4 flex justify-between items-center">
-              <span className="text-[var(--text-primary)] font-medium">Update frequency</span>
-              <span className="text-[var(--text-secondary)] text-sm">Hourly via GitHub Actions</span>
-            </div>
-          </div>
+        {/* Chart Hook */}
+        <section className="mb-10">
+          <AssetGrid />
         </section>
 
-        {/* CTA */}
-        <section className="text-center mb-8">
-          <p className="text-[var(--text-secondary)] mb-4">
-            Ready to explore individual assets with full price charts?
-          </p>
-          <Link
-            href="/chart"
-            className="inline-block px-8 py-4 bg-[var(--accent)] text-white font-semibold rounded-xl hover:opacity-90 transition-opacity text-lg"
-          >
-            Open the Chart →
-          </Link>
+        {/* Minimal data note */}
+        <section className="mb-8">
+          <details className="group">
+            <summary className="text-sm text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-secondary)] transition-colors">
+              Data sources & methodology
+            </summary>
+            <div className="mt-3 text-sm text-[var(--text-secondary)] space-y-2 pl-4 border-l border-[var(--border-subtle)]">
+              <p>
+                <strong className="text-[var(--text-primary)]">Tweets:</strong> X API + Nitter historical backfill
+              </p>
+              <p>
+                <strong className="text-[var(--text-primary)]">Prices:</strong> GeckoTerminal, Birdeye, CoinGecko, Hyperliquid
+              </p>
+              <p>
+                <strong className="text-[var(--text-primary)]">Updates:</strong> Hourly via GitHub Actions
+              </p>
+              <p className="text-[var(--text-muted)] italic">
+                Correlation ≠ causation. This is a visualization tool, not financial advice.
+              </p>
+            </div>
+          </details>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="py-6 text-center text-xs text-[var(--text-muted)] border-t border-[var(--border-subtle)]">
-        <p className="mb-1">Built to explore whether founder activity correlates with token price movements.</p>
-        <p>
-          <a
-            href="https://github.com/anthropics/tweet-price"
-            className="hover:text-[var(--text-secondary)] transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View source on GitHub
-          </a>
-        </p>
+      <footer className="py-4 text-center text-xs text-[var(--text-muted)] border-t border-[var(--border-subtle)]">
+        <a
+          href="https://github.com/anthropics/tweet-price"
+          className="hover:text-[var(--text-secondary)] transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View source on GitHub
+        </a>
       </footer>
     </div>
   );
