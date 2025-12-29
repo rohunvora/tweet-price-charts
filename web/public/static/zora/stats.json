@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T05:20:31.432566Z",
+  "generated_at": "2025-12-29T06:19:54.563996Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
@@ -203,8 +203,8 @@
     },
     {
       "start_ts": 1765550371,
-      "end_ts": 1767003631,
-      "gap_days": 16.8,
+      "end_ts": 1767007194,
+      "gap_days": 16.9,
       "start_date": "2025-12-12",
       "end_date": "ongoing",
       "is_current": true,
