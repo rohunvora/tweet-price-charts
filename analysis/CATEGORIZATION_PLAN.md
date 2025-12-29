@@ -14,6 +14,16 @@
 | **Determinism** | Same input = same labels | temp=0, prompt_hash recorded, re-run produces identical output |
 | **Override persistence** | Overrides survive re-runs, can diff run vs override | Test: override → re-run → override still applied |
 | **No leakage** | Classifier never sees price/impact fields | Code review + assertion in classifier input |
+| **Reproducibility** | One command recreates clustered events + classifications from raw inputs | `python scripts/run_categorization.py --asset pump --asset hype` |
+
+---
+
+## Stop Gates (Checkpoints Requiring Review)
+
+| After Step | Gate | Review Before Proceeding |
+|------------|------|--------------------------|
+| Step 1 | **Clustering Review** | Review cluster_metrics + example clusters, approve before taxonomy/pipeline work |
+| Step 5 | **E2E Review** | Review classification distributions, spot-check accuracy before override workflow |
 
 ---
 
@@ -37,7 +47,8 @@
 
 **Deliverables:**
 - `scripts/cluster_tweets.py` — clustering logic
-- `analysis/clustering_metrics.md` — before/after metrics
+- `analysis/cluster_metrics.md` — human-readable summary
+- `analysis/cluster_metrics.json` — machine-readable metrics
 
 **Implementation:**
 ```
@@ -55,14 +66,66 @@
 
 **Timebox:** 2 hours
 
-**Output Artifact:**
+**Output Artifacts:**
+
+`analysis/cluster_metrics.json`:
+```json
+{
+  "generated_at": "2024-12-29T...",
+  "window_minutes": 15,
+  "assets": {
+    "pump": {
+      "raw_tweet_count": 102,
+      "cluster_event_count": 70,
+      "reduction_ratio": 0.31,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 2,
+        "p99": 4,
+        "max": 6
+      },
+      "singleton_pct": 0.75,
+      "multi_tweet_pct": 0.25,
+      "contains_reply_pct": 0.05,
+      "contains_thread_pct": 0.10
+    }
+  },
+  "overall": {
+    "raw_tweet_count": 402,
+    "cluster_event_count": 280,
+    "reduction_ratio": 0.30
+  }
+}
 ```
-analysis/clustering_metrics.md:
-| Asset | Raw Tweets | Clustered Events | Reduction % | Avg Cluster Size |
-|-------|------------|------------------|-------------|------------------|
-| PUMP  | 102        | ~70              | ~31%        | 1.46             |
-| WIF   | 300        | ~200             | ~33%        | 1.50             |
+
+`analysis/cluster_metrics.md`:
+```markdown
+# Clustering Metrics
+
+## Summary
+| Asset | Raw Tweets | Events | Reduction | Singletons | Multi-tweet |
+|-------|------------|--------|-----------|------------|-------------|
+| PUMP  | 102        | 70     | 31%       | 75%        | 25%         |
+| WIF   | 300        | 210    | 30%       | 72%        | 28%         |
+
+## Cluster Size Distribution
+| Asset | p50 | p90 | p99 | max |
+|-------|-----|-----|-----|-----|
+| PUMP  | 1   | 2   | 4   | 6   |
+| WIF   | 1   | 2   | 5   | 8   |
+
+## Example Clusters (5-10 per asset)
+
+### PUMP - Cluster #1 (3 tweets, 2 min span)
+- 2024-01-15 14:23: "wif"
+- 2024-01-15 14:24: "wif wif wif"
+- 2024-01-15 14:25: "wif used car kpop wynn"
+
+### PUMP - Cluster #2 (2 tweets, 5 min span)
+...
 ```
+
+**STOP GATE:** Review cluster_metrics + example clusters before proceeding to Step 2.
 
 ---
 
@@ -91,24 +154,19 @@ analysis/clustering_metrics.md:
 **Timebox:** 3 hours
 
 **Output Artifact:**
-```json
-// analysis/taxonomy_examples.json
-{
-  "schema_version": "1.0",
-  "examples": [
-    {
-      "tweet_id": "123",
-      "text": "API is now live",
-      "author": "pasternak",
-      "topic": "product",
-      "intent": "inform",
-      "style_tags": [],
-      "format_tags": ["one_liner"],
-      "reasoning": "Announces feature launch, neutral tone"
-    }
-  ]
-}
+
+`analysis/gold_examples.jsonl` (one JSON object per line):
+```jsonl
+{"tweet_id": "123", "text": "API is now live", "author": "pasternak", "topic": "product", "intent": "inform", "style_tags": [], "format_tags": ["one_liner"], "reasoning": "Announces feature launch, neutral tone", "labeled_by": "human", "labeled_at": "2024-12-29T..."}
+{"tweet_id": "456", "text": "gm", "author": "a1lon9", "topic": "personal", "intent": "engage", "style_tags": ["memetic"], "format_tags": ["one_liner"], "reasoning": "Pure greeting, no substance", "labeled_by": "human", "labeled_at": "2024-12-29T..."}
 ```
+
+**Gold Example Guidelines:**
+- Each founder should have 10-15 examples minimum
+- Include edge cases and "NOT this" examples with reasoning
+- Balance across all topics and intents
+- Priority: examples where topic/intent boundary is ambiguous
+- JSONL format enables easy append without parsing entire file
 
 ---
 
@@ -152,20 +210,22 @@ CREATE TABLE category_runs (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- category_overrides: manual corrections (sparse, persistent)
-CREATE TABLE category_overrides (
-  event_id TEXT PRIMARY KEY,
-  override_topic TEXT,
-  override_intent TEXT,
-  override_secondary_intent TEXT,
-  override_style_tags TEXT[],
-  override_format_tags TEXT[],
-  reason TEXT NOT NULL,
-  created_by TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP
-);
+-- NOTE: Overrides stored in JSONL file, not DB (see below)
 ```
+
+**Overrides File (Source of Truth):**
+
+`analysis/category_overrides.jsonl` - Versioned, append-only, git-tracked:
+```jsonl
+{"event_id": "pump_abc123", "override_topic": "token", "override_intent": "rally", "reason": "Misclassified as vibes, clearly price call", "created_by": "human", "created_at": "2024-12-29T14:30:00Z"}
+{"event_id": "hype_def456", "override_intent": "defend", "reason": "Was inform, but context shows FUD response", "created_by": "human", "created_at": "2024-12-29T15:00:00Z"}
+```
+
+**Override Workflow:**
+1. Append new override to `category_overrides.jsonl`
+2. Run `scripts/apply_overrides.py` to merge into current view
+3. Overrides persist across re-runs (never deleted by classifier)
+4. Git history provides full audit trail
 
 **Success Criteria:**
 - [ ] Schema creates without errors
@@ -225,10 +285,10 @@ def classify_by_rules(event) -> Optional[Classification]:
     return None  # Fall through to LLM
 ```
 
-**4b. LLM Classifier (needs_review=True unless gold match)**
+**4b. LLM Classifier (ALWAYS needs_review=True)**
 ```python
 def classify_by_llm(event, gold_examples) -> Classification:
-    """LLM classification. Always needs_review=True unless exact gold match."""
+    """LLM classification. ALWAYS needs_review=True - no exceptions in Phase A."""
 
     # CRITICAL: No price/impact data in prompt
     prompt = build_prompt(
@@ -244,15 +304,16 @@ def classify_by_llm(event, gold_examples) -> Classification:
     classification.prompt_hash = hash(prompt)
     classification.model = MODEL_VERSION
     classification.method = 'llm'
-
-    # Check if matches gold example exactly
-    if matches_gold_example(classification, gold_examples):
-        classification.needs_review = False
-    else:
-        classification.needs_review = True
+    classification.needs_review = True  # ALWAYS True for LLM - no gold-match exceptions
 
     return classification
 ```
+
+**Confidence Philosophy (Phase A):**
+- Rule-based = auto-accept (needs_review=False)
+- LLM = always needs review (needs_review=True)
+- No fancy confidence scores, no gold-match exceptions
+- Phase B may add agreement-based confidence (dual-run with different prompts)
 
 **4c. No-Leakage Assertion**
 ```python
@@ -332,15 +393,16 @@ analysis/e2e_run_report.md:
 **Goal:** Verify amendments work correctly.
 
 **Deliverables:**
-- `scripts/apply_override.py` — CLI for manual overrides
+- `scripts/apply_overrides.py` — Merge JSONL overrides into DB
 - Test documentation in `analysis/e2e_run_report.md`
 
 **Implementation:**
 ```
-1. Pick 3 events, apply overrides via script
-2. Re-run classification pipeline
-3. Verify: overrides persist, non-overridden events re-classified
-4. Query "current view" (latest run + overrides) and verify correctness
+1. Pick 3 events, append overrides to analysis/category_overrides.jsonl
+2. Run scripts/apply_overrides.py to merge into DB
+3. Re-run classification pipeline (scripts/run_categorization.py)
+4. Verify: overrides persist, non-overridden events re-classified
+5. Query "current view" and verify correctness
 ```
 
 **Success Criteria:**
@@ -454,11 +516,13 @@ const FILTER_PRESETS = {
 ```
 tweet-price/
 ├── analysis/
-│   ├── CATEGORIZATION_PLAN.md        # This file
+│   ├── CATEGORIZATION_PLAN.md         # This file
 │   ├── tweet_categorization_notes.md  # Exploratory notes (existing)
 │   ├── taxonomy_spec.md               # Formal taxonomy
-│   ├── taxonomy_examples.json         # Gold standard examples
-│   ├── clustering_metrics.md          # Before/after metrics
+│   ├── gold_examples.jsonl            # Gold standard examples (JSONL)
+│   ├── category_overrides.jsonl       # Manual corrections (JSONL, versioned)
+│   ├── cluster_metrics.md             # Before/after metrics (human-readable)
+│   ├── cluster_metrics.json           # Before/after metrics (machine-readable)
 │   ├── e2e_run_report.md              # End-to-end results
 │   ├── ui_presets_spec.md             # UI filter presets
 │   └── METHODOLOGY_DRAFT.md           # Draft methodology doc
@@ -469,7 +533,8 @@ tweet-price/
 │   ├── classify_tweets.py             # Main classifier entry
 │   ├── classification_rules.py        # Rule-based classifier
 │   ├── classification_llm.py          # LLM classifier
-│   └── apply_override.py              # Manual override CLI
+│   ├── apply_overrides.py             # Merge JSONL overrides into DB
+│   └── run_categorization.py          # One-command reproducibility script
 │
 └── data/
     └── categorization.duckdb          # Classification database
