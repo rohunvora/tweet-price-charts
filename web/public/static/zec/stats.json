@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T03:45:41.844626Z",
+  "generated_at": "2025-12-29T05:20:21.413067Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -173,8 +173,8 @@
     },
     {
       "start_ts": 1766675040,
-      "end_ts": 1766997941,
-      "gap_days": 3.7,
+      "end_ts": 1767003621,
+      "gap_days": 3.8,
       "start_date": "2025-12-25",
       "end_date": "ongoing",
       "is_current": true,
