@@ -1,5 +1,15 @@
 # Changelog - Tweet-Price Correlation Analyzer
 
+## Dec 28, 2025 - Canonical Table Architecture
+- **New architecture:** Two-table system for DuckDB to fix JSON/DB sync issues
+  - `prices` → Canonical table (matches website JSONs exactly)
+  - `prices_RAW_INGESTION` → Raw API data (for debugging only)
+- New scripts: `migrate_to_canonical.py`, `import_canonical.py`
+- Automatic canonical sync after every export
+- Idempotent migration runs in GitHub Actions workflow
+- Updated GOTCHAS.md and CLAUDE.md with prominent architecture docs
+- Fix git push conflicts in hourly workflow with retry logic
+
 ## Dec 28, 2025 - ZEC Asset & Workflow Fixes
 - Add ZEC asset (adopter: mert)
 - Fix workflow failures - validate cache vs release, use CoinGecko Pro API
@@ -67,9 +77,9 @@
 
 ---
 
-## Assets (13 total)
+## Assets (14 total)
 
-ASTER, BELIEVE, FARTCOIN, HYPE, JUP, META, MONAD, USELESS, WIF, WLD, XPL, ZEC, ZORA
+ASTER, BELIEVE, FARTCOIN, HYPE, JUP, META, MONAD, PUMP, USELESS, WIF, WLD, XPL, ZEC, ZORA
 
 ## Key Infrastructure
 
