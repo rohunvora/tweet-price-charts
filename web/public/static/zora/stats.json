@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T08:18:46.594406Z",
+  "generated_at": "2025-12-29T09:19:12.000384Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
@@ -56,7 +56,7 @@
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 16,
+    "days_since_last_tweet": 17,
     "price_change_during_silence": -10.4,
     "last_tweet_date": "2025-12-12"
   },
@@ -203,8 +203,8 @@
     },
     {
       "start_ts": 1765550371,
-      "end_ts": 1767014326,
-      "gap_days": 16.9,
+      "end_ts": 1767017951,
+      "gap_days": 17.0,
       "start_date": "2025-12-12",
       "end_date": "ongoing",
       "is_current": true,
