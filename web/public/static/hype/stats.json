@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T14:13:03.175302Z",
+  "generated_at": "2025-12-29T15:12:55.312776Z",
   "asset": "hype",
   "asset_name": "HYPE",
   "founder": "chameleon_jeff",
@@ -29,11 +29,11 @@
       "negative_count": 11
     },
     "no_tweet_day_count": 365,
-    "no_tweet_day_avg_return": 0.63,
+    "no_tweet_day_avg_return": 0.64,
     "no_tweet_day_win_rate": 49.3,
     "no_tweet_day_distribution": {
       "count": 365,
-      "mean": 0.63,
+      "mean": 0.64,
       "median": -0.05,
       "std_dev": 6.43,
       "min": -14.7,
@@ -43,8 +43,8 @@
       "positive_count": 180,
       "negative_count": 185
     },
-    "t_statistic": -0.976,
-    "p_value": 0.3298,
+    "t_statistic": -0.977,
+    "p_value": 0.3291,
     "significant": false,
     "confidence_label": "none"
   },
@@ -57,7 +57,7 @@
   },
   "current_status": {
     "days_since_last_tweet": 19,
-    "price_change_during_silence": -11.8,
+    "price_change_during_silence": -11.2,
     "last_tweet_date": "2025-12-10"
   },
   "limitations": {
@@ -302,14 +302,14 @@
     },
     {
       "start_ts": 1765330686,
-      "end_ts": 1767035583,
-      "gap_days": 19.7,
+      "end_ts": 1767039175,
+      "gap_days": 19.8,
       "start_date": "2025-12-10",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 29.159,
-      "price_end": 25.727,
-      "change_pct": -11.8
+      "price_end": 25.897,
+      "change_pct": -11.2
     }
   ]
 }
