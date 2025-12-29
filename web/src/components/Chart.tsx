@@ -1812,7 +1812,7 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
               alt={asset.founder}
               className="w-8 h-8 rounded-full bg-[var(--surface-2)]"
             />
-            <div>
+            <div className="flex-1">
               <div className="text-[var(--text-primary)] font-medium text-sm">@{asset.founder}</div>
               <div className="text-[var(--text-muted)] text-xs">
                 {new Date(hoveredTweet.timestamp * 1000).toLocaleDateString('en-US', {
@@ -1823,25 +1823,23 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
                 })}
               </div>
             </div>
+            {/* Market cap in top-right corner (X.com style context placement) */}
+            {hoveredTweet.market_cap_at_tweet && (
+              <div className="text-[var(--text-muted)] text-xs font-medium">
+                {formatMarketCap(hoveredTweet.market_cap_at_tweet)}
+              </div>
+            )}
           </div>
           <p className="text-sm text-[var(--text-primary)] line-clamp-3 mb-2">{hoveredTweet.text}</p>
           <div className="flex items-center gap-4 text-xs text-[var(--text-muted)]">
             <span>❤️ {hoveredTweet.likes.toLocaleString()}</span>
             <span>🔁 {hoveredTweet.retweets.toLocaleString()}</span>
           </div>
-          {(hoveredTweet.change_1h_pct !== null || hoveredTweet.market_cap_at_tweet) && (
+          {hoveredTweet.change_1h_pct !== null && (
             <div className="mt-2 pt-2 border-t border-[var(--border-subtle)] flex items-center gap-3 text-xs">
-              {hoveredTweet.market_cap_at_tweet && (
-                <>
-                  <span className="text-[var(--text-primary)] font-medium">{formatMarketCap(hoveredTweet.market_cap_at_tweet)}</span>
-                  <span className="text-[var(--text-muted)]">→</span>
-                </>
-              )}
-              {hoveredTweet.change_1h_pct !== null && (
-                <span className={hoveredTweet.change_1h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
-                  1h: {hoveredTweet.change_1h_pct >= 0 ? '+' : ''}{hoveredTweet.change_1h_pct.toFixed(1)}%
-                </span>
-              )}
+              <span className={hoveredTweet.change_1h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
+                1h: {hoveredTweet.change_1h_pct >= 0 ? '+' : ''}{hoveredTweet.change_1h_pct.toFixed(1)}%
+              </span>
               {hoveredTweet.change_24h_pct !== null && (
                 <span className={hoveredTweet.change_24h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
                   24h: {hoveredTweet.change_24h_pct >= 0 ? '+' : ''}{hoveredTweet.change_24h_pct.toFixed(1)}%
