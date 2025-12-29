@@ -40,7 +40,7 @@ const IMPACT_METRICS: { value: ImpactMetric; label: string }[] = [
   { value: '24h', label: 'After 24h' },
 ];
 
-const BIGGEST_MOVES_THRESHOLD = 5; // % threshold for "biggest moves" filter
+const BIGGEST_MOVES_THRESHOLD = 15; // % threshold for "biggest moves" filter (crypto is volatile, need higher bar)
 
 // Human-readable date formatter
 const formatDate = (timestamp: number): string => {
@@ -379,7 +379,7 @@ export default function ImpactExplorer() {
             {/* Zero line label */}
             <text x="4" y="204" fill="var(--text-muted)" fontSize="10">0%</text>
 
-            {/* Data points - token logos with color tint */}
+            {/* Data points - token logos with colored glow */}
             {filteredData.map((point, i) => {
               const cx = point.x * 780 + 10;
               const cy = (1 - point.y) * 380 + 10; // Invert Y (higher = top)
@@ -387,55 +387,61 @@ export default function ImpactExplorer() {
               const isPositive = impact >= 0;
               const isHovered = hoveredPoint === point;
 
-              // Opacity based on outlier magnitude (bigger move = more visible)
+              // Glow intensity based on outlier magnitude
               const absImpact = Math.abs(impact);
-              const baseOpacity = Math.min(0.4 + (absImpact / 100) * 0.6, 1); // 0.4-1.0 range
-              const opacity = isHovered ? 1 : baseOpacity;
+              const glowIntensity = Math.min(0.3 + (absImpact / 100) * 0.5, 0.8); // 0.3-0.8 range
 
-              const size = isHovered ? 24 : 18;
+              const size = isHovered ? 28 : 20;
+              const glowSize = isHovered ? size + 12 : size + 6;
               const logoPath = point.asset.logo || `/logos/${point.asset.id}.png`;
+              const color = isPositive ? '#22C55E' : '#EF4444';
 
               return (
                 <g
                   key={`${point.asset.id}-${point.event.tweet_id}-${i}`}
                   className="cursor-pointer"
+                  style={{ transition: 'transform 0.15s ease-out' }}
                   onMouseEnter={(e) => handlePointHover(point, e)}
                   onMouseLeave={() => handlePointHover(null)}
                   onClick={() => handlePointClick(point)}
                 >
-                  {/* Glow ring for hovered state */}
-                  {isHovered && (
-                    <circle
-                      cx={cx}
-                      cy={cy}
-                      r={size / 2 + 4}
-                      fill="none"
-                      stroke={isPositive ? 'var(--positive)' : 'var(--negative)'}
-                      strokeWidth={2}
-                      opacity={0.8}
-                    />
-                  )}
-                  {/* Color tint background circle */}
+                  {/* Outer glow - color indicates direction, size indicates magnitude */}
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={glowSize / 2}
+                    fill={color}
+                    opacity={isHovered ? 0.6 : glowIntensity}
+                    style={{ filter: isHovered ? 'blur(4px)' : 'blur(3px)' }}
+                  />
+                  {/* Inner colored ring */}
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={size / 2 + 2}
+                    fill="none"
+                    stroke={color}
+                    strokeWidth={isHovered ? 3 : 2}
+                    opacity={isHovered ? 1 : 0.8}
+                  />
+                  {/* White background for logo */}
                   <circle
                     cx={cx}
                     cy={cy}
                     r={size / 2}
-                    fill={isPositive ? 'var(--positive)' : 'var(--negative)'}
-                    opacity={opacity * 0.7}
+                    fill="#1a1a2e"
                   />
-                  {/* Token logo with tint overlay */}
+                  {/* Token logo - clearly visible */}
                   <image
                     href={logoPath}
-                    x={cx - size / 2}
-                    y={cy - size / 2}
-                    width={size}
-                    height={size}
-                    clipPath="url(#circleClip)"
+                    x={cx - size / 2 + 2}
+                    y={cy - size / 2 + 2}
+                    width={size - 4}
+                    height={size - 4}
                     style={{
-                      clipPath: `circle(${size / 2}px at ${size / 2}px ${size / 2}px)`,
-                      opacity: opacity * 0.9,
-                      filter: isPositive ? 'url(#greenTint)' : 'url(#redTint)',
+                      clipPath: `circle(${(size - 4) / 2}px at ${(size - 4) / 2}px ${(size - 4) / 2}px)`,
                     }}
+                    preserveAspectRatio="xMidYMid slice"
                   />
                 </g>
               );
