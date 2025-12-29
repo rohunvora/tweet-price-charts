@@ -1,50 +1,50 @@
 {
-  "generated_at": "2025-12-29T20:12:45.422745Z",
+  "generated_at": "2025-12-29T21:11:28.662220Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "summary": {
-    "total_tweets": 1875,
-    "tweets_with_price": 1875,
+    "total_tweets": 1876,
+    "tweets_with_price": 1876,
     "date_range": {
       "start": "2024-10-24",
-      "end": "2025-12-28"
+      "end": "2025-12-29"
     },
     "total_days_analyzed": 437
   },
   "daily_comparison": {
-    "tweet_day_count": 286,
-    "tweet_day_avg_return": 1.18,
-    "tweet_day_win_rate": 49.7,
+    "tweet_day_count": 287,
+    "tweet_day_avg_return": 1.17,
+    "tweet_day_win_rate": 49.5,
     "tweet_day_distribution": {
-      "count": 286,
-      "mean": 1.18,
-      "median": -0.05,
-      "std_dev": 12.33,
+      "count": 287,
+      "mean": 1.17,
+      "median": -0.09,
+      "std_dev": 12.31,
       "min": -41.72,
       "max": 50.34,
       "q1": -5.7,
-      "q3": 6.1,
+      "q3": 6.08,
       "positive_count": 142,
-      "negative_count": 144
+      "negative_count": 145
     },
-    "no_tweet_day_count": 150,
-    "no_tweet_day_avg_return": 2.69,
-    "no_tweet_day_win_rate": 48.0,
+    "no_tweet_day_count": 149,
+    "no_tweet_day_avg_return": 2.71,
+    "no_tweet_day_win_rate": 48.3,
     "no_tweet_day_distribution": {
-      "count": 150,
-      "mean": 2.69,
-      "median": -0.55,
-      "std_dev": 17.63,
+      "count": 149,
+      "mean": 2.71,
+      "median": -0.51,
+      "std_dev": 17.69,
       "min": -38.15,
       "max": 81.43,
-      "q1": -8.46,
-      "q3": 10.35,
+      "q1": -8.51,
+      "q3": 10.36,
       "positive_count": 72,
-      "negative_count": 78
+      "negative_count": 77
     },
-    "t_statistic": -1.039,
-    "p_value": 0.2994,
+    "t_statistic": -1.057,
+    "p_value": 0.2913,
     "significant": false,
     "confidence_label": "none"
   },
@@ -58,14 +58,14 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2025-12-28"
+    "last_tweet_date": "2025-12-29"
   },
   "limitations": {
     "sample_size_warning": false,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Win rate of 49.7% is near random (50%)",
+      "Win rate of 49.5% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
