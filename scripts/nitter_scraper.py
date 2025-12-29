@@ -547,11 +547,18 @@ def extract_tweets_from_page(page: Page, target_username: Optional[str] = None) 
                 # Skip retweets
                 if el.query_selector('.retweet-header'):
                     continue
-                
-                # Skip replies
-                if el.query_selector('.replying-to'):
-                    continue
-                
+
+                # Capture reply-to username (for adopter filtering)
+                # Instead of skipping replies, we capture who they're replying to
+                # This allows matching tweets replying to tracked accounts (e.g., @gork)
+                reply_to = None
+                replying_to_el = el.query_selector('.replying-to a')
+                if replying_to_el:
+                    href = replying_to_el.get_attribute('href') or ''
+                    if href.startswith('/'):
+                        # Extract username from href like "/gork"
+                        reply_to = href.split('/')[1].lower() if len(href.split('/')) > 1 else None
+
                 # IMPORTANT: Filter by author username
                 if target_username:
                     # Get the username from the tweet header
@@ -613,8 +620,9 @@ def extract_tweets_from_page(page: Page, target_username: Optional[str] = None) 
                     'retweets': stats['retweets'],
                     'replies': stats['replies'],
                     'impressions': stats['impressions'],
+                    'reply_to': reply_to,  # Username being replied to (for adopter filtering)
                 }
-                
+
                 tweets.append(tweet)
                 
             except Exception as e:

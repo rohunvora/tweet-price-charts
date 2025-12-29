@@ -482,6 +482,8 @@ def add_asset_to_config(
     founder_type: str = None,
     keyword_filter: str = None,
     tweet_filter_note: str = None,
+    reply_to_accounts: str = None,
+    use_nitter_keyword_search: bool = False,
 ) -> dict:
     """
     Add a new asset to the config.
@@ -490,6 +492,8 @@ def add_asset_to_config(
         founder_type: 'founder' (default) or 'adopter'. Adopters need keyword filtering.
         keyword_filter: For adopters, keyword to filter tweets (e.g., 'wif').
         tweet_filter_note: Description shown in UI (auto-generated if not provided).
+        reply_to_accounts: Comma-separated usernames - tweets replying to these are included.
+        use_nitter_keyword_search: If True, use Nitter keyword-search instead of X API.
     """
 
     # Determine price source based on inputs
@@ -529,6 +533,13 @@ def add_asset_to_config(
                 asset["tweet_filter_note"] = tweet_filter_note
             else:
                 asset["tweet_filter_note"] = f"Only tweets mentioning ${name}"
+        # reply_to_accounts: Match tweets replying to specific accounts (e.g., @gork)
+        if reply_to_accounts:
+            accounts = [a.strip().lstrip('@').lower() for a in reply_to_accounts.split(',')]
+            asset["reply_to_accounts"] = accounts
+        # use_nitter_keyword_search: Skip X API, use Nitter search directly
+        if use_nitter_keyword_search:
+            asset["use_nitter_keyword_search"] = True
 
     # Remove None values for cleaner JSON
     asset = {k: v for k, v in asset.items() if v is not None}
@@ -608,6 +619,17 @@ Examples:
     parser.add_argument(
         "--tweet-filter-note",
         help="For adopters: note explaining the filter (auto-generated if not provided)"
+    )
+    parser.add_argument(
+        "--reply-to-accounts",
+        help="For adopters: comma-separated usernames to match reply tweets (e.g., 'gork'). "
+             "Tweets replying to these accounts are included even without keyword match."
+    )
+    parser.add_argument(
+        "--use-nitter-keyword-search",
+        action="store_true",
+        help="Skip X API, use Nitter keyword-search directly. "
+             "Use for sparse tweeters (< 50 tweets about token) or old assets."
     )
 
     parser.add_argument("--refresh", action="store_true", help="Refresh data for existing asset")
@@ -748,6 +770,8 @@ Examples:
             founder_type=args.founder_type,
             keyword_filter=args.keyword_filter,
             tweet_filter_note=args.tweet_filter_note,
+            reply_to_accounts=args.reply_to_accounts,
+            use_nitter_keyword_search=args.use_nitter_keyword_search,
         )
         save_assets(config)
         print_success(f"Added {args.asset_id} to assets.json")
@@ -756,7 +780,16 @@ Examples:
     steps = []
 
     if not args.skip_tweets:
-        steps.append(("Fetching tweets", "fetch_tweets.py", ["--asset", args.asset_id]))
+        if args.use_nitter_keyword_search:
+            # Adopter mode: Use Nitter keyword-search instead of X API
+            # This is better for sparse tweeters (< 50 tweets about token) or old assets
+            steps.append((
+                "Fetching tweets (Nitter keyword-search)",
+                "nitter_scraper.py",
+                ["--asset", args.asset_id, "--keyword-search", "--no-headless"]
+            ))
+        else:
+            steps.append(("Fetching tweets", "fetch_tweets.py", ["--asset", args.asset_id]))
 
     if not args.skip_prices:
         steps.append(("Fetching prices", "fetch_prices.py", ["--asset", args.asset_id]))

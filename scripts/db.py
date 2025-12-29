@@ -129,10 +129,17 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
             replies INTEGER DEFAULT 0,
             impressions INTEGER DEFAULT 0,
             is_filtered BOOLEAN DEFAULT FALSE,
+            reply_to VARCHAR,
             fetched_at TIMESTAMP DEFAULT now(),
             FOREIGN KEY (asset_id) REFERENCES assets(id)
         )
     """)
+
+    # Add reply_to column if it doesn't exist (migration for adopter reply tracking)
+    try:
+        conn.execute("ALTER TABLE tweets ADD COLUMN IF NOT EXISTS reply_to VARCHAR")
+    except:
+        pass
     
     # Prices table (v2: added data_source for provenance tracking)
     #
@@ -639,28 +646,33 @@ def insert_tweets(
     on re-fetch while preserving the original timestamp and text.
     Using INSERT OR IGNORE would discard updated metrics.
     See GOTCHAS.md.
+
+    Fields:
+        reply_to: Username being replied to (for adopter filtering).
+                  Captured from Nitter's .replying-to element.
     """
     if not tweets:
         return 0
-    
+
     new_inserts = 0
     updated = 0
-    
+
     for tweet in tweets:
         try:
             # Check if tweet already exists
             existing = conn.execute(
                 "SELECT 1 FROM tweets WHERE id = ?", [tweet["id"]]
             ).fetchone()
-            
+
             conn.execute("""
-                INSERT INTO tweets (id, asset_id, timestamp, text, likes, retweets, replies, impressions, fetched_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())
+                INSERT INTO tweets (id, asset_id, timestamp, text, likes, retweets, replies, impressions, reply_to, fetched_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now())
                 ON CONFLICT (id) DO UPDATE SET
                     likes = EXCLUDED.likes,
                     retweets = EXCLUDED.retweets,
                     replies = EXCLUDED.replies,
                     impressions = EXCLUDED.impressions,
+                    reply_to = COALESCE(EXCLUDED.reply_to, tweets.reply_to),
                     fetched_at = now()
             """, [
                 tweet["id"],
@@ -671,19 +683,20 @@ def insert_tweets(
                 tweet.get("retweets", 0),
                 tweet.get("replies", 0),
                 tweet.get("impressions", 0),
+                tweet.get("reply_to"),
             ])
-            
+
             if existing:
                 updated += 1
             else:
                 new_inserts += 1
-                
+
         except Exception as e:
             print(f"Error inserting tweet {tweet.get('id')}: {e}")
-    
+
     if updated > 0:
         print(f"      ({new_inserts} new, {updated} updated)")
-    
+
     return new_inserts
 
 
