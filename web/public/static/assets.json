@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated_at": "2025-12-29T01:14:06.184813Z",
+  "generated_at": "2025-12-29T02:16:36.071656Z",
   "assets": [
     {
       "id": "pump",
@@ -144,6 +144,16 @@
       "logo": "/logos/zec.png",
       "enabled": true,
       "data_note": "ADOPTER ASSET (mert tweets about ZEC). Limited 1h granularity pre-2021. Only 38 tweet-days analyzed with 47.4% win rate (near random). Correlation weak (0.224) but statistically significant. Skip 15m/1m timeframes due to CoinGecko API limits for legacy coins."
+    },
+    {
+      "id": "gork",
+      "name": "GORK",
+      "founder": "elonmusk",
+      "network": "solana",
+      "launch_date": "2025-04-30T00:00:00Z",
+      "color": "#3B82F6",
+      "logo": "/logos/gork.png",
+      "enabled": true
     }
   ]
 }

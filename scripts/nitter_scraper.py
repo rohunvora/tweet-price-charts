@@ -1705,7 +1705,7 @@ def scrape_keyword_search_parallel(
     }
 
     # Start DB writer thread
-    writer_thread = Thread(
+    writer_thread = threading.Thread(
         target=db_writer_thread,
         args=(write_queue, conn, asset_id, launch_date, stats),
         daemon=True,
@@ -1717,7 +1717,7 @@ def scrape_keyword_search_parallel(
     for worker_id in range(num_workers):
         if not worker_chunks[worker_id]:
             continue
-        t = Thread(
+        t = threading.Thread(
             target=keyword_search_worker,
             args=(worker_id, worker_chunks[worker_id], username, search_keyword, launch_date, write_queue, headless),
         )
