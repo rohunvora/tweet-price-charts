@@ -1,0 +1,37 @@
+{
+  "generated_at": "2025-12-29T22:52:04.912962Z",
+  "window_minutes": 15,
+  "assets": {
+    "pump": {
+      "raw_tweet_count": 102,
+      "cluster_event_count": 99,
+      "reduction_ratio": 0.03,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 3,
+        "max": 3
+      },
+      "singleton_pct": 98.0,
+      "multi_tweet_pct": 2.0
+    },
+    "wif": {
+      "raw_tweet_count": 300,
+      "cluster_event_count": 276,
+      "reduction_ratio": 0.08,
+      "cluster_size_distribution": {
+        "p50": 1,
+        "p90": 1,
+        "p99": 2,
+        "max": 5
+      },
+      "singleton_pct": 92.8,
+      "multi_tweet_pct": 7.2
+    }
+  },
+  "overall": {
+    "raw_tweet_count": 402,
+    "cluster_event_count": 375,
+    "reduction_ratio": 0.07
+  }
+}
