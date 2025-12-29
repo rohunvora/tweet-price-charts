@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T21:11:24.676045Z",
+  "generated_at": "2025-12-29T22:11:38.784986Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -56,7 +56,7 @@
     "strength_label": "weak"
   },
   "current_status": {
-    "days_since_last_tweet": 3,
+    "days_since_last_tweet": 4,
     "price_change_during_silence": -1.0,
     "last_tweet_date": "2025-12-26"
   },
@@ -83,8 +83,8 @@
     },
     {
       "start_ts": 1766720504,
-      "end_ts": 1767060684,
-      "gap_days": 3.9,
+      "end_ts": 1767064298,
+      "gap_days": 4.0,
       "start_date": "2025-12-26",
       "end_date": "ongoing",
       "is_current": true,

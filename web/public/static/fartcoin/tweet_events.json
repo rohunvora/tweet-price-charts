@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-29T21:11:28.462422Z",
+  "generated_at": "2025-12-29T22:11:43.493496Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "founder_type": "adopter",
   "price_definition": "candle close at minute boundary",
-  "count": 1876,
+  "count": 1877,
   "events": [
     {
       "tweet_id": "1849598804791795967",
@@ -37526,6 +37526,26 @@
       "change_1h_pct": -0.08,
       "change_24h_pct": -2.56,
       "market_cap_at_tweet": 294000277.85
+    },
+    {
+      "tweet_id": "2005751133416181883",
+      "asset_id": "fartcoin",
+      "asset_name": "FARTCOIN",
+      "founder": "DipWheeler",
+      "asset_color": "#8B4513",
+      "timestamp": 1767043309,
+      "timestamp_iso": "2025-12-29T16:21:49Z",
+      "text": "*TRUMP: ISRAEL WILL HELP BUILD FARTCOIN STRATEGIC RESERVE",
+      "likes": 57,
+      "retweets": 3,
+      "replies": 19,
+      "impressions": 2331,
+      "price_at_tweet": 0.29375695,
+      "price_1h": 0.29327322,
+      "price_24h": 0.2864744,
+      "change_1h_pct": -0.16,
+      "change_24h_pct": -2.48,
+      "market_cap_at_tweet": 293750992.9
     }
   ],
   "keyword_filter": "fartcoin",
