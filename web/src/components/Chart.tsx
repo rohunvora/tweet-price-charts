@@ -1823,26 +1823,34 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
                 })}
               </div>
             </div>
-            {/* Market cap badge in top-right corner */}
-            {hoveredTweet.market_cap_at_tweet && (
-              <div className="px-2 py-0.5 rounded-full bg-[var(--surface-2)] text-[10px] text-[var(--text-secondary)] font-medium whitespace-nowrap">
-                mcap {formatMarketCap(hoveredTweet.market_cap_at_tweet)}
-              </div>
-            )}
           </div>
           <p className="text-sm text-[var(--text-primary)] line-clamp-3 mb-2">{hoveredTweet.text}</p>
           <div className="flex items-center gap-4 text-xs text-[var(--text-muted)]">
             <span>❤️ {hoveredTweet.likes.toLocaleString()}</span>
             <span>🔁 {hoveredTweet.retweets.toLocaleString()}</span>
           </div>
-          {hoveredTweet.change_1h_pct !== null && (
+          {/* Impact ticker: @$6.0B MC  ▼0.5% 1h  ▼2.6% 24h */}
+          {(hoveredTweet.change_1h_pct !== null || hoveredTweet.market_cap_at_tweet) && (
             <div className="mt-2 pt-2 border-t border-[var(--border-subtle)] flex items-center gap-3 text-xs">
-              <span className={hoveredTweet.change_1h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
-                1h: {hoveredTweet.change_1h_pct >= 0 ? '+' : ''}{hoveredTweet.change_1h_pct.toFixed(1)}%
-              </span>
+              {hoveredTweet.market_cap_at_tweet && (
+                <span className="text-[var(--text-muted)]">
+                  @{formatMarketCap(hoveredTweet.market_cap_at_tweet)} MC
+                </span>
+              )}
+              {hoveredTweet.change_1h_pct !== null && (
+                <span>
+                  <span className={hoveredTweet.change_1h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
+                    {hoveredTweet.change_1h_pct >= 0 ? '▲' : '▼'}{Math.abs(hoveredTweet.change_1h_pct).toFixed(1)}%
+                  </span>
+                  <span className="text-[var(--text-muted)]"> 1h</span>
+                </span>
+              )}
               {hoveredTweet.change_24h_pct !== null && (
-                <span className={hoveredTweet.change_24h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
-                  24h: {hoveredTweet.change_24h_pct >= 0 ? '+' : ''}{hoveredTweet.change_24h_pct.toFixed(1)}%
+                <span>
+                  <span className={hoveredTweet.change_24h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
+                    {hoveredTweet.change_24h_pct >= 0 ? '▲' : '▼'}{Math.abs(hoveredTweet.change_24h_pct).toFixed(1)}%
+                  </span>
+                  <span className="text-[var(--text-muted)]"> 24h</span>
                 </span>
               )}
             </div>
