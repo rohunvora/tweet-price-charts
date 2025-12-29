@@ -4,24 +4,24 @@ All heavy computation happens here, not in the browser.
 
 Supports multi-asset statistics computation.
 
+IMPORTANT: This script reads from JSON files (source of truth), NOT DuckDB.
+The canonical DuckDB table is synced AFTER export, so reading from DuckDB
+during the pipeline would give stale data.
+
 Usage:
     python compute_stats.py                 # Compute stats for all assets
     python compute_stats.py --asset pump    # Compute stats for specific asset
 """
 import argparse
-import calendar
 import json
 from datetime import datetime
+from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 import numpy as np
 from scipy import stats as scipy_stats
 
-from config import DATA_DIR, PUBLIC_DATA_DIR
-from db import (
-    get_connection, init_schema, get_asset, get_enabled_assets,
-    get_tweet_events
-)
+from config import DATA_DIR, PUBLIC_DATA_DIR, ASSETS_FILE
 
 
 class NumpyEncoder(json.JSONEncoder):
@@ -38,30 +38,61 @@ class NumpyEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
-def load_daily_prices(conn, asset_id: str) -> Dict[int, float]:
-    """
-    Load daily close prices as timestamp -> price map.
+def load_assets() -> Dict[str, Dict]:
+    """Load asset definitions from assets.json."""
+    with open(ASSETS_FILE) as f:
+        data = json.load(f)
+    assets = data.get("assets", [])
+    return {a["id"]: a for a in assets}
 
-    IMPORTANT: Uses calendar.timegm() for UTC conversion, NOT datetime.timestamp().
-    datetime.timestamp() converts using LOCAL timezone, causing misalignment
-    with tweet timestamps (which are stored as UTC epochs). See GOTCHAS.md.
+
+def get_asset(asset_id: str) -> Optional[Dict]:
+    """Get a single asset definition."""
+    assets = load_assets()
+    return assets.get(asset_id)
+
+
+def get_enabled_assets() -> List[Dict]:
+    """Get all enabled assets."""
+    assets = load_assets()
+    return [a for a in assets.values() if a.get("enabled", True)]
+
+
+def load_daily_prices(asset_id: str) -> Dict[int, float]:
     """
-    cursor = conn.execute("""
-        SELECT timestamp, close
-        FROM prices
-        WHERE asset_id = ? AND timeframe = '1d'
-        ORDER BY timestamp
-    """, [asset_id])
+    Load daily close prices as timestamp -> price map from JSON file.
+
+    Reads from prices_1d.json (source of truth) instead of DuckDB.
+    """
+    json_path = PUBLIC_DATA_DIR / asset_id / "prices_1d.json"
+    if not json_path.exists():
+        return {}
+
+    with open(json_path) as f:
+        data = json.load(f)
 
     result = {}
-    for row in cursor.fetchall():
-        ts = row[0]
-        if hasattr(ts, 'timetuple'):
-            # Use calendar.timegm for UTC conversion (NOT datetime.timestamp())
-            ts = calendar.timegm(ts.timetuple())
-        result[ts] = row[1]
+    for candle in data.get("candles", []):
+        ts = candle["t"]  # Already Unix timestamp
+        result[ts] = candle["c"]  # Close price
 
     return result
+
+
+def load_tweet_events(asset_id: str) -> List[Dict]:
+    """
+    Load tweet events from JSON file.
+
+    Reads from tweet_events.json (source of truth) instead of DuckDB.
+    """
+    json_path = PUBLIC_DATA_DIR / asset_id / "tweet_events.json"
+    if not json_path.exists():
+        return []
+
+    with open(json_path) as f:
+        data = json.load(f)
+
+    return data.get("events", [])
 
 
 def compute_distribution(values: List[float]) -> Dict[str, Any]:
@@ -335,32 +366,25 @@ def compute_limitations(
 
 
 def compute_stats_for_asset(asset_id: str) -> Dict[str, Any]:
-    """Compute all statistics for a single asset."""
-    conn = get_connection()
-    init_schema(conn)
-    
-    asset = get_asset(conn, asset_id)
+    """
+    Compute all statistics for a single asset.
+
+    Reads from JSON files (source of truth), NOT DuckDB.
+    """
+    asset = get_asset(asset_id)
     if not asset:
-        conn.close()
         return {"error": f"Asset '{asset_id}' not found"}
-    
+
     print(f"\nComputing stats for {asset['name']} ({asset_id})...")
-    
-    # Check if we have 1m data
-    has_1m = conn.execute("""
-        SELECT COUNT(*) FROM prices 
-        WHERE asset_id = ? AND timeframe = '1m'
-    """, [asset_id]).fetchone()[0] > 0
-    
-    # Load data
-    events = get_tweet_events(conn, asset_id, use_daily_fallback=not has_1m)
-    daily_prices = load_daily_prices(conn, asset_id)
-    
+
+    # Load data from JSON files (source of truth)
+    events = load_tweet_events(asset_id)
+    daily_prices = load_daily_prices(asset_id)
+
     print(f"    Tweet events: {len(events)}")
     print(f"    Daily prices: {len(daily_prices)}")
-    
+
     if not events or not daily_prices:
-        conn.close()
         return {"error": "Missing data", "events": len(events), "prices": len(daily_prices)}
     
     # Compute all stats
@@ -410,8 +434,7 @@ def compute_stats_for_asset(asset_id: str) -> Dict[str, Any]:
         "limitations": limitations,
         "quiet_periods": quiet_with_impact,
     }
-    
-    conn.close()
+
     return stats_output
 
 
@@ -488,11 +511,9 @@ def main():
             save_stats(stats, args.asset)
         print_stats_summary(stats)
     else:
-        conn = get_connection()
-        init_schema(conn)
-        assets = get_enabled_assets(conn)
-        conn.close()
-        
+        # Load assets from JSON (no DuckDB needed)
+        assets = get_enabled_assets()
+
         for asset in assets:
             stats = compute_stats_for_asset(asset["id"])
             if "error" not in stats:

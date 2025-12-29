@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-28T23:28:28.460616Z",
+  "generated_at": "2025-12-29T00:17:07.377668Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -13,32 +13,43 @@
     "total_days_analyzed": 3346
   },
   "daily_comparison": {
-    "tweet_day_count": 0,
-    "tweet_day_avg_return": 0,
-    "tweet_day_win_rate": 0,
-    "tweet_day_distribution": {},
-    "no_tweet_day_count": 3345,
-    "no_tweet_day_avg_return": 0.21,
+    "tweet_day_count": 38,
+    "tweet_day_avg_return": 1.31,
+    "tweet_day_win_rate": 47.4,
+    "tweet_day_distribution": {
+      "count": 38,
+      "mean": 1.31,
+      "median": -0.83,
+      "std_dev": 8.7,
+      "min": -19.75,
+      "max": 21.96,
+      "q1": -4.92,
+      "q3": 7.38,
+      "positive_count": 18,
+      "negative_count": 20
+    },
+    "no_tweet_day_count": 3307,
+    "no_tweet_day_avg_return": 0.19,
     "no_tweet_day_win_rate": 49.5,
     "no_tweet_day_distribution": {
-      "count": 3345,
-      "mean": 0.21,
+      "count": 3307,
+      "mean": 0.19,
       "median": -0.02,
-      "std_dev": 7.79,
+      "std_dev": 7.78,
       "min": -83.03,
       "max": 249.76,
-      "q1": -2.82,
+      "q1": -2.81,
       "q3": 2.82,
-      "positive_count": 1656,
-      "negative_count": 1681
+      "positive_count": 1638,
+      "negative_count": 1661
     },
-    "t_statistic": null,
-    "p_value": null,
+    "t_statistic": 0.874,
+    "p_value": 0.3824,
     "significant": false,
-    "confidence_label": "insufficient_data"
+    "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.228,
+    "correlation_7d": 0.23,
     "p_value": 0.0,
     "significant": true,
     "sample_size": 3346,
@@ -51,10 +62,11 @@
   },
   "limitations": {
     "sample_size_warning": true,
-    "borderline_significance": null,
+    "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Small sample: only 0 tweet-days analyzed",
+      "Small sample: only 38 tweet-days analyzed",
+      "Win rate of 47.4% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
@@ -96,8 +108,8 @@
       "start_date": "2025-10-16",
       "end_date": "2025-10-26",
       "price_start": 204.71,
-      "price_end": 329.97,
-      "change_pct": 61.2
+      "price_end": 274.79,
+      "change_pct": 34.2
     },
     {
       "start_ts": 1761571200,
@@ -106,8 +118,8 @@
       "start_date": "2025-10-27",
       "end_date": "2025-10-30",
       "price_start": 341.63,
-      "price_end": 345.2,
-      "change_pct": 1.0
+      "price_end": 352.39,
+      "change_pct": 3.1
     },
     {
       "start_ts": 1761866940,
@@ -115,9 +127,9 @@
       "gap_days": 8.4,
       "start_date": "2025-10-30",
       "end_date": "2025-11-08",
-      "price_start": 406.16,
+      "price_start": 345.2,
       "price_end": 648.88,
-      "change_pct": 59.8
+      "change_pct": 88.0
     },
     {
       "start_ts": 1762689720,
@@ -146,8 +158,8 @@
       "start_date": "2025-11-20",
       "end_date": "2025-11-23",
       "price_start": 664.71,
-      "price_end": 572.94,
-      "change_pct": -13.8
+      "price_end": 517.91,
+      "change_pct": -22.1
     },
     {
       "start_ts": 1765017186,
@@ -161,7 +173,7 @@
     },
     {
       "start_ts": 1766675040,
-      "end_ts": 1766982508,
+      "end_ts": 1766985427,
       "gap_days": 3.6,
       "start_date": "2025-12-25",
       "end_date": "ongoing",

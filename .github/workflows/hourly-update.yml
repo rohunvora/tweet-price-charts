@@ -217,14 +217,8 @@ jobs:
           sleep 2
           echo "✅ Cleanup complete"
 
-      - name: Compute statistics
-        run: |
-          echo "📈 Computing statistics..."
-          cd scripts
-          source ../.venv/bin/activate 2>/dev/null || true
-          python3 compute_stats.py 2>&1 || echo "⚠️ Stats computation had errors"
-        continue-on-error: true
-        timeout-minutes: 5
+      # NOTE: compute_stats.py is called by export_static.py after each asset export
+      # No separate step needed here - stats are computed with fresh JSON data
 
       - name: Snapshot current data counts (pre-export)
         id: pre-snapshot
