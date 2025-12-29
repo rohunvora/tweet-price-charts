@@ -1,3 +1,19 @@
+/**
+ * TweetTimeHeatmap Component
+ * ==========================
+ *
+ * Horizontal heatmap showing when each founder tweets by hour of day (UTC).
+ * Part of the "Context (optional)" section - helps interpret founder behavior
+ * but not core to the Tool contract.
+ *
+ * Features:
+ * - 24-hour grid per founder
+ * - Blue intensity indicates tweet frequency at each hour
+ * - Sorted by total tweet count (most active first)
+ * - Shows top 10 founders
+ *
+ * Data source: Extracts hour from timestamp_iso in tweet_events.json
+ */
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';

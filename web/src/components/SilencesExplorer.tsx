@@ -1,3 +1,19 @@
+/**
+ * SilencesExplorer Component
+ * ==========================
+ *
+ * Shows gaps in founder tweeting activity with price context.
+ * Part of the "Context (optional)" section - interesting pattern
+ * but not core to the Tool contract.
+ *
+ * Features:
+ * - Lists top 8 longest tweet gaps (7+ days)
+ * - Shows price change during each silence period
+ * - Links to chart for each token
+ * - Sorted by gap length (longest first)
+ *
+ * Data source: quiet_periods array from stats.json (pre-computed)
+ */
 'use client';
 
 import { useState, useEffect } from 'react';

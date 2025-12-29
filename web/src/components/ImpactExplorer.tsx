@@ -1,3 +1,23 @@
+/**
+ * ImpactExplorer Component
+ * ========================
+ *
+ * Interactive scatter plot showing founder tweets vs price changes.
+ * Part of the "Tool contract" - helps users see if founder tweets
+ * historically coincide with meaningful price moves.
+ *
+ * Features:
+ * - "Biggest moves" filter (15% threshold) to show only outliers
+ * - Token logos with colored glow (green=up, red=down)
+ * - Glow intensity scales with move magnitude
+ * - Hover tooltip matching Chart.tsx style
+ * - Filter by token, time range, and impact window (1h/24h)
+ *
+ * Design decisions:
+ * - Default to "Biggest moves" ON to reduce noise
+ * - 15% threshold because crypto is volatile (5% was too low)
+ * - Logos visible with colored ring, not heavy color overlay
+ */
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';

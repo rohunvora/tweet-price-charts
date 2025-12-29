@@ -1,5 +1,17 @@
 # Changelog - Tweet-Price Correlation Analyzer
 
+## Dec 29, 2025 - About Page Redesign (Tool Contract v0)
+- **New landing page** implementing "Tool Contract" framework
+- Hero with clear claim: "Most founder tweets do nothing. Some coincide with big moves."
+- **ImpactExplorer** - Scatter plot of all tweets vs price changes
+  - Token logos with colored glow rings (green=up, red=down)
+  - "Biggest moves" filter (15% threshold) to highlight outliers
+  - Hover tooltip with tweet content and engagement stats
+- **TweetTimeHeatmap** - When founders tweet (hour-of-day patterns)
+- **SilencesExplorer** - Notable quiet periods with price context
+- **AssetGrid** - Token picker with credibility-based ordering
+- Orientation strip with disclaimers (correlation ≠ causation)
+
 ## Dec 28, 2025 - ZEC Asset & Workflow Fixes
 - Add ZEC asset (adopter: mert)
 - Fix workflow failures - validate cache vs release, use CoinGecko Pro API

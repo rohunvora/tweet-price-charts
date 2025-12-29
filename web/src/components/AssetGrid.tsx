@@ -1,3 +1,19 @@
+/**
+ * AssetGrid Component
+ * ===================
+ *
+ * Grid of token cards linking to individual chart pages.
+ * Acts as the "Pick a token" CTA from the about page hero.
+ *
+ * Features:
+ * - Credibility-based ordering (JUP, HYPE first; FARTCOIN last)
+ * - Token logo + name + founder handle
+ * - Hover glow effect using token's brand color
+ * - Links to /chart?asset={id}
+ *
+ * Design decision: Manual ordering by credibility rather than
+ * alphabetical or tweet count, so serious projects appear first.
+ */
 'use client';
 
 import { useState, useEffect } from 'react';

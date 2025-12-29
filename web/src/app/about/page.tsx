@@ -5,10 +5,27 @@ import SilencesExplorer from '@/components/SilencesExplorer';
 import AssetGrid from '@/components/AssetGrid';
 
 /**
- * About Page
- * ==========
- * Museum-like experience showing tweets and prices.
- * Show, don't tell. Let users discover patterns themselves.
+ * About Page - Tool Contract v0
+ * =============================
+ *
+ * Landing page implementing the "Tool contract":
+ * "Use this to see whether a token founder's tweets historically
+ * coincide with meaningful short-term price moves."
+ *
+ * Page structure (intentional hierarchy):
+ * 1. Hero - The claim + CTAs ("Show biggest moves", "Pick a token")
+ * 2. Orientation strip - Quick context (most dots near 0%, not causation)
+ * 3. ImpactExplorer - Main visualization (scatter plot with token logos)
+ * 4. AssetGrid - Token picker linking to individual charts
+ * 5. Context (optional) - Supporting patterns (tweet times, silences)
+ *
+ * Design decisions:
+ * - Claim upfront: "Most founder tweets do nothing. Some coincide with big moves."
+ * - "Biggest moves" filter ON by default to show outliers, not noise
+ * - Token logos visible in scatter plot for quick identification
+ * - Context modules demoted to optional section (useful but not core)
+ *
+ * @see /exploration/current-core-problem.md for design rationale
  */
 export default function AboutPage() {
   return (
