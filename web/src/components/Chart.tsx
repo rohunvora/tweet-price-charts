@@ -145,6 +145,17 @@ function withAlpha(color: string, alpha: number): string {
 }
 
 /**
+ * Format market cap in human-readable form ($47M, $1.2B, etc.)
+ */
+function formatMarketCap(mc: number | null | undefined): string {
+  if (mc == null) return '';
+  if (mc >= 1_000_000_000) return `$${(mc / 1_000_000_000).toFixed(1)}B`;
+  if (mc >= 1_000_000) return `$${(mc / 1_000_000).toFixed(1)}M`;
+  if (mc >= 1_000) return `$${(mc / 1_000).toFixed(1)}K`;
+  return `$${mc.toFixed(0)}`;
+}
+
+/**
  * Available timeframe options shown in the UI.
  * 1m is shown only for assets that have 1m data (detected via prices_1m_index.json).
  * Most older assets skip 1m due to data volume, so the button will be disabled.
@@ -1818,12 +1829,19 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
             <span>❤️ {hoveredTweet.likes.toLocaleString()}</span>
             <span>🔁 {hoveredTweet.retweets.toLocaleString()}</span>
           </div>
-          {hoveredTweet.change_1h_pct !== null && (
+          {(hoveredTweet.change_1h_pct !== null || hoveredTweet.market_cap_at_tweet) && (
             <div className="mt-2 pt-2 border-t border-[var(--border-subtle)] flex items-center gap-3 text-xs">
-              <span className="text-[var(--text-muted)]">After tweet:</span>
-              <span className={hoveredTweet.change_1h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
-                1h: {hoveredTweet.change_1h_pct >= 0 ? '+' : ''}{hoveredTweet.change_1h_pct.toFixed(1)}%
-              </span>
+              {hoveredTweet.market_cap_at_tweet && (
+                <>
+                  <span className="text-[var(--text-primary)] font-medium">{formatMarketCap(hoveredTweet.market_cap_at_tweet)}</span>
+                  <span className="text-[var(--text-muted)]">→</span>
+                </>
+              )}
+              {hoveredTweet.change_1h_pct !== null && (
+                <span className={hoveredTweet.change_1h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
+                  1h: {hoveredTweet.change_1h_pct >= 0 ? '+' : ''}{hoveredTweet.change_1h_pct.toFixed(1)}%
+                </span>
+              )}
               {hoveredTweet.change_24h_pct !== null && (
                 <span className={hoveredTweet.change_24h_pct >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
                   24h: {hoveredTweet.change_24h_pct >= 0 ? '+' : ''}{hoveredTweet.change_24h_pct.toFixed(1)}%
