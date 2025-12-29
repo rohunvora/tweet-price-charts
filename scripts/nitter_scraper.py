@@ -547,11 +547,18 @@ def extract_tweets_from_page(page: Page, target_username: Optional[str] = None) 
                 # Skip retweets
                 if el.query_selector('.retweet-header'):
                     continue
-                
-                # Skip replies
-                if el.query_selector('.replying-to'):
-                    continue
-                
+
+                # Capture reply-to username (for adopter filtering)
+                # Instead of skipping replies, we capture who they're replying to
+                # This allows matching tweets replying to tracked accounts (e.g., @gork)
+                reply_to = None
+                replying_to_el = el.query_selector('.replying-to a')
+                if replying_to_el:
+                    href = replying_to_el.get_attribute('href') or ''
+                    if href.startswith('/'):
+                        # Extract username from href like "/gork"
+                        reply_to = href.split('/')[1].lower() if len(href.split('/')) > 1 else None
+
                 # IMPORTANT: Filter by author username
                 if target_username:
                     # Get the username from the tweet header
@@ -613,8 +620,9 @@ def extract_tweets_from_page(page: Page, target_username: Optional[str] = None) 
                     'retweets': stats['retweets'],
                     'replies': stats['replies'],
                     'impressions': stats['impressions'],
+                    'reply_to': reply_to,  # Username being replied to (for adopter filtering)
                 }
-                
+
                 tweets.append(tweet)
                 
             except Exception as e:
@@ -1252,6 +1260,8 @@ def scrape_asset_parallel(
 def scrape_keyword_search(
     asset_id: str,
     keyword: Optional[str] = None,
+    since: Optional[str] = None,
+    until: Optional[str] = None,
     headless: bool = False,
     max_pages: int = 20,
 ) -> Dict[str, Any]:
@@ -1259,16 +1269,13 @@ def scrape_keyword_search(
     Keyword search mode for sparse tweeters.
 
     Searches Nitter directly: /{username}/search?q={keyword}
-    Returns ALL tweets matching the keyword (no date filtering).
+    Optionally filters by date range with &since= and &until= parameters.
 
     USE THIS WHEN:
       - Founder/adopter rarely tweets about the token (< 50 tweets ever)
       - You want to quickly count matching tweets before a full scrape
       - X API is rate-limited
-
-    DO NOT USE WHEN:
-      - Founder tweets frequently about the token (use --full)
-      - You need date-range filtering (use --since/--until)
+      - You need to backfill a specific date range (use --since/--until)
 
     Args:
         asset_id: Asset ID from assets.json
@@ -1331,7 +1338,14 @@ def scrape_keyword_search(
         )
 
         url = f"{NITTER_INSTANCES[0]}/{username}/search?f=tweets&q={quote_plus(search_keyword)}"
+        # Add date range if specified
+        if since:
+            url += f"&since={since}"
+        if until:
+            url += f"&until={until}"
         log(f"Fetching: {url}", "INFO")
+        if since or until:
+            log(f"Date range: {since or 'start'} to {until or 'now'}", "INFO")
 
         page = context.new_page()
 
@@ -1439,6 +1453,316 @@ def scrape_keyword_search(
 
 
 # =============================================================================
+# PARALLEL KEYWORD SEARCH
+# =============================================================================
+
+def keyword_search_worker(
+    worker_id: int,
+    chunks: List[Dict],
+    username: str,
+    keyword: str,
+    launch_date: datetime,
+    write_queue: Queue,
+    headless: bool = False,
+):
+    """
+    Worker thread for parallel keyword search.
+    Each chunk is a date-bounded keyword search: /{username}/search?q={keyword}&since={}&until={}
+    """
+    from urllib.parse import quote_plus
+
+    instance = NITTER_INSTANCES[worker_id % len(NITTER_INSTANCES)]
+    log(f"[Worker {worker_id}] Starting with {len(chunks)} chunks via {instance.split('//')[1]}", "INFO")
+
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=headless,
+                args=['--disable-blink-features=AutomationControlled', '--no-sandbox']
+            )
+
+            context = browser.new_context(
+                viewport={'width': 1280, 'height': 900},
+                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            )
+
+            for i, chunk in enumerate(chunks):
+                since = chunk['since']
+                until = chunk['until']
+
+                # Build date-bounded keyword search URL
+                url = f"{instance}/{username}/search?f=tweets&q={quote_plus(keyword)}&since={since}&until={until}"
+                log(f"[Worker {worker_id}] Chunk {i+1}/{len(chunks)}: {since} to {until}", "INFO")
+
+                page = context.new_page()
+                tweets = []
+                seen_ids = set()
+
+                try:
+                    page.goto(url, timeout=PAGE_LOAD_TIMEOUT)
+                    time.sleep(5)  # Wait for Cloudflare
+
+                    if not handle_cloudflare(page):
+                        log(f"[Worker {worker_id}] Cloudflare failed for chunk {i+1}", "WARN")
+                        page.close()
+                        continue
+
+                    page.wait_for_selector('.timeline-item, .error-panel', timeout=TWEET_WAIT_TIMEOUT)
+
+                    # Check for error/no results
+                    error = page.query_selector('.error-panel')
+                    if error:
+                        error_text = error.inner_text()
+                        if "No items found" in error_text:
+                            log(f"[Worker {worker_id}] No tweets in chunk {i+1}", "DEBUG")
+                            page.close()
+                            write_queue.put(([], chunk['key']))
+                            continue
+
+                    # Paginate through results for this chunk
+                    page_num = 0
+                    max_pages = 20
+
+                    while page_num < max_pages:
+                        page_num += 1
+
+                        new_tweets = extract_tweets_from_page(page, target_username=username)
+                        added = 0
+
+                        for t in new_tweets:
+                            if t['id'] not in seen_ids:
+                                if t['timestamp'] and t['timestamp'] < launch_date:
+                                    continue
+                                seen_ids.add(t['id'])
+                                tweets.append(t)
+                                added += 1
+
+                        if added == 0:
+                            break
+
+                        load_more = page.query_selector('.show-more a')
+                        if not load_more:
+                            break
+
+                        try:
+                            load_more.click()
+                            wait_random(MIN_PAGE_DELAY, MAX_PAGE_DELAY, "pagination")
+                            page.wait_for_selector('.timeline-item', timeout=10000)
+                        except Exception:
+                            break
+
+                    log(f"[Worker {worker_id}] Found {len(tweets)} tweets in chunk {i+1}", "OK")
+                    write_queue.put((tweets, chunk['key']))
+
+                except PlaywrightTimeout:
+                    log(f"[Worker {worker_id}] Timeout for chunk {i+1}", "WARN")
+                except Exception as e:
+                    log(f"[Worker {worker_id}] Error in chunk {i+1}: {e}", "ERROR")
+                finally:
+                    page.close()
+
+                # Delay before next chunk
+                if i < len(chunks) - 1:
+                    wait_random(MIN_CHUNK_DELAY, MAX_CHUNK_DELAY, f"Worker {worker_id} waiting")
+
+            browser.close()
+
+    except Exception as e:
+        log(f"[Worker {worker_id}] Fatal error: {e}", "ERROR")
+
+    log(f"[Worker {worker_id}] Finished", "OK")
+
+
+def scrape_keyword_search_parallel(
+    asset_id: str,
+    keyword: Optional[str] = None,
+    first_tweet_date: str = None,
+    last_tweet_date: Optional[str] = None,
+    num_workers: int = 3,
+    headless: bool = False,
+) -> Dict[str, Any]:
+    """
+    Parallel keyword search with smart date chunking.
+
+    Combines keyword search efficiency with date-bounded parallelization.
+    3 workers scrape different date ranges simultaneously.
+
+    Chunking strategy:
+      - If last_tweet_date provided: active period split into small chunks,
+        sparse tail (last_tweet to now) is single chunk
+      - If only first_tweet_date: split entire period evenly among workers
+
+    Args:
+        asset_id: Asset ID from assets.json
+        keyword: Override keyword (uses asset's keyword_filter if None)
+        first_tweet_date: First known tweet date YYYY-MM-DD
+        last_tweet_date: Date activity concentration ends YYYY-MM-DD (optional)
+        num_workers: Number of parallel browser instances (default: 3)
+        headless: Run browser headless
+
+    Returns:
+        Summary dict with status, tweet count, etc.
+    """
+    if not PLAYWRIGHT_AVAILABLE:
+        return {'status': 'error', 'reason': 'Playwright not installed'}
+
+    if not first_tweet_date:
+        return {'status': 'error', 'reason': 'first_tweet_date required for parallel keyword search'}
+
+    # Load asset config
+    conn = get_connection()
+    init_schema(conn)
+    load_assets_from_json(conn)
+
+    asset = get_asset(conn, asset_id)
+    if not asset:
+        conn.close()
+        return {'status': 'error', 'reason': f"Asset '{asset_id}' not found"}
+
+    username = asset['founder']
+    launch_date = asset['launch_date']
+    effective_keyword = keyword if keyword else asset.get('keyword_filter')
+
+    if not effective_keyword:
+        conn.close()
+        return {'status': 'error', 'reason': 'No keyword specified and asset has no keyword_filter'}
+
+    # Handle multiple keywords - use first one for search
+    keywords = [k.strip() for k in effective_keyword.split(',')]
+    search_keyword = keywords[0]
+
+    if isinstance(launch_date, str):
+        launch_date = datetime.fromisoformat(launch_date.replace('Z', '+00:00'))
+    if launch_date.tzinfo is None:
+        launch_date = launch_date.replace(tzinfo=timezone.utc)
+
+    # Parse dates
+    first_dt = datetime.strptime(first_tweet_date, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+    now = datetime.now(timezone.utc)
+
+    log(f"Asset: {asset['name']} (@{username})", "INFO")
+    log(f"Keyword: \"{search_keyword}\"", "INFO")
+    log(f"Mode: PARALLEL KEYWORD SEARCH ({num_workers} workers)", "INFO")
+    log(f"First tweet: {first_tweet_date}", "INFO")
+
+    # Calculate smart chunks
+    chunks = []
+
+    if last_tweet_date:
+        last_dt = datetime.strptime(last_tweet_date, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+        active_days = (last_dt - first_dt).days
+        chunk_days = max(3, active_days // num_workers)  # At least 3 days per chunk
+
+        log(f"Active period: {first_tweet_date} to {last_tweet_date} ({active_days} days)", "INFO")
+        log(f"Chunk size: {chunk_days} days", "INFO")
+
+        # Create chunks for active period
+        current = first_dt
+        while current < last_dt:
+            end = min(current + timedelta(days=chunk_days), last_dt)
+            chunks.append({
+                'since': current.strftime('%Y-%m-%d'),
+                'until': end.strftime('%Y-%m-%d'),
+                'key': f"{current.strftime('%Y-%m-%d')}_{end.strftime('%Y-%m-%d')}",
+            })
+            current = end
+
+        # Add sparse tail as single chunk (from last_tweet_date to now)
+        chunks.append({
+            'since': last_dt.strftime('%Y-%m-%d'),
+            'until': now.strftime('%Y-%m-%d'),
+            'key': f"{last_dt.strftime('%Y-%m-%d')}_{now.strftime('%Y-%m-%d')}_sparse",
+        })
+        log(f"Sparse tail: {last_tweet_date} to now (single chunk)", "INFO")
+
+    else:
+        # No last_tweet_date - split entire period evenly
+        total_days = (now - first_dt).days
+        chunk_days = max(7, total_days // num_workers)
+
+        log(f"Total period: {first_tweet_date} to now ({total_days} days)", "INFO")
+        log(f"Chunk size: {chunk_days} days", "INFO")
+
+        current = first_dt
+        while current < now:
+            end = min(current + timedelta(days=chunk_days), now)
+            chunks.append({
+                'since': current.strftime('%Y-%m-%d'),
+                'until': end.strftime('%Y-%m-%d'),
+                'key': f"{current.strftime('%Y-%m-%d')}_{end.strftime('%Y-%m-%d')}",
+            })
+            current = end
+
+    log(f"Total chunks: {len(chunks)}", "INFO")
+    log("=" * 60)
+
+    # Distribute chunks to workers (round-robin)
+    worker_chunks = [[] for _ in range(num_workers)]
+    for i, chunk in enumerate(chunks):
+        worker_chunks[i % num_workers].append(chunk)
+
+    # Setup write queue and stats
+    write_queue = Queue()
+    stats = {
+        'tweets_found': 0,
+        'tweets_inserted': 0,
+        'chunks_done': 0,
+        'chunks_failed': 0,
+    }
+
+    # Start DB writer thread
+    writer_thread = threading.Thread(
+        target=db_writer_thread,
+        args=(write_queue, conn, asset_id, launch_date, stats),
+        daemon=True,
+    )
+    writer_thread.start()
+
+    # Start worker threads
+    workers = []
+    for worker_id in range(num_workers):
+        if not worker_chunks[worker_id]:
+            continue
+        t = threading.Thread(
+            target=keyword_search_worker,
+            args=(worker_id, worker_chunks[worker_id], username, search_keyword, launch_date, write_queue, headless),
+        )
+        t.start()
+        workers.append(t)
+
+    # Wait for all workers to finish
+    for t in workers:
+        t.join()
+
+    # Signal writer to stop and wait
+    write_queue.put(None)
+    writer_thread.join()
+
+    conn.close()
+
+    # Summary
+    log("\n" + "=" * 60)
+    log("PARALLEL KEYWORD SEARCH SUMMARY", "INFO")
+    log(f"  Keyword: \"{search_keyword}\"", "INFO")
+    log(f"  Workers: {len(workers)}", "INFO")
+    log(f"  Chunks processed: {stats['chunks_done']}", "INFO")
+    log(f"  Tweets found: {stats['tweets_found']}", "INFO")
+    log(f"  Tweets inserted: {stats['tweets_inserted']}", "INFO")
+
+    return {
+        'status': 'success',
+        'mode': 'parallel_keyword_search',
+        'asset': asset_id,
+        'username': username,
+        'keyword': search_keyword,
+        'workers': len(workers),
+        'chunks': len(chunks),
+        'tweets_found': stats['tweets_found'],
+        'tweets_inserted': stats['tweets_inserted'],
+    }
+
+
+# =============================================================================
 # CLI
 # =============================================================================
 
@@ -1501,6 +1825,15 @@ Examples:
     parser.add_argument('--keyword-search', action='store_true',
         help='Keyword search mode for sparse tweeters (< 50 tweets about topic)')
 
+    # PARALLEL KEYWORD SEARCH - combines keyword efficiency with date-bounded parallelization
+    # When --keyword-search is combined with --first-tweet-date (and optionally --last-tweet-date),
+    # the scraper runs parallel workers with date-bounded keyword searches.
+    # Example: With 3 workers and dates May 3 - May 21, each worker handles ~6 days
+    parser.add_argument('--first-tweet-date',
+        help='First known tweet date (YYYY-MM-DD). Enables parallel keyword search.')
+    parser.add_argument('--last-tweet-date',
+        help='Date activity concentration ends (YYYY-MM-DD). Sparse tail after this is single chunk.')
+
     args = parser.parse_args()
 
     if args.clear_progress:
@@ -1524,12 +1857,25 @@ Examples:
     headless = args.headless and not args.no_headless
 
     # Choose scraping mode
-    if args.keyword_search:
-        # KEYWORD SEARCH MODE - for sparse tweeters
-        # Searches Nitter directly instead of fetching full timeline
+    if args.keyword_search and args.first_tweet_date:
+        # PARALLEL KEYWORD SEARCH - best of both worlds
+        # Combines keyword efficiency with date-bounded parallelization
+        result = scrape_keyword_search_parallel(
+            asset_id=args.asset,
+            keyword=args.keyword,
+            first_tweet_date=args.first_tweet_date,
+            last_tweet_date=args.last_tweet_date,
+            num_workers=args.parallel if args.parallel > 1 else 3,
+            headless=headless,
+        )
+    elif args.keyword_search:
+        # SIMPLE KEYWORD SEARCH - single thread
+        # Supports optional --since/--until for date range filtering
         result = scrape_keyword_search(
             asset_id=args.asset,
             keyword=args.keyword,
+            since=args.since,
+            until=args.until,
             headless=headless,
         )
     elif args.parallel > 1:

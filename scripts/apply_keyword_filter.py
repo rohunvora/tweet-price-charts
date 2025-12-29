@@ -54,9 +54,14 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 from db import get_connection, init_schema, load_assets_from_json, get_asset, get_enabled_assets
 
 
-def keyword_matches(text: str, keyword_filter: str) -> bool:
+def keyword_matches(
+    text: str,
+    keyword_filter: str,
+    reply_to: str = None,
+    reply_to_accounts: List[str] = None
+) -> bool:
     """
-    Check if tweet text matches keyword filter.
+    Check if tweet text matches keyword filter OR is replying to tracked accounts.
 
     Supports comma-separated keywords (matches ANY):
     - "hype,hyperliquid" matches tweets containing "hype" OR "hyperliquid"
@@ -65,15 +70,41 @@ def keyword_matches(text: str, keyword_filter: str) -> bool:
     - Exact word: "useless" matches "USELESS coin" but not "uselessness"
     - With $ prefix: matches "$USELESS" or "$useless"
     - With # prefix: matches "#USELESS"
+    - With @ prefix: matches "@useless" (catches replies/mentions)
     - As cashtag pattern: matches variations like $USELESS, USELESS, #useless
+
+    Special syntax:
+    - "@username" in keyword_filter explicitly matches @-mentions/replies
+    - Plain keywords auto-expand to also match @keyword (catches replies)
+
+    reply_to_accounts matching:
+    - If tweet is replying to an account in reply_to_accounts, it matches
+    - This catches tweets like "@gork nice" that don't contain the keyword
+    - Useful for adopters who reply to token-related accounts
+
+    Examples:
+        keyword_filter="gork" matches: "gork", "$gork", "#gork", "@gork"
+        keyword_filter="gork,@gork" same as above (explicit)
+        keyword_filter="worldcoin,wld" matches either keyword
+        reply_to="gork", reply_to_accounts=["gork"] -> matches (reply to tracked account)
 
     Args:
         text: Tweet text to check
         keyword_filter: Keyword(s) to match, comma-separated (e.g., "hype,hyperliquid")
+        reply_to: Username being replied to (from tweet metadata)
+        reply_to_accounts: List of tracked usernames to match replies
 
     Returns:
-        True if text contains ANY keyword in valid context
+        True if text contains ANY keyword in valid context OR is replying to tracked account
     """
+    # First check: Is this a reply to a tracked account?
+    if reply_to_accounts and reply_to:
+        reply_to_lower = reply_to.lower()
+        tracked_lower = [a.lower() for a in reply_to_accounts]
+        if reply_to_lower in tracked_lower:
+            return True
+
+    # Second check: Does text match keyword filter?
     if not text or not keyword_filter:
         return False
 
@@ -83,17 +114,26 @@ def keyword_matches(text: str, keyword_filter: str) -> bool:
     keywords = [k.strip().lower() for k in keyword_filter.split(',') if k.strip()]
 
     for keyword_lower in keywords:
-        # Pattern matches: $KEYWORD, #KEYWORD, or KEYWORD as whole word
-        # Using word boundary that also allows $ and # prefixes
-        patterns = [
-            rf'\${keyword_lower}\b',      # $useless (cashtag)
-            rf'#{keyword_lower}\b',        # #useless (hashtag)
-            rf'\b{keyword_lower}\b',       # useless (word boundary)
-        ]
-
-        for pattern in patterns:
+        # Handle explicit @username syntax
+        if keyword_lower.startswith('@'):
+            # Explicit @mention - match exactly
+            username = keyword_lower[1:]  # Remove @ prefix
+            pattern = rf'@{username}\b'
             if re.search(pattern, text_lower):
                 return True
+        else:
+            # Regular keyword - match $KEYWORD, #KEYWORD, @KEYWORD, or plain KEYWORD
+            # Auto-expanding to @keyword catches replies naturally
+            patterns = [
+                rf'\${keyword_lower}\b',      # $gork (cashtag)
+                rf'#{keyword_lower}\b',       # #gork (hashtag)
+                rf'@{keyword_lower}\b',       # @gork (mention/reply) - NEW
+                rf'\b{keyword_lower}\b',      # gork (word boundary)
+            ]
+
+            for pattern in patterns:
+                if re.search(pattern, text_lower):
+                    return True
 
     return False
 
@@ -102,38 +142,40 @@ def apply_filter_to_asset(
     conn,
     asset_id: str,
     keyword: str,
+    reply_to_accounts: List[str] = None,
     dry_run: bool = False,
     verbose: bool = True
 ) -> Dict[str, int]:
     """
     Apply keyword filter to all tweets for an asset.
-    
+
     This uses a soft-delete approach via an 'is_filtered' column:
     - All tweets initially marked is_filtered = TRUE
-    - Tweets matching keyword are marked is_filtered = FALSE
+    - Tweets matching keyword OR replying to tracked accounts are marked is_filtered = FALSE
     - Export process only exports non-filtered tweets
-    
+
     Args:
         conn: Database connection
         asset_id: Asset ID to filter
         keyword: Keyword to match
+        reply_to_accounts: List of usernames - replies to these also match
         dry_run: If True, don't actually update, just report
         verbose: Print progress
-    
+
     Returns:
         Dict with stats: {total, matched, filtered_out}
     """
-    # Get all tweets for this asset
+    # Get all tweets for this asset (including reply_to metadata)
     tweets = conn.execute("""
-        SELECT id, text FROM tweets WHERE asset_id = ?
+        SELECT id, text, reply_to FROM tweets WHERE asset_id = ?
     """, [asset_id]).fetchall()
-    
+
     total = len(tweets)
     matched_ids = []
     filtered_ids = []
-    
-    for tweet_id, text in tweets:
-        if keyword_matches(text, keyword):
+
+    for tweet_id, text, reply_to in tweets:
+        if keyword_matches(text, keyword, reply_to=reply_to, reply_to_accounts=reply_to_accounts):
             matched_ids.append(tweet_id)
         else:
             filtered_ids.append(tweet_id)
@@ -141,6 +183,8 @@ def apply_filter_to_asset(
     if verbose:
         print(f"\n[FILTER] Asset: {asset_id}")
         print(f"[FILTER] Keyword: \"{keyword}\"")
+        if reply_to_accounts:
+            print(f"[FILTER] Reply-to accounts: {reply_to_accounts}")
         print(f"[FILTER] Total tweets: {total}")
         print(f"[FILTER] Matching keyword: {len(matched_ids)} ({100*len(matched_ids)/total:.1f}%)")
         print(f"[FILTER] Filtered out: {len(filtered_ids)} ({100*len(filtered_ids)/total:.1f}%)")
@@ -317,18 +361,33 @@ Examples:
         if verbose:
             print(f"Found {len(assets_to_process)} assets with keyword_filter")
     
+    # Load assets.json to get reply_to_accounts (not stored in DB)
+    import json
+    assets_json_path = Path(__file__).parent / "assets.json"
+    assets_json_data = {}
+    try:
+        with open(assets_json_path) as f:
+            assets_json_data = {a["id"]: a for a in json.load(f).get("assets", [])}
+    except Exception:
+        pass  # If assets.json not available, reply_to_accounts will be None
+
     # Process each asset
     total_stats = {'total': 0, 'matched': 0, 'filtered_out': 0}
-    
+
     for asset, keyword in assets_to_process:
+        # Get reply_to_accounts from assets.json config
+        asset_json = assets_json_data.get(asset['id'], {})
+        reply_to_accounts = asset_json.get('reply_to_accounts')
+
         stats = apply_filter_to_asset(
             conn,
             asset['id'],
             keyword,
+            reply_to_accounts=reply_to_accounts,
             dry_run=args.dry_run,
             verbose=verbose
         )
-        
+
         for k in total_stats:
             total_stats[k] += stats[k]
     
