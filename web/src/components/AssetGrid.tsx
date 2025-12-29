@@ -79,7 +79,7 @@ export default function AssetGrid() {
     <div className="space-y-4">
       <div className="text-center">
         <p className="text-[var(--text-secondary)]">
-          Pick an asset and explore the chart.
+          Pick a token and explore the chart.
         </p>
       </div>
 

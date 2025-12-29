@@ -36,9 +36,21 @@ const TIME_RANGES: { value: TimeRange; label: string }[] = [
 ];
 
 const IMPACT_METRICS: { value: ImpactMetric; label: string }[] = [
-  { value: '1h', label: '1h impact' },
-  { value: '24h', label: '24h impact' },
+  { value: '1h', label: 'After 1h' },
+  { value: '24h', label: 'After 24h' },
 ];
+
+const BIGGEST_MOVES_THRESHOLD = 5; // % threshold for "biggest moves" filter
+
+// Human-readable date formatter
+const formatDate = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
 
 // =============================================================================
 // Component
@@ -57,6 +69,7 @@ export default function ImpactExplorer() {
   const [selectedAsset, setSelectedAsset] = useState<string>('all');
   const [timeRange, setTimeRange] = useState<TimeRange>('all');
   const [impactMetric, setImpactMetric] = useState<ImpactMetric>('1h');
+  const [biggestMovesOnly, setBiggestMovesOnly] = useState<boolean>(true); // Default ON
 
   // Interaction
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
@@ -131,10 +144,18 @@ export default function ImpactExplorer() {
       'all': 0,
     };
 
-    // Filter by asset and time
+    // Get the impact value based on selected metric
+    const getImpact = (point: DataPoint) =>
+      impactMetric === '1h' ? point.event.change_1h_pct! : point.event.change_24h_pct!;
+
+    // Filter by asset, time, and biggest moves
     let filtered = allData.filter((point) => {
       if (selectedAsset !== 'all' && point.asset.id !== selectedAsset) return false;
       if (point.event.timestamp < timeFilters[timeRange]) return false;
+      if (biggestMovesOnly) {
+        const impact = getImpact(point);
+        if (Math.abs(impact) < BIGGEST_MOVES_THRESHOLD) return false;
+      }
       return true;
     });
 
@@ -146,10 +167,6 @@ export default function ImpactExplorer() {
         yDomain: [-50, 50] as [number, number],
       };
     }
-
-    // Get the impact value based on selected metric
-    const getImpact = (point: DataPoint) =>
-      impactMetric === '1h' ? point.event.change_1h_pct! : point.event.change_24h_pct!;
 
     // Calculate domains
     const timestamps = filtered.map(p => p.event.timestamp);
@@ -186,7 +203,7 @@ export default function ImpactExplorer() {
       xDomain: [minTime, maxTime] as [number, number],
       yDomain: [minImpact, maxImpact] as [number, number],
     };
-  }, [allData, selectedAsset, timeRange, impactMetric]);
+  }, [allData, selectedAsset, timeRange, impactMetric, biggestMovesOnly]);
 
   // ---------------------------------------------------------------------------
   // Event Handlers
@@ -236,7 +253,7 @@ export default function ImpactExplorer() {
       {/* Header */}
       <div className="p-4 border-b border-[var(--border-subtle)]">
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">
-          Impact Explorer
+          What price did next
         </h3>
         <p className="text-sm text-[var(--text-secondary)]">
           Every dot is a tweet. Green = price went up after. Red = price went down.
@@ -245,13 +262,25 @@ export default function ImpactExplorer() {
 
       {/* Filters */}
       <div className="p-4 border-b border-[var(--border-subtle)] flex flex-wrap gap-3">
-        {/* Asset Filter */}
+        {/* Biggest Moves Toggle */}
+        <button
+          onClick={() => setBiggestMovesOnly(!biggestMovesOnly)}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+            biggestMovesOnly
+              ? 'bg-[var(--accent)] text-white'
+              : 'bg-[var(--surface-2)] text-[var(--text-secondary)] border border-[var(--border-subtle)] hover:text-[var(--text-primary)]'
+          }`}
+        >
+          {biggestMovesOnly ? '✓ Biggest moves' : 'Biggest moves'}
+        </button>
+
+        {/* Token Filter */}
         <select
           value={selectedAsset}
           onChange={(e) => setSelectedAsset(e.target.value)}
           className="px-3 py-1.5 text-sm bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]"
         >
-          <option value="all">All assets ({allData.length} tweets)</option>
+          <option value="all">All tokens ({allData.length} tweets)</option>
           {assets.map((asset) => {
             const count = allData.filter(p => p.asset.id === asset.id).length;
             return (
@@ -279,7 +308,7 @@ export default function ImpactExplorer() {
           ))}
         </div>
 
-        {/* Impact Metric Toggle */}
+        {/* Price Change Metric Toggle */}
         <div className="flex rounded-lg overflow-hidden border border-[var(--border-subtle)]">
           {IMPACT_METRICS.map((metric) => (
             <button
@@ -360,8 +389,8 @@ export default function ImpactExplorer() {
 
           {/* X-axis labels */}
           <div className="flex justify-between text-xs text-[var(--text-muted)] mt-2 px-2">
-            <span>{xDomain[0] ? new Date(xDomain[0] * 1000).toLocaleDateString() : ''}</span>
-            <span>{xDomain[1] ? new Date(xDomain[1] * 1000).toLocaleDateString() : ''}</span>
+            <span>{xDomain[0] ? formatDate(xDomain[0]) : ''}</span>
+            <span>{xDomain[1] ? formatDate(xDomain[1]) : ''}</span>
           </div>
         </div>
       </div>
@@ -384,7 +413,7 @@ export default function ImpactExplorer() {
           }}
         >
           <div className="bg-[var(--surface-3)] border border-[var(--border-default)] rounded-lg p-3 shadow-xl max-w-xs">
-            {/* Asset & Time */}
+            {/* Token & Time */}
             <div className="flex items-center gap-2 mb-2">
               <span
                 className="w-2 h-2 rounded-full"
@@ -394,7 +423,7 @@ export default function ImpactExplorer() {
                 {tooltip.point.asset.name}
               </span>
               <span className="text-xs text-[var(--text-muted)]">
-                {new Date(tooltip.point.event.timestamp * 1000).toLocaleDateString()}
+                {formatDate(tooltip.point.event.timestamp)}
               </span>
             </div>
 
@@ -403,17 +432,17 @@ export default function ImpactExplorer() {
               {tooltip.point.event.text}
             </p>
 
-            {/* Impact stats */}
+            {/* Price change stats */}
             <div className="flex gap-4 text-sm">
               <div>
-                <span className="text-[var(--text-muted)]">1h: </span>
+                <span className="text-[var(--text-muted)]">After 1h: </span>
                 <span className={tooltip.point.event.change_1h_pct! >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
                   {tooltip.point.event.change_1h_pct! >= 0 ? '+' : ''}
                   {tooltip.point.event.change_1h_pct!.toFixed(1)}%
                 </span>
               </div>
               <div>
-                <span className="text-[var(--text-muted)]">24h: </span>
+                <span className="text-[var(--text-muted)]">After 24h: </span>
                 <span className={tooltip.point.event.change_24h_pct! >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
                   {tooltip.point.event.change_24h_pct! >= 0 ? '+' : ''}
                   {tooltip.point.event.change_24h_pct!.toFixed(1)}%

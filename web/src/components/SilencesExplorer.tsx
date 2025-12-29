@@ -5,6 +5,16 @@ import { Asset, Stats } from '@/lib/types';
 import { loadAssets, loadStats } from '@/lib/dataLoader';
 import Link from 'next/link';
 
+// Human-readable date formatter
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
+
 // =============================================================================
 // Types
 // =============================================================================
@@ -133,7 +143,7 @@ export default function SilencesExplorer() {
                     </span>
                   </div>
                   <div className="text-sm text-[var(--text-secondary)]">
-                    {silence.startDate} → {silence.endDate}
+                    {formatDate(silence.startDate)} → {formatDate(silence.endDate)}
                   </div>
                 </div>
               </div>
