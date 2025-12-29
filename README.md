@@ -25,22 +25,24 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 
 ### Assets Tracked
 
-| Token | Founder | Network | Tweets |
-|-------|---------|---------|--------|
-| FARTCOIN | [@DipWheeler](https://x.com/DipWheeler) | Solana | 1,865 |
-| JUP | [@weremeow](https://x.com/weremeow) | Solana | 662 |
-| ZORA | [@js_horne](https://x.com/js_horne) | Base | 449 |
-| USELESS | [@theunipcs](https://x.com/theunipcs) | Solana | 420 |
-| ASTER | [@cz_binance](https://x.com/cz_binance) | BSC | 306 |
-| WIF | [@blknoiz06](https://x.com/blknoiz06) | Solana | 300 |
-| META | [@metaproph3t](https://x.com/metaproph3t) | Solana | 140 |
-| PUMP | [@a1lon9](https://x.com/a1lon9) | Solana | 102 |
-| LAUNCHCOIN | [@pasternak](https://x.com/pasternak) | Solana | 81 |
-| MON | [@keoneHD](https://x.com/keoneHD) | Monad | 60 |
-| HYPE | [@chameleon_jeff](https://x.com/chameleon_jeff) | Hyperliquid | 35 |
-| XPL | [@pauliepunt](https://x.com/pauliepunt) | BSC | 26 |
-| WLD | [@sama](https://x.com/sama) | Ethereum | 2 |
-| ZEC | [@mert_](https://x.com/mert_) | Zcash | 89 |
+| Token | Founder | Type | Network | Tweets |
+|-------|---------|------|---------|--------|
+| FARTCOIN | [@DipWheeler](https://x.com/DipWheeler) | Adopter | Solana | 1,875 |
+| JUP | [@weremeow](https://x.com/weremeow) | Founder | Solana | 680 |
+| ZORA | [@js_horne](https://x.com/js_horne) | Founder | Base | 449 |
+| USELESS | [@theunipcs](https://x.com/theunipcs) | Founder | Solana | 435 |
+| ASTER | [@cz_binance](https://x.com/cz_binance) | Founder | BSC | 318 |
+| WIF | [@blknoiz06](https://x.com/blknoiz06) | Adopter | Solana | 300 |
+| META | [@metaproph3t](https://x.com/metaproph3t) | Founder | Solana | 142 |
+| PUMP | [@a1lon9](https://x.com/a1lon9) | Founder | Solana | 102 |
+| ZEC | [@mert_](https://x.com/mert_) | Adopter | Zcash | 89 |
+| LAUNCHCOIN | [@pasternak](https://x.com/pasternak) | Founder | Solana | 81 |
+| MON | [@keoneHD](https://x.com/keoneHD) | Founder | Monad | 66 |
+| HYPE | [@chameleon_jeff](https://x.com/chameleon_jeff) | Founder | Hyperliquid | 35 |
+| XPL | [@pauliepunt](https://x.com/pauliepunt) | Founder | BSC | 26 |
+| WLD | [@sama](https://x.com/sama) | Adopter | Ethereum | 2 |
+
+**Founder vs Adopter:** Founders created the token (all tweets stored). Adopters are influencers who adopted it (only keyword-matching tweets stored).
 
 ## Features
 

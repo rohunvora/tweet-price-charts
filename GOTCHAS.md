@@ -136,6 +136,153 @@ See `db.py` header comment for full architecture documentation.
 
 ---
 
+## Tweet Fetching: Watermarks & Rate Limits
+
+### Tweet Watermarks (ingestion_state table)
+
+**What it is:** The `ingestion_state` table tracks `last_id` (newest tweet ID fetched) for each asset.
+This enables incremental fetching - only tweets newer than `last_id` are requested.
+
+**Critical Rule:** Watermarks should ONLY advance to match the LAST SAVED tweet, not the last SEEN tweet.
+
+**Why this matters:** If watermarks advance past what's saved, those tweets are lost forever.
+This happened in Dec 2024 when keyword filtering was incorrectly applied to founder assets -
+tweets were seen but filtered out, yet the watermark advanced, creating a gap.
+
+**How to verify watermarks are correct:**
+```bash
+# Compare DB watermarks to JSON last tweet IDs
+python3 << 'EOF'
+import duckdb, json
+conn = duckdb.connect('data/analytics.duckdb')
+for asset in ['aster', 'jup', 'monad', 'meta']:
+    wm = conn.execute("SELECT last_id FROM ingestion_state WHERE asset_id=? AND data_type='tweets'", [asset]).fetchone()
+    with open(f'web/public/static/{asset}/tweet_events.json') as f:
+        tweets = json.load(f).get('events', [])
+        last = max(tweets, key=lambda t: int(t['tweet_id']))['tweet_id'] if tweets else None
+    print(f"{asset}: DB={wm[0] if wm else 'N/A'}, JSON={last}, Match={'✅' if str(wm[0])==str(last) else '❌'}")
+EOF
+```
+
+**If watermarks are ahead of JSONs:** Download the release DB, fix watermarks, re-upload.
+
+---
+
+### Founder vs Adopter Tweet Filtering
+
+**Two types of assets:**
+
+| Type | Definition | Tweet Behavior |
+|------|------------|----------------|
+| **Founder** | Person who created the token | Store ALL tweets (they define the project) |
+| **Adopter** | Celebrity/influencer who adopted token | Filter to keyword matches only (reduce noise) |
+
+**Configuration in assets.json:**
+```json
+{
+  "id": "meta",
+  "founder": "metaproph3t",
+  "founder_type": "founder",     // ← ALL tweets stored
+  "keyword_filter": "meta"        // ← Only used for optional UI filtering
+}
+
+{
+  "id": "wif", 
+  "founder": "blknoiz06",
+  "founder_type": "adopter",     // ← Only keyword matches stored
+  "keyword_filter": "wif"         // ← Applied at FETCH time
+}
+```
+
+**Why this distinction matters:**
+- Founders define the project - every tweet is potentially relevant
+- Adopters tweet hundreds of times per day about many topics - storing all would waste API credits and add noise
+
+**DO NOT apply keyword filtering to founder assets at fetch time.**
+
+---
+
+### Rate Limit Handling (fetch_tweets.py)
+
+**X API Rate Limits:** Basic plan allows ~100 requests per 15 minutes.
+
+**Current behavior:**
+1. On 429 response, read `x-rate-limit-reset` header
+2. If reset is <2 minutes away, wait and retry
+3. If reset is >2 minutes away, skip this asset and set `rate_limit_hit` flag
+4. Once `rate_limit_hit` is set, skip all remaining assets in current run
+5. Save skipped assets to `data/fetch_state.json` for priority on next run
+
+**Why skip remaining assets:** Prevents wasting time on requests that will definitely fail.
+Better to exit early and let the next hourly run pick up where we left off.
+
+**State persistence:** `data/fetch_state.json` tracks:
+- `skipped_assets`: List of assets that were skipped due to rate limit
+- `last_run`: Timestamp of last run
+
+Next run reads this and processes skipped assets FIRST before others.
+
+---
+
+### Skip Tweet Fetch Flag
+
+**For problematic accounts** (e.g., Sam Altman rarely tweets about WLD):
+
+```json
+{
+  "id": "wld",
+  "founder": "sama",
+  "skip_tweet_fetch": true,
+  "skip_tweet_fetch_reason": "Sam Altman rarely tweets about WLD - manual updates only"
+}
+```
+
+This prevents wasting API credits on accounts that:
+- Tweet too frequently (exhausts rate limit before other assets)
+- Rarely mention the relevant token
+- Require manual curation
+
+---
+
+## GitHub Actions: Cache vs Release DB Logic
+
+### The Problem
+
+GitHub Actions caches the DuckDB database between runs for speed.
+But if the cache contains bugs (wrong watermarks, missing data), those bugs persist.
+
+**Fix propagation path:**
+1. Fix the release DB (upload corrected version to GitHub Releases)
+2. Clear the cache OR ensure workflow prefers release over cache
+
+### Current Logic (hourly-update.yml)
+
+```bash
+if [ "$RELEASE_SIZE" -ge "$CACHE_SIZE" ]; then
+    # Download release (ensures fixes propagate)
+else
+    # Use cache (faster, but may have stale data)
+fi
+```
+
+**Why `-ge` instead of `-gt`:** If sizes are equal, we STILL prefer release because:
+- Release may have watermark fixes that don't change file size
+- Cache may have advanced watermarks that skip tweets
+
+### When to Delete Cache
+
+Delete cache when you need fixes to propagate immediately:
+```bash
+gh cache list --limit 5  # Find cache ID
+gh cache delete <ID>     # Delete it
+```
+
+Next run will have a cache miss → downloads release DB → uses fixed data.
+
+**Use sparingly:** Cache deletion adds ~30-60s to workflow (must download 475MB).
+
+---
+
 ## Database: Non-Obvious Design Decisions
 
 ### Staleness Limits in tweet_events View (db.py:139-142)
@@ -802,5 +949,5 @@ Timeframe    Expected     Actual   Coverage   Status
 
 ---
 
-*Last updated: December 2024*
+*Last updated: December 29, 2025*
 *Maintainer: Learned these the hard way so you don't have to.*

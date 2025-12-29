@@ -1,5 +1,22 @@
 # Changelog - Tweet-Price Correlation Analyzer
 
+## Dec 29, 2025 - Tweet Fetching Reliability & Watermark Fixes
+
+### Tweet Fetching Fixes
+- **Fixed founder vs adopter tweet filtering** - Founders now store ALL tweets, adopters filter by keyword at fetch time
+- **Fixed watermark synchronization** - Watermarks now correctly track last saved tweet, not last seen tweet
+- **Added `skip_tweet_fetch` flag** - Allows disabling tweet fetch for problematic accounts (e.g., WLD/@sama)
+- **Improved rate limit handling** - Reads actual reset time from API headers, skips remaining assets on rate limit
+- **Added fetch state persistence** - `data/fetch_state.json` tracks skipped assets for priority on next run
+
+### Workflow Improvements
+- **Cache vs Release DB logic** - Changed to `-ge` (prefer release when equal) to ensure fixes propagate
+- **Cache deletion strategy** - Delete cache when watermark fixes need to propagate
+- **Better logging** - Clear distinction between founder (all tweets) and adopter (keyword filtered) in logs
+
+### Data Integrity
+- **33 new tweets recovered** - ASTER (12), JUP (14), MONAD (5), META (2) - previously missed due to watermark bug
+
 ## Dec 28, 2025 - Canonical Table Architecture
 - **New architecture:** Two-table system for DuckDB to fix JSON/DB sync issues
   - `prices` → Canonical table (matches website JSONs exactly)

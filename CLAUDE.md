@@ -40,6 +40,9 @@ fetch_prices.py                      ↗
 3. **calendar.timegm() for UTC** - NOT datetime.timestamp()
 4. **GeckoTerminal Backward Pagination** - No after_timestamp support
 5. **5-sigma Outlier Threshold** - 3-sigma flags legitimate pumps
+6. **Founder vs Adopter Tweets** - Founders store ALL tweets, adopters filter by keyword
+7. **Tweet Watermarks** - Must match last SAVED tweet, not last SEEN tweet
+8. **GitHub Actions Cache** - May need deletion when watermark fixes must propagate
 
 ## Running Locally
 
