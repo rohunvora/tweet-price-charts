@@ -484,6 +484,8 @@ def add_asset_to_config(
     tweet_filter_note: str = None,
     reply_to_accounts: str = None,
     use_nitter_keyword_search: bool = False,
+    first_tweet_date: str = None,
+    last_tweet_date: str = None,
 ) -> dict:
     """
     Add a new asset to the config.
@@ -494,6 +496,8 @@ def add_asset_to_config(
         tweet_filter_note: Description shown in UI (auto-generated if not provided).
         reply_to_accounts: Comma-separated usernames - tweets replying to these are included.
         use_nitter_keyword_search: If True, use Nitter keyword-search instead of X API.
+        first_tweet_date: Date of first known tweet (YYYY-MM-DD). For parallel optimization.
+        last_tweet_date: Date when activity tapers (YYYY-MM-DD). Sparse after this.
     """
 
     # Determine price source based on inputs
@@ -540,6 +544,12 @@ def add_asset_to_config(
         # use_nitter_keyword_search: Skip X API, use Nitter search directly
         if use_nitter_keyword_search:
             asset["use_nitter_keyword_search"] = True
+
+    # Date optimization fields (for parallel scraping)
+    if first_tweet_date:
+        asset["first_tweet_date"] = f"{first_tweet_date}T00:00:00Z"
+    if last_tweet_date:
+        asset["last_tweet_date"] = f"{last_tweet_date}T23:59:59Z"
 
     # Remove None values for cleaner JSON
     asset = {k: v for k, v in asset.items() if v is not None}
@@ -630,6 +640,16 @@ Examples:
         action="store_true",
         help="Skip X API, use Nitter keyword-search directly. "
              "Use for sparse tweeters (< 50 tweets about token) or old assets."
+    )
+    parser.add_argument(
+        "--first-tweet-date",
+        help="Date of first known tweet (YYYY-MM-DD). Enables smart parallel scraping. "
+             "User can find this manually to optimize scrape start point."
+    )
+    parser.add_argument(
+        "--last-tweet-date",
+        help="Date when activity concentration ends (YYYY-MM-DD). Activity assumed sparse after this. "
+             "Sparse tail from this date to now is handled as single chunk."
     )
 
     parser.add_argument("--refresh", action="store_true", help="Refresh data for existing asset")
@@ -772,6 +792,8 @@ Examples:
             tweet_filter_note=args.tweet_filter_note,
             reply_to_accounts=args.reply_to_accounts,
             use_nitter_keyword_search=args.use_nitter_keyword_search,
+            first_tweet_date=args.first_tweet_date,
+            last_tweet_date=args.last_tweet_date,
         )
         save_assets(config)
         print_success(f"Added {args.asset_id} to assets.json")
@@ -780,15 +802,30 @@ Examples:
     steps = []
 
     if not args.skip_tweets:
-        if args.use_nitter_keyword_search:
-            # Adopter mode: Use Nitter keyword-search instead of X API
-            # This is better for sparse tweeters (< 50 tweets about token) or old assets
+        if args.use_nitter_keyword_search and args.first_tweet_date:
+            # PARALLEL KEYWORD SEARCH - best of both worlds
+            # Combines keyword efficiency with date-bounded parallelization
+            nitter_args = [
+                "--asset", args.asset_id,
+                "--keyword-search",
+                "--first-tweet-date", args.first_tweet_date,
+                "--parallel", "3",
+                "--no-headless"
+            ]
+            if args.last_tweet_date:
+                nitter_args.extend(["--last-tweet-date", args.last_tweet_date])
+            steps.append(("Fetching tweets (Nitter parallel keyword)", "nitter_scraper.py", nitter_args))
+
+        elif args.use_nitter_keyword_search:
+            # Simple keyword search - single thread, all history
+            # Use when no date bounds known
             steps.append((
                 "Fetching tweets (Nitter keyword-search)",
                 "nitter_scraper.py",
                 ["--asset", args.asset_id, "--keyword-search", "--no-headless"]
             ))
         else:
+            # Default: X API
             steps.append(("Fetching tweets", "fetch_tweets.py", ["--asset", args.asset_id]))
 
     if not args.skip_prices:
