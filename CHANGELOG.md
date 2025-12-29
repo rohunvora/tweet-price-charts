@@ -1,5 +1,32 @@
 # Changelog - Tweet-Price Correlation Analyzer
 
+## Dec 29, 2025 - Market Cap Integration & GORK Asset
+
+### Market Cap in UI
+- **Tweet preview tooltip** now shows market cap in ticker style: `@$6.0B MC ▼0.5% 1h ▼2.6% 24h`
+- **Data Table** already had market cap column - now fully populated for all assets
+- **JUP backfilled** with 467 historical market cap values from CoinGecko
+
+### Pipeline Integration
+- **`fetch_supply.py`** integrated into `add_asset.py` pipeline (auto-fetches circulating supply)
+- **`--skip-supply`** flag added for selective runs
+- **Python 3.9 compatibility** fix for `fetch_supply.py` (Optional[dict] syntax)
+
+### New Asset: GORK
+- **Elon Musk as adopter** - 106 tweets mentioning "gork"
+- **1m price data** for May 3-21 concentrated tweet period (212k candles)
+- First asset using parallel Nitter keyword search with date bounds
+
+### 1m Timeframe Support
+- **`--force`** flag bypasses age-based timeframe skipping
+- **`--since`/`--until`** flags for fetching specific date ranges
+- **UI toggle** shows 1m option only for assets with 1m data
+
+### Assets: 15 total
+ASTER, BELIEVE, FARTCOIN, **GORK**, HYPE, JUP, META, MONAD, PUMP, USELESS, WIF, WLD, XPL, ZEC, ZORA
+
+---
+
 ## Dec 29, 2025 - Tweet Fetching Reliability & Watermark Fixes
 
 ### Tweet Fetching Fixes
@@ -94,9 +121,9 @@
 
 ---
 
-## Assets (14 total)
+## Assets (15 total)
 
-ASTER, BELIEVE, FARTCOIN, HYPE, JUP, META, MONAD, PUMP, USELESS, WIF, WLD, XPL, ZEC, ZORA
+ASTER, BELIEVE, FARTCOIN, GORK, HYPE, JUP, META, MONAD, PUMP, USELESS, WIF, WLD, XPL, ZEC, ZORA
 
 ## Key Infrastructure
 

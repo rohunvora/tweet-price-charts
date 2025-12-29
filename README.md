@@ -15,8 +15,8 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 ### What's Built
 - **Interactive chart** with TradingView-style candlesticks + tweet markers as avatar bubbles
 - **Data table** sorted by price impact - instantly see which tweets moved price most
-- **14 assets tracked** across 7 networks (Solana, Hyperliquid, BSC, Monad, Base, Ethereum, Zcash)
-- **4,500+ tweet events** with aligned price data
+- **15 assets tracked** across 7 networks (Solana, Hyperliquid, BSC, Monad, Base, Ethereum, Zcash)
+- **4,700+ tweet events** with aligned price data
 - **Multi-source price fetching** (GeckoTerminal, Birdeye, CoinGecko, Hyperliquid)
 - **Nitter scraper** for historical tweet backfill
 - **CLI tools** for adding assets and validating data integrity
@@ -30,10 +30,11 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 | FARTCOIN | [@DipWheeler](https://x.com/DipWheeler) | Adopter | Solana | 1,875 |
 | JUP | [@weremeow](https://x.com/weremeow) | Founder | Solana | 680 |
 | ZORA | [@js_horne](https://x.com/js_horne) | Founder | Base | 449 |
-| USELESS | [@theunipcs](https://x.com/theunipcs) | Founder | Solana | 435 |
+| USELESS | [@theunipcs](https://x.com/theunipcs) | Adopter | Solana | 435 |
 | ASTER | [@cz_binance](https://x.com/cz_binance) | Founder | BSC | 318 |
 | WIF | [@blknoiz06](https://x.com/blknoiz06) | Adopter | Solana | 300 |
 | META | [@metaproph3t](https://x.com/metaproph3t) | Founder | Solana | 142 |
+| GORK | [@elonmusk](https://x.com/elonmusk) | Adopter | Solana | 106 |
 | PUMP | [@a1lon9](https://x.com/a1lon9) | Founder | Solana | 102 |
 | ZEC | [@mert_](https://x.com/mert_) | Adopter | Zcash | 89 |
 | LAUNCHCOIN | [@pasternak](https://x.com/pasternak) | Founder | Solana | 81 |
@@ -55,6 +56,7 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 
 ### Data Table (`/data`)
 - **Sortable columns** - default sorted by 24h impact (biggest moves first)
+- **Market cap at tweet** - see token scale when each tweet was posted
 - **Tweet Days stats** - avg return and win rate when founder tweets
 - **Price impact** - 1h and 24h % change after each tweet (green/red)
 - **Clickable tweets** - click any row to open original on X
@@ -136,6 +138,7 @@ tweet-price/
 │   ├── compute_stats.py    # Statistical analysis
 │   ├── export_static.py    # JSON export for frontend
 │   ├── add_asset.py        # CLI for adding new assets
+│   ├── fetch_supply.py     # Circulating supply fetcher (for market cap)
 │   └── validate_export.py  # Data integrity validation
 │
 ├── data/
@@ -216,7 +219,7 @@ The CLI will:
 
 ## What's Next
 
-- [ ] Market cap display instead of/alongside price
+- [x] ~~Market cap display instead of/alongside price~~ ✓ Done (Dec 29)
 - [ ] More assets based on community requests
 - [ ] Real-time tweet notifications
 
