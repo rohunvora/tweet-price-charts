@@ -278,6 +278,7 @@ jobs:
         id: export
         run: |
           echo "📦 Exporting static JSON files..."
+          source .venv/bin/activate 2>/dev/null || true
           cd scripts
           source ../.venv/bin/activate 2>/dev/null || true
           python3 export_static.py --no-validate 2>&1

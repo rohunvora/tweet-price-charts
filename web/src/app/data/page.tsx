@@ -204,6 +204,12 @@ function DataPageContent() {
         >
           Chart
         </Link>
+        <Link
+          href="/about"
+          className="px-3 py-1.5 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md transition-colors"
+        >
+          About
+        </Link>
         <a
           href={`https://twitter.com/${selectedAsset.founder}`}
           target="_blank"

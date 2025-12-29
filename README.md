@@ -47,6 +47,14 @@ A multi-asset analytics platform that visualizes and analyzes the relationship b
 
 ## Features
 
+### About (`/about`)
+- **Tool Contract landing page** - Clear claim: "Most founder tweets do nothing. Some coincide with big moves."
+- **ImpactExplorer** - Scatter plot of all tweets vs price changes with token logos
+- **"Biggest moves" filter** - Toggle to show only tweets with 15%+ price changes
+- **TweetTimeHeatmap** - Hour-of-day patterns showing when founders tweet
+- **SilencesExplorer** - Notable quiet periods with price context
+- **AssetGrid** - Pick a token to explore on the chart
+
 ### Chart (`/chart`)
 - **TradingView-style candlesticks** with multiple timeframes (1m, 15m, 1h, 1D)
 - **Tweet markers** as founder avatar bubbles overlaid on price
@@ -148,13 +156,18 @@ tweet-price/
 ├── web/                    # Next.js frontend
 │   ├── src/
 │   │   ├── app/
+│   │   │   ├── about/      # About page with ImpactExplorer
 │   │   │   ├── chart/      # Chart page with candlesticks + tweet markers
 │   │   │   └── data/       # Data table page
 │   │   ├── components/
-│   │   │   ├── Chart.tsx       # TradingView-style chart
-│   │   │   ├── DataTable.tsx   # Sortable tweet table
-│   │   │   ├── StatsPanel.tsx  # Statistics display
-│   │   │   └── AssetSelector.tsx
+│   │   │   ├── Chart.tsx            # TradingView-style chart
+│   │   │   ├── DataTable.tsx        # Sortable tweet table
+│   │   │   ├── StatsPanel.tsx       # Statistics display
+│   │   │   ├── AssetSelector.tsx
+│   │   │   ├── ImpactExplorer.tsx   # Scatter plot (tweets vs price)
+│   │   │   ├── TweetTimeHeatmap.tsx # Hour-of-day patterns
+│   │   │   ├── SilencesExplorer.tsx # Quiet periods
+│   │   │   └── AssetGrid.tsx        # Token picker
 │   │   └── lib/
 │   │       ├── dataLoader.ts   # Data fetching
 │   │       ├── formatters.ts   # Display utilities
@@ -222,6 +235,7 @@ The CLI will:
 - [x] ~~Market cap display instead of/alongside price~~ ✓ Done (Dec 29)
 - [ ] More assets based on community requests
 - [ ] Real-time tweet notifications
+- [ ] Enhanced about page with founder profiles
 
 ## Disclaimer
 
