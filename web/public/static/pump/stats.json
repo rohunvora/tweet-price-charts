@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T09:18:35.974108Z",
+  "generated_at": "2025-12-29T10:15:22.812083Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
@@ -125,7 +125,7 @@
     },
     {
       "start_ts": 1762360100,
-      "end_ts": 1767017915,
+      "end_ts": 1767021322,
       "gap_days": 53.9,
       "start_date": "2025-11-05",
       "end_date": "ongoing",
