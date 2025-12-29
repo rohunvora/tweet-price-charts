@@ -77,9 +77,9 @@ jobs:
           RELEASE_SIZE=${RELEASE_INFO:-0}
           echo "☁️  Release database: $(numfmt --to=iec $RELEASE_SIZE 2>/dev/null || echo ${RELEASE_SIZE} bytes)"
           
-          # Decision: use larger database
-          if [ "$RELEASE_SIZE" -gt "$CACHE_SIZE" ]; then
-            echo "⬇️  Release is larger - downloading fresh copy..."
+          # Decision: prefer release when equal or larger (ensures fixes propagate)
+          if [ "$RELEASE_SIZE" -ge "$CACHE_SIZE" ]; then
+            echo "⬇️  Release is same size or larger - downloading fresh copy..."
             rm -f data/analytics.duckdb
             if gh release download database --pattern "analytics.duckdb" --dir data/ 2>/dev/null; then
               SIZE=$(du -h data/analytics.duckdb | cut -f1)
