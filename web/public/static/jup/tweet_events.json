@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T01:42:03.316038Z",
+  "generated_at": "2025-12-29T02:56:34.111036Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
@@ -13402,9 +13402,9 @@
       "impressions": 17837,
       "price_at_tweet": 0.20065756,
       "price_1h": 0.20042307,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.12,
-      "change_24h_pct": -0.18,
+      "change_24h_pct": 0.91,
       "market_cap_at_tweet": null
     },
     {
@@ -13422,9 +13422,9 @@
       "impressions": 3904,
       "price_at_tweet": 0.20065756,
       "price_1h": 0.20042307,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.12,
-      "change_24h_pct": -0.18,
+      "change_24h_pct": 0.91,
       "market_cap_at_tweet": null
     },
     {
@@ -13442,9 +13442,9 @@
       "impressions": 3168,
       "price_at_tweet": 0.20042307,
       "price_1h": 0.20037108,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.03,
-      "change_24h_pct": -0.06,
+      "change_24h_pct": 1.03,
       "market_cap_at_tweet": null
     },
     {
@@ -13462,9 +13462,9 @@
       "impressions": 14288,
       "price_at_tweet": 0.20042307,
       "price_1h": 0.20037108,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.03,
-      "change_24h_pct": -0.06,
+      "change_24h_pct": 1.03,
       "market_cap_at_tweet": null
     },
     {
@@ -13482,9 +13482,9 @@
       "impressions": 8914,
       "price_at_tweet": 0.20037108,
       "price_1h": 0.20001249,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.18,
-      "change_24h_pct": -0.04,
+      "change_24h_pct": 1.05,
       "market_cap_at_tweet": null
     },
     {
@@ -13502,9 +13502,9 @@
       "impressions": 16772,
       "price_at_tweet": 0.20037108,
       "price_1h": 0.20001249,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.18,
-      "change_24h_pct": -0.04,
+      "change_24h_pct": 1.05,
       "market_cap_at_tweet": null
     },
     {
@@ -13522,9 +13522,9 @@
       "impressions": 11599,
       "price_at_tweet": 0.20044847,
       "price_1h": 0.20032107,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.06,
-      "change_24h_pct": -0.07,
+      "change_24h_pct": 1.01,
       "market_cap_at_tweet": null
     },
     {
@@ -13542,9 +13542,9 @@
       "impressions": 13505,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.15,
-      "change_24h_pct": -0.01,
+      "change_24h_pct": 1.08,
       "market_cap_at_tweet": null
     },
     {
@@ -13562,9 +13562,9 @@
       "impressions": 1690,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.15,
-      "change_24h_pct": -0.01,
+      "change_24h_pct": 1.08,
       "market_cap_at_tweet": null
     },
     {
@@ -13582,9 +13582,9 @@
       "impressions": 4158,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.15,
-      "change_24h_pct": -0.01,
+      "change_24h_pct": 1.08,
       "market_cap_at_tweet": null
     },
     {
@@ -13602,9 +13602,9 @@
       "impressions": 2775,
       "price_at_tweet": 0.20032107,
       "price_1h": 0.20001538,
-      "price_24h": 0.20030028,
+      "price_24h": 0.20248153,
       "change_1h_pct": -0.15,
-      "change_24h_pct": -0.01,
+      "change_24h_pct": 1.08,
       "market_cap_at_tweet": null
     }
   ]
