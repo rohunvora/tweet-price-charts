@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T00:17:07.297307Z",
+  "generated_at": "2025-12-29T00:45:55.651979Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
@@ -83,7 +83,7 @@
     },
     {
       "start_ts": 1766387228,
-      "end_ts": 1766985427,
+      "end_ts": 1766987155,
       "gap_days": 6.9,
       "start_date": "2025-12-22",
       "end_date": "ongoing",

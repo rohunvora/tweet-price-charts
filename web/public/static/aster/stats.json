@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T00:17:07.268533Z",
+  "generated_at": "2025-12-29T00:44:58.073045Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -84,8 +84,8 @@
     },
     {
       "start_ts": 1766082588,
-      "end_ts": 1766985427,
-      "gap_days": 10.4,
+      "end_ts": 1766987098,
+      "gap_days": 10.5,
       "start_date": "2025-12-18",
       "end_date": "ongoing",
       "is_current": true,
