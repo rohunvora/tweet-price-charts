@@ -342,6 +342,32 @@ export default function ImpactExplorer() {
             className="w-full h-[300px] md:h-[400px]"
             preserveAspectRatio="xMidYMid meet"
           >
+            {/* SVG Filters for green/red tinting */}
+            <defs>
+              <filter id="greenTint" colorInterpolationFilters="sRGB">
+                <feColorMatrix
+                  type="matrix"
+                  values="0.2 0 0 0 0.13
+                          0.2 0 0 0 0.77
+                          0.2 0 0 0 0.39
+                          0   0 0 1 0"
+                />
+              </filter>
+              <filter id="redTint" colorInterpolationFilters="sRGB">
+                <feColorMatrix
+                  type="matrix"
+                  values="0.2 0 0 0 0.94
+                          0.2 0 0 0 0.27
+                          0.2 0 0 0 0.27
+                          0   0 0 1 0"
+                />
+              </filter>
+              {/* Clip path for circular logos */}
+              <clipPath id="circleClip">
+                <circle cx="10" cy="10" r="10" />
+              </clipPath>
+            </defs>
+
             {/* Background */}
             <rect x="0" y="0" width="800" height="400" fill="var(--surface-0)" rx="8" />
 
@@ -353,7 +379,7 @@ export default function ImpactExplorer() {
             {/* Zero line label */}
             <text x="4" y="204" fill="var(--text-muted)" fontSize="10">0%</text>
 
-            {/* Data points */}
+            {/* Data points - token logos with color tint */}
             {filteredData.map((point, i) => {
               const cx = point.x * 780 + 10;
               const cy = (1 - point.y) * 380 + 10; // Invert Y (higher = top)
@@ -361,21 +387,57 @@ export default function ImpactExplorer() {
               const isPositive = impact >= 0;
               const isHovered = hoveredPoint === point;
 
+              // Opacity based on outlier magnitude (bigger move = more visible)
+              const absImpact = Math.abs(impact);
+              const baseOpacity = Math.min(0.4 + (absImpact / 100) * 0.6, 1); // 0.4-1.0 range
+              const opacity = isHovered ? 1 : baseOpacity;
+
+              const size = isHovered ? 24 : 18;
+              const logoPath = point.asset.logo || `/logos/${point.asset.id}.png`;
+
               return (
-                <circle
+                <g
                   key={`${point.asset.id}-${point.event.tweet_id}-${i}`}
-                  cx={cx}
-                  cy={cy}
-                  r={isHovered ? 8 : 5}
-                  fill={isPositive ? 'var(--positive)' : 'var(--negative)'}
-                  fillOpacity={isHovered ? 1 : 0.6}
-                  stroke={isHovered ? 'white' : 'none'}
-                  strokeWidth={2}
-                  className="cursor-pointer transition-all duration-150"
+                  className="cursor-pointer"
                   onMouseEnter={(e) => handlePointHover(point, e)}
                   onMouseLeave={() => handlePointHover(null)}
                   onClick={() => handlePointClick(point)}
-                />
+                >
+                  {/* Glow ring for hovered state */}
+                  {isHovered && (
+                    <circle
+                      cx={cx}
+                      cy={cy}
+                      r={size / 2 + 4}
+                      fill="none"
+                      stroke={isPositive ? 'var(--positive)' : 'var(--negative)'}
+                      strokeWidth={2}
+                      opacity={0.8}
+                    />
+                  )}
+                  {/* Color tint background circle */}
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={size / 2}
+                    fill={isPositive ? 'var(--positive)' : 'var(--negative)'}
+                    opacity={opacity * 0.7}
+                  />
+                  {/* Token logo with tint overlay */}
+                  <image
+                    href={logoPath}
+                    x={cx - size / 2}
+                    y={cy - size / 2}
+                    width={size}
+                    height={size}
+                    clipPath="url(#circleClip)"
+                    style={{
+                      clipPath: `circle(${size / 2}px at ${size / 2}px ${size / 2}px)`,
+                      opacity: opacity * 0.9,
+                      filter: isPositive ? 'url(#greenTint)' : 'url(#redTint)',
+                    }}
+                  />
+                </g>
               );
             })}
 
@@ -402,52 +464,58 @@ export default function ImpactExplorer() {
         </div>
       </div>
 
-      {/* Tooltip */}
+      {/* Tooltip - matches Chart.tsx tweet preview style */}
       {tooltip && (
         <div
           className="fixed z-50 pointer-events-none tooltip-enter"
           style={{
-            left: tooltip.screenX + 12,
-            top: tooltip.screenY - 12,
-            transform: 'translateY(-100%)',
+            left: tooltip.screenX + 20,
+            top: Math.max(tooltip.screenY - 60, 10),
           }}
         >
-          <div className="bg-[var(--surface-3)] border border-[var(--border-default)] rounded-lg p-3 shadow-xl max-w-xs">
-            {/* Token & Time */}
-            <div className="flex items-center gap-2 mb-2">
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: tooltip.point.asset.color }}
+          <div className="bg-[var(--surface-1)] border border-[var(--border-subtle)] rounded-lg p-3 shadow-xl max-w-xs">
+            {/* Header: Avatar + Founder + Date */}
+            <div className="flex items-start gap-2 mb-2">
+              <img
+                src={`/avatars/${tooltip.point.asset.founder}.png`}
+                alt={tooltip.point.asset.founder}
+                className="w-8 h-8 rounded-full bg-[var(--surface-2)]"
               />
-              <span className="text-sm font-medium text-[var(--text-primary)]">
-                {tooltip.point.asset.name}
-              </span>
-              <span className="text-xs text-[var(--text-muted)]">
-                {formatDate(tooltip.point.event.timestamp)}
-              </span>
+              <div>
+                <div className="text-[var(--text-primary)] font-medium text-sm">
+                  @{tooltip.point.asset.founder}
+                </div>
+                <div className="text-[var(--text-muted)] text-xs">
+                  {new Date(tooltip.point.event.timestamp * 1000).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                  })}
+                </div>
+              </div>
             </div>
 
             {/* Tweet text */}
-            <p className="text-sm text-[var(--text-secondary)] mb-2 line-clamp-3">
+            <p className="text-sm text-[var(--text-primary)] line-clamp-3 mb-2">
               {tooltip.point.event.text}
             </p>
 
+            {/* Engagement stats */}
+            <div className="flex items-center gap-4 text-xs text-[var(--text-muted)] mb-2">
+              <span>❤️ {(tooltip.point.event.likes || 0).toLocaleString()}</span>
+              <span>🔁 {(tooltip.point.event.retweets || 0).toLocaleString()}</span>
+            </div>
+
             {/* Price change stats */}
-            <div className="flex gap-4 text-sm">
-              <div>
-                <span className="text-[var(--text-muted)]">After 1h: </span>
-                <span className={tooltip.point.event.change_1h_pct! >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
-                  {tooltip.point.event.change_1h_pct! >= 0 ? '+' : ''}
-                  {tooltip.point.event.change_1h_pct!.toFixed(1)}%
-                </span>
-              </div>
-              <div>
-                <span className="text-[var(--text-muted)]">After 24h: </span>
-                <span className={tooltip.point.event.change_24h_pct! >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
-                  {tooltip.point.event.change_24h_pct! >= 0 ? '+' : ''}
-                  {tooltip.point.event.change_24h_pct!.toFixed(1)}%
-                </span>
-              </div>
+            <div className="pt-2 border-t border-[var(--border-subtle)] flex items-center gap-3 text-xs">
+              <span className="text-[var(--text-muted)]">After tweet:</span>
+              <span className={tooltip.point.event.change_1h_pct! >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
+                1h: {tooltip.point.event.change_1h_pct! >= 0 ? '+' : ''}{tooltip.point.event.change_1h_pct!.toFixed(1)}%
+              </span>
+              <span className={tooltip.point.event.change_24h_pct! >= 0 ? 'text-[var(--positive)]' : 'text-[var(--negative)]'}>
+                24h: {tooltip.point.event.change_24h_pct! >= 0 ? '+' : ''}{tooltip.point.event.change_24h_pct!.toFixed(1)}%
+              </span>
             </div>
 
             {/* Click hint */}
