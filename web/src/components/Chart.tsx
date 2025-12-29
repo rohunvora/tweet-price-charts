@@ -1823,10 +1823,10 @@ export default function Chart({ tweetEvents, asset }: ChartProps) {
                 })}
               </div>
             </div>
-            {/* Market cap in top-right corner (X.com style context placement) */}
+            {/* Market cap badge in top-right corner */}
             {hoveredTweet.market_cap_at_tweet && (
-              <div className="text-[var(--text-muted)] text-xs font-medium">
-                {formatMarketCap(hoveredTweet.market_cap_at_tweet)}
+              <div className="px-2 py-0.5 rounded-full bg-[var(--surface-2)] text-[10px] text-[var(--text-secondary)] font-medium whitespace-nowrap">
+                mcap {formatMarketCap(hoveredTweet.market_cap_at_tweet)}
               </div>
             )}
           </div>
