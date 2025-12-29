@@ -193,23 +193,6 @@ jobs:
           echo "✅ Cleanup complete"
 
       # TWEETS SECOND: May hit rate limits, but prices already updated
-      
-      # ONE-TIME RECOVERY: Reset watermarks for founder assets that had tweets
-      # incorrectly filtered out by the old keyword filtering bug.
-      # This step can be removed after 2025-01-05 once recovery is complete.
-      - name: Reset founder watermarks (one-time recovery)
-        run: |
-          echo "🔄 Checking founder watermarks for recovery..."
-          cd scripts
-          source ../.venv/bin/activate 2>/dev/null || true
-          if [ -f "reset_founder_watermarks.py" ]; then
-            python3 reset_founder_watermarks.py 2>&1
-          else
-            echo "Recovery script not found - skipping (this is normal after recovery)"
-          fi
-        continue-on-error: true
-        timeout-minutes: 2
-      
       - name: Fetch new tweets
         env:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
