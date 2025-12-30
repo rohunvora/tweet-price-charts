@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T13:23:51.713809Z",
+  "generated_at": "2025-12-30T14:19:30.782421Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
@@ -133,7 +133,7 @@
     },
     {
       "start_ts": 1766845315,
-      "end_ts": 1767119031,
+      "end_ts": 1767122370,
       "gap_days": 3.2,
       "start_date": "2025-12-27",
       "end_date": "ongoing",
