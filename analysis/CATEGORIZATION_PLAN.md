@@ -346,7 +346,37 @@ def build_prompt(text, author, timestamp, gold_examples):
 
 ---
 
-### Step 5: End-to-End Run on 2 Assets
+### Step 5: Model Evaluation & Cost Estimation ✅
+
+**Goal:** Evaluate classifier accuracy on gold set, compare models, estimate production costs.
+
+**Deliverables:**
+- `analysis/eval_report.md` - Full evaluation report with accuracy, confusion, 30 examples, 10 hard cases
+- `analysis/cost_estimate.md` - Cost projections for full 3,788 event run
+- `analysis/gold_eval_gpt-5_2.json` - Raw evaluation results
+- Multi-model support in `classification_llm.py` (GPT-5.2, Opus 4.5)
+- Structured outputs for both providers (schema-constrained JSON)
+
+**Results (GPT-5.2 on 71 gold examples):**
+- Topic accuracy: 74.6%
+- Intent accuracy: 77.5%
+- Both correct: 59.2%
+- Parse errors: 0
+- Cost: $0.15
+
+**Key Findings:**
+- Token vs market confusion is main error source (4 errors)
+- Model over-predicts "inform" intent (9 errors)
+- Secondary_intent often captures correct label when primary is wrong
+- Estimated full run cost: ~$8-10 for GPT-5.2
+
+**Note:** Opus 4.5 comparison blocked by Anthropic billing issue.
+
+**Timebox:** 4 hours ✅
+
+---
+
+### Step 6 (was Step 5): End-to-End Run on 2 Assets
 
 **Goal:** Full pipeline run on HYPE (small) and PUMP (medium).
 
@@ -396,7 +426,7 @@ analysis/e2e_run_report.md:
 
 ---
 
-### Step 6: Override Workflow Test
+### Step 7 (was Step 6): Override Workflow Test
 
 **Goal:** Verify amendments work correctly.
 
@@ -422,7 +452,7 @@ analysis/e2e_run_report.md:
 
 ---
 
-### Step 7: UI Presets Specification
+### Step 8 (was Step 7): UI Presets Specification
 
 **Goal:** Define filter presets for future UI integration.
 
