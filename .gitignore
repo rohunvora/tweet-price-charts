@@ -38,6 +38,10 @@ reports/
 *_backup_*.zip
 
 # Research/analysis work (not part of main app)
-/analysis/
+/analysis/*
+# But track key categorization artifacts
+!/analysis/taxonomy_v2.md
+!/analysis/categorization_results_v2.json
+!/analysis/categorization_summary_v2.md
 
 .vercel

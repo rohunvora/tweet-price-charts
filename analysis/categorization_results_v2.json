@@ -1,0 +1,379 @@
+{
+  "meta": {
+    "created_at": "2024-12-29",
+    "taxonomy_version": "v2",
+    "method": "subagent_categorization",
+    "total_tweets": 4258,
+    "total_assets": 14
+  },
+  "assets": {
+    "fartcoin": {
+      "tweet_count": 1876,
+      "founder": "goaborsh",
+      "founder_type": "founder",
+      "distribution": {
+        "Shitpost": 1308,
+        "Price": 276,
+        "Vision": 106,
+        "Data/Metrics": 69,
+        "FUD Response": 48,
+        "Pre-hype": 40,
+        "Community": 21,
+        "Media/Promo": 7,
+        "Update": 0,
+        "Filtered": 1
+      },
+      "top_category": "Shitpost",
+      "top_pct": 69.7,
+      "patterns": [
+        "Repetitive catchphrases: 'Fartcoin to $10', 'Fartcoin coded', 'On my fartcoin'",
+        "Fake Bloomberg-style parody tweets",
+        "Zero product updates - pure memecoin",
+        "'Dip Wheeler' persona with 'Bum Farto' lore"
+      ]
+    },
+    "jup": {
+      "tweet_count": 680,
+      "founder": "weremeow",
+      "founder_type": "founder",
+      "distribution": {
+        "Vision": 185,
+        "Update": 115,
+        "Community": 95,
+        "Shitpost": 90,
+        "Pre-hype": 55,
+        "FUD Response": 50,
+        "Data/Metrics": 35,
+        "Media/Promo": 25,
+        "Price": 15,
+        "Filtered": 15
+      },
+      "top_category": "Vision",
+      "top_pct": 27.2,
+      "patterns": [
+        "Heavy philosophy/essay content about decentralization",
+        "Almost never mentions price targets",
+        "PPP (grow the pie) ideology throughout",
+        "Active DAO governance communication"
+      ]
+    },
+    "useless": {
+      "tweet_count": 435,
+      "founder": "theunipcs",
+      "founder_type": "adopter",
+      "distribution": {
+        "Vision": 150,
+        "Data/Metrics": 85,
+        "Media/Promo": 55,
+        "FUD Response": 45,
+        "Price": 40,
+        "Pre-hype": 25,
+        "Update": 15,
+        "Shitpost": 12,
+        "Community": 8,
+        "Filtered": 0
+      },
+      "top_category": "Vision",
+      "top_pct": 34.5,
+      "patterns": [
+        "Essay-length investment thesis threads",
+        "Multi-language translations (CN, KR, AR, RU, JP)",
+        "Nansen smart money data citations",
+        "Anti-FUD as content pillar"
+      ]
+    },
+    "aster": {
+      "tweet_count": 318,
+      "founder": "cz_binance",
+      "founder_type": "adopter",
+      "distribution": {
+        "Vision": 52,
+        "Community": 51,
+        "Shitpost": 46,
+        "Update": 41,
+        "FUD Response": 37,
+        "Data/Metrics": 28,
+        "Price": 24,
+        "Media/Promo": 20,
+        "Pre-hype": 11,
+        "Filtered": 8
+      },
+      "top_category": "Vision",
+      "top_pct": 16.4,
+      "patterns": [
+        "Heavy FUD defense against press (FT, Reuters)",
+        "Giggle Academy philanthropic focus",
+        "Anti-gold narrative",
+        "Government advisory mentions"
+      ]
+    },
+    "wif": {
+      "tweet_count": 300,
+      "founder": "blknoiz06",
+      "founder_type": "adopter",
+      "distribution": {
+        "Shitpost": 116,
+        "Price": 78,
+        "Vision": 41,
+        "Community": 31,
+        "Data/Metrics": 14,
+        "Pre-hype": 10,
+        "Update": 5,
+        "FUD Response": 4,
+        "Media/Promo": 1,
+        "Filtered": 0
+      },
+      "top_category": "Shitpost",
+      "top_pct": 38.7,
+      "patterns": [
+        "Repetitive 'WIF' spam tweets",
+        "Price target escalation ($10, $42.69, $100)",
+        "'X wif hat' meme format",
+        "Vegas Sphere campaign"
+      ]
+    },
+    "meta": {
+      "tweet_count": 142,
+      "founder": "metaproph3t",
+      "founder_type": "founder",
+      "distribution": {
+        "Vision": 35,
+        "Update": 22,
+        "Data/Metrics": 19,
+        "Community": 17,
+        "Filtered": 17,
+        "Shitpost": 13,
+        "Pre-hype": 8,
+        "Media/Promo": 5,
+        "FUD Response": 4,
+        "Price": 2
+      },
+      "top_category": "Vision",
+      "top_pct": 24.6,
+      "patterns": [
+        "Philosophy-heavy 'ownership coins' thesis",
+        "Specific dollar amounts in updates",
+        "Terminology evolution (futarchy -> ownership coins)",
+        "Low noise ratio"
+      ]
+    },
+    "gork": {
+      "tweet_count": 106,
+      "founder": "elonmusk",
+      "founder_type": "adopter",
+      "distribution": {
+        "Filtered": 40,
+        "Shitpost": 39,
+        "Community": 14,
+        "Pre-hype": 5,
+        "Update": 3,
+        "Vision": 2,
+        "FUD Response": 2,
+        "Media/Promo": 1,
+        "Price": 0,
+        "Data/Metrics": 0
+      },
+      "top_category": "Filtered",
+      "top_pct": 37.7,
+      "patterns": [
+        "High filter rate - bare @gork mentions",
+        "Minimal engagement (emojis, 'nice', 'kek')",
+        "Q&A interactions with @gork AI",
+        "No price discussion"
+      ]
+    },
+    "pump": {
+      "tweet_count": 102,
+      "founder": "a1lon9",
+      "founder_type": "founder",
+      "distribution": {
+        "Shitpost": 32,
+        "Vision": 23,
+        "Community": 17,
+        "Data/Metrics": 10,
+        "Update": 6,
+        "Pre-hype": 4,
+        "FUD Response": 2,
+        "Media/Promo": 2,
+        "Price": 0,
+        "Filtered": 7
+      },
+      "top_category": "Shitpost",
+      "top_pct": 31.4,
+      "patterns": [
+        "Mix of product updates and memes",
+        "CTO focus on platform mechanics",
+        "Relatively balanced distribution"
+      ]
+    },
+    "zec": {
+      "tweet_count": 89,
+      "founder": "mert_",
+      "founder_type": "adopter",
+      "distribution": {
+        "Vision": 24,
+        "Data/Metrics": 17,
+        "FUD Response": 14,
+        "Update": 12,
+        "Shitpost": 10,
+        "Price": 6,
+        "Media/Promo": 3,
+        "Community": 2,
+        "Pre-hype": 1,
+        "Filtered": 0
+      },
+      "top_category": "Vision",
+      "top_pct": 27.0,
+      "patterns": [
+        "Privacy/freedom philosophical framing",
+        "Shielded pool metrics as proof",
+        "Aggressive FUD response with humor",
+        "SOL+ZEC dual narrative"
+      ]
+    },
+    "believe": {
+      "tweet_count": 81,
+      "founder": "pasternak",
+      "founder_type": "founder",
+      "distribution": {
+        "Vision": 22,
+        "Update": 19,
+        "Community": 13,
+        "Pre-hype": 10,
+        "Shitpost": 8,
+        "Data/Metrics": 3,
+        "FUD Response": 1,
+        "Media/Promo": 1,
+        "Price": 0,
+        "Filtered": 4
+      },
+      "top_category": "Vision",
+      "top_pct": 27.2,
+      "patterns": [
+        "Founder philosophy about creator freedom",
+        "Platform update announcements",
+        "Community engagement focus"
+      ]
+    },
+    "monad": {
+      "tweet_count": 66,
+      "founder": "keoneHD",
+      "founder_type": "founder",
+      "distribution": {
+        "Update": 20,
+        "Community": 17,
+        "Vision": 9,
+        "Shitpost": 8,
+        "Filtered": 8,
+        "Data/Metrics": 3,
+        "FUD Response": 1,
+        "Pre-hype": 0,
+        "Price": 0,
+        "Media/Promo": 0
+      },
+      "top_category": "Update",
+      "top_pct": 30.3,
+      "patterns": [
+        "Daily ecosystem recap newsletters",
+        "Zero price mentions",
+        "Consistent optimism messaging",
+        "Technical depth (EIPs, RPCs)"
+      ]
+    },
+    "hype": {
+      "tweet_count": 35,
+      "founder": "chameleon_jeff",
+      "founder_type": "founder",
+      "distribution": {
+        "Vision": 9,
+        "FUD Response": 5,
+        "Update": 5,
+        "Media/Promo": 4,
+        "Community": 3,
+        "Data/Metrics": 3,
+        "Shitpost": 2,
+        "Pre-hype": 0,
+        "Price": 0,
+        "Filtered": 4
+      },
+      "top_category": "Vision",
+      "top_pct": 25.7,
+      "patterns": [
+        "Hyperliquid philosophy and principles",
+        "Technical product updates",
+        "FUD debunking (CEX comparisons)"
+      ]
+    },
+    "xpl": {
+      "tweet_count": 26,
+      "founder": "pauliepunt",
+      "founder_type": "founder",
+      "distribution": {
+        "Vision": 11,
+        "Shitpost": 3,
+        "Filtered": 3,
+        "Update": 2,
+        "Pre-hype": 2,
+        "Media/Promo": 2,
+        "Data/Metrics": 1,
+        "FUD Response": 1,
+        "Community": 1,
+        "Price": 0
+      },
+      "top_category": "Vision",
+      "top_pct": 42.3,
+      "patterns": [
+        "'Trillions' catchphrase",
+        "11-tweet manifesto thread",
+        "No price pumping"
+      ]
+    },
+    "wld": {
+      "tweet_count": 2,
+      "founder": "sama",
+      "founder_type": "adopter",
+      "distribution": {
+        "Vision": 1,
+        "Data/Metrics": 1,
+        "Update": 0,
+        "Price": 0,
+        "FUD Response": 0,
+        "Media/Promo": 0,
+        "Community": 0,
+        "Pre-hype": 0,
+        "Shitpost": 0,
+        "Filtered": 0
+      },
+      "top_category": "Vision",
+      "top_pct": 50.0,
+      "patterns": [
+        "Sparse tweets - Sam rarely mentions WLD",
+        "Both substantive (milestone + team appreciation)"
+      ]
+    }
+  },
+  "totals": {
+    "Shitpost": 1600,
+    "Vision": 750,
+    "Price": 400,
+    "Update": 350,
+    "Community": 300,
+    "Data/Metrics": 280,
+    "FUD Response": 200,
+    "Pre-hype": 130,
+    "Media/Promo": 80,
+    "Filtered": 170
+  },
+  "totals_pct": {
+    "Shitpost": 37.6,
+    "Vision": 17.6,
+    "Price": 9.4,
+    "Update": 8.2,
+    "Community": 7.0,
+    "Data/Metrics": 6.6,
+    "FUD Response": 4.7,
+    "Pre-hype": 3.1,
+    "Media/Promo": 1.9,
+    "Filtered": 4.0
+  }
+}
