@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-30T16:15:03.294023Z",
+  "generated_at": "2025-12-30T17:13:33.137080Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 28,
+  "count": 29,
   "events": [
     {
       "tweet_id": "1992934059283206194",
@@ -566,6 +566,26 @@
       "change_1h_pct": -0.77,
       "change_24h_pct": 0.62,
       "market_cap_at_tweet": 233578968.17
+    },
+    {
+      "tweet_id": "2006038304962072795",
+      "asset_id": "monad",
+      "asset_name": "MON",
+      "founder": "keoneHD",
+      "asset_color": "#836EF9",
+      "timestamp": 1767111776,
+      "timestamp_iso": "2025-12-30T11:22:56Z",
+      "text": "Monad Blitz has been one of the quiet highlights of the year. \n\n16 one-day hackathons all around the world, meeting developers where they are, building relationships and giving a small nudge to hack on that idea that's been in the back of the mind.\n\nHuge shoutout to @spicytaco https://t.co/OkY9O967fA",
+      "likes": 61,
+      "retweets": 1,
+      "replies": 18,
+      "impressions": 1981,
+      "price_at_tweet": 0.02123167,
+      "price_1h": 0.02147844,
+      "price_24h": 0.02170087,
+      "change_1h_pct": 1.16,
+      "change_24h_pct": 2.21,
+      "market_cap_at_tweet": 229951372.57
     }
   ],
   "keyword_filter": "mon,monad",
