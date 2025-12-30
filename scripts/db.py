@@ -398,7 +398,7 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
     # Data source summary view
     conn.execute("""
         CREATE OR REPLACE VIEW data_source_summary AS
-        SELECT 
+        SELECT
             asset_id,
             timeframe,
             data_source,
@@ -408,6 +408,43 @@ def init_schema(conn: duckdb.DuckDBPyConnection) -> None:
         FROM prices
         GROUP BY asset_id, timeframe, data_source
         ORDER BY asset_id, timeframe, data_source
+    """)
+
+    # ==========================================================================
+    # TWEET CATEGORIZATION - v2 Taxonomy (9 categories)
+    # ==========================================================================
+    #
+    # Categories: Update, Vision, Price, Data/Metrics, FUD Response,
+    #             Media/Promo, Community, Pre-hype, Shitpost, Filtered
+    #
+    # Each tweet gets ONE category. Classifications are append-only with
+    # schema_version tracking to allow re-classification with taxonomy updates.
+    # ==========================================================================
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS category_runs (
+            run_id VARCHAR PRIMARY KEY,
+            tweet_id VARCHAR NOT NULL,
+            asset_id VARCHAR NOT NULL,
+            category VARCHAR NOT NULL,
+            reasoning VARCHAR,
+            model VARCHAR,
+            schema_version VARCHAR DEFAULT 'v2',
+            created_at TIMESTAMP DEFAULT now(),
+
+            UNIQUE(tweet_id, schema_version)
+        )
+    """)
+
+    # Index for efficient export queries (get all categories for an asset)
+    conn.execute("""
+        CREATE INDEX IF NOT EXISTS idx_category_runs_asset
+        ON category_runs(asset_id, schema_version)
+    """)
+
+    # Index for checking if tweet is already classified
+    conn.execute("""
+        CREATE INDEX IF NOT EXISTS idx_category_runs_tweet
+        ON category_runs(tweet_id, schema_version)
     """)
 
 
@@ -1016,6 +1053,225 @@ def get_tweet_events(
         })
     
     return events
+
+
+# =============================================================================
+# TWEET CATEGORIZATION FUNCTIONS
+# =============================================================================
+
+# Valid categories for v2 taxonomy
+VALID_CATEGORIES_V2 = [
+    "Update",       # Product shipped/live, feature announcements
+    "Vision",       # Mission statements, philosophy, values
+    "Price",        # ATH mentions, listings, volume milestones
+    "Data/Metrics", # Platform stats, performance numbers
+    "FUD Response", # Responding to criticism, defensive
+    "Media/Promo",  # Podcast appearances, interviews
+    "Community",    # Ecosystem shoutouts, engagement
+    "Pre-hype",     # Teasing upcoming features
+    "Shitpost",     # Low substance, memes, vibes
+    "Filtered",     # Bare links, empty content (show dimmed)
+    "Uncategorized" # Genuinely unclear (show as neutral)
+]
+
+
+def insert_category(
+    conn: duckdb.DuckDBPyConnection,
+    tweet_id: str,
+    asset_id: str,
+    category: str,
+    reasoning: Optional[str] = None,
+    model: str = "unknown",
+    schema_version: str = "v2"
+) -> bool:
+    """
+    Insert a category classification for a tweet.
+
+    Uses ON CONFLICT to update if re-classifying with same schema version.
+    Returns True if inserted/updated, False on error.
+    """
+    import uuid
+
+    if category not in VALID_CATEGORIES_V2:
+        print(f"Warning: Invalid category '{category}' for tweet {tweet_id}")
+        # Still allow it but warn
+
+    try:
+        conn.execute("""
+            INSERT INTO category_runs (run_id, tweet_id, asset_id, category, reasoning, model, schema_version, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, now())
+            ON CONFLICT (tweet_id, schema_version) DO UPDATE SET
+                category = EXCLUDED.category,
+                reasoning = EXCLUDED.reasoning,
+                model = EXCLUDED.model,
+                created_at = now()
+        """, [str(uuid.uuid4()), tweet_id, asset_id, category, reasoning, model, schema_version])
+        return True
+    except Exception as e:
+        print(f"Error inserting category for tweet {tweet_id}: {e}")
+        return False
+
+
+def insert_categories_batch(
+    conn: duckdb.DuckDBPyConnection,
+    categories: List[Dict[str, Any]],
+    schema_version: str = "v2"
+) -> int:
+    """
+    Batch insert multiple category classifications.
+
+    Each dict should have: tweet_id, asset_id, category, reasoning (optional), model (optional)
+    Returns count of successful inserts.
+    """
+    import uuid
+
+    count = 0
+    for cat in categories:
+        success = insert_category(
+            conn,
+            tweet_id=cat["tweet_id"],
+            asset_id=cat["asset_id"],
+            category=cat["category"],
+            reasoning=cat.get("reasoning"),
+            model=cat.get("model", "unknown"),
+            schema_version=schema_version
+        )
+        if success:
+            count += 1
+
+    return count
+
+
+def get_categories_for_asset(
+    conn: duckdb.DuckDBPyConnection,
+    asset_id: str,
+    schema_version: str = "v2"
+) -> List[Dict[str, Any]]:
+    """
+    Get all category classifications for an asset.
+
+    Returns list of dicts with tweet_id, category, reasoning, model.
+    """
+    results = conn.execute("""
+        SELECT tweet_id, category, reasoning, model, created_at
+        FROM category_runs
+        WHERE asset_id = ? AND schema_version = ?
+        ORDER BY created_at
+    """, [asset_id, schema_version]).fetchall()
+
+    return [
+        {
+            "tweet_id": r[0],
+            "category": r[1],
+            "reasoning": r[2],
+            "model": r[3],
+            "created_at": r[4],
+        }
+        for r in results
+    ]
+
+
+def get_category_for_tweet(
+    conn: duckdb.DuckDBPyConnection,
+    tweet_id: str,
+    schema_version: str = "v2"
+) -> Optional[Dict[str, Any]]:
+    """
+    Get category classification for a single tweet.
+
+    Returns dict with category, reasoning, model or None if not classified.
+    """
+    result = conn.execute("""
+        SELECT category, reasoning, model, created_at
+        FROM category_runs
+        WHERE tweet_id = ? AND schema_version = ?
+    """, [tweet_id, schema_version]).fetchone()
+
+    if not result:
+        return None
+
+    return {
+        "category": result[0],
+        "reasoning": result[1],
+        "model": result[2],
+        "created_at": result[3],
+    }
+
+
+def get_unclassified_tweets(
+    conn: duckdb.DuckDBPyConnection,
+    asset_id: str,
+    schema_version: str = "v2"
+) -> List[Dict[str, Any]]:
+    """
+    Get tweets that haven't been classified yet for an asset.
+
+    Returns list of tweet dicts (id, text, timestamp).
+    """
+    results = conn.execute("""
+        SELECT t.id, t.text, t.timestamp
+        FROM tweets t
+        WHERE t.asset_id = ?
+          AND t.id NOT IN (
+              SELECT tweet_id FROM category_runs
+              WHERE schema_version = ?
+          )
+        ORDER BY t.timestamp
+    """, [asset_id, schema_version]).fetchall()
+
+    return [
+        {
+            "id": r[0],
+            "text": r[1],
+            "timestamp": r[2],
+        }
+        for r in results
+    ]
+
+
+def get_category_stats(
+    conn: duckdb.DuckDBPyConnection,
+    asset_id: Optional[str] = None,
+    schema_version: str = "v2"
+) -> Dict[str, Any]:
+    """
+    Get category distribution statistics.
+
+    Returns dict with total, by_category counts, and by_model breakdown.
+    """
+    where_clause = "WHERE schema_version = ?"
+    params = [schema_version]
+
+    if asset_id:
+        where_clause += " AND asset_id = ?"
+        params.append(asset_id)
+
+    # Total count
+    total = conn.execute(f"""
+        SELECT COUNT(*) FROM category_runs {where_clause}
+    """, params).fetchone()[0]
+
+    # By category
+    by_category = conn.execute(f"""
+        SELECT category, COUNT(*) as count
+        FROM category_runs {where_clause}
+        GROUP BY category
+        ORDER BY count DESC
+    """, params).fetchall()
+
+    # By model
+    by_model = conn.execute(f"""
+        SELECT model, COUNT(*) as count
+        FROM category_runs {where_clause}
+        GROUP BY model
+        ORDER BY count DESC
+    """, params).fetchall()
+
+    return {
+        "total": total,
+        "by_category": {r[0]: r[1] for r in by_category},
+        "by_model": {r[0]: r[1] for r in by_model},
+    }
 
 
 def get_price_gaps(
