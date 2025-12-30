@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T12:19:29.913824Z",
+  "generated_at": "2025-12-30T13:24:26.025925Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -56,8 +56,8 @@
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 0,
-    "price_change_during_silence": null,
+    "days_since_last_tweet": 3,
+    "price_change_during_silence": -6.4,
     "last_tweet_date": "2025-12-27"
   },
   "limitations": {
@@ -150,6 +150,17 @@
       "price_start": 0.11490731,
       "price_end": 0.11800197,
       "change_pct": 2.7
+    },
+    {
+      "start_ts": 1766858434,
+      "end_ts": 1767119066,
+      "gap_days": 3.0,
+      "start_date": "2025-12-27",
+      "end_date": "ongoing",
+      "is_current": true,
+      "price_start": 0.06404475,
+      "price_end": 0.05991554,
+      "change_pct": -6.4
     }
   ]
 }
