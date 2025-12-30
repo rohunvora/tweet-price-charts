@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-30T20:13:47.700540Z",
+  "generated_at": "2025-12-30T21:12:52.040717Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
   "founder_type": "adopter",
   "price_definition": "candle close at minute boundary",
-  "count": 435,
+  "count": 436,
   "events": [
     {
       "tweet_id": "1925945913421218034",
@@ -8706,6 +8706,26 @@
       "change_1h_pct": 0.73,
       "change_24h_pct": 2.37,
       "market_cap_at_tweet": 65068283.45
+    },
+    {
+      "tweet_id": "2006099572074987795",
+      "asset_id": "useless",
+      "asset_name": "USELESS",
+      "founder": "theunipcs",
+      "asset_color": "#FF4081",
+      "timestamp": 1767126384,
+      "timestamp_iso": "2025-12-30T15:26:24Z",
+      "text": "$USELESS TA https://t.co/OzBbcefHfC",
+      "likes": 138,
+      "retweets": 15,
+      "replies": 59,
+      "impressions": 6739,
+      "price_at_tweet": 0.06189756,
+      "price_1h": 0.06217797,
+      "price_24h": 0.06174092,
+      "change_1h_pct": 0.45,
+      "change_24h_pct": -0.25,
+      "market_cap_at_tweet": 61841242.26
     }
   ],
   "keyword_filter": "useless",
