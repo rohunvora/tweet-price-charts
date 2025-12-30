@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T17:13:53.177487Z",
+  "generated_at": "2025-12-30T18:30:30.544624Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -153,7 +153,7 @@
     },
     {
       "start_ts": 1766858434,
-      "end_ts": 1767132833,
+      "end_ts": 1767137430,
       "gap_days": 3.2,
       "start_date": "2025-12-27",
       "end_date": "ongoing",

@@ -1,50 +1,50 @@
 {
-  "generated_at": "2025-12-30T17:13:09.281816Z",
+  "generated_at": "2025-12-30T18:29:36.380095Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
   "summary": {
-    "total_tweets": 680,
-    "tweets_with_price": 680,
+    "total_tweets": 681,
+    "tweets_with_price": 681,
     "date_range": {
       "start": "2024-01-31",
-      "end": "2025-12-28"
+      "end": "2025-12-30"
     },
     "total_days_analyzed": 700
   },
   "daily_comparison": {
-    "tweet_day_count": 244,
-    "tweet_day_avg_return": 0.21,
-    "tweet_day_win_rate": 53.3,
+    "tweet_day_count": 245,
+    "tweet_day_avg_return": 0.18,
+    "tweet_day_win_rate": 53.1,
     "tweet_day_distribution": {
-      "count": 244,
-      "mean": 0.21,
-      "median": 0.32,
+      "count": 245,
+      "mean": 0.18,
+      "median": 0.3,
       "std_dev": 5.74,
       "min": -17.07,
       "max": 28.11,
-      "q1": -3.53,
-      "q3": 3.41,
+      "q1": -3.54,
+      "q3": 3.38,
       "positive_count": 130,
-      "negative_count": 114
+      "negative_count": 115
     },
-    "no_tweet_day_count": 455,
-    "no_tweet_day_avg_return": -0.12,
-    "no_tweet_day_win_rate": 45.9,
+    "no_tweet_day_count": 454,
+    "no_tweet_day_avg_return": -0.11,
+    "no_tweet_day_win_rate": 46.0,
     "no_tweet_day_distribution": {
-      "count": 455,
-      "mean": -0.12,
-      "median": -0.51,
+      "count": 454,
+      "mean": -0.11,
+      "median": -0.49,
       "std_dev": 5.98,
       "min": -23.77,
       "max": 36.54,
-      "q1": -3.72,
-      "q3": 3.14,
+      "q1": -3.7,
+      "q3": 3.15,
       "positive_count": 209,
-      "negative_count": 246
+      "negative_count": 245
     },
-    "t_statistic": 0.7,
-    "p_value": 0.4841,
+    "t_statistic": 0.607,
+    "p_value": 0.5442,
     "significant": false,
     "confidence_label": "none"
   },
@@ -58,14 +58,14 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2025-12-28"
+    "last_tweet_date": "2025-12-30"
   },
   "limitations": {
     "sample_size_warning": false,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Win rate of 53.3% is near random (50%)",
+      "Win rate of 53.1% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
