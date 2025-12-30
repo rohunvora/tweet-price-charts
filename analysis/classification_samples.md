@@ -1,26 +1,23 @@
 # Classification Samples
 
-Generated: 2025-12-29T19:55:01.242911
+Generated: 2025-12-29T20:06:14.837858
 Total samples: 50
 
 ## Summary
 
 | Method | Count |
 |--------|-------|
-| none | 46 |
-| rule | 4 |
+| none | 48 |
+| rule | 2 |
 
 | Topic | Count |
 |-------|-------|
-| None | 46 |
-| meta | 2 |
-| token | 1 |
-| product | 1 |
+| None | 48 |
+| token | 2 |
 
 | Intent | Count |
 |--------|-------|
-| None | 46 |
-| inform | 2 |
+| None | 48 |
 | rally | 1 |
 | defend | 1 |
 
@@ -28,110 +25,84 @@ Total samples: 50
 
 ## Samples
 
-### Sample 1: gork (elonmusk)
+### Sample 1: fartcoin (DipWheeler)
 
 **Classification:** None/None [none]
 
-**Text (2 tweet(s)):**
+**Text (1 tweet(s)):**
 ```
-😂
----
-😂
+fartcoin. 
+
+rent free.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 2: fartcoin (DipWheeler)
+### Sample 2: zora (js_horne)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-fartcoin is free below $10.
+Tokenization = Marketization
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 3: aster (cz_binance)
+### Sample 3: jup (weremeow)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-ALERT 🚨: The @BNBCHAIN X account is compromised.
+1.5 years ago, we started putting together the Jupiverse - the platforms, the ideas, the ethos, the people, the community.
 
-The hacker posted a bunch of links to phishing websites that ask for Wallet Connect.
+along the way, we had a ton of successes, failures, and lessons, all of taught us incredibly important lessons about how everything works.
 
-Do NOT connect your wallet.
-
-Security teams have notified X already, working to suspend the account first, then restore access.
-
-Also take-down https://t.co/QeEnCCbFZe
+it’s time to put
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 4: jup (weremeow)
-
-**Classification:** meta/inform [rule]
-
-**Format:** one_liner
-
-**Text (1 tweet(s)):**
-```
-🔥
-```
-
-**Reasoning:** Emoji-only response
-
----
-
-### Sample 5: wif (blknoiz06)
+### Sample 4: fartcoin (DipWheeler)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-Ansem's December Portfolio
-
-core bags: $SOL $HYPE $ENA $WIF $MEW $PRIME
-
-best beta: $FTM / $S, $MOG, $RLB
-
-AI: #Zerebro
-
-lowcaps: $MICHI $PIP $GOGLZ $SCF $MAJOR ++++
-
-stonks: $RKLB $GLXY $COIN $BLOCK
-
-moonshot alts: $TNSR $DYM
+1m fartcoin will be enough to retire soon.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 6: zec (mert)
+### Sample 5: zora (js_horne)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-new year goals
+Small detail but I love that @zora sits naturally alongside X as a social profile to go visit in content like this. https://t.co/lMhQxstOAu https://t.co/gqAMKQuF0x
+```
 
-- at least 51% of ZEC shielded, $5,000
+**Reasoning:** No rule matched, LLM disabled
 
-- top 20 assets in crypto tradable on Solana, $500
+---
 
-- 2x number of Solana devs
+### Sample 6: aster (cz_binance)
 
-- <redacted> for now
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+This is not a real photo. The AI + Photoshop tech is crazy now. Don't believe in every "photo" you see. 🙏 https://t.co/xkvpaMMHEJ
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -144,9 +115,9 @@ new year goals
 
 **Text (2 tweet(s)):**
 ```
-fartcoin will flip doge.
+FARTCOIN IS A $10 ASSET. https://t.co/mmieYHtGRC
 ---
-On my fartcoin.
+fartcoin shorts rn. https://t.co/5v5FDo29Ak
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -159,39 +130,46 @@ On my fartcoin.
 
 **Text (1 tweet(s)):**
 ```
-25% of $RIPVC holders have already migrated to $PASTERNAK. On October 1, 2025:
+I've been doing a bad job recently with regard to transparency, public trust, and community alignment. That’s on me. It’s been greatly requested that we provide more transparency related to our pending flywheel (FW).
 
-1. The conversion pool from $RIPVC to $PASTERNAK will officially close.
-
-2. We will liquidate all $RIPVC in our possession, rendering the coin valueless.
-
-Going forward, $PASTERNAK will serve as the
+When Believe’s volume surged in May, I didn’t even know what a
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 9: fartcoin (DipWheeler)
+### Sample 9: wif (blknoiz06)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-"oh husbant you didn't buy fartcoin under $1 again now we homeress"
+stuff I like right now (alt szn)
+
+sol/ftm
+rune/ena 
+doge/mog/wif/mew 
+zerebro/chaos/lola/flower 
+
+think we'll see a ton more great setups unfolding
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 10: fartcoin (DipWheeler)
+### Sample 10: jup (weremeow)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-no tariffs on fartcoin.
+great statement by @realdezen 
+
+grateful to him, @0xSoju and others for stepping up to lead @MeteoraAG, clarifying all the crucial issues, and pushing forward on the building the best LP tech intro the entire DeFi space.
+
+Tons of issues still to solve, but future is super bright at @MeteoraAG, lfg!
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -204,15 +182,9 @@ no tariffs on fartcoin.
 
 **Text (1 tweet(s)):**
 ```
-it's funny watching anon CT rando larps crying, 'USELESS is a forced and boring meme... it's not even funny'
+$USELESS is leading in 24-hour smart money netflow on $SOL according to data from @StalkHQ 
 
-after shilling dozens of 'funny' slow rugs over the past few months
-
-maybe... just maybe, they should listen to the market on the first PvE runner of this year instead of pretending to be know-it-alls
-
-anyway, this is destined for billions with or without them
-
-and their hate is exactly what will accelerate that pump
+USELESS sub $150m market cap is a gift! https://t.co/Du5oj91snC
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -225,85 +197,71 @@ and their hate is exactly what will accelerate that pump
 
 **Text (1 tweet(s)):**
 ```
-the type of girls you get when you're a fartcoin millionaire.
+comfy in fartcoin.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 13: fartcoin (DipWheeler)
+### Sample 13: jup (weremeow)
 
 **Classification:** None/None [none]
 
-**Text (3 tweet(s)):**
+**Text (2 tweet(s)):**
 ```
-Fartcoin trading like CZ just ripped ass in HQ.
+Onboarded my Nepali guide to crypto by paying her USD via @jup_mobile new universal send feature.
 
-Dip Wheeler
+Worked perfectly, team cooked so hard.
+
+Along with true gasless swaps, I’m 10000% sure that jupiter will be by far the best way to onboard people to crypto. 
+
+Not stopping. https://t.co/GGv9q10Abv https://t.co/YzJzM2cJvE
 ---
-"fartcoin is pumping, any news ?"
+prob skipping all events this year to focus on self improvement, emotional regulation and internal team/community/ecosystem offsites.
 
-no it's just hilarious.
----
-I hope @zachxbt isn't watching the fartcoin chart right now.
-
-Literally covered in crime.
+might still pop up randomly somewhere som
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 14: fartcoin (DipWheeler)
+### Sample 14: wif (blknoiz06)
 
 **Classification:** None/None [none]
 
-**Text (1 tweet(s)):**
+**Text (2 tweet(s)):**
 ```
-fartcoin back above $1 & the entire space begins upwards rape.
+damn yall really have no faith in @coinbase listing $WIF lmao
+---
+we might be cooked bros polymarket.com/event/wif-spo…
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 15: useless (theunipcs)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-Bybit, the world's second largest perps CEX, just listed #USELESS coin futures
-
-completely free, organic, and unsolicited
-
-AFAIK they weren't even in touch with the CTO team
-
-it doesn't matter how sidelined CT is or how much they hate USELESS
-
-the world's biggest CEXs are taking note
-
-Binance, Coinbase, Bybit, OKX, Robinhood, etc
-
-they're all seeing how it continues to be the most traded token on-chain that has launched this year besides $TRUMP
-
-and they're seeing the insane price action and int
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 16: fartcoin (DipWheeler)
+### Sample 15: wif (blknoiz06)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-[ ZOOMER ]
+idk how yall thought wif could die when i literally have the hat on my person
+```
 
-JPMORGAN TO ALLOW INSTITUTIONAL CLIENTS TO USE FARTCOIN AS COLLATERAL: BBG
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 16: jup (weremeow)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+Incredible 🧠🧠🧠
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -316,50 +274,56 @@ JPMORGAN TO ALLOW INSTITUTIONAL CLIENTS TO USE FARTCOIN AS COLLATERAL: BBG
 
 **Text (1 tweet(s)):**
 ```
-fartcoin.
+"what if no alt szn"
+"what if cycle topped"
+"what if down only"
 
-observing.
+what if you licked it from the balls to the shaft and full-ported fartcoin ?
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 18: jup (weremeow)
+### Sample 18: fartcoin (DipWheeler)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-ct stands for cranial trauma
+fartcoin looks free here.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 19: xpl (pauliepunt)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-An update from my better half on what we've been up to and what the road ahead looks like. https://t.co/yr6U8eIVgQ
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 20: fartcoin (DipWheeler)
+### Sample 19: zora (js_horne)
 
 **Classification:** None/None [none]
 
 **Text (2 tweet(s)):**
 ```
-Who knows, maybe @AndyAyrey OTC'd his fartcoin to @cz_binance.
+speculator sport
 ---
-No way, Ross Ulbricht got out of prison and bought TT's fartcoin.
+speculation is active spectation
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 20: pump (a1lon9)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+good morning
+
+since first getting traction for pump fun over a year ago, I have not been this excited to wake up and work on pump fun
+
+the future is bright for the onchain trenches, the creator economy, and crypto as a whole.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -368,45 +332,43 @@ No way, Ross Ulbricht got out of prison and bought TT's fartcoin.
 
 ### Sample 21: fartcoin (DipWheeler)
 
+**Classification:** token/rally [rule]
+
+**Style:** memetic
+
+**Text (1 tweet(s)):**
+```
+It’s inevitable that fartcoin becomes the world’s reserve currency. The crossover will happen soon.
+```
+
+**Reasoning:** Rally call: Rally pattern: inevitable
+
+---
+
+### Sample 22: fartcoin (DipWheeler)
+
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-he could literally just full-port fartcoin & make it all back in less than a month.
+fartcoin about to go inverse eth mode.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 22: zora (js_horne)
+### Sample 23: useless (theunipcs)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-Short term @zora focus areas:
+$USELESS leads whale inflows to kickstart September
 
-1. Market: working with @dopplerprotocol on mitigating sniping and improving liquidity
+whales and smart money continue to aggressively buy the #USELESS coin dip, more so than any other memecoin
 
-2. Discovery: making it easier to discover the best people and posts in the app.
-
-3. Improving core: upload stability, nsfw tagging, trading on web, and more
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 23: fartcoin (DipWheeler)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-Fartcoin green. 
-
-Interesting.
+panic is useless
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -419,52 +381,48 @@ Interesting.
 
 **Text (1 tweet(s)):**
 ```
-max pain is fartcoin going to $10 while you have no exposure.
+Fartcoin to $1.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 25: meta (metaproph3t)
-
-**Classification:** token/rally [rule]
-
-**Text (1 tweet(s)):**
-```
-I think one fallacy that crypto founders make is “I am the man in the arena, fuck the peanut gallery”
-
-when really, everyone here is in the arena - building, trading, and hodling are just games in that arena
-```
-
-**Reasoning:** Rally call: Rally pattern: hodl
-
----
-
-### Sample 26: useless (theunipcs)
+### Sample 25: zora (js_horne)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-yeh, crazy chart
+Our goal is to make Zora the most trusted place to launch and trade creator coins. 
 
-#USELESS giving next $SHIB vibes ngl
+This is the first of a few updates to improve the experience. https://t.co/HpNJMddVIV
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 27: jup (weremeow)
+### Sample 26: wif (blknoiz06)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-giant cat otw
+World War Wif
+```
 
-wait for it
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 27: zora (js_horne)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+The power of @zora creator coins https://t.co/iGAS0c2ZXX
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -477,279 +435,258 @@ wait for it
 
 **Text (1 tweet(s)):**
 ```
-real, except for the part about not loving fartcoin. 
-
-fartcoin is my only love.
+the key to happiness is fartcoin.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 29: zec (mert)
+### Sample 29: jup (weremeow)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-certain bitcoiners now literally calling the feds on zcash
+For this planetary call, we will be having an open update about all things Jupiverse - across Jupiter the platform, JUP the token and J.U.P the community. 
 
-exactly as satoshi dreamed
-
-zetardio https://t.co/KpFrwAoxN8
+Come take a listen if you are interested in recent progress and next steps!
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 30: zec (mert)
+### Sample 30: fartcoin (DipWheeler)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-bitcoin liberated money
-
-zcash liberates the person holding it
+the rise of fartcoin will be greater than the rise of nvidia.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 31: wif (blknoiz06)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-they will say we were just lucky $WIF
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 32: aster (cz_binance)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-#BNB Chain hackathon in Buenos Aires, Bangalore, Johor Bahru, Abu Dhabi, and Hong Kong ...
-
-Keep building! https://t.co/3r8S7rd8fz
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 33: pump (a1lon9)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-good morning
-
-great day to switch up on your day ones
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 34: useless (theunipcs)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-i bought $100k worth of $USELESS on this dip today!
-
-that's my first spot buy in two months!
-
-TX: https://t.co/kuPjT6anzF
-
-i'm putting my money where my mouth is!
-
-way too much noise about USELESS from people who don't understand the volatility that comes with memecoins: you're https://t.co/3PWOCt6hc0
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 35: fartcoin (DipWheeler)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-[🌲] BlackRock (IBIT) Daily Fartcoin Flows: +2094.8m: BBG
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 36: fartcoin (DipWheeler)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-when everything dumps, fartcoin is the only coin everyone talks about. 
-
-lesson in that.
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 37: useless (theunipcs)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-top crypto AI research platform Nansen just flagged $USELESS as undergoing 'Aggressive Accumulation'
-
-with the USELESS inflow/FDV ratio hitting 42%, which is a pretty big deal!
-
-other metrics continue to look good for USELESS:
-
-- it just hit yet another holder ATH at a time https://t.co/GgF3RoqdZ4 https://t.co/oud02WXKv7
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 38: pump (a1lon9)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-already flipped Rumble in terms of average number of concurrent live streams
-
-currently inching at ~1% of Twitch's market share and ~10% of Kick's market share
-
-we're nibbling on their lunch and COMING FOR MORE
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 39: aster (cz_binance)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-This is an interesting evolution of slowing down the bots and giving more opportunities to the users. Let's see how well it work... quick iteration is key. https://t.co/j0iThq1Osq
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 40: aster (cz_binance)
-
-**Classification:** None/None [none]
-
-**Text (1 tweet(s)):**
-```
-It was a $44 Million Reload Fund", air dropped randomly to people who lost money on memes on BNB Chain a few days ago.
-
-Then someone added $1 million more, and "screwed it up". 🤣
-
-Protect users. @BNBChain https://t.co/ZgafLDtqm2
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 41: zora (js_horne)
-
-**Classification:** meta/inform [rule]
-
-**Format:** link_only
-
-**Text (2 tweet(s)):**
-```
-https://t.co/BCug9jgnOM
----
-https://t.co/BVMuvf26iP
-```
-
-**Reasoning:** Link-only content with no context
-
----
-
-### Sample 42: aster (cz_binance)
+### Sample 31: meta (metaproph3t)
 
 **Classification:** None/None [none]
 
 **Text (2 tweet(s)):**
 ```
-More than 300,000,000 users trust @Binance. 🙏🙏🙏 https://t.co/LU8WQvvWA7
+I think the original daos fun model of having founders select participants may actually be the best raise mechanism
+
+the part I didn't like was that you needed to sign in with twitter before doing anything, but I think you can make it twitter-optional for good UX
 ---
-Web3 hundred million!
-#Binance
+ggwp @baoskee
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 43: hype (chameleon_jeff)
+### Sample 32: fartcoin (DipWheeler)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-Paging all funding arbers
+Comfy in fartcoin.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 44: jup (weremeow)
+### Sample 33: fartcoin (DipWheeler)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-we are here to help as many launchpads win as possible, so please reach out to @0xSoju or @realdezen if you are building it!
-
-yes, the world of launchpads is not zero sum for us at all, and we think there will be a thousand unique, successful ones, and our quest is to help as https://t.co/MQqsByaCkn
+monitoring the situation with my entire net worth in fartcoin.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 45: useless (theunipcs)
+### Sample 34: zec (mert)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-#USELESS coin once again displaying incredible relative strength!
+a new treasury company that's accumulating ZEC
 
-it's currently outperforming majors like $BTC, $ETH, $SOL and $HYPE
+interesting
 
-it also stands out impressively compared to memecoins like $DOGE, $TRUMP, $SPX, #FARTCOIN and $WIF
+curious to see if these will be shielded and whether this will help increase competition at the miner level
 
-this reminds me of how $USELESS consistently outperformed everything during down markets when it had its first parabolic rally from $4.2m to $420m market cap
+in any case, trillions https://t.co/Qsg0kbNP2M
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 35: wif (blknoiz06)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+$1M in SOL & $1M in WIF from here would be worth how much if you sold pico tops of both charts this cycle
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 36: jup (weremeow)
+
+**Classification:** token/defend [rule]
+
+**Text (1 tweet(s)):**
+```
+For some reference, when JUP launched, one common complaint was that our liquidity pool was way too big, making it hard to pump.
+
+Of course, that was precisely by design, since we want to remove the ability for any holder to tank to rekt everyone. 
+
+And it did happen! Some whales did massive multi million exit at 40+ cents, but thanks to the liquidity pool, the price held up just fine and recovered shortly after fud went over. 
+
+But yeh, the complaint was actually very real
+```
+
+**Reasoning:** Defense: Defend pattern: fud
+
+---
+
+### Sample 37: zora (js_horne)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+some big little details we shipped https://t.co/5ZnRUPLf9E
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 38: fartcoin (DipWheeler)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+Fartcoin to $10.
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 39: fartcoin (DipWheeler)
+
+**Classification:** None/None [none]
+
+**Text (2 tweet(s)):**
+```
+comfy in fartcoin.
+---
+fartcoin chart looks better than most majors.
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 40: jup (weremeow)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+hairdressing is probably ai robotics final boss
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 41: wif (blknoiz06)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+well we certainly know the news outlets are following us on here bc wif has been everywhere since january lol
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 42: useless (theunipcs)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+#USELESS coin on one of Indonesia's largest crypto exchanges 👀
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 43: zora (js_horne)
+
+**Classification:** None/None [none]
+
+**Text (3 tweet(s)):**
+```
+Crypto end state means that it will be easy to get direct market exposure to any idea, thesis or outcome at all scales.
+---
+The more things that are tokenized, the more markets meet people where they are at with their own personal interests, skill sets and world views. 
+
+There’s a little degen in everyone it’s just waiting for the right tokens.
+---
+There’s a little degen in everyone it’s just waiting for the right tokens.
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 44: wif (blknoiz06)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+on top of this sol bonk & wif move my coin calls are sitting at a 10x and the ETF hasnt even been approved yet
+```
+
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 45: aster (cz_binance)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+These North Korean hackers are advanced, creative and patient. I have seen/heard:
+
+1. They pose as job candidates to try to get jobs in your company. This gives them a “foot in the door”. They especially like dev, security, finance positions.
+
+2. They pose as employers and try to https://t.co/axo5FF9YMV
 ```
 
 **Reasoning:** No rule matched, LLM disabled
@@ -762,66 +699,66 @@ this reminds me of how $USELESS consistently outperformed everything during down
 
 **Text (1 tweet(s)):**
 ```
-highly requested feature just shipped: https://t.co/gh9p99iK5H
+💌 https://t.co/JzFQZbIG2E
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 47: useless (theunipcs)
+### Sample 47: fartcoin (DipWheeler)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-$USELESS coin
+fartcoin will rip when you least expect it.
+
+similar to irl farts.
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 48: zora (js_horne)
-
-**Classification:** None/None [none]
-
-**Text (2 tweet(s)):**
-```
-Liminal space is now on @zora https://t.co/1t8jBx0XeQ
----
-https://t.co/zwViIkRL1X
-```
-
-**Reasoning:** No rule matched, LLM disabled
-
----
-
-### Sample 49: useless (theunipcs)
+### Sample 48: wif (blknoiz06)
 
 **Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-whales and smart money continue to load up on $BONK and #USELESS coin 👀
-
-they're positioning ahead of the aggressively explosive upside move that is coming!
+wif & boden S-tier memecoins
 ```
 
 **Reasoning:** No rule matched, LLM disabled
 
 ---
 
-### Sample 50: fartcoin (DipWheeler)
+### Sample 49: fartcoin (DipWheeler)
 
-**Classification:** product/defend [rule]
+**Classification:** None/None [none]
 
 **Text (1 tweet(s)):**
 ```
-lot of people want a fartcoin position but don't have the balls so they resort to fudding fartcoin only to have their cheeks clapped & get farted on.
+the s&p is down 1% in the past 6 months.
+
+fartcoin is up 607% in the past 6 months.
 ```
 
-**Reasoning:** Defense: Defend pattern: fud
+**Reasoning:** No rule matched, LLM disabled
+
+---
+
+### Sample 50: wif (blknoiz06)
+
+**Classification:** None/None [none]
+
+**Text (1 tweet(s)):**
+```
+YOURE LOCKED IN HERE WIF ME
+```
+
+**Reasoning:** No rule matched, LLM disabled
 
 ---
 
