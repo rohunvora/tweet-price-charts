@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-29T23:13:14.897665Z",
+  "generated_at": "2025-12-30T00:43:10.126229Z",
   "asset": "wld",
   "asset_name": "WLD",
   "founder": "sama",
@@ -10,7 +10,7 @@
       "start": "2023-07-26",
       "end": "2024-11-11"
     },
-    "total_days_analyzed": 889
+    "total_days_analyzed": 890
   },
   "daily_comparison": {
     "tweet_day_count": 2,
@@ -28,20 +28,20 @@
       "positive_count": 2,
       "negative_count": 0
     },
-    "no_tweet_day_count": 886,
+    "no_tweet_day_count": 887,
     "no_tweet_day_avg_return": 0.08,
-    "no_tweet_day_win_rate": 44.6,
+    "no_tweet_day_win_rate": 44.5,
     "no_tweet_day_distribution": {
-      "count": 886,
+      "count": 887,
       "mean": 0.08,
-      "median": -0.56,
+      "median": -0.57,
       "std_dev": 7.31,
       "min": -26.01,
       "max": 55.23,
       "q1": -4.07,
-      "q3": 3.47,
+      "q3": 3.46,
       "positive_count": 395,
-      "negative_count": 467
+      "negative_count": 468
     },
     "t_statistic": null,
     "p_value": null,
@@ -50,14 +50,14 @@
   },
   "correlation": {
     "correlation_7d": 0.002,
-    "p_value": 0.9441,
+    "p_value": 0.9409,
     "significant": false,
-    "sample_size": 889,
+    "sample_size": 890,
     "strength_label": "negligible"
   },
   "current_status": {
     "days_since_last_tweet": 413,
-    "price_change_during_silence": -79.6,
+    "price_change_during_silence": -80.1,
     "last_tweet_date": "2024-11-11"
   },
   "limitations": {
@@ -82,14 +82,14 @@
     },
     {
       "start_ts": 1731361860,
-      "end_ts": 1767067994,
+      "end_ts": 1767073390,
       "gap_days": 413.3,
       "start_date": "2024-11-11",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 2.48,
-      "price_end": 0.504841,
-      "change_pct": -79.6
+      "price_end": 0.492613,
+      "change_pct": -80.1
     }
   ]
 }
