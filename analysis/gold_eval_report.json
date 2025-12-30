@@ -1,0 +1,509 @@
+{
+  "total": 71,
+  "topic_correct": 10,
+  "intent_correct": 9,
+  "both_correct": 9,
+  "rule_used": 10,
+  "llm_used": 0,
+  "misclassified": [
+    {
+      "text": "the ticker is $PUMP",
+      "author": "a1lon9",
+      "expected": "token/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "I am feeling happy and optimistic about the future",
+      "author": "a1lon9",
+      "expected": "personal/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "the trenches >>> getting a job",
+      "author": "a1lon9",
+      "expected": "personal/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "CTOs are the lifeblood of pump fun - they formed most of the success cases on the platform...\n---\nth...",
+      "author": "a1lon9",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "It's inspiring to see tens of thousands of community members secure life-changing wealth as part of ...",
+      "author": "chameleon_jeff",
+      "expected": "ecosystem/celebrate",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "I've heard feedback from many that market making has gotten more competitive on Hyperliquid recently...",
+      "author": "chameleon_jeff",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "TLDR: During recent volatility, Hyperliquid had 100% uptime with zero bad debt...\n---\nDoug's ADL exp...",
+      "author": "chameleon_jeff",
+      "expected": "product/defend",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "wif\n---\nwif wif wif wif wif\n---\nwif\n---\nwif used car kpop wynn\n---\nwif",
+      "author": "blknoiz06",
+      "expected": "token/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "wow wif on robinhood\n---\nhat stays on $WIF\n---\nwif coinbase & robinhood listings right before the ho...",
+      "author": "blknoiz06",
+      "expected": "token/celebrate",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Taking a 15 minute breather from building to answer some questions on here related to @believeapp, @...",
+      "author": "pasternak",
+      "expected": "personal/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Creators should have the freedom to build where they believe their project will thrive...\n---\nhttps:...",
+      "author": "pasternak",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "If any traders in our community want to record an explainer video for founders...\n---\nFounders are d...",
+      "author": "pasternak",
+      "expected": "ecosystem/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "prove it\n---\nthat you are worthy of bags\n---\nthat you are long term\n---\n...(26 tweets)",
+      "author": "weremeow",
+      "expected": "ecosystem/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "how to believe (without blindly believing):\n---\nbelief is the root of all things precious to us...\n-...",
+      "author": "weremeow",
+      "expected": "personal/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "fwiw, my take: - I'd be thrilled to partner with @jon_charb and @dbarabander...",
+      "author": "metaproph3t",
+      "expected": "ecosystem/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "how do I get this number to 90%?\n---\noriginal tweet\n---\n#1 site on phantom atm",
+      "author": "metaproph3t",
+      "expected": "product/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "1/ Quote pairs are a new value accrual model for tokens\n---\n2/ Quote pairs are a model originally pi...",
+      "author": "js_horne",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "AMM (agentic market maker)\n---\nautomated pricing \u2192 agentic pricing\n---\nAssume crypto is all 'just sp...",
+      "author": "js_horne",
+      "expected": "market/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "The sooner you realize fartcoin is the future of finance...\n---\nFartcoin.\n---\nFartcoin to $10.\n---\n....",
+      "author": "DipWheeler",
+      "expected": "token/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "sup @gork\n---\n@gork now we have same pp\n---\nu got it bro\n---\n...(14 tweets)",
+      "author": "elonmusk",
+      "expected": "personal/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "You asked for it. And @TrustWallet delivers...\n---\n$11,000,000 in hard currency (#BNB) donated to @G...",
+      "author": "cz_binance",
+      "expected": "ecosystem/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Let's make crypto payments work on #BNB...\n---\nFUD is paid (by others) advertising...\n---\n...",
+      "author": "cz_binance",
+      "expected": "product/inform",
+      "got": "product/defend",
+      "method": "rule",
+      "reasoning": "Defense: Defend pattern: fud"
+    },
+    {
+      "text": "Native delegation (native staking) is part of the Monad protocol...\n---\nhttps://t.co/Y6cT5WPpK3 by @...",
+      "author": "keoneHD",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "since we've listed ZEC on Solana:\n---\n'he who has no pockets can not be pickpocketed.'",
+      "author": "mert_",
+      "expected": "token/celebrate",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "A staggering amount of brainpower...\n---\nBlockspace is not the new oil, it is a race to zero.\n---\n.....",
+      "author": "pauliepunt",
+      "expected": "market/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "wait... is the Coinbase #USELESS coin listing news true???\n---\nis Coinbase really listing #USELESS c...",
+      "author": "theunipcs",
+      "expected": "token/celebrate",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "$BNB season sucking out liquidity from every Solana memecoin...\n---\nthe real story isn't the relativ...",
+      "author": "theunipcs",
+      "expected": "token/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "day 3 of @worldcoin launch, crazy lines around the world. one person getting verified every 8 second...",
+      "author": "sama",
+      "expected": "product/celebrate",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "we crossed 1M users",
+      "author": "example",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "patience is the key to success",
+      "author": "example",
+      "expected": "personal/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "feeling good today",
+      "author": "example",
+      "expected": "personal/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "0/ jupnet: aggregate everything\n---\n1/ when we first started, we focused on aggregating solana...",
+      "author": "weremeow",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Someone needs to build a 'Believe University', similar to Whop University, and launch a coin tied to...",
+      "author": "pasternak",
+      "expected": "ecosystem/tease",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "recently on @zora\n---\nhttps://t.co/khsEEADtcb\n---\nhttps://t.co/VIZYUytXOc\n---\n...",
+      "author": "js_horne",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Hyperliquid's fully onchain liquidations cannot be compared with underreported CEX liquidations...\n-...",
+      "author": "chameleon_jeff",
+      "expected": "product/defend",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Fartcoin pumping.\n---\nAny news ?",
+      "author": "DipWheeler",
+      "expected": "token/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "i stg if dean copped me that chrome hearts hat & i pullup on him in vegas tomorrow, we are sending w...",
+      "author": "blknoiz06",
+      "expected": "token/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "1) this proposal passed\n---\n2) as a part of the proposal, @6thManVentures bought $1.5M of META at ~$...",
+      "author": "metaproph3t",
+      "expected": "token/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Dumb question about X.\n---\nMy followers grew quickly from 9-10m, in a bear market...\n---\nor maybe we...",
+      "author": "cz_binance",
+      "expected": "personal/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Things in crypto only look pessimistic if you don't have a plan for how to improve them\n---\nAgency c...",
+      "author": "keoneHD",
+      "expected": "personal/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "good chance zcash becomes top 5 simply because it's incredibly easy to meme",
+      "author": "mert_",
+      "expected": "token/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "it's been barely 24 hours since i charted $USELESS vs other top memecoins...\n---\nbut it looks even m...",
+      "author": "theunipcs",
+      "expected": "token/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "I'm always about jup man\n---\nMy networth and my life work and legacy and my beloved team n community...",
+      "author": "weremeow",
+      "expected": "personal/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "AMM (agentic market maker)\n---\nautomated pricing \u2192 agentic pricing\n---\nAssume crypto is all 'just sp...",
+      "author": "js_horne",
+      "expected": "market/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "our job as a platform is to grow the eco...\n---\ndownload it here if you're not a brit!\n---\niOS https...",
+      "author": "a1lon9",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "bros how much cash you think we needa raise to put wif on the vegas dome?\n---\nk bros new plan, we ma...",
+      "author": "blknoiz06",
+      "expected": "ecosystem/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "@gork what do you think?\n---\n\ud83d\udd25\n---\n\ud83d\ude02\n---\n@gork, what do you think?\n---\n\ud83e\udd23",
+      "author": "elonmusk",
+      "expected": "personal/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "Thanks to @TBPN for having me on! It was a fun conversation about the origin story, principles, and ...",
+      "author": "chameleon_jeff",
+      "expected": "ecosystem/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "The Believe API v2 is live now, focused on enabling creators to build flywheels for their coins.\n---...",
+      "author": "pasternak",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "something big coming for fartcoin holders this week",
+      "author": "DipWheeler",
+      "expected": "token/tease",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "you're not ready for what's next on pump fun",
+      "author": "a1lon9",
+      "expected": "product/tease",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "stay tuned cats... big announcement coming",
+      "author": "weremeow",
+      "expected": "product/tease",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "new feature shipping next week - here's what it does...",
+      "author": "example",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "something big shipping next week...",
+      "author": "example",
+      "expected": "product/tease",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "had a great dinner with the team tonight",
+      "author": "example",
+      "expected": "personal/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "the best teams are built through hard times",
+      "author": "example",
+      "expected": "personal/reflect",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "our uptime was 99.9% this month",
+      "author": "example",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "here's how the liquidation engine works: when margin ratio drops below 6.25%...",
+      "author": "example",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "ser wen moon",
+      "author": "example",
+      "expected": "token/engage",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "we messed up. here's what happened and what we're doing about it",
+      "author": "example",
+      "expected": "product/inform",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "THIS IS INSANE!!! \ud83d\ude80\ud83d\ude80\ud83d\ude80 MASSIVE NEWS!!!",
+      "author": "example",
+      "expected": "token/celebrate",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    },
+    {
+      "text": "wif",
+      "author": "blknoiz06",
+      "expected": "token/rally",
+      "got": "None/None",
+      "method": "none",
+      "reasoning": "No rule matched, LLM disabled"
+    }
+  ],
+  "topic_accuracy": 14.1,
+  "intent_accuracy": 12.7,
+  "both_accuracy": 12.7
+}
