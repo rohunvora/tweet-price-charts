@@ -1,14 +1,14 @@
 {
-  "generated_at": "2025-12-30T05:16:30.929052Z",
+  "generated_at": "2025-12-30T06:18:05.294093Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "summary": {
-    "total_tweets": 67,
-    "tweets_with_price": 67,
+    "total_tweets": 68,
+    "tweets_with_price": 68,
     "date_range": {
       "start": "2025-11-24",
-      "end": "2025-12-29"
+      "end": "2025-12-30"
     },
     "total_days_analyzed": 37
   },
@@ -58,7 +58,7 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2025-12-29"
+    "last_tweet_date": "2025-12-30"
   },
   "limitations": {
     "sample_size_warning": true,

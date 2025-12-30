@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-30T05:15:30.510397Z",
+  "generated_at": "2025-12-30T06:17:10.079866Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "founder_type": "adopter",
   "price_definition": "candle close at minute boundary",
-  "count": 1878,
+  "count": 1879,
   "events": [
     {
       "tweet_id": "1849598804791795967",
@@ -37566,6 +37566,26 @@
       "change_1h_pct": -2.13,
       "change_24h_pct": -1.88,
       "market_cap_at_tweet": 290536688.09
+    },
+    {
+      "tweet_id": "2005881139131764921",
+      "asset_id": "fartcoin",
+      "asset_name": "FARTCOIN",
+      "founder": "DipWheeler",
+      "asset_color": "#8B4513",
+      "timestamp": 1767074305,
+      "timestamp_iso": "2025-12-30T00:58:25Z",
+      "text": "lit holders rotating to fartcoin. https://t.co/FYau7w6Llh",
+      "likes": 21,
+      "retweets": 1,
+      "replies": 8,
+      "impressions": 808,
+      "price_at_tweet": 0.28081455,
+      "price_1h": 0.28270393,
+      "price_24h": 0.28508054,
+      "change_1h_pct": 0.67,
+      "change_24h_pct": 1.52,
+      "market_cap_at_tweet": 280808855.36
     }
   ],
   "keyword_filter": "fartcoin",

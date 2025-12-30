@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-30T05:16:30.742294Z",
+  "generated_at": "2025-12-30T06:18:05.109502Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 67,
+  "count": 68,
   "events": [
     {
       "tweet_id": "1992934059283206194",
@@ -1346,6 +1346,26 @@
       "change_1h_pct": -0.77,
       "change_24h_pct": -2.67,
       "market_cap_at_tweet": 233578968.17
+    },
+    {
+      "tweet_id": "2005881762891661446",
+      "asset_id": "monad",
+      "asset_name": "MON",
+      "founder": "keoneHD",
+      "asset_color": "#836EF9",
+      "timestamp": 1767074454,
+      "timestamp_iso": "2025-12-30T01:00:54Z",
+      "text": "Notes on @bqbrady's excellent writeup on Solana market structure, which is a must-read for any DeFi builder or blockchain designer.\n\nSome wallets and custodial trading interfaces (collectively, \"frontends\") have off-chain commercial relationships with transaction landing services https://t.co/JUhk5o0XBO",
+      "likes": 26,
+      "retweets": 0,
+      "replies": 12,
+      "impressions": 796,
+      "price_at_tweet": 0.02122965,
+      "price_1h": 0.02115066,
+      "price_24h": 0.02099063,
+      "change_1h_pct": -0.37,
+      "change_24h_pct": -1.13,
+      "market_cap_at_tweet": 229929494.79
     }
   ]
 }
