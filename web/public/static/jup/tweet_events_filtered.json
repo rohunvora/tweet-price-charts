@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T19:11:29.270442Z",
+  "generated_at": "2025-12-30T20:12:41.488397Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
@@ -2922,9 +2922,9 @@
       "impressions": 1753,
       "price_at_tweet": 0.19010951,
       "price_1h": 0.19044575,
-      "price_24h": 0.18852282,
+      "price_24h": 0.18904839,
       "change_1h_pct": 0.18,
-      "change_24h_pct": -0.83,
+      "change_24h_pct": -0.56,
       "market_cap_at_tweet": null
     }
   ],
