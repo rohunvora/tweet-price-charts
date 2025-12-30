@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T06:17:58.993575Z",
+  "generated_at": "2025-12-30T07:15:40.514013Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
@@ -562,9 +562,9 @@
       "impressions": 1914,
       "price_at_tweet": 0.02156661,
       "price_1h": 0.02140041,
-      "price_24h": 0.02099063,
+      "price_24h": 0.02080652,
       "change_1h_pct": -0.77,
-      "change_24h_pct": -2.67,
+      "change_24h_pct": -3.52,
       "market_cap_at_tweet": 233578968.17
     }
   ],
