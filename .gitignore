@@ -43,5 +43,6 @@ reports/
 !/analysis/taxonomy_v2.md
 !/analysis/categorization_results_v2.json
 !/analysis/categorization_summary_v2.md
+!/analysis/INTEGRATION_PLAN_v2.md
 
 .vercel
