@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T00:41:45.395044Z",
+  "generated_at": "2025-12-30T01:41:17.750248Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -10,7 +10,7 @@
       "start": "2025-09-17",
       "end": "2025-12-25"
     },
-    "total_days_analyzed": 104
+    "total_days_analyzed": 105
   },
   "daily_comparison": {
     "tweet_day_count": 86,
@@ -28,36 +28,36 @@
       "positive_count": 38,
       "negative_count": 48
     },
-    "no_tweet_day_count": 17,
-    "no_tweet_day_avg_return": -0.37,
-    "no_tweet_day_win_rate": 52.9,
+    "no_tweet_day_count": 18,
+    "no_tweet_day_avg_return": -0.55,
+    "no_tweet_day_win_rate": 50.0,
     "no_tweet_day_distribution": {
-      "count": 17,
-      "mean": -0.37,
-      "median": 0.07,
-      "std_dev": 3.32,
+      "count": 18,
+      "mean": -0.55,
+      "median": -0.06,
+      "std_dev": 3.31,
       "min": -9.51,
       "max": 4.69,
-      "q1": -1.27,
-      "q3": 1.28,
+      "q1": -1.57,
+      "q3": 1.17,
       "positive_count": 9,
-      "negative_count": 8
+      "negative_count": 9
     },
-    "t_statistic": 0.55,
-    "p_value": 0.5839,
+    "t_statistic": 0.615,
+    "p_value": 0.5401,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.396,
+    "correlation_7d": 0.405,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 104,
-    "strength_label": "weak"
+    "sample_size": 105,
+    "strength_label": "moderate"
   },
   "current_status": {
     "days_since_last_tweet": 4,
-    "price_change_during_silence": -1.0,
+    "price_change_during_silence": -4.5,
     "last_tweet_date": "2025-12-26"
   },
   "limitations": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 86 tweet-days analyzed",
-      "Limited history: 104 days may not capture full market cycles",
+      "Limited history: 105 days may not capture full market cycles",
       "Correlation does not imply causation"
     ]
   },
@@ -83,14 +83,14 @@
     },
     {
       "start_ts": 1766720504,
-      "end_ts": 1767073305,
+      "end_ts": 1767076877,
       "gap_days": 4.1,
       "start_date": "2025-12-26",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.72244826,
-      "price_end": 0.71535399,
-      "change_pct": -1.0
+      "price_end": 0.68994886,
+      "change_pct": -4.5
     }
   ]
 }

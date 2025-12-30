@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T00:42:35.722754Z",
+  "generated_at": "2025-12-30T01:42:13.121359Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
@@ -10,7 +10,7 @@
       "start": "2025-10-06",
       "end": "2025-12-27"
     },
-    "total_days_analyzed": 84
+    "total_days_analyzed": 85
   },
   "daily_comparison": {
     "tweet_day_count": 54,
@@ -28,31 +28,31 @@
       "positive_count": 24,
       "negative_count": 30
     },
-    "no_tweet_day_count": 29,
-    "no_tweet_day_avg_return": -0.66,
-    "no_tweet_day_win_rate": 41.4,
+    "no_tweet_day_count": 30,
+    "no_tweet_day_avg_return": -0.67,
+    "no_tweet_day_win_rate": 40.0,
     "no_tweet_day_distribution": {
-      "count": 29,
-      "mean": -0.66,
-      "median": -1.0,
-      "std_dev": 6.63,
+      "count": 30,
+      "mean": -0.67,
+      "median": -1.08,
+      "std_dev": 6.52,
       "min": -12.81,
       "max": 16.51,
-      "q1": -4.73,
-      "q3": 3.07,
+      "q1": -4.58,
+      "q3": 2.73,
       "positive_count": 12,
-      "negative_count": 17
+      "negative_count": 18
     },
-    "t_statistic": 1.072,
-    "p_value": 0.2869,
+    "t_statistic": 1.096,
+    "p_value": 0.2762,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.575,
+    "correlation_7d": 0.567,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 84,
+    "sample_size": 85,
     "strength_label": "moderate"
   },
   "current_status": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 54 tweet-days analyzed",
-      "Limited history: 84 days may not capture full market cycles",
+      "Limited history: 85 days may not capture full market cycles",
       "Correlation does not imply causation"
     ]
   },

@@ -1,32 +1,32 @@
 {
-  "generated_at": "2025-12-30T00:41:49.419526Z",
+  "generated_at": "2025-12-30T01:41:22.793188Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "summary": {
-    "total_tweets": 1877,
-    "tweets_with_price": 1877,
+    "total_tweets": 1878,
+    "tweets_with_price": 1878,
     "date_range": {
       "start": "2024-10-24",
       "end": "2025-12-29"
     },
-    "total_days_analyzed": 437
+    "total_days_analyzed": 438
   },
   "daily_comparison": {
-    "tweet_day_count": 287,
-    "tweet_day_avg_return": 1.17,
-    "tweet_day_win_rate": 49.5,
+    "tweet_day_count": 288,
+    "tweet_day_avg_return": 1.14,
+    "tweet_day_win_rate": 49.3,
     "tweet_day_distribution": {
-      "count": 287,
-      "mean": 1.17,
+      "count": 288,
+      "mean": 1.14,
       "median": -0.09,
-      "std_dev": 12.31,
+      "std_dev": 12.3,
       "min": -41.72,
       "max": 50.34,
-      "q1": -5.7,
-      "q3": 6.08,
+      "q1": -5.71,
+      "q3": 6.07,
       "positive_count": 142,
-      "negative_count": 145
+      "negative_count": 146
     },
     "no_tweet_day_count": 149,
     "no_tweet_day_avg_return": 2.71,
@@ -43,16 +43,16 @@
       "positive_count": 72,
       "negative_count": 77
     },
-    "t_statistic": -1.057,
-    "p_value": 0.2913,
+    "t_statistic": -1.079,
+    "p_value": 0.2812,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.339,
+    "correlation_7d": 0.342,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 437,
+    "sample_size": 438,
     "strength_label": "weak"
   },
   "current_status": {
@@ -65,7 +65,7 @@
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Win rate of 49.5% is near random (50%)",
+      "Win rate of 49.3% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },

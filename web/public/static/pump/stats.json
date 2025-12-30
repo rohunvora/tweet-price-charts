@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T00:42:56.640159Z",
+  "generated_at": "2025-12-30T01:42:36.089327Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
@@ -10,7 +10,7 @@
       "start": "2025-07-14",
       "end": "2025-11-05"
     },
-    "total_days_analyzed": 169
+    "total_days_analyzed": 170
   },
   "daily_comparison": {
     "tweet_day_count": 67,
@@ -28,46 +28,45 @@
       "positive_count": 34,
       "negative_count": 33
     },
-    "no_tweet_day_count": 101,
-    "no_tweet_day_avg_return": -1.38,
-    "no_tweet_day_win_rate": 36.6,
+    "no_tweet_day_count": 102,
+    "no_tweet_day_avg_return": -1.41,
+    "no_tweet_day_win_rate": 36.3,
     "no_tweet_day_distribution": {
-      "count": 101,
-      "mean": -1.38,
+      "count": 102,
+      "mean": -1.41,
       "median": -1.84,
-      "std_dev": 7.33,
+      "std_dev": 7.3,
       "min": -27.46,
       "max": 16.38,
       "q1": -6.22,
-      "q3": 2.51,
+      "q3": 2.48,
       "positive_count": 37,
-      "negative_count": 64
+      "negative_count": 65
     },
-    "t_statistic": 2.043,
-    "p_value": 0.0426,
+    "t_statistic": 2.078,
+    "p_value": 0.0393,
     "significant": true,
     "confidence_label": "weak"
   },
   "correlation": {
-    "correlation_7d": 0.51,
+    "correlation_7d": 0.514,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 169,
+    "sample_size": 170,
     "strength_label": "moderate"
   },
   "current_status": {
     "days_since_last_tweet": 54,
-    "price_change_during_silence": -49.4,
+    "price_change_during_silence": -51.8,
     "last_tweet_date": "2025-11-05"
   },
   "limitations": {
     "sample_size_warning": true,
-    "borderline_significance": true,
+    "borderline_significance": false,
     "short_history": true,
     "notes": [
       "Small sample: only 67 tweet-days analyzed",
-      "Borderline significance: p=0.0426 is very close to 0.05 threshold",
-      "Limited history: 169 days may not capture full market cycles",
+      "Limited history: 170 days may not capture full market cycles",
       "Win rate of 50.7% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -125,14 +124,14 @@
     },
     {
       "start_ts": 1762360100,
-      "end_ts": 1767073376,
+      "end_ts": 1767076956,
       "gap_days": 54.6,
       "start_date": "2025-11-05",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.00370517,
-      "price_end": 0.00187472,
-      "change_pct": -49.4
+      "price_end": 0.00178689,
+      "change_pct": -51.8
     }
   ]
 }

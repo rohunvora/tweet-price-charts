@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T00:43:36.588655Z",
+  "generated_at": "2025-12-30T01:43:15.837642Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
@@ -10,7 +10,7 @@
       "start": "2025-04-23",
       "end": "2025-12-12"
     },
-    "total_days_analyzed": 251
+    "total_days_analyzed": 252
   },
   "daily_comparison": {
     "tweet_day_count": 143,
@@ -28,36 +28,36 @@
       "positive_count": 66,
       "negative_count": 77
     },
-    "no_tweet_day_count": 107,
-    "no_tweet_day_avg_return": 0.16,
-    "no_tweet_day_win_rate": 44.9,
+    "no_tweet_day_count": 108,
+    "no_tweet_day_avg_return": 0.07,
+    "no_tweet_day_win_rate": 44.4,
     "no_tweet_day_distribution": {
-      "count": 107,
-      "mean": 0.16,
-      "median": -0.91,
-      "std_dev": 8.13,
+      "count": 108,
+      "mean": 0.07,
+      "median": -0.99,
+      "std_dev": 8.14,
       "min": -16.56,
       "max": 33.02,
-      "q1": -4.34,
-      "q3": 3.53,
+      "q1": -4.42,
+      "q3": 3.52,
       "positive_count": 48,
-      "negative_count": 59
+      "negative_count": 60
     },
-    "t_statistic": 0.862,
-    "p_value": 0.3896,
+    "t_statistic": 0.924,
+    "p_value": 0.3562,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.136,
-    "p_value": 0.0307,
+    "correlation_7d": 0.137,
+    "p_value": 0.0294,
     "significant": true,
-    "sample_size": 251,
+    "sample_size": 252,
     "strength_label": "negligible"
   },
   "current_status": {
     "days_since_last_tweet": 17,
-    "price_change_during_silence": -10.4,
+    "price_change_during_silence": -18.7,
     "last_tweet_date": "2025-12-12"
   },
   "limitations": {
@@ -65,7 +65,7 @@
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Limited history: 251 days may not capture full market cycles",
+      "Limited history: 252 days may not capture full market cycles",
       "Win rate of 46.2% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -203,14 +203,14 @@
     },
     {
       "start_ts": 1765550371,
-      "end_ts": 1767073416,
-      "gap_days": 17.6,
+      "end_ts": 1767076995,
+      "gap_days": 17.7,
       "start_date": "2025-12-12",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.04892157,
-      "price_end": 0.04385344,
-      "change_pct": -10.4
+      "price_end": 0.03978264,
+      "change_pct": -18.7
     }
   ]
 }

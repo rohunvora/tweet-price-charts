@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T00:43:05.727904Z",
+  "generated_at": "2025-12-30T01:42:44.884961Z",
   "asset": "wif",
   "asset_name": "WIF",
   "founder": "blknoiz06",
@@ -10,7 +10,7 @@
       "start": "2023-12-14",
       "end": "2025-12-07"
     },
-    "total_days_analyzed": 759
+    "total_days_analyzed": 760
   },
   "daily_comparison": {
     "tweet_day_count": 180,
@@ -28,36 +28,36 @@
       "positive_count": 107,
       "negative_count": 73
     },
-    "no_tweet_day_count": 578,
-    "no_tweet_day_avg_return": 1.63,
+    "no_tweet_day_count": 579,
+    "no_tweet_day_avg_return": 1.62,
     "no_tweet_day_win_rate": 43.4,
     "no_tweet_day_distribution": {
-      "count": 578,
-      "mean": 1.63,
-      "median": -1.23,
-      "std_dev": 31.92,
+      "count": 579,
+      "mean": 1.62,
+      "median": -1.28,
+      "std_dev": 31.89,
       "min": -40.3,
       "max": 679.06,
-      "q1": -5.06,
-      "q3": 3.49,
+      "q1": -5.09,
+      "q3": 3.47,
       "positive_count": 251,
-      "negative_count": 327
+      "negative_count": 328
     },
-    "t_statistic": 1.399,
-    "p_value": 0.1622,
+    "t_statistic": 1.407,
+    "p_value": 0.1598,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.402,
+    "correlation_7d": 0.403,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 759,
+    "sample_size": 760,
     "strength_label": "moderate"
   },
   "current_status": {
     "days_since_last_tweet": 22,
-    "price_change_during_silence": -19.3,
+    "price_change_during_silence": -26.0,
     "last_tweet_date": "2025-12-07"
   },
   "limitations": {
@@ -511,14 +511,14 @@
     },
     {
       "start_ts": 1765140780,
-      "end_ts": 1767073385,
+      "end_ts": 1767076964,
       "gap_days": 22.4,
       "start_date": "2025-12-07",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.38866563,
-      "price_end": 0.31357945,
-      "change_pct": -19.3
+      "price_end": 0.2876334,
+      "change_pct": -26.0
     }
   ]
 }
