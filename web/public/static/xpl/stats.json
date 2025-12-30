@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T08:17:47.161564Z",
+  "generated_at": "2025-12-30T09:16:52.052179Z",
   "asset": "xpl",
   "asset_name": "XPL",
   "founder": "pauliepunt",
@@ -56,7 +56,7 @@
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 18,
+    "days_since_last_tweet": 19,
     "price_change_during_silence": 3.5,
     "last_tweet_date": "2025-12-11"
   },
@@ -133,8 +133,8 @@
     },
     {
       "start_ts": 1765464238,
-      "end_ts": 1767100667,
-      "gap_days": 18.9,
+      "end_ts": 1767104212,
+      "gap_days": 19.0,
       "start_date": "2025-12-11",
       "end_date": "ongoing",
       "is_current": true,
