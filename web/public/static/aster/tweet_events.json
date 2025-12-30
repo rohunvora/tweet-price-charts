@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T21:11:24.074465Z",
+  "generated_at": "2025-12-30T22:19:31.878449Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
@@ -6382,9 +6382,9 @@
       "impressions": 39023,
       "price_at_tweet": 0.69031318,
       "price_1h": 0.68994886,
-      "price_24h": 0.68845422,
+      "price_24h": 0.68760565,
       "change_1h_pct": -0.05,
-      "change_24h_pct": -0.27,
+      "change_24h_pct": -0.39,
       "market_cap_at_tweet": 5522505440.0
     }
   ]
