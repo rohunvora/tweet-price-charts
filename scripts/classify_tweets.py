@@ -12,21 +12,27 @@ Pipeline:
 4. Write results to category_runs table
 
 Usage:
-    python classify_tweets.py --asset pump           # Classify one asset
-    python classify_tweets.py --all                  # Classify all assets
-    python classify_tweets.py --asset pump --dry-run # Preview without writing
-    python classify_tweets.py --eval                 # Evaluate against gold set
+    python classify_tweets.py --eval --model opus-4.5     # Evaluate with Opus 4.5
+    python classify_tweets.py --eval --model gpt-5.2      # Evaluate with GPT-5.2
+    python classify_tweets.py --compare                   # Compare both models
+    python classify_tweets.py --asset pump --model opus-4.5
 """
 
 import json
 import argparse
 import time
+import random
 from pathlib import Path
 from typing import Optional
 from datetime import datetime
+from dataclasses import dataclass, asdict
 
 # Local imports
 from classification_rules import classify_by_rules, Classification
+from classification_llm import (
+    classify_with_llm, classify_batch, BatchResult,
+    estimate_cost, SUPPORTED_MODELS, DEFAULT_MODEL, PRICING
+)
 from categorization_db import (
     get_connection, init_schema,
     save_clustered_event, save_classification_run,
@@ -44,7 +50,6 @@ def load_assets() -> list[dict]:
     """Load asset configurations."""
     with open(ASSETS_FILE) as f:
         data = json.load(f)
-        # Handle v2 schema with nested assets
         if isinstance(data, dict) and "assets" in data:
             return data["assets"]
         return data
@@ -66,7 +71,7 @@ def get_asset_by_id(asset_id: str) -> Optional[dict]:
 def classify_event(
     event: dict,
     use_llm: bool = True,
-    api_key: Optional[str] = None,
+    model: str = DEFAULT_MODEL,
 ) -> dict:
     """
     Classify a single clustered event.
@@ -87,7 +92,6 @@ def classify_event(
     )
 
     if rule_result is not None:
-        # Rule matched
         return {
             "classification_method": "rule",
             "topic": rule_result.topic,
@@ -99,18 +103,19 @@ def classify_event(
             "reasoning": rule_result.reasoning,
             "model": None,
             "prompt_hash": None,
+            "parse_error": False,
+            "input_tokens": 0,
+            "output_tokens": 0,
         }
 
     # Fall back to LLM
     if use_llm:
-        # Lazy import to allow rules-only mode without anthropic
-        from classification_llm import classify_with_llm
         llm_result = classify_with_llm(
             combined_text=combined_text,
             author=author,
             timestamp=timestamp,
             cluster_size=cluster_size,
-            api_key=api_key,
+            model=model,
         )
 
         return {
@@ -124,9 +129,12 @@ def classify_event(
             "reasoning": llm_result.reasoning,
             "model": llm_result.model,
             "prompt_hash": llm_result.prompt_hash,
+            "parse_error": llm_result.parse_error,
+            "input_tokens": llm_result.input_tokens,
+            "output_tokens": llm_result.output_tokens,
         }
 
-    # No LLM, no rule match - return unclassified
+    # No LLM, no rule match
     return {
         "classification_method": "none",
         "topic": None,
@@ -138,114 +146,10 @@ def classify_event(
         "reasoning": "No rule matched, LLM disabled",
         "model": None,
         "prompt_hash": None,
+        "parse_error": False,
+        "input_tokens": 0,
+        "output_tokens": 0,
     }
-
-
-def classify_asset(
-    asset_id: str,
-    dry_run: bool = False,
-    use_llm: bool = True,
-    api_key: Optional[str] = None,
-    skip_existing: bool = True,
-) -> dict:
-    """
-    Classify all events for an asset.
-
-    Args:
-        asset_id: Asset ID to classify
-        dry_run: If True, don't write to DB
-        use_llm: If False, only use rule-based classification
-        api_key: Anthropic API key for LLM
-        skip_existing: Skip events that already have classification
-
-    Returns:
-        Stats dict with counts
-    """
-    asset = get_asset_by_id(asset_id)
-    if not asset:
-        raise ValueError(f"Asset not found: {asset_id}")
-
-    founder = asset.get("founder", asset.get("adopter", "unknown"))
-
-    # Load and cluster tweets
-    events = load_tweet_events(asset_id)
-    if not events:
-        print(f"  No events found for {asset_id}")
-        return {"total": 0, "rule": 0, "llm": 0, "skipped": 0}
-
-    clusters = cluster_tweets(events)
-
-    # Initialize DB
-    conn = get_connection()
-    init_schema(conn)
-
-    stats = {"total": len(clusters), "rule": 0, "llm": 0, "skipped": 0, "none": 0}
-
-    for i, cluster in enumerate(clusters):
-        event_id = cluster["event_id"]
-
-        # Check if already classified
-        if skip_existing:
-            existing = get_latest_classification(conn, event_id)
-            if existing:
-                stats["skipped"] += 1
-                continue
-
-        # Save clustered event to DB first
-        if not dry_run:
-            save_clustered_event(
-                conn=conn,
-                event_id=event_id,
-                asset_id=asset_id,
-                anchor_tweet_id=cluster["anchor_tweet_id"],
-                tweet_ids=cluster["tweet_ids"],
-                combined_text=cluster["combined_text"],
-                event_timestamp=cluster["anchor_timestamp"],
-                cluster_size=cluster["cluster_size"],
-                time_span_seconds=cluster["time_span_seconds"],
-                cluster_reason=cluster["cluster_reason"],
-                founder=founder,
-            )
-
-        # Classify
-        classification = classify_event(
-            event=cluster,
-            use_llm=use_llm,
-            api_key=api_key,
-        )
-
-        # Track stats
-        method = classification["classification_method"]
-        if method == "rule":
-            stats["rule"] += 1
-        elif method == "llm":
-            stats["llm"] += 1
-        else:
-            stats["none"] += 1
-
-        # Save classification
-        if not dry_run and classification["topic"]:
-            save_classification_run(
-                conn=conn,
-                event_id=event_id,
-                classification_method=classification["classification_method"],
-                topic=classification["topic"],
-                intent=classification["intent"],
-                secondary_intent=classification["secondary_intent"],
-                style_tags=classification["style_tags"],
-                format_tags=classification["format_tags"],
-                needs_review=classification["needs_review"],
-                reasoning=classification["reasoning"],
-                model=classification["model"],
-                prompt_hash=classification["prompt_hash"],
-            )
-
-        # Progress
-        if (i + 1) % 10 == 0:
-            print(f"  Processed {i + 1}/{len(clusters)} events...")
-
-    conn.close()
-    return stats
 
 
 # =============================================================================
@@ -266,145 +170,192 @@ def load_gold_set() -> list[dict]:
     return examples
 
 
-def evaluate_gold_set(use_llm: bool = True, api_key: Optional[str] = None) -> dict:
-    """
-    Evaluate classifier against gold set.
+@dataclass
+class EvalResult:
+    """Detailed evaluation results."""
+    model: str
+    total: int
+    topic_correct: int
+    intent_correct: int
+    both_correct: int
+    rule_used: int
+    llm_used: int
+    parse_errors: int
+    total_input_tokens: int
+    total_output_tokens: int
+    elapsed_seconds: float
+    classifications: list  # Full classification details
+    misclassified: list    # Errors for review
 
-    Returns accuracy report.
+    @property
+    def topic_accuracy(self) -> float:
+        return round(100 * self.topic_correct / self.total, 1) if self.total else 0
+
+    @property
+    def intent_accuracy(self) -> float:
+        return round(100 * self.intent_correct / self.total, 1) if self.total else 0
+
+    @property
+    def both_accuracy(self) -> float:
+        return round(100 * self.both_correct / self.total, 1) if self.total else 0
+
+    @property
+    def estimated_cost(self) -> float:
+        return estimate_cost(self.model, self.total_input_tokens, self.total_output_tokens)
+
+
+def evaluate_gold_set(model: str = DEFAULT_MODEL, use_llm: bool = True) -> EvalResult:
+    """
+    Evaluate classifier against gold set with full tracking.
     """
     gold = load_gold_set()
+    start_time = time.time()
 
-    results = {
-        "total": len(gold),
-        "topic_correct": 0,
-        "intent_correct": 0,
-        "both_correct": 0,
-        "rule_used": 0,
-        "llm_used": 0,
-        "misclassified": [],
-    }
+    classifications = []
+    misclassified = []
+    topic_correct = 0
+    intent_correct = 0
+    both_correct = 0
+    rule_used = 0
+    llm_used = 0
+    parse_errors = 0
+    total_input = 0
+    total_output = 0
 
-    for example in gold:
+    for i, example in enumerate(gold):
         text = example["text"]
         author = example.get("founder", example.get("author", "unknown"))
         expected_topic = example["topic"]
         expected_intent = example["intent"]
 
-        # Classify
         event = {
             "combined_text": text,
             "founder": author,
             "anchor_timestamp": 0,
             "cluster_size": 1,
         }
-        classification = classify_event(event, use_llm=use_llm, api_key=api_key)
+        classification = classify_event(event, use_llm=use_llm, model=model)
+
+        # Track tokens
+        total_input += classification.get("input_tokens", 0)
+        total_output += classification.get("output_tokens", 0)
 
         # Track method
         if classification["classification_method"] == "rule":
-            results["rule_used"] += 1
+            rule_used += 1
         elif classification["classification_method"] == "llm":
-            results["llm_used"] += 1
+            llm_used += 1
+
+        if classification.get("parse_error"):
+            parse_errors += 1
 
         # Check accuracy
         topic_match = classification["topic"] == expected_topic
         intent_match = classification["intent"] == expected_intent
 
         if topic_match:
-            results["topic_correct"] += 1
+            topic_correct += 1
         if intent_match:
-            results["intent_correct"] += 1
+            intent_correct += 1
         if topic_match and intent_match:
-            results["both_correct"] += 1
-        else:
-            results["misclassified"].append({
-                "text": text[:100] + "..." if len(text) > 100 else text,
-                "author": author,
-                "expected": f"{expected_topic}/{expected_intent}",
-                "got": f"{classification['topic']}/{classification['intent']}",
-                "method": classification["classification_method"],
-                "reasoning": classification.get("reasoning", ""),
-            })
+            both_correct += 1
 
-    # Calculate percentages
-    total = results["total"]
-    results["topic_accuracy"] = round(100 * results["topic_correct"] / total, 1)
-    results["intent_accuracy"] = round(100 * results["intent_correct"] / total, 1)
-    results["both_accuracy"] = round(100 * results["both_correct"] / total, 1)
+        # Store full classification
+        full_record = {
+            "text": text,
+            "author": author,
+            "expected_topic": expected_topic,
+            "expected_intent": expected_intent,
+            "predicted_topic": classification["topic"],
+            "predicted_intent": classification["intent"],
+            "secondary_intent": classification.get("secondary_intent"),
+            "style_tags": classification.get("style_tags", []),
+            "format_tags": classification.get("format_tags", []),
+            "method": classification["classification_method"],
+            "reasoning": classification.get("reasoning", ""),
+            "topic_correct": topic_match,
+            "intent_correct": intent_match,
+        }
+        classifications.append(full_record)
 
-    return results
+        if not (topic_match and intent_match):
+            misclassified.append(full_record)
+
+        if (i + 1) % 10 == 0:
+            print(f"  Evaluated {i + 1}/{len(gold)}...")
+
+    elapsed = time.time() - start_time
+
+    return EvalResult(
+        model=model,
+        total=len(gold),
+        topic_correct=topic_correct,
+        intent_correct=intent_correct,
+        both_correct=both_correct,
+        rule_used=rule_used,
+        llm_used=llm_used,
+        parse_errors=parse_errors,
+        total_input_tokens=total_input,
+        total_output_tokens=total_output,
+        elapsed_seconds=elapsed,
+        classifications=classifications,
+        misclassified=misclassified,
+    )
 
 
-def print_eval_report(results: dict):
-    """Print evaluation report."""
-    print("\n" + "=" * 60)
-    print("GOLD SET EVALUATION REPORT")
-    print("=" * 60)
-    print(f"\nTotal examples: {results['total']}")
-    print(f"Rule-based classifications: {results['rule_used']}")
-    print(f"LLM-based classifications: {results['llm_used']}")
-    print(f"\nAccuracy:")
-    print(f"  Topic:  {results['topic_accuracy']}% ({results['topic_correct']}/{results['total']})")
-    print(f"  Intent: {results['intent_accuracy']}% ({results['intent_correct']}/{results['total']})")
-    print(f"  Both:   {results['both_accuracy']}% ({results['both_correct']}/{results['total']})")
-
-    if results["misclassified"]:
-        print(f"\nMisclassified examples ({len(results['misclassified'])}):")
-        print("-" * 60)
-        for m in results["misclassified"][:15]:  # Show first 15
-            print(f"\n  Text: {m['text']}")
-            print(f"  Author: {m['author']}")
-            print(f"  Expected: {m['expected']}")
-            print(f"  Got: {m['got']} ({m['method']})")
-            if m.get("reasoning"):
-                print(f"  Reasoning: {m['reasoning'][:80]}...")
-
-
-# =============================================================================
-# Sample Generation
-# =============================================================================
-
-def generate_samples(
-    n_samples: int = 50,
+def evaluate_random_sample(
+    n_samples: int = 200,
+    model: str = DEFAULT_MODEL,
     use_llm: bool = True,
-    api_key: Optional[str] = None,
-) -> list[dict]:
+    seed: int = 42,
+) -> EvalResult:
     """
-    Generate random classification samples for review.
-
-    Returns list of classified samples.
+    Evaluate on random sample of real events (no ground truth, for cost/distribution).
     """
-    import random
+    random.seed(seed)
 
-    # Load all events across assets
+    # Load all clusters
     assets = load_assets()
     all_clusters = []
-
     for asset in assets:
-        asset_id = asset["id"]
-        events = load_tweet_events(asset_id)
+        events = load_tweet_events(asset["id"])
         if events:
             clusters = cluster_tweets(events)
             for c in clusters:
-                c["asset_id"] = asset_id
+                c["asset_id"] = asset["id"]
                 c["founder"] = asset.get("founder", asset.get("adopter", "unknown"))
             all_clusters.extend(clusters)
 
-    # Random sample
-    if len(all_clusters) < n_samples:
-        sample = all_clusters
-    else:
-        sample = random.sample(all_clusters, n_samples)
+    # Sample
+    sample = random.sample(all_clusters, min(n_samples, len(all_clusters)))
 
-    # Classify each
-    results = []
+    start_time = time.time()
+    classifications = []
+    rule_used = 0
+    llm_used = 0
+    parse_errors = 0
+    total_input = 0
+    total_output = 0
+
     for i, cluster in enumerate(sample):
-        classification = classify_event(cluster, use_llm=use_llm, api_key=api_key)
+        classification = classify_event(cluster, use_llm=use_llm, model=model)
 
-        results.append({
+        total_input += classification.get("input_tokens", 0)
+        total_output += classification.get("output_tokens", 0)
+
+        if classification["classification_method"] == "rule":
+            rule_used += 1
+        elif classification["classification_method"] == "llm":
+            llm_used += 1
+
+        if classification.get("parse_error"):
+            parse_errors += 1
+
+        classifications.append({
             "asset_id": cluster["asset_id"],
             "founder": cluster["founder"],
+            "text": cluster["combined_text"][:500],
             "cluster_size": cluster["cluster_size"],
-            "text": cluster["combined_text"][:500],  # Truncate for readability
             "topic": classification["topic"],
             "intent": classification["intent"],
             "secondary_intent": classification.get("secondary_intent"),
@@ -414,66 +365,212 @@ def generate_samples(
             "reasoning": classification.get("reasoning", ""),
         })
 
-        if (i + 1) % 10 == 0:
+        if (i + 1) % 20 == 0:
             print(f"  Sampled {i + 1}/{len(sample)}...")
 
-    return results
+    elapsed = time.time() - start_time
+
+    return EvalResult(
+        model=model,
+        total=len(sample),
+        topic_correct=0,  # No ground truth
+        intent_correct=0,
+        both_correct=0,
+        rule_used=rule_used,
+        llm_used=llm_used,
+        parse_errors=parse_errors,
+        total_input_tokens=total_input,
+        total_output_tokens=total_output,
+        elapsed_seconds=elapsed,
+        classifications=classifications,
+        misclassified=[],
+    )
 
 
-def write_samples_markdown(samples: list[dict], output_path: Path):
-    """Write samples to markdown file for review."""
+# =============================================================================
+# Report Generation
+# =============================================================================
+
+def write_eval_report(
+    gold_results: dict[str, EvalResult],
+    sample_results: dict[str, EvalResult],
+    output_path: Path,
+):
+    """Write comprehensive evaluation report."""
     with open(output_path, "w") as f:
-        f.write("# Classification Samples\n\n")
-        f.write(f"Generated: {datetime.now().isoformat()}\n")
-        f.write(f"Total samples: {len(samples)}\n\n")
+        f.write("# Classification Evaluation Report\n\n")
+        f.write(f"**Generated:** {datetime.now().isoformat()}\n")
+        f.write(f"**Branch:** feat/tweet-categorization-v1\n\n")
 
-        # Summary stats
-        by_method = {}
-        by_topic = {}
-        by_intent = {}
-        for s in samples:
-            by_method[s["method"]] = by_method.get(s["method"], 0) + 1
-            by_topic[s["topic"]] = by_topic.get(s["topic"], 0) + 1
-            by_intent[s["intent"]] = by_intent.get(s["intent"], 0) + 1
+        f.write("---\n\n")
+        f.write("## Executive Summary\n\n")
 
-        f.write("## Summary\n\n")
-        f.write("| Method | Count |\n|--------|-------|\n")
-        for k, v in sorted(by_method.items()):
-            f.write(f"| {k} | {v} |\n")
+        # Summary table
+        f.write("| Model | Gold Accuracy (Both) | Topic Acc | Intent Acc | Parse Errors | Cost |\n")
+        f.write("|-------|---------------------|-----------|------------|--------------|------|\n")
+        for model, result in gold_results.items():
+            f.write(f"| {model} | {result.both_accuracy}% | {result.topic_accuracy}% | {result.intent_accuracy}% | {result.parse_errors} | ${result.estimated_cost:.4f} |\n")
         f.write("\n")
 
-        f.write("| Topic | Count |\n|-------|-------|\n")
-        for k, v in sorted(by_topic.items(), key=lambda x: -x[1]):
-            f.write(f"| {k} | {v} |\n")
-        f.write("\n")
+        # Disagreement analysis
+        if len(gold_results) == 2:
+            models = list(gold_results.keys())
+            r1, r2 = gold_results[models[0]], gold_results[models[1]]
+            disagreements = []
+            for c1, c2 in zip(r1.classifications, r2.classifications):
+                if c1["predicted_topic"] != c2["predicted_topic"] or c1["predicted_intent"] != c2["predicted_intent"]:
+                    disagreements.append({
+                        "text": c1["text"][:100],
+                        f"{models[0]}": f"{c1['predicted_topic']}/{c1['predicted_intent']}",
+                        f"{models[1]}": f"{c2['predicted_topic']}/{c2['predicted_intent']}",
+                        "expected": f"{c1['expected_topic']}/{c1['expected_intent']}",
+                    })
 
-        f.write("| Intent | Count |\n|--------|-------|\n")
-        for k, v in sorted(by_intent.items(), key=lambda x: -x[1]):
-            f.write(f"| {k} | {v} |\n")
-        f.write("\n---\n\n")
+            f.write(f"### Model Disagreements: {len(disagreements)}/{r1.total} ({100*len(disagreements)/r1.total:.1f}%)\n\n")
+            if disagreements:
+                f.write("| Text | " + " | ".join(models) + " | Expected |\n")
+                f.write("|------|" + "|".join(["------"] * len(models)) + "|----------|\n")
+                for d in disagreements[:20]:
+                    f.write(f"| {d['text'][:50]}... | {d[models[0]]} | {d[models[1]]} | {d['expected']} |\n")
+                f.write("\n")
 
-        # Individual samples
-        f.write("## Samples\n\n")
-        for i, s in enumerate(samples, 1):
-            f.write(f"### Sample {i}: {s['asset_id']} ({s['founder']})\n\n")
-            f.write(f"**Classification:** {s['topic']}/{s['intent']}")
-            if s.get("secondary_intent"):
-                f.write(f" (+{s['secondary_intent']})")
-            f.write(f" [{s['method']}]\n\n")
+        # Detailed results per model
+        for model, result in gold_results.items():
+            f.write(f"---\n\n## {model} - Gold Set Results\n\n")
+            f.write(f"- **Total examples:** {result.total}\n")
+            f.write(f"- **Rule-based:** {result.rule_used}\n")
+            f.write(f"- **LLM-based:** {result.llm_used}\n")
+            f.write(f"- **Parse errors:** {result.parse_errors}\n")
+            f.write(f"- **Tokens:** {result.total_input_tokens:,} in / {result.total_output_tokens:,} out\n")
+            f.write(f"- **Cost:** ${result.estimated_cost:.4f}\n")
+            f.write(f"- **Time:** {result.elapsed_seconds:.1f}s\n\n")
 
-            if s.get("style_tags"):
-                f.write(f"**Style:** {', '.join(s['style_tags'])}\n\n")
-            if s.get("format_tags"):
-                f.write(f"**Format:** {', '.join(s['format_tags'])}\n\n")
+            f.write("### Accuracy\n\n")
+            f.write(f"| Metric | Score |\n|--------|-------|\n")
+            f.write(f"| Topic | {result.topic_accuracy}% ({result.topic_correct}/{result.total}) |\n")
+            f.write(f"| Intent | {result.intent_accuracy}% ({result.intent_correct}/{result.total}) |\n")
+            f.write(f"| Both | {result.both_accuracy}% ({result.both_correct}/{result.total}) |\n\n")
 
-            f.write(f"**Text ({s['cluster_size']} tweet(s)):**\n```\n{s['text']}\n```\n\n")
+            # Confusion summary
+            if result.misclassified:
+                f.write(f"### Misclassified ({len(result.misclassified)})\n\n")
+                topic_errors = {}
+                intent_errors = {}
+                for m in result.misclassified:
+                    if not m["topic_correct"]:
+                        key = f"{m['expected_topic']} → {m['predicted_topic']}"
+                        topic_errors[key] = topic_errors.get(key, 0) + 1
+                    if not m["intent_correct"]:
+                        key = f"{m['expected_intent']} → {m['predicted_intent']}"
+                        intent_errors[key] = intent_errors.get(key, 0) + 1
 
-            if s.get("reasoning"):
-                f.write(f"**Reasoning:** {s['reasoning']}\n\n")
+                f.write("**Topic Confusion:**\n")
+                for k, v in sorted(topic_errors.items(), key=lambda x: -x[1])[:10]:
+                    f.write(f"- {k}: {v}\n")
+                f.write("\n**Intent Confusion:**\n")
+                for k, v in sorted(intent_errors.items(), key=lambda x: -x[1])[:10]:
+                    f.write(f"- {k}: {v}\n")
+                f.write("\n")
 
+        # Sample examples section
+        f.write("---\n\n## Classification Examples (50 samples)\n\n")
+
+        # Use first model's classifications for examples
+        first_model = list(gold_results.keys())[0]
+        examples = gold_results[first_model].classifications[:50]
+
+        for i, ex in enumerate(examples, 1):
+            status = "✅" if ex["topic_correct"] and ex["intent_correct"] else "❌"
+            f.write(f"### Example {i} {status}\n\n")
+            f.write(f"**Text:** {ex['text'][:200]}{'...' if len(ex['text']) > 200 else ''}\n\n")
+            f.write(f"**Author:** {ex['author']}\n\n")
+            f.write(f"**Expected:** {ex['expected_topic']}/{ex['expected_intent']}\n\n")
+            f.write(f"**Predicted:** {ex['predicted_topic']}/{ex['predicted_intent']}")
+            if ex.get("secondary_intent"):
+                f.write(f" (+{ex['secondary_intent']})")
+            f.write(f" [{ex['method']}]\n\n")
+            if ex.get("style_tags"):
+                f.write(f"**Style:** {', '.join(ex['style_tags'])}\n\n")
+            if ex.get("reasoning"):
+                f.write(f"**Reasoning:** {ex['reasoning']}\n\n")
             f.write("---\n\n")
 
-    print(f"Wrote {len(samples)} samples to {output_path}")
+        # Hard/borderline examples
+        f.write("## Hard/Borderline Examples (10)\n\n")
+        f.write("These are examples where models disagreed or classification was ambiguous.\n\n")
+
+        # Find disagreements or near-misses
+        hard_examples = []
+        if len(gold_results) == 2:
+            models = list(gold_results.keys())
+            for c1, c2 in zip(gold_results[models[0]].classifications, gold_results[models[1]].classifications):
+                if c1["predicted_topic"] != c2["predicted_topic"] or c1["predicted_intent"] != c2["predicted_intent"]:
+                    hard_examples.append({
+                        "text": c1["text"],
+                        "author": c1["author"],
+                        "expected": f"{c1['expected_topic']}/{c1['expected_intent']}",
+                        models[0]: f"{c1['predicted_topic']}/{c1['predicted_intent']}",
+                        models[1]: f"{c2['predicted_topic']}/{c2['predicted_intent']}",
+                        "reasoning_1": c1.get("reasoning", ""),
+                        "reasoning_2": c2.get("reasoning", ""),
+                    })
+
+        for i, ex in enumerate(hard_examples[:10], 1):
+            f.write(f"### Hard Example {i}\n\n")
+            f.write(f"**Text:** {ex['text'][:300]}{'...' if len(ex['text']) > 300 else ''}\n\n")
+            f.write(f"**Expected:** {ex['expected']}\n\n")
+            for model in list(gold_results.keys()):
+                f.write(f"**{model}:** {ex.get(model, 'N/A')}\n\n")
+            f.write("---\n\n")
+
+    print(f"Wrote evaluation report to {output_path}")
+
+
+def write_cost_estimate(sample_results: dict[str, EvalResult], output_path: Path):
+    """Write cost estimation report."""
+    # Estimate for full 3788 events
+    TOTAL_EVENTS = 3788
+
+    with open(output_path, "w") as f:
+        f.write("# Cost Estimation for Full Classification Run\n\n")
+        f.write(f"**Generated:** {datetime.now().isoformat()}\n")
+        f.write(f"**Total Clustered Events:** {TOTAL_EVENTS}\n\n")
+
+        f.write("## Per-Model Estimates\n\n")
+        f.write("| Model | Sample Size | Tokens/Event (avg) | Est. Total Tokens | Est. Cost | Time (projected) |\n")
+        f.write("|-------|-------------|-------------------|-------------------|-----------|------------------|\n")
+
+        for model, result in sample_results.items():
+            avg_input = result.total_input_tokens / result.llm_used if result.llm_used else 0
+            avg_output = result.total_output_tokens / result.llm_used if result.llm_used else 0
+            avg_total = avg_input + avg_output
+
+            # Assume ~86% need LLM (based on rules catching ~14%)
+            llm_events = int(TOTAL_EVENTS * 0.86)
+
+            est_input = int(avg_input * llm_events)
+            est_output = int(avg_output * llm_events)
+            est_cost = estimate_cost(model, est_input, est_output)
+
+            # Time projection
+            time_per_event = result.elapsed_seconds / result.total if result.total else 0
+            est_time_minutes = (time_per_event * llm_events) / 60
+
+            f.write(f"| {model} | {result.total} | {avg_total:.0f} | {est_input + est_output:,} | ${est_cost:.2f} | {est_time_minutes:.0f} min |\n")
+
+        f.write("\n## Pricing Reference\n\n")
+        f.write("| Model | Input (per 1M) | Output (per 1M) |\n")
+        f.write("|-------|----------------|------------------|\n")
+        for model, prices in PRICING.items():
+            f.write(f"| {model} | ${prices['input']:.2f} | ${prices['output']:.2f} |\n")
+
+        f.write("\n## Notes\n\n")
+        f.write("- Estimates assume ~14% caught by rules (rule-based = free)\n")
+        f.write("- Actual costs may vary based on tweet length distribution\n")
+        f.write("- Caching not applicable (each event is unique)\n")
+        f.write("- Time estimates are sequential; parallelization could reduce wall time\n")
+
+    print(f"Wrote cost estimate to {output_path}")
 
 
 # =============================================================================
@@ -487,66 +584,134 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Preview without writing to DB")
     parser.add_argument("--no-llm", action="store_true", help="Rules only, no LLM")
     parser.add_argument("--eval", action="store_true", help="Evaluate against gold set")
+    parser.add_argument("--compare", action="store_true", help="Compare both models on gold + 200 random")
     parser.add_argument("--samples", type=int, help="Generate N random samples for review")
+    parser.add_argument("--model", type=str, default=DEFAULT_MODEL,
+                        choices=list(SUPPORTED_MODELS.keys()),
+                        help=f"Model to use (default: {DEFAULT_MODEL})")
     parser.add_argument("--force", action="store_true", help="Re-classify even if already classified")
     args = parser.parse_args()
 
     use_llm = not args.no_llm
-    skip_existing = not args.force
 
-    if args.eval:
-        print("Evaluating against gold set...")
-        results = evaluate_gold_set(use_llm=use_llm)
-        print_eval_report(results)
+    if args.compare:
+        # Run both models on gold set + 200 random samples
+        print("=" * 60)
+        print("MODEL COMPARISON: GPT-5.2 vs Opus 4.5")
+        print("=" * 60)
 
-        # Save report
-        report_path = ANALYSIS_DIR / "gold_eval_report.json"
+        gold_results = {}
+        sample_results = {}
+
+        for model in SUPPORTED_MODELS.keys():
+            print(f"\n--- Evaluating {model} on gold set ---")
+            gold_results[model] = evaluate_gold_set(model=model, use_llm=True)
+            print(f"  Accuracy: {gold_results[model].both_accuracy}%")
+            print(f"  Cost: ${gold_results[model].estimated_cost:.4f}")
+
+            print(f"\n--- Evaluating {model} on 200 random samples ---")
+            sample_results[model] = evaluate_random_sample(n_samples=200, model=model, use_llm=True)
+            print(f"  Cost: ${sample_results[model].estimated_cost:.4f}")
+
+        # Write reports
+        write_eval_report(gold_results, sample_results, ANALYSIS_DIR / "eval_report.md")
+        write_cost_estimate(sample_results, ANALYSIS_DIR / "cost_estimate.md")
+
+        # Summary
+        print("\n" + "=" * 60)
+        print("COMPARISON COMPLETE")
+        print("=" * 60)
+        for model in SUPPORTED_MODELS.keys():
+            r = gold_results[model]
+            print(f"\n{model}:")
+            print(f"  Gold Accuracy: {r.both_accuracy}% (topic: {r.topic_accuracy}%, intent: {r.intent_accuracy}%)")
+            print(f"  Parse Errors: {r.parse_errors}")
+            print(f"  Cost (gold): ${r.estimated_cost:.4f}")
+
+    elif args.eval:
+        print(f"Evaluating with {args.model}...")
+        result = evaluate_gold_set(model=args.model, use_llm=use_llm)
+
+        print("\n" + "=" * 60)
+        print(f"GOLD SET EVALUATION - {args.model}")
+        print("=" * 60)
+        print(f"\nTotal: {result.total}")
+        print(f"Rule-based: {result.rule_used}")
+        print(f"LLM-based: {result.llm_used}")
+        print(f"Parse errors: {result.parse_errors}")
+        print(f"\nAccuracy:")
+        print(f"  Topic:  {result.topic_accuracy}%")
+        print(f"  Intent: {result.intent_accuracy}%")
+        print(f"  Both:   {result.both_accuracy}%")
+        print(f"\nTokens: {result.total_input_tokens:,} in / {result.total_output_tokens:,} out")
+        print(f"Cost: ${result.estimated_cost:.4f}")
+        print(f"Time: {result.elapsed_seconds:.1f}s")
+
+        # Save JSON report
+        report_path = ANALYSIS_DIR / f"gold_eval_{args.model.replace('.', '_')}.json"
         with open(report_path, "w") as f:
-            json.dump(results, f, indent=2)
-        print(f"\nFull report saved to {report_path}")
+            json.dump({
+                "model": result.model,
+                "total": result.total,
+                "topic_accuracy": result.topic_accuracy,
+                "intent_accuracy": result.intent_accuracy,
+                "both_accuracy": result.both_accuracy,
+                "rule_used": result.rule_used,
+                "llm_used": result.llm_used,
+                "parse_errors": result.parse_errors,
+                "input_tokens": result.total_input_tokens,
+                "output_tokens": result.total_output_tokens,
+                "cost": result.estimated_cost,
+                "elapsed_seconds": result.elapsed_seconds,
+                "misclassified": result.misclassified[:50],
+            }, f, indent=2)
+        print(f"\nSaved to {report_path}")
 
     elif args.samples:
-        print(f"Generating {args.samples} random samples...")
-        samples = generate_samples(n_samples=args.samples, use_llm=use_llm)
+        print(f"Generating {args.samples} samples with {args.model}...")
+        result = evaluate_random_sample(n_samples=args.samples, model=args.model, use_llm=use_llm)
+
         output_path = ANALYSIS_DIR / "classification_samples.md"
-        write_samples_markdown(samples, output_path)
+        with open(output_path, "w") as f:
+            f.write("# Classification Samples\n\n")
+            f.write(f"Generated: {datetime.now().isoformat()}\n")
+            f.write(f"Model: {args.model}\n")
+            f.write(f"Total samples: {len(result.classifications)}\n\n")
+
+            # Summary
+            by_topic = {}
+            by_intent = {}
+            for c in result.classifications:
+                by_topic[c["topic"]] = by_topic.get(c["topic"], 0) + 1
+                by_intent[c["intent"]] = by_intent.get(c["intent"], 0) + 1
+
+            f.write("## Distribution\n\n")
+            f.write("| Topic | Count |\n|-------|-------|\n")
+            for k, v in sorted(by_topic.items(), key=lambda x: -x[1]):
+                f.write(f"| {k} | {v} |\n")
+            f.write("\n| Intent | Count |\n|--------|-------|\n")
+            for k, v in sorted(by_intent.items(), key=lambda x: -x[1]):
+                f.write(f"| {k} | {v} |\n")
+            f.write("\n---\n\n")
+
+            f.write("## Samples\n\n")
+            for i, c in enumerate(result.classifications, 1):
+                f.write(f"### Sample {i}: {c['asset_id']} ({c['founder']})\n\n")
+                f.write(f"**Classification:** {c['topic']}/{c['intent']} [{c['method']}]\n\n")
+                if c.get("style_tags"):
+                    f.write(f"**Style:** {', '.join(c['style_tags'])}\n\n")
+                f.write(f"**Text ({c['cluster_size']} tweet(s)):**\n```\n{c['text']}\n```\n\n")
+                if c.get("reasoning"):
+                    f.write(f"**Reasoning:** {c['reasoning']}\n\n")
+                f.write("---\n\n")
+
+        print(f"Wrote samples to {output_path}")
+        print(f"Cost: ${result.estimated_cost:.4f}")
 
     elif args.asset:
-        print(f"Classifying {args.asset}...")
-        stats = classify_asset(
-            asset_id=args.asset,
-            dry_run=args.dry_run,
-            use_llm=use_llm,
-            skip_existing=skip_existing,
-        )
-        print(f"\nResults for {args.asset}:")
-        print(f"  Total events: {stats['total']}")
-        print(f"  Rule-based: {stats['rule']}")
-        print(f"  LLM-based: {stats['llm']}")
-        print(f"  Skipped (existing): {stats['skipped']}")
-
-    elif args.all:
-        assets = load_assets()
-        print(f"Classifying {len(assets)} assets...")
-        total_stats = {"total": 0, "rule": 0, "llm": 0, "skipped": 0}
-
-        for asset in assets:
-            print(f"\n{asset['id']}...")
-            stats = classify_asset(
-                asset_id=asset["id"],
-                dry_run=args.dry_run,
-                use_llm=use_llm,
-                skip_existing=skip_existing,
-            )
-            for k in total_stats:
-                total_stats[k] += stats.get(k, 0)
-
-        print(f"\n{'=' * 40}")
-        print(f"TOTAL:")
-        print(f"  Events: {total_stats['total']}")
-        print(f"  Rule-based: {total_stats['rule']}")
-        print(f"  LLM-based: {total_stats['llm']}")
-        print(f"  Skipped: {total_stats['skipped']}")
+        print(f"Classifying {args.asset} with {args.model}...")
+        # TODO: Update classify_asset to accept model parameter
+        print("Asset classification not yet updated for multi-model support")
 
     else:
         parser.print_help()

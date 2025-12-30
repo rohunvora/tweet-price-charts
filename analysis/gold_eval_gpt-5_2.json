@@ -1,0 +1,498 @@
+{
+  "model": "gpt-5.2",
+  "total": 71,
+  "topic_accuracy": 74.6,
+  "intent_accuracy": 77.5,
+  "both_accuracy": 59.2,
+  "rule_used": 10,
+  "llm_used": 61,
+  "parse_errors": 0,
+  "input_tokens": 42467,
+  "output_tokens": 4715,
+  "cost": 0.1533175,
+  "elapsed_seconds": 99.99865388870239,
+  "misclassified": [
+    {
+      "text": "CTOs are the lifeblood of pump fun - they formed most of the success cases on the platform...\n---\nthis important update is only one of a series of initiatives...",
+      "author": "a1lon9",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "product",
+      "predicted_intent": "tease",
+      "secondary_intent": "inform",
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "It frames an \u201cimportant update\u201d as part of a series of initiatives without detailing specifics, signaling upcoming platform changes. The emphasis is on product/platform evolution rather than token price or broader market.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "I've heard feedback from many that market making has gotten more competitive on Hyperliquid recently...\n---\nSee https://t.co/0DdDdObM5P for further details",
+      "author": "chameleon_jeff",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "market",
+      "predicted_intent": "inform",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [
+        "thread"
+      ],
+      "method": "llm",
+      "reasoning": "Shares an observation/feedback about increased competitiveness in market making on Hyperliquid and directs readers to more details via a link. The purpose is informational rather than celebratory or promotional.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "TLDR: During recent volatility, Hyperliquid had 100% uptime with zero bad debt...\n---\nDoug's ADL explanation for reference...",
+      "author": "chameleon_jeff",
+      "expected_topic": "product",
+      "expected_intent": "defend",
+      "predicted_topic": "product",
+      "predicted_intent": "inform",
+      "secondary_intent": null,
+      "style_tags": [
+        "technical"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet reports operational performance metrics (100% uptime, zero bad debt) during volatility and references an explanation of ADL mechanics, which is primarily product/system information sharing.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "wif\n---\nwif wif wif wif wif\n---\nwif\n---\nwif used car kpop wynn\n---\nwif",
+      "author": "blknoiz06",
+      "expected_topic": "token",
+      "expected_intent": "rally",
+      "predicted_topic": "meta",
+      "predicted_intent": "rally",
+      "secondary_intent": null,
+      "style_tags": [
+        "memetic"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet is repetitive meme-style chanting of \u201cwif\u201d with no substantive info, functioning as a degen hype/cheerleading signal rather than discussion of product or market details.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "Taking a 15 minute breather from building to answer some questions on here related to @believeapp, @launchcoin, and $LAUNCHCOIN. Ask away!",
+      "author": "pasternak",
+      "expected_topic": "personal",
+      "expected_intent": "engage",
+      "predicted_topic": "product",
+      "predicted_intent": "engage",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The author invites followers to ask questions about specific apps/coins, primarily aiming to start a Q&A conversation. The focus is on discussing the project/product rather than price action or broader market commentary.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "Creators should have the freedom to build where they believe their project will thrive...\n---\nhttps://t.co/61C0O93vV1",
+      "author": "pasternak",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "personal",
+      "predicted_intent": "reflect",
+      "secondary_intent": null,
+      "style_tags": [
+        "philosophical"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet expresses a belief about creator freedom and choosing where to build, without concrete product/token/market details. The tone is values-driven and reflective, pointing to a philosophical stance.",
+      "topic_correct": false,
+      "intent_correct": false
+    },
+    {
+      "text": "prove it\n---\nthat you are worthy of bags\n---\nthat you are long term\n---\n...(26 tweets)",
+      "author": "weremeow",
+      "expected_topic": "ecosystem",
+      "expected_intent": "rally",
+      "predicted_topic": "token",
+      "predicted_intent": "rally",
+      "secondary_intent": null,
+      "style_tags": [
+        "hype",
+        "memetic"
+      ],
+      "format_tags": [
+        "thread"
+      ],
+      "method": "llm",
+      "reasoning": "The tweet is a motivational call aimed at holders/traders to demonstrate long-term conviction and deserve \u201cbags,\u201d which is primarily about token holding mindset. The tone is hype/memetic and it\u2019s explicitly part of a longer thread.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "1/ Quote pairs are a new value accrual model for tokens\n---\n2/ Quote pairs are a model originally pioneered by @virtuals_io...\n---\n...(10 tweets)",
+      "author": "js_horne",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "token",
+      "predicted_intent": "inform",
+      "secondary_intent": null,
+      "style_tags": [
+        "technical"
+      ],
+      "format_tags": [
+        "thread"
+      ],
+      "method": "llm",
+      "reasoning": "The thread explains \u201cquote pairs\u201d as a token value-accrual model and references its origins, focusing on token mechanics and how value accrues rather than product updates or market commentary.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "You asked for it. And @TrustWallet delivers...\n---\n$11,000,000 in hard currency (#BNB) donated to @GiggleAcademy...\n---\n...",
+      "author": "cz_binance",
+      "expected_topic": "ecosystem",
+      "expected_intent": "inform",
+      "predicted_topic": "ecosystem",
+      "predicted_intent": "celebrate",
+      "secondary_intent": "inform",
+      "style_tags": [
+        "hype"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet highlights TrustWallet and GiggleAcademy and announces a large donation in BNB, positioning it as an ecosystem/community achievement. The tone is celebratory while also conveying the informational detail of the donation amount.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "Let's make crypto payments work on #BNB...\n---\nFUD is paid (by others) advertising...\n---\n...",
+      "author": "cz_binance",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "product",
+      "predicted_intent": "defend",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [
+        "thread"
+      ],
+      "method": "rule",
+      "reasoning": "Defense: Defend pattern: fud",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "since we've listed ZEC on Solana:\n---\n'he who has no pockets can not be pickpocketed.'",
+      "author": "mert_",
+      "expected_topic": "token",
+      "expected_intent": "celebrate",
+      "predicted_topic": "ecosystem",
+      "predicted_intent": "inform",
+      "secondary_intent": null,
+      "style_tags": [
+        "philosophical"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "Mentions listing ZEC on Solana, which is about ecosystem integration/availability across chains. The quote is presented as an observation rather than a celebration or call-to-action, with a philosophical tone.",
+      "topic_correct": false,
+      "intent_correct": false
+    },
+    {
+      "text": "wait... is the Coinbase #USELESS coin listing news true???\n---\nis Coinbase really listing #USELESS coin??\n---\n...",
+      "author": "theunipcs",
+      "expected_topic": "token",
+      "expected_intent": "celebrate",
+      "predicted_topic": "token",
+      "predicted_intent": "engage",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet is asking whether a specific coin is being listed on Coinbase, which is primarily about token listings. The repeated question marks indicate the author is seeking confirmation and prompting discussion rather than announcing verified news.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "$BNB season sucking out liquidity from every Solana memecoin...\n---\nthe real story isn't the relative strength...\n---\n...",
+      "author": "theunipcs",
+      "expected_topic": "token",
+      "expected_intent": "rally",
+      "predicted_topic": "market",
+      "predicted_intent": "reflect",
+      "secondary_intent": null,
+      "style_tags": [
+        "philosophical"
+      ],
+      "format_tags": [
+        "thread"
+      ],
+      "method": "llm",
+      "reasoning": "The tweet comments on broader market flow dynamics (BNB season draining liquidity from Solana memecoins) rather than a specific token update. The tone is more interpretive and contemplative (\"the real story isn't...\") than a straightforward announcement or rallying call, and the ellipses suggest it\u2019s part of a thread.",
+      "topic_correct": false,
+      "intent_correct": false
+    },
+    {
+      "text": "we crossed 1M users",
+      "author": "example",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "product",
+      "predicted_intent": "celebrate",
+      "secondary_intent": null,
+      "style_tags": [
+        "hype"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "Announces a key product adoption milestone (1M users). The tone is celebratory, highlighting growth and success.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "feeling good today",
+      "author": "example",
+      "expected_topic": "personal",
+      "expected_intent": "inform",
+      "predicted_topic": "personal",
+      "predicted_intent": "reflect",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "A simple mood/vibe update about how the author feels. No product, token, or market content; it reads as personal reflection.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "Someone needs to build a 'Believe University', similar to Whop University, and launch a coin tied to it...\n---\nhttps://t.co/33y73wHo3E",
+      "author": "pasternak",
+      "expected_topic": "ecosystem",
+      "expected_intent": "tease",
+      "predicted_topic": "token",
+      "predicted_intent": "tease",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet suggests creating a new coin tied to a concept ('Believe University'), hinting at a potential token idea without concrete details. The link is supplementary, but the dominant message is an aspirational token-launch proposal.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "recently on @zora\n---\nhttps://t.co/khsEEADtcb\n---\nhttps://t.co/VIZYUytXOc\n---\n...",
+      "author": "js_horne",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "meta",
+      "predicted_intent": "inform",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [
+        "thread"
+      ],
+      "method": "llm",
+      "reasoning": "The tweet is essentially a link drop with minimal context (\u201crecently on @zora\u201d) and multiple URLs separated by dashes, suggesting a thread-style continuation rather than substantive content.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "Hyperliquid's fully onchain liquidations cannot be compared with underreported CEX liquidations...\n---\nSource for screenshot...",
+      "author": "chameleon_jeff",
+      "expected_topic": "product",
+      "expected_intent": "defend",
+      "predicted_topic": "market",
+      "predicted_intent": "inform",
+      "secondary_intent": null,
+      "style_tags": [
+        "technical"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet compares Hyperliquid\u2019s onchain liquidation transparency to opaque/underreported CEX liquidations, making a broader market-structure point. It\u2019s primarily explanatory rather than celebratory or promotional.",
+      "topic_correct": false,
+      "intent_correct": false
+    },
+    {
+      "text": "Dumb question about X.\n---\nMy followers grew quickly from 9-10m, in a bear market...\n---\nor maybe we haven't hit real bull market yet?",
+      "author": "cz_binance",
+      "expected_topic": "personal",
+      "expected_intent": "engage",
+      "predicted_topic": "market",
+      "predicted_intent": "engage",
+      "secondary_intent": "reflect",
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet speculates about whether the market is truly in a bull phase and contrasts it with bear-market conditions. It\u2019s framed as a question to prompt discussion, with a secondary reflective note about follower growth timing.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "Things in crypto only look pessimistic if you don't have a plan for how to improve them\n---\nAgency creates optimism",
+      "author": "keoneHD",
+      "expected_topic": "personal",
+      "expected_intent": "reflect",
+      "predicted_topic": "market",
+      "predicted_intent": "reflect",
+      "secondary_intent": null,
+      "style_tags": [
+        "philosophical"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "It\u2019s a broad statement about sentiment in crypto and how proactive agency shapes optimism, without referencing a specific product/token. The tone is reflective and philosophical rather than a direct call to action or announcement.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "good chance zcash becomes top 5 simply because it's incredibly easy to meme",
+      "author": "mert_",
+      "expected_topic": "token",
+      "expected_intent": "rally",
+      "predicted_topic": "market",
+      "predicted_intent": "rally",
+      "secondary_intent": null,
+      "style_tags": [
+        "memetic"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "Speculates on Zcash rising to top 5 and implies bullish conviction driven by memeability rather than fundamentals. The language centers on meme culture as the driver.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "I'm always about jup man\n---\nMy networth and my life work and legacy and my beloved team n community is 99.99% on JUP...",
+      "author": "weremeow",
+      "expected_topic": "personal",
+      "expected_intent": "rally",
+      "predicted_topic": "token",
+      "predicted_intent": "rally",
+      "secondary_intent": "reflect",
+      "style_tags": [
+        "philosophical"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet signals extreme personal conviction and alignment with JUP, effectively encouraging others to share confidence/hold. It also contains a reflective note about legacy and dedication, but the dominant purpose is rallying around the token.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "bros how much cash you think we needa raise to put wif on the vegas dome?\n---\nk bros new plan, we make dogwifwebsite...",
+      "author": "blknoiz06",
+      "expected_topic": "ecosystem",
+      "expected_intent": "engage",
+      "predicted_topic": "token",
+      "predicted_intent": "engage",
+      "secondary_intent": null,
+      "style_tags": [
+        "memetic"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet is centered on promoting/boosting interest around the WIF token (Vegas dome idea, dogwifwebsite) and is phrased as a question to spark responses. The slangy tone fits memetic crypto culture.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "@gork what do you think?\n---\n\ud83d\udd25\n---\n\ud83d\ude02\n---\n@gork, what do you think?\n---\n\ud83e\udd23",
+      "author": "elonmusk",
+      "expected_topic": "personal",
+      "expected_intent": "engage",
+      "predicted_topic": "meta",
+      "predicted_intent": "engage",
+      "secondary_intent": null,
+      "style_tags": [
+        "memetic"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet is a reply/mention repeatedly asking another user for their opinion, with only reaction emojis and no substantive content. This makes it primarily conversational (engage) and best categorized as meta.",
+      "topic_correct": false,
+      "intent_correct": true
+    },
+    {
+      "text": "Thanks to @TBPN for having me on! It was a fun conversation about the origin story, principles, and vision for Hyperliquid\n---\nhttps://t.co/p28TkgxkO1",
+      "author": "chameleon_jeff",
+      "expected_topic": "ecosystem",
+      "expected_intent": "inform",
+      "predicted_topic": "ecosystem",
+      "predicted_intent": "celebrate",
+      "secondary_intent": "inform",
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet thanks another account for hosting and highlights an interview about Hyperliquid\u2019s story and vision, which is primarily a positive shoutout/appearance announcement. It also implicitly informs followers by linking to the conversation.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "new feature shipping next week - here's what it does...",
+      "author": "example",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "product",
+      "predicted_intent": "tease",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet hints at an upcoming product update (\u201cnew feature shipping next week\u201d) and previews it without fully detailing everything, which is primarily a tease about a product feature.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "had a great dinner with the team tonight",
+      "author": "example",
+      "expected_topic": "personal",
+      "expected_intent": "inform",
+      "predicted_topic": "personal",
+      "predicted_intent": "reflect",
+      "secondary_intent": null,
+      "style_tags": [],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet is about the author\u2019s personal life/social moment with their team, with no product/token/market content. It reads as a simple personal reflection rather than an announcement or call to action.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "we messed up. here's what happened and what we're doing about it",
+      "author": "example",
+      "expected_topic": "product",
+      "expected_intent": "inform",
+      "predicted_topic": "product",
+      "predicted_intent": "defend",
+      "secondary_intent": "inform",
+      "style_tags": [
+        "vulnerable"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet acknowledges a mistake and signals an explanation plus remediation steps, which is primarily addressing potential criticism/FUD. The tone is candid and apologetic, with an implied follow-up to inform users about what happened.",
+      "topic_correct": true,
+      "intent_correct": false
+    },
+    {
+      "text": "THIS IS INSANE!!! \ud83d\ude80\ud83d\ude80\ud83d\ude80 MASSIVE NEWS!!!",
+      "author": "example",
+      "expected_topic": "token",
+      "expected_intent": "celebrate",
+      "predicted_topic": "personal",
+      "predicted_intent": "rally",
+      "secondary_intent": null,
+      "style_tags": [
+        "hype"
+      ],
+      "format_tags": [],
+      "method": "llm",
+      "reasoning": "The tweet is pure high-energy excitement with no concrete info about product/token/market, aiming to build hype and rally attention.",
+      "topic_correct": false,
+      "intent_correct": false
+    }
+  ]
+}

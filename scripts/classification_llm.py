@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-LLM-Based Tweet Classification
-==============================
+LLM-Based Tweet Classification (Multi-Model)
+=============================================
 
 Fallback classifier for tweets that don't match deterministic rules.
-Uses Claude with temp=0 for reproducibility.
+Supports GPT-5.2 and Claude Opus 4.5 with structured outputs.
 
 Design principles:
 - temp=0 for deterministic outputs
+- Structured outputs (schema-constrained) - never accept invalid JSON
 - Track model, prompt_hash, schema_version for reproducibility
 - Truncation strategy for large clusters
 - needs_review=True always (human verification required)
@@ -17,24 +18,43 @@ Design principles:
 import json
 import hashlib
 import os
-from typing import Optional
-from dataclasses import dataclass, asdict
+import time
+from typing import Optional, Literal
+from dataclasses import dataclass, asdict, field
+from pathlib import Path
 
-# Try to import anthropic
-try:
-    import anthropic
-except ImportError:
-    raise ImportError("anthropic required. Install with: pip install anthropic")
+# Load .env if present
+env_path = Path(__file__).parent.parent / ".env"
+if env_path.exists():
+    with open(env_path) as f:
+        for line in f:
+            if line.strip() and not line.startswith("#") and "=" in line:
+                key, value = line.strip().split("=", 1)
+                os.environ.setdefault(key, value)
 
 
 # =============================================================================
-# Configuration
+# Model Configuration - NO FALLBACKS
 # =============================================================================
 
-MODEL = "claude-sonnet-4-20250514"
+SUPPORTED_MODELS = {
+    "gpt-5.2": {
+        "provider": "openai",
+        "model_id": "gpt-5.2",
+        "env_key": "OPENAI_API_KEY",
+        "uses_completion_tokens": True,  # GPT-5.x uses max_completion_tokens, not max_tokens
+    },
+    "opus-4.5": {
+        "provider": "anthropic",
+        "model_id": "claude-opus-4-20250514",  # Claude Opus 4 (latest)
+        "env_key": "ANTHROPIC_API_KEY",
+        "uses_completion_tokens": False,
+    },
+}
+
+DEFAULT_MODEL = "opus-4.5"
 SCHEMA_VERSION = "1.0"
 MAX_TEXT_LENGTH = 4000  # Characters before truncation
-TRUNCATION_STRATEGY = "head_tail"  # Keep first and last portions
 
 
 @dataclass
@@ -43,19 +63,64 @@ class LLMClassification:
     topic: str
     intent: str
     secondary_intent: Optional[str] = None
-    style_tags: list = None
-    format_tags: list = None
+    style_tags: list = field(default_factory=list)
+    format_tags: list = field(default_factory=list)
     reasoning: str = ""
     method: str = "llm"
-    model: str = MODEL
+    model: str = ""
     prompt_hash: str = ""
     needs_review: bool = True  # Always true for LLM
+    parse_error: bool = False  # True if schema validation failed
+    input_tokens: int = 0
+    output_tokens: int = 0
 
-    def __post_init__(self):
-        if self.style_tags is None:
-            self.style_tags = []
-        if self.format_tags is None:
-            self.format_tags = []
+
+# =============================================================================
+# JSON Schema for Structured Outputs
+# =============================================================================
+
+CLASSIFICATION_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "topic": {
+            "type": "string",
+            "enum": ["product", "token", "ecosystem", "market", "personal", "meta"],
+            "description": "Primary topic category"
+        },
+        "intent": {
+            "type": "string",
+            "enum": ["inform", "celebrate", "rally", "defend", "engage", "tease", "reflect"],
+            "description": "Primary intent/purpose"
+        },
+        "secondary_intent": {
+            "type": "string",
+            "enum": ["inform", "celebrate", "rally", "defend", "engage", "tease", "reflect", "none"],
+            "description": "Secondary intent or 'none' if not applicable"
+        },
+        "style_tags": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["technical", "memetic", "wordplay", "vulnerable", "hype", "philosophical"]
+            },
+            "description": "Style tags (0-2)"
+        },
+        "format_tags": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["thread", "link_only", "one_liner"]
+            },
+            "description": "Format tags (0-1)"
+        },
+        "reasoning": {
+            "type": "string",
+            "description": "1-2 sentence explanation"
+        }
+    },
+    "required": ["topic", "intent", "secondary_intent", "style_tags", "format_tags", "reasoning"],
+    "additionalProperties": False
+}
 
 
 # =============================================================================
@@ -96,17 +161,6 @@ Your task: Classify each tweet into EXACTLY ONE topic and EXACTLY ONE intent.
 - link_only: Just a URL with no/minimal text
 - one_liner: Single short statement (≤3 words)
 
-## Output Format
-Return ONLY valid JSON with these fields:
-{
-  "topic": "one of: product, token, ecosystem, market, personal, meta",
-  "intent": "one of: inform, celebrate, rally, defend, engage, tease, reflect",
-  "secondary_intent": "optional, one of the intents or null",
-  "style_tags": ["max 2 tags from style list"],
-  "format_tags": ["max 1 tag from format list"],
-  "reasoning": "1-2 sentence explanation"
-}
-
 ## Rules
 1. Choose the MOST DOMINANT topic and intent
 2. If uncertain between two, pick the more conservative (inform > celebrate, personal > meta)
@@ -120,9 +174,7 @@ USER_PROMPT_TEMPLATE = """Classify this tweet:
 Author: {author}
 Cluster Size: {cluster_size} tweet(s)
 Text:
-{text}
-
-Return only JSON, no other text."""
+{text}"""
 
 
 # =============================================================================
@@ -132,18 +184,13 @@ Return only JSON, no other text."""
 def truncate_text(text: str, max_length: int = MAX_TEXT_LENGTH) -> tuple[str, bool]:
     """
     Truncate text if too long, using head_tail strategy.
-
     Returns (truncated_text, was_truncated).
-
-    Strategy: Keep first 60% and last 40% of allowed length.
-    This preserves the opening context and recent content.
     """
     if len(text) <= max_length:
         return text, False
 
-    # Head-tail split: 60% head, 40% tail
     head_length = int(max_length * 0.6)
-    tail_length = max_length - head_length - 50  # Reserve for indicator
+    tail_length = max_length - head_length - 50
 
     head = text[:head_length]
     tail = text[-tail_length:]
@@ -158,7 +205,246 @@ def compute_prompt_hash(prompt: str) -> str:
 
 
 # =============================================================================
-# LLM Classification
+# OpenAI GPT-5.2 Classification (Structured Outputs)
+# =============================================================================
+
+def classify_with_openai(
+    text: str,
+    author: str,
+    cluster_size: int,
+    prompt_hash: str,
+    was_truncated: bool,
+) -> LLMClassification:
+    """Classify using GPT-5.2 with structured outputs."""
+    import openai
+
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY not set")
+
+    client = openai.OpenAI(api_key=api_key)
+    model_id = SUPPORTED_MODELS["gpt-5.2"]["model_id"]
+
+    user_prompt = USER_PROMPT_TEMPLATE.format(
+        author=author,
+        cluster_size=cluster_size,
+        text=text,
+    )
+
+    try:
+        # GPT-5.x uses max_completion_tokens instead of max_tokens
+        response = client.chat.completions.create(
+            model=model_id,
+            temperature=1,  # GPT-5.x requires temperature >= 1 for structured outputs
+            max_completion_tokens=500,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt}
+            ],
+            response_format={
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "tweet_classification",
+                    "strict": True,
+                    "schema": CLASSIFICATION_SCHEMA
+                }
+            }
+        )
+
+        content = response.choices[0].message.content
+        result = json.loads(content)
+
+        # Token tracking
+        input_tokens = response.usage.prompt_tokens if response.usage else 0
+        output_tokens = response.usage.completion_tokens if response.usage else 0
+
+        reasoning = result.get("reasoning", "")
+        if was_truncated:
+            reasoning = f"[Truncated input] {reasoning}"
+
+        # Convert "none" string to None for secondary_intent
+        secondary = result.get("secondary_intent")
+        if secondary == "none":
+            secondary = None
+
+        # Limit style_tags to valid values and max 2
+        style_tags = result.get("style_tags", [])
+        valid_styles = ["technical", "memetic", "wordplay", "vulnerable", "hype", "philosophical"]
+        style_tags = [s for s in style_tags if s in valid_styles][:2]
+
+        # Limit format_tags to valid values and max 1
+        format_tags = result.get("format_tags", [])
+        valid_formats = ["thread", "link_only", "one_liner"]
+        format_tags = [f for f in format_tags if f in valid_formats][:1]
+
+        return LLMClassification(
+            topic=result["topic"],
+            intent=result["intent"],
+            secondary_intent=secondary,
+            style_tags=style_tags,
+            format_tags=format_tags,
+            reasoning=reasoning,
+            model=model_id,
+            prompt_hash=prompt_hash,
+            needs_review=True,
+            parse_error=False,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+        )
+
+    except json.JSONDecodeError as e:
+        return LLMClassification(
+            topic="meta",
+            intent="inform",
+            reasoning=f"[Schema parse error: {str(e)[:80]}]",
+            model=model_id,
+            prompt_hash=prompt_hash,
+            needs_review=True,
+            parse_error=True,
+        )
+    except openai.APIError as e:
+        return LLMClassification(
+            topic="meta",
+            intent="inform",
+            reasoning=f"[API error: {str(e)[:80]}]",
+            model=model_id,
+            prompt_hash=prompt_hash,
+            needs_review=True,
+            parse_error=True,
+        )
+
+
+# =============================================================================
+# Anthropic Claude Opus 4.5 Classification (Tool Use for Structured Output)
+# =============================================================================
+
+def classify_with_anthropic(
+    text: str,
+    author: str,
+    cluster_size: int,
+    prompt_hash: str,
+    was_truncated: bool,
+) -> LLMClassification:
+    """Classify using Claude Opus 4.5 with tool use for structured output."""
+    import anthropic
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY not set")
+
+    client = anthropic.Anthropic(api_key=api_key)
+    model_id = SUPPORTED_MODELS["opus-4.5"]["model_id"]
+
+    user_prompt = USER_PROMPT_TEMPLATE.format(
+        author=author,
+        cluster_size=cluster_size,
+        text=text,
+    )
+
+    # Define tool for structured output
+    classification_tool = {
+        "name": "submit_classification",
+        "description": "Submit the tweet classification result",
+        "input_schema": CLASSIFICATION_SCHEMA
+    }
+
+    try:
+        response = client.messages.create(
+            model=model_id,
+            max_tokens=500,
+            temperature=0,
+            system=SYSTEM_PROMPT + "\n\nYou MUST use the submit_classification tool to provide your answer.",
+            messages=[
+                {"role": "user", "content": user_prompt}
+            ],
+            tools=[classification_tool],
+            tool_choice={"type": "tool", "name": "submit_classification"}
+        )
+
+        # Token tracking
+        input_tokens = response.usage.input_tokens if response.usage else 0
+        output_tokens = response.usage.output_tokens if response.usage else 0
+
+        # Extract tool use result
+        tool_use = None
+        for block in response.content:
+            if block.type == "tool_use" and block.name == "submit_classification":
+                tool_use = block
+                break
+
+        if not tool_use:
+            return LLMClassification(
+                topic="meta",
+                intent="inform",
+                reasoning="[No tool use in response]",
+                model=model_id,
+                prompt_hash=prompt_hash,
+                needs_review=True,
+                parse_error=True,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+            )
+
+        result = tool_use.input
+
+        reasoning = result.get("reasoning", "")
+        if was_truncated:
+            reasoning = f"[Truncated input] {reasoning}"
+
+        # Convert "none" string to None for secondary_intent
+        secondary = result.get("secondary_intent")
+        if secondary == "none":
+            secondary = None
+
+        # Limit style_tags to valid values and max 2
+        style_tags = result.get("style_tags", [])
+        valid_styles = ["technical", "memetic", "wordplay", "vulnerable", "hype", "philosophical"]
+        style_tags = [s for s in style_tags if s in valid_styles][:2]
+
+        # Limit format_tags to valid values and max 1
+        format_tags = result.get("format_tags", [])
+        valid_formats = ["thread", "link_only", "one_liner"]
+        format_tags = [f for f in format_tags if f in valid_formats][:1]
+
+        return LLMClassification(
+            topic=result["topic"],
+            intent=result["intent"],
+            secondary_intent=secondary,
+            style_tags=style_tags,
+            format_tags=format_tags,
+            reasoning=reasoning,
+            model=model_id,
+            prompt_hash=prompt_hash,
+            needs_review=True,
+            parse_error=False,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+        )
+
+    except json.JSONDecodeError as e:
+        return LLMClassification(
+            topic="meta",
+            intent="inform",
+            reasoning=f"[Schema parse error: {str(e)[:80]}]",
+            model=model_id,
+            prompt_hash=prompt_hash,
+            needs_review=True,
+            parse_error=True,
+        )
+    except anthropic.APIError as e:
+        return LLMClassification(
+            topic="meta",
+            intent="inform",
+            reasoning=f"[API error: {str(e)[:80]}]",
+            model=model_id,
+            prompt_hash=prompt_hash,
+            needs_review=True,
+            parse_error=True,
+        )
+
+
+# =============================================================================
+# Main Classification Function
 # =============================================================================
 
 def classify_with_llm(
@@ -166,218 +452,173 @@ def classify_with_llm(
     author: str,
     timestamp: int,
     cluster_size: int = 1,
-    api_key: Optional[str] = None,
+    model: str = DEFAULT_MODEL,
 ) -> LLMClassification:
     """
-    Classify a tweet using Claude LLM.
+    Classify a tweet using LLM with structured outputs.
 
     Args:
         combined_text: The tweet text (may be multiple tweets combined)
         author: Tweet author handle
-        timestamp: Unix timestamp (not used in classification but passed for consistency)
+        timestamp: Unix timestamp (not used but passed for signature consistency)
         cluster_size: Number of tweets in cluster
-        api_key: Anthropic API key (defaults to ANTHROPIC_API_KEY env var)
+        model: Model to use - "gpt-5.2" or "opus-4.5" (NO FALLBACKS)
 
     Returns:
         LLMClassification with results
 
     IMPORTANT: This function has no access to price/impact fields.
     """
-    # Get API key
-    key = api_key or os.environ.get("ANTHROPIC_API_KEY")
-    if not key:
-        raise ValueError("ANTHROPIC_API_KEY not set")
+    if model not in SUPPORTED_MODELS:
+        raise ValueError(f"Unsupported model: {model}. Must be one of: {list(SUPPORTED_MODELS.keys())}")
 
     # Truncate if needed
     text, was_truncated = truncate_text(combined_text)
 
-    # Build user prompt
+    # Build prompt hash
     user_prompt = USER_PROMPT_TEMPLATE.format(
         author=author,
         cluster_size=cluster_size,
         text=text,
     )
-
-    # Compute prompt hash for reproducibility
     full_prompt = SYSTEM_PROMPT + "\n" + user_prompt
     prompt_hash = compute_prompt_hash(full_prompt)
 
-    # Call Claude
-    client = anthropic.Anthropic(api_key=key)
-
-    try:
-        response = client.messages.create(
-            model=MODEL,
-            max_tokens=500,
-            temperature=0,  # Deterministic
-            system=SYSTEM_PROMPT,
-            messages=[
-                {"role": "user", "content": user_prompt}
-            ]
-        )
-
-        # Parse response
-        content = response.content[0].text.strip()
-
-        # Handle potential markdown code blocks
-        if content.startswith("```"):
-            lines = content.split("\n")
-            content = "\n".join(lines[1:-1])
-
-        result = json.loads(content)
-
-        # Validate and normalize
-        topic = result.get("topic", "meta")
-        intent = result.get("intent", "inform")
-
-        # Validate topic
-        valid_topics = ["product", "token", "ecosystem", "market", "personal", "meta"]
-        if topic not in valid_topics:
-            topic = "meta"
-
-        # Validate intent
-        valid_intents = ["inform", "celebrate", "rally", "defend", "engage", "tease", "reflect"]
-        if intent not in valid_intents:
-            intent = "inform"
-
-        # Handle secondary_intent
-        secondary = result.get("secondary_intent")
-        if secondary and secondary not in valid_intents:
-            secondary = None
-
-        # Handle style_tags (max 2)
-        style_tags = result.get("style_tags", [])
-        if not isinstance(style_tags, list):
-            style_tags = []
-        valid_styles = ["technical", "memetic", "wordplay", "vulnerable", "hype", "philosophical"]
-        style_tags = [s for s in style_tags if s in valid_styles][:2]
-
-        # Handle format_tags (max 1)
-        format_tags = result.get("format_tags", [])
-        if not isinstance(format_tags, list):
-            format_tags = []
-        valid_formats = ["thread", "link_only", "one_liner"]
-        format_tags = [f for f in format_tags if f in valid_formats][:1]
-
-        # Get reasoning
-        reasoning = result.get("reasoning", "")
-        if was_truncated:
-            reasoning = f"[Truncated input] {reasoning}"
-
-        return LLMClassification(
-            topic=topic,
-            intent=intent,
-            secondary_intent=secondary,
-            style_tags=style_tags,
-            format_tags=format_tags,
-            reasoning=reasoning,
-            model=MODEL,
-            prompt_hash=prompt_hash,
-            needs_review=True,
-        )
-
-    except json.JSONDecodeError as e:
-        # Failed to parse - return safe defaults
-        return LLMClassification(
-            topic="meta",
-            intent="inform",
-            reasoning=f"[Parse error: {str(e)[:50]}]",
-            model=MODEL,
-            prompt_hash=prompt_hash,
-            needs_review=True,
-        )
-    except anthropic.APIError as e:
-        # API error - return safe defaults
-        return LLMClassification(
-            topic="meta",
-            intent="inform",
-            reasoning=f"[API error: {str(e)[:50]}]",
-            model=MODEL,
-            prompt_hash=prompt_hash,
-            needs_review=True,
-        )
+    # Route to appropriate provider
+    config = SUPPORTED_MODELS[model]
+    if config["provider"] == "openai":
+        return classify_with_openai(text, author, cluster_size, prompt_hash, was_truncated)
+    elif config["provider"] == "anthropic":
+        return classify_with_anthropic(text, author, cluster_size, prompt_hash, was_truncated)
+    else:
+        raise ValueError(f"Unknown provider: {config['provider']}")
 
 
 # =============================================================================
-# Batch Classification (with rate limiting)
+# Batch Classification with Cost Tracking
 # =============================================================================
+
+@dataclass
+class BatchResult:
+    """Results from batch classification."""
+    classifications: list
+    total_input_tokens: int = 0
+    total_output_tokens: int = 0
+    parse_errors: int = 0
+    elapsed_seconds: float = 0.0
+
 
 def classify_batch(
     events: list[dict],
-    api_key: Optional[str] = None,
+    model: str = DEFAULT_MODEL,
     progress_callback: Optional[callable] = None,
-) -> list[LLMClassification]:
+) -> BatchResult:
     """
-    Classify a batch of events with progress tracking.
+    Classify a batch of events with progress and cost tracking.
 
     Args:
         events: List of dicts with combined_text, author, timestamp, cluster_size
-        api_key: Anthropic API key
+        model: Model to use
         progress_callback: Optional callback(current, total) for progress updates
 
     Returns:
-        List of LLMClassification results
+        BatchResult with classifications and token counts
     """
+    start_time = time.time()
     results = []
+    total_input = 0
+    total_output = 0
+    parse_errors = 0
     total = len(events)
 
     for i, event in enumerate(events):
         result = classify_with_llm(
             combined_text=event["combined_text"],
-            author=event.get("author", "unknown"),
-            timestamp=event.get("timestamp", 0),
+            author=event.get("author", event.get("founder", "unknown")),
+            timestamp=event.get("timestamp", event.get("anchor_timestamp", 0)),
             cluster_size=event.get("cluster_size", 1),
-            api_key=api_key,
+            model=model,
         )
         results.append(result)
+        total_input += result.input_tokens
+        total_output += result.output_tokens
+        if result.parse_error:
+            parse_errors += 1
 
         if progress_callback:
             progress_callback(i + 1, total)
 
-    return results
+    elapsed = time.time() - start_time
+
+    return BatchResult(
+        classifications=results,
+        total_input_tokens=total_input,
+        total_output_tokens=total_output,
+        parse_errors=parse_errors,
+        elapsed_seconds=elapsed,
+    )
+
+
+# =============================================================================
+# Cost Estimation
+# =============================================================================
+
+# Pricing per 1M tokens (as of Dec 2024)
+PRICING = {
+    "gpt-5.2": {"input": 2.50, "output": 10.00},  # Estimated GPT-5.2 pricing
+    "opus-4.5": {"input": 15.00, "output": 75.00},  # Claude Opus 4.5 pricing
+}
+
+
+def estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
+    """Estimate cost in USD for given token counts."""
+    if model not in PRICING:
+        # Try to match model_id to pricing key
+        for key, config in SUPPORTED_MODELS.items():
+            if config["model_id"] == model:
+                model = key
+                break
+
+    if model not in PRICING:
+        return 0.0
+
+    pricing = PRICING[model]
+    cost = (input_tokens / 1_000_000) * pricing["input"]
+    cost += (output_tokens / 1_000_000) * pricing["output"]
+    return cost
 
 
 # =============================================================================
 # Testing
 # =============================================================================
 
-def test_truncation():
-    """Test truncation logic."""
-    short = "Hello world"
-    truncated, was = truncate_text(short)
-    assert not was, "Short text should not be truncated"
-
-    long = "x" * 10000
-    truncated, was = truncate_text(long, max_length=1000)
-    assert was, "Long text should be truncated"
-    assert len(truncated) <= 1100, "Truncated text should be near max_length"
-    assert "truncated" in truncated, "Should have truncation indicator"
-
-    print("✅ Truncation tests passed")
-
-
-def test_classification():
-    """Test LLM classification (requires API key)."""
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("⏭️  Skipping LLM test (no API key)")
-        return
+def test_classification(model: str = DEFAULT_MODEL):
+    """Test LLM classification with specified model."""
+    print(f"\nTesting {model}...")
 
     result = classify_with_llm(
         combined_text="WIF AT THIRTY! We're all gonna make it!",
         author="blknoiz06",
         timestamp=0,
         cluster_size=1,
+        model=model,
     )
 
-    print(f"Topic: {result.topic}")
-    print(f"Intent: {result.intent}")
-    print(f"Style: {result.style_tags}")
-    print(f"Reasoning: {result.reasoning}")
-    print(f"Model: {result.model}")
-    print(f"Prompt Hash: {result.prompt_hash}")
-    print("✅ LLM classification test passed")
+    print(f"  Topic: {result.topic}")
+    print(f"  Intent: {result.intent}")
+    print(f"  Style: {result.style_tags}")
+    print(f"  Reasoning: {result.reasoning}")
+    print(f"  Model: {result.model}")
+    print(f"  Parse Error: {result.parse_error}")
+    print(f"  Tokens: {result.input_tokens} in / {result.output_tokens} out")
+    cost = estimate_cost(model, result.input_tokens, result.output_tokens)
+    print(f"  Cost: ${cost:.6f}")
+    print(f"  ✅ {model} test passed")
+
+    return result
 
 
 if __name__ == "__main__":
-    test_truncation()
-    test_classification()
+    import sys
+    model = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_MODEL
+    test_classification(model)
