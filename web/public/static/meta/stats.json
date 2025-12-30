@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T09:16:10.278730Z",
+  "generated_at": "2025-12-30T10:13:43.914013Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
@@ -56,8 +56,8 @@
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 0,
-    "price_change_during_silence": null,
+    "days_since_last_tweet": 3,
+    "price_change_during_silence": -0.4,
     "last_tweet_date": "2025-12-27"
   },
   "limitations": {
@@ -130,6 +130,17 @@
       "price_start": 6.26944789,
       "price_end": 6.4186195,
       "change_pct": 2.4
+    },
+    {
+      "start_ts": 1766845315,
+      "end_ts": 1767107623,
+      "gap_days": 3.0,
+      "start_date": "2025-12-27",
+      "end_date": "ongoing",
+      "is_current": true,
+      "price_start": 6.52668493,
+      "price_end": 6.49825791,
+      "change_pct": -0.4
     }
   ]
 }
