@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-30T04:25:49.992560Z",
+  "generated_at": "2025-12-30T05:15:25.595926Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 318,
+  "count": 319,
   "events": [
     {
       "tweet_id": "1968291567309115458",
@@ -6366,6 +6366,26 @@
       "change_1h_pct": -1.28,
       "change_24h_pct": 3.44,
       "market_cap_at_tweet": 5443894160.0
+    },
+    {
+      "tweet_id": "2005866500456857730",
+      "asset_id": "aster",
+      "asset_name": "ASTER",
+      "founder": "cz_binance",
+      "asset_color": "#F0B90B",
+      "timestamp": 1767070815,
+      "timestamp_iso": "2025-12-30T00:00:15Z",
+      "text": "Was semi \"offline\" for a few days. Busy with year end, book, family, etc.\n\nBTC will be fine.\nBNB will be fine.\nCZ will be fine.\nCrypto will be fine.\n\nHappy New Year!",
+      "likes": 1270,
+      "retweets": 144,
+      "replies": 673,
+      "impressions": 39023,
+      "price_at_tweet": 0.69031318,
+      "price_1h": 0.68994886,
+      "price_24h": 0.69482417,
+      "change_1h_pct": -0.05,
+      "change_24h_pct": 0.65,
+      "market_cap_at_tweet": 5522505440.0
     }
   ]
 }

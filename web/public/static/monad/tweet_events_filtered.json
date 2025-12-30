@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-30T04:26:51.222952Z",
+  "generated_at": "2025-12-30T05:16:24.802221Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 27,
+  "count": 28,
   "events": [
     {
       "tweet_id": "1992934059283206194",
@@ -546,6 +546,26 @@
       "change_1h_pct": 0.7,
       "change_24h_pct": -2.1,
       "market_cap_at_tweet": 216796112.76
+    },
+    {
+      "tweet_id": "2005860702745981279",
+      "asset_id": "monad",
+      "asset_name": "MON",
+      "founder": "keoneHD",
+      "asset_color": "#836EF9",
+      "timestamp": 1767069433,
+      "timestamp_iso": "2025-12-29T23:37:13Z",
+      "text": "In 8 minutes, @port_dev teaches you enough linux sysadmin skills to configure disk partitions, firewall rules, and run a Monad full node. Dead simple. Great video Port! https://t.co/gaQX7MBWgc",
+      "likes": 56,
+      "retweets": 3,
+      "replies": 16,
+      "impressions": 1914,
+      "price_at_tweet": 0.02156661,
+      "price_1h": 0.02140041,
+      "price_24h": 0.02099063,
+      "change_1h_pct": -0.77,
+      "change_24h_pct": -2.67,
+      "market_cap_at_tweet": 233578968.17
     }
   ],
   "keyword_filter": "mon,monad",

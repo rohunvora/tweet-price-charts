@@ -1,50 +1,50 @@
 {
-  "generated_at": "2025-12-30T04:26:57.869787Z",
+  "generated_at": "2025-12-30T05:16:30.929052Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "summary": {
-    "total_tweets": 66,
-    "tweets_with_price": 66,
+    "total_tweets": 67,
+    "tweets_with_price": 67,
     "date_range": {
       "start": "2025-11-24",
-      "end": "2025-12-28"
+      "end": "2025-12-29"
     },
     "total_days_analyzed": 37
   },
   "daily_comparison": {
-    "tweet_day_count": 24,
-    "tweet_day_avg_return": -0.66,
-    "tweet_day_win_rate": 33.3,
+    "tweet_day_count": 25,
+    "tweet_day_avg_return": -0.87,
+    "tweet_day_win_rate": 32.0,
     "tweet_day_distribution": {
-      "count": 24,
-      "mean": -0.66,
-      "median": -2.31,
-      "std_dev": 12.91,
+      "count": 25,
+      "mean": -0.87,
+      "median": -2.54,
+      "std_dev": 12.69,
       "min": -14.35,
       "max": 52.39,
-      "q1": -6.72,
-      "q3": 1.8,
+      "q1": -6.43,
+      "q3": 1.56,
       "positive_count": 8,
-      "negative_count": 16
+      "negative_count": 17
     },
-    "no_tweet_day_count": 12,
-    "no_tweet_day_avg_return": 0.1,
-    "no_tweet_day_win_rate": 41.7,
+    "no_tweet_day_count": 11,
+    "no_tweet_day_avg_return": 0.64,
+    "no_tweet_day_win_rate": 45.5,
     "no_tweet_day_distribution": {
-      "count": 12,
-      "mean": 0.1,
-      "median": -1.25,
-      "std_dev": 7.86,
+      "count": 11,
+      "mean": 0.64,
+      "median": -1.18,
+      "std_dev": 7.99,
       "min": -12.17,
       "max": 12.48,
-      "q1": -6.42,
-      "q3": 6.85,
+      "q1": -5.24,
+      "q3": 7.55,
       "positive_count": 5,
-      "negative_count": 7
+      "negative_count": 6
     },
-    "t_statistic": -0.181,
-    "p_value": 0.8577,
+    "t_statistic": -0.353,
+    "p_value": 0.7261,
     "significant": false,
     "confidence_label": "none"
   },
@@ -58,14 +58,14 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2025-12-28"
+    "last_tweet_date": "2025-12-29"
   },
   "limitations": {
     "sample_size_warning": true,
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Small sample: only 24 tweet-days analyzed",
+      "Small sample: only 25 tweet-days analyzed",
       "Limited history: 37 days may not capture full market cycles",
       "Correlation does not imply causation"
     ]
