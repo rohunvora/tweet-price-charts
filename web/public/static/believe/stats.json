@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-30T23:11:41.744503Z",
+  "generated_at": "2025-12-31T00:43:06.463634Z",
   "asset": "believe",
   "asset_name": "LAUNCHCOIN",
   "founder": "pasternak",
@@ -264,7 +264,7 @@
     },
     {
       "start_ts": 1760971171,
-      "end_ts": 1767154301,
+      "end_ts": 1767159786,
       "gap_days": 71.6,
       "start_date": "2025-10-20",
       "end_date": "ongoing",
