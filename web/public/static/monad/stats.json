@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T00:43:37.930003Z",
+  "generated_at": "2025-12-31T01:41:49.464189Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
@@ -10,7 +10,7 @@
       "start": "2025-11-24",
       "end": "2025-12-30"
     },
-    "total_days_analyzed": 37
+    "total_days_analyzed": 38
   },
   "daily_comparison": {
     "tweet_day_count": 25,
@@ -28,31 +28,31 @@
       "positive_count": 8,
       "negative_count": 17
     },
-    "no_tweet_day_count": 11,
-    "no_tweet_day_avg_return": 0.64,
-    "no_tweet_day_win_rate": 45.5,
+    "no_tweet_day_count": 12,
+    "no_tweet_day_avg_return": 1.28,
+    "no_tweet_day_win_rate": 50.0,
     "no_tweet_day_distribution": {
-      "count": 11,
-      "mean": 0.64,
-      "median": -1.18,
-      "std_dev": 7.99,
+      "count": 12,
+      "mean": 1.28,
+      "median": 1.22,
+      "std_dev": 7.94,
       "min": -12.17,
       "max": 12.48,
-      "q1": -5.24,
-      "q3": 7.55,
-      "positive_count": 5,
+      "q1": -3.85,
+      "q3": 8.48,
+      "positive_count": 6,
       "negative_count": 6
     },
-    "t_statistic": -0.353,
-    "p_value": 0.7261,
+    "t_statistic": -0.523,
+    "p_value": 0.6042,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.239,
-    "p_value": 0.1543,
+    "correlation_7d": 0.246,
+    "p_value": 0.1358,
     "significant": false,
-    "sample_size": 37,
+    "sample_size": 38,
     "strength_label": "weak"
   },
   "current_status": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 25 tweet-days analyzed",
-      "Limited history: 37 days may not capture full market cycles",
+      "Limited history: 38 days may not capture full market cycles",
       "Correlation does not imply causation"
     ]
   },

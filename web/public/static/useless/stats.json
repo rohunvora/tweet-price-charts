@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T00:43:55.345014Z",
+  "generated_at": "2025-12-31T01:42:11.847705Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -10,7 +10,7 @@
       "start": "2025-05-23",
       "end": "2025-12-30"
     },
-    "total_days_analyzed": 221
+    "total_days_analyzed": 222
   },
   "daily_comparison": {
     "tweet_day_count": 162,
@@ -28,31 +28,31 @@
       "positive_count": 87,
       "negative_count": 75
     },
-    "no_tweet_day_count": 58,
-    "no_tweet_day_avg_return": -1.42,
-    "no_tweet_day_win_rate": 36.2,
+    "no_tweet_day_count": 59,
+    "no_tweet_day_avg_return": -1.24,
+    "no_tweet_day_win_rate": 37.3,
     "no_tweet_day_distribution": {
-      "count": 58,
-      "mean": -1.42,
-      "median": -4.26,
-      "std_dev": 12.95,
+      "count": 59,
+      "mean": -1.24,
+      "median": -4.15,
+      "std_dev": 12.91,
       "min": -21.68,
       "max": 61.52,
-      "q1": -8.25,
-      "q3": 3.01,
-      "positive_count": 21,
+      "q1": -8.05,
+      "q3": 3.79,
+      "positive_count": 22,
       "negative_count": 37
     },
-    "t_statistic": 1.566,
-    "p_value": 0.1187,
+    "t_statistic": 1.511,
+    "p_value": 0.1322,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.682,
+    "correlation_7d": 0.684,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 221,
+    "sample_size": 222,
     "strength_label": "moderate"
   },
   "current_status": {
@@ -65,7 +65,7 @@
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Limited history: 221 days may not capture full market cycles",
+      "Limited history: 222 days may not capture full market cycles",
       "Win rate of 53.7% is near random (50%)",
       "Correlation does not imply causation"
     ]

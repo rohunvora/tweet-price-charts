@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T00:43:06.463634Z",
+  "generated_at": "2025-12-31T01:41:20.109058Z",
   "asset": "believe",
   "asset_name": "LAUNCHCOIN",
   "founder": "pasternak",
@@ -10,7 +10,7 @@
       "start": "2025-05-03",
       "end": "2025-10-20"
     },
-    "total_days_analyzed": 337
+    "total_days_analyzed": 338
   },
   "daily_comparison": {
     "tweet_day_count": 62,
@@ -28,23 +28,23 @@
       "positive_count": 34,
       "negative_count": 28
     },
-    "no_tweet_day_count": 274,
-    "no_tweet_day_avg_return": 4.03,
-    "no_tweet_day_win_rate": 39.4,
+    "no_tweet_day_count": 275,
+    "no_tweet_day_avg_return": 4.04,
+    "no_tweet_day_win_rate": 39.6,
     "no_tweet_day_distribution": {
-      "count": 274,
-      "mean": 4.03,
+      "count": 275,
+      "mean": 4.04,
       "median": -3.02,
-      "std_dev": 50.66,
+      "std_dev": 50.57,
       "min": -98.84,
       "max": 534.11,
-      "q1": -10.98,
-      "q3": 5.75,
-      "positive_count": 108,
+      "q1": -10.97,
+      "q3": 5.85,
+      "positive_count": 109,
       "negative_count": 166
     },
-    "t_statistic": 0.342,
-    "p_value": 0.7326,
+    "t_statistic": 0.341,
+    "p_value": 0.7334,
     "significant": false,
     "confidence_label": "none"
   },
@@ -52,7 +52,7 @@
     "correlation_7d": 0.739,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 337,
+    "sample_size": 338,
     "strength_label": "strong"
   },
   "current_status": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 62 tweet-days analyzed",
-      "Limited history: 337 days may not capture full market cycles",
+      "Limited history: 338 days may not capture full market cycles",
       "Win rate of 54.8% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -264,13 +264,13 @@
     },
     {
       "start_ts": 1760971171,
-      "end_ts": 1767159786,
-      "gap_days": 71.6,
+      "end_ts": 1767163280,
+      "gap_days": 71.7,
       "start_date": "2025-10-20",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.06595909,
-      "price_end": 0.00011578,
+      "price_end": 0.00012408,
       "change_pct": -99.8
     }
   ]

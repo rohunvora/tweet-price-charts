@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T00:42:55.578482Z",
+  "generated_at": "2025-12-31T01:41:07.959457Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
@@ -10,7 +10,7 @@
       "start": "2024-01-31",
       "end": "2025-12-30"
     },
-    "total_days_analyzed": 700
+    "total_days_analyzed": 701
   },
   "daily_comparison": {
     "tweet_day_count": 245,
@@ -28,31 +28,31 @@
       "positive_count": 130,
       "negative_count": 115
     },
-    "no_tweet_day_count": 454,
-    "no_tweet_day_avg_return": -0.11,
-    "no_tweet_day_win_rate": 46.0,
+    "no_tweet_day_count": 455,
+    "no_tweet_day_avg_return": -0.1,
+    "no_tweet_day_win_rate": 46.2,
     "no_tweet_day_distribution": {
-      "count": 454,
-      "mean": -0.11,
-      "median": -0.49,
+      "count": 455,
+      "mean": -0.1,
+      "median": -0.47,
       "std_dev": 5.98,
       "min": -23.77,
       "max": 36.54,
-      "q1": -3.7,
-      "q3": 3.15,
-      "positive_count": 209,
+      "q1": -3.68,
+      "q3": 3.14,
+      "positive_count": 210,
       "negative_count": 245
     },
-    "t_statistic": 0.607,
-    "p_value": 0.5442,
+    "t_statistic": 0.595,
+    "p_value": 0.5524,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": -0.078,
-    "p_value": 0.0391,
+    "correlation_7d": -0.08,
+    "p_value": 0.0331,
     "significant": true,
-    "sample_size": 700,
+    "sample_size": 701,
     "strength_label": "negligible"
   },
   "current_status": {

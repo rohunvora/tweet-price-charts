@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T00:44:00.948235Z",
+  "generated_at": "2025-12-31T01:42:18.954871Z",
   "asset": "wif",
   "asset_name": "WIF",
   "founder": "blknoiz06",
@@ -10,7 +10,7 @@
       "start": "2023-12-14",
       "end": "2025-12-07"
     },
-    "total_days_analyzed": 760
+    "total_days_analyzed": 761
   },
   "daily_comparison": {
     "tweet_day_count": 180,
@@ -28,23 +28,23 @@
       "positive_count": 107,
       "negative_count": 73
     },
-    "no_tweet_day_count": 579,
-    "no_tweet_day_avg_return": 1.62,
-    "no_tweet_day_win_rate": 43.4,
+    "no_tweet_day_count": 580,
+    "no_tweet_day_avg_return": 1.61,
+    "no_tweet_day_win_rate": 43.3,
     "no_tweet_day_distribution": {
-      "count": 579,
-      "mean": 1.62,
-      "median": -1.28,
-      "std_dev": 31.89,
+      "count": 580,
+      "mean": 1.61,
+      "median": -1.29,
+      "std_dev": 31.86,
       "min": -40.3,
       "max": 679.06,
       "q1": -5.09,
-      "q3": 3.47,
+      "q3": 3.46,
       "positive_count": 251,
-      "negative_count": 328
+      "negative_count": 329
     },
-    "t_statistic": 1.407,
-    "p_value": 0.1598,
+    "t_statistic": 1.412,
+    "p_value": 0.1584,
     "significant": false,
     "confidence_label": "none"
   },
@@ -52,12 +52,12 @@
     "correlation_7d": 0.403,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 760,
+    "sample_size": 761,
     "strength_label": "moderate"
   },
   "current_status": {
     "days_since_last_tweet": 23,
-    "price_change_during_silence": -26.0,
+    "price_change_during_silence": -28.8,
     "last_tweet_date": "2025-12-07"
   },
   "limitations": {
@@ -511,14 +511,14 @@
     },
     {
       "start_ts": 1765140780,
-      "end_ts": 1767159840,
+      "end_ts": 1767163338,
       "gap_days": 23.4,
       "start_date": "2025-12-07",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.38866563,
-      "price_end": 0.2876334,
-      "change_pct": -26.0
+      "price_end": 0.27655536,
+      "change_pct": -28.8
     }
   ]
 }
