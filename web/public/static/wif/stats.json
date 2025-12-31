@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T02:49:46.867745Z",
+  "generated_at": "2025-12-31T03:41:48.947109Z",
   "asset": "wif",
   "asset_name": "WIF",
   "founder": "blknoiz06",
@@ -511,7 +511,7 @@
     },
     {
       "start_ts": 1765140780,
-      "end_ts": 1767167386,
+      "end_ts": 1767170508,
       "gap_days": 23.5,
       "start_date": "2025-12-07",
       "end_date": "ongoing",
