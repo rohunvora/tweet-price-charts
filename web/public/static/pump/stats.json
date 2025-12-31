@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T05:16:21.330789Z",
+  "generated_at": "2025-12-31T15:18:50.204452Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
@@ -56,7 +56,7 @@
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 55,
+    "days_since_last_tweet": 56,
     "price_change_during_silence": -48.8,
     "last_tweet_date": "2025-11-05"
   },
@@ -125,8 +125,8 @@
     },
     {
       "start_ts": 1762360100,
-      "end_ts": 1767176181,
-      "gap_days": 55.7,
+      "end_ts": 1767212330,
+      "gap_days": 56.2,
       "start_date": "2025-11-05",
       "end_date": "ongoing",
       "is_current": true,

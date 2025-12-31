@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T05:16:33.995151Z",
+  "generated_at": "2025-12-31T15:18:58.841876Z",
   "asset": "wif",
   "asset_name": "WIF",
   "founder": "blknoiz06",
@@ -56,7 +56,7 @@
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 23,
+    "days_since_last_tweet": 24,
     "price_change_during_silence": -28.8,
     "last_tweet_date": "2025-12-07"
   },
@@ -511,8 +511,8 @@
     },
     {
       "start_ts": 1765140780,
-      "end_ts": 1767176193,
-      "gap_days": 23.6,
+      "end_ts": 1767212338,
+      "gap_days": 24.0,
       "start_date": "2025-12-07",
       "end_date": "ongoing",
       "is_current": true,

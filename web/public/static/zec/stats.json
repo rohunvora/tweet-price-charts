@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T05:17:04.094118Z",
+  "generated_at": "2025-12-31T15:19:17.663925Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -56,7 +56,7 @@
     "strength_label": "weak"
   },
   "current_status": {
-    "days_since_last_tweet": 5,
+    "days_since_last_tweet": 6,
     "price_change_during_silence": 20.7,
     "last_tweet_date": "2025-12-25"
   },
@@ -173,8 +173,8 @@
     },
     {
       "start_ts": 1766675040,
-      "end_ts": 1767176224,
-      "gap_days": 5.8,
+      "end_ts": 1767212357,
+      "gap_days": 6.2,
       "start_date": "2025-12-25",
       "end_date": "ongoing",
       "is_current": true,
