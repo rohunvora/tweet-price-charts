@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T03:40:41.432867Z",
+  "generated_at": "2025-12-31T05:15:29.742842Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
@@ -13622,9 +13622,9 @@
       "impressions": 1753,
       "price_at_tweet": 0.19010951,
       "price_1h": 0.19044575,
-      "price_24h": 0.19076036,
+      "price_24h": 0.19090596,
       "change_1h_pct": 0.18,
-      "change_24h_pct": 0.34,
+      "change_24h_pct": 0.42,
       "market_cap_at_tweet": null
     },
     {
@@ -13642,9 +13642,9 @@
       "impressions": 3222,
       "price_at_tweet": 0.19052994,
       "price_1h": 0.19101687,
-      "price_24h": 0.19076036,
+      "price_24h": 0.19090596,
       "change_1h_pct": 0.26,
-      "change_24h_pct": 0.12,
+      "change_24h_pct": 0.2,
       "market_cap_at_tweet": null
     }
   ]
