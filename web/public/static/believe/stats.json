@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:18:20.629386Z",
+  "generated_at": "2026-01-13T22:38:15.302082Z",
   "asset": "believe",
   "asset_name": "LAUNCHCOIN",
   "founder": "pasternak",
@@ -10,7 +10,7 @@
       "start": "2025-05-03",
       "end": "2025-10-20"
     },
-    "total_days_analyzed": 338
+    "total_days_analyzed": 351
   },
   "daily_comparison": {
     "tweet_day_count": 62,
@@ -28,35 +28,35 @@
       "positive_count": 34,
       "negative_count": 28
     },
-    "no_tweet_day_count": 275,
-    "no_tweet_day_avg_return": 4.04,
+    "no_tweet_day_count": 288,
+    "no_tweet_day_avg_return": 3.86,
     "no_tweet_day_win_rate": 39.6,
     "no_tweet_day_distribution": {
-      "count": 275,
-      "mean": 4.04,
-      "median": -3.02,
-      "std_dev": 50.57,
+      "count": 288,
+      "mean": 3.86,
+      "median": -2.91,
+      "std_dev": 49.45,
       "min": -98.84,
       "max": 534.11,
-      "q1": -10.97,
-      "q3": 5.85,
-      "positive_count": 109,
-      "negative_count": 166
+      "q1": -9.68,
+      "q3": 5.81,
+      "positive_count": 114,
+      "negative_count": 174
     },
-    "t_statistic": 0.341,
-    "p_value": 0.7334,
+    "t_statistic": 0.376,
+    "p_value": 0.7071,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.739,
+    "correlation_7d": 0.745,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 338,
+    "sample_size": 351,
     "strength_label": "strong"
   },
   "current_status": {
-    "days_since_last_tweet": 72,
+    "days_since_last_tweet": 85,
     "price_change_during_silence": -99.8,
     "last_tweet_date": "2025-10-20"
   },
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 62 tweet-days analyzed",
-      "Limited history: 338 days may not capture full market cycles",
+      "Limited history: 351 days may not capture full market cycles",
       "Win rate of 54.8% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -264,13 +264,13 @@
     },
     {
       "start_ts": 1760971171,
-      "end_ts": 1767212300,
-      "gap_days": 72.2,
+      "end_ts": 1768361895,
+      "gap_days": 85.5,
       "start_date": "2025-10-20",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.06595909,
-      "price_end": 0.00012408,
+      "price_end": 0.00011989,
       "change_pct": -99.8
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:18:50.204452Z",
+  "generated_at": "2026-01-13T22:38:52.602373Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
@@ -10,7 +10,7 @@
       "start": "2025-07-14",
       "end": "2025-11-05"
     },
-    "total_days_analyzed": 171
+    "total_days_analyzed": 184
   },
   "daily_comparison": {
     "tweet_day_count": 67,
@@ -28,46 +28,45 @@
       "positive_count": 34,
       "negative_count": 33
     },
-    "no_tweet_day_count": 103,
-    "no_tweet_day_avg_return": -1.34,
-    "no_tweet_day_win_rate": 36.9,
+    "no_tweet_day_count": 116,
+    "no_tweet_day_avg_return": -0.86,
+    "no_tweet_day_win_rate": 41.4,
     "no_tweet_day_distribution": {
-      "count": 103,
-      "mean": -1.34,
-      "median": -1.84,
-      "std_dev": 7.3,
+      "count": 116,
+      "mean": -0.86,
+      "median": -1.19,
+      "std_dev": 7.33,
       "min": -27.46,
       "max": 16.38,
-      "q1": -6.21,
-      "q3": 2.58,
-      "positive_count": 38,
-      "negative_count": 65
+      "q1": -5.83,
+      "q3": 3.67,
+      "positive_count": 48,
+      "negative_count": 68
     },
-    "t_statistic": 2.025,
-    "p_value": 0.0445,
-    "significant": true,
-    "confidence_label": "weak"
+    "t_statistic": 1.698,
+    "p_value": 0.0913,
+    "significant": false,
+    "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.517,
+    "correlation_7d": 0.548,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 171,
+    "sample_size": 184,
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 56,
-    "price_change_during_silence": -48.8,
+    "days_since_last_tweet": 69,
+    "price_change_during_silence": -27.3,
     "last_tweet_date": "2025-11-05"
   },
   "limitations": {
     "sample_size_warning": true,
-    "borderline_significance": true,
+    "borderline_significance": false,
     "short_history": true,
     "notes": [
       "Small sample: only 67 tweet-days analyzed",
-      "Borderline significance: p=0.0445 is very close to 0.05 threshold",
-      "Limited history: 171 days may not capture full market cycles",
+      "Limited history: 184 days may not capture full market cycles",
       "Win rate of 50.7% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -125,14 +124,14 @@
     },
     {
       "start_ts": 1762360100,
-      "end_ts": 1767212330,
-      "gap_days": 56.2,
+      "end_ts": 1768361932,
+      "gap_days": 69.5,
       "start_date": "2025-11-05",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.00370517,
-      "price_end": 0.00189859,
-      "change_pct": -48.8
+      "price_end": 0.00269488,
+      "change_pct": -27.3
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:18:58.841876Z",
+  "generated_at": "2026-01-13T22:39:03.713707Z",
   "asset": "wif",
   "asset_name": "WIF",
   "founder": "blknoiz06",
@@ -10,7 +10,7 @@
       "start": "2023-12-14",
       "end": "2025-12-07"
     },
-    "total_days_analyzed": 761
+    "total_days_analyzed": 774
   },
   "daily_comparison": {
     "tweet_day_count": 180,
@@ -28,36 +28,36 @@
       "positive_count": 107,
       "negative_count": 73
     },
-    "no_tweet_day_count": 580,
-    "no_tweet_day_avg_return": 1.61,
-    "no_tweet_day_win_rate": 43.3,
+    "no_tweet_day_count": 593,
+    "no_tweet_day_avg_return": 1.65,
+    "no_tweet_day_win_rate": 43.7,
     "no_tweet_day_distribution": {
-      "count": 580,
-      "mean": 1.61,
-      "median": -1.29,
-      "std_dev": 31.86,
+      "count": 593,
+      "mean": 1.65,
+      "median": -1.18,
+      "std_dev": 31.53,
       "min": -40.3,
       "max": 679.06,
-      "q1": -5.09,
-      "q3": 3.46,
-      "positive_count": 251,
-      "negative_count": 329
+      "q1": -4.99,
+      "q3": 3.56,
+      "positive_count": 259,
+      "negative_count": 334
     },
-    "t_statistic": 1.412,
-    "p_value": 0.1584,
+    "t_statistic": 1.41,
+    "p_value": 0.1589,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.403,
+    "correlation_7d": 0.41,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 761,
+    "sample_size": 774,
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 24,
-    "price_change_during_silence": -28.8,
+    "days_since_last_tweet": 37,
+    "price_change_during_silence": 8.1,
     "last_tweet_date": "2025-12-07"
   },
   "limitations": {
@@ -511,14 +511,14 @@
     },
     {
       "start_ts": 1765140780,
-      "end_ts": 1767212338,
-      "gap_days": 24.0,
+      "end_ts": 1768361943,
+      "gap_days": 37.3,
       "start_date": "2025-12-07",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.38866563,
-      "price_end": 0.27655536,
-      "change_pct": -28.8
+      "price_end": 0.42031619,
+      "change_pct": 8.1
     }
   ]
 }

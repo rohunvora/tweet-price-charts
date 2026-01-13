@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:19:17.663925Z",
+  "generated_at": "2026-01-13T22:39:29.011730Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -10,7 +10,7 @@
       "start": "2025-08-06",
       "end": "2025-12-25"
     },
-    "total_days_analyzed": 3349
+    "total_days_analyzed": 3362
   },
   "daily_comparison": {
     "tweet_day_count": 38,
@@ -28,36 +28,36 @@
       "positive_count": 18,
       "negative_count": 20
     },
-    "no_tweet_day_count": 3310,
-    "no_tweet_day_avg_return": 0.2,
+    "no_tweet_day_count": 3323,
+    "no_tweet_day_avg_return": 0.19,
     "no_tweet_day_win_rate": 49.5,
     "no_tweet_day_distribution": {
-      "count": 3310,
-      "mean": 0.2,
+      "count": 3323,
+      "mean": 0.19,
       "median": -0.02,
-      "std_dev": 7.78,
+      "std_dev": 7.77,
       "min": -83.03,
       "max": 249.76,
-      "q1": -2.81,
+      "q1": -2.82,
       "q3": 2.82,
-      "positive_count": 1640,
-      "negative_count": 1662
+      "positive_count": 1645,
+      "negative_count": 1670
     },
-    "t_statistic": 0.873,
-    "p_value": 0.3825,
+    "t_statistic": 0.881,
+    "p_value": 0.3786,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.237,
+    "correlation_7d": 0.233,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 3349,
+    "sample_size": 3362,
     "strength_label": "weak"
   },
   "current_status": {
-    "days_since_last_tweet": 6,
-    "price_change_during_silence": 20.7,
+    "days_since_last_tweet": 19,
+    "price_change_during_silence": -7.0,
     "last_tweet_date": "2025-12-25"
   },
   "limitations": {
@@ -173,14 +173,14 @@
     },
     {
       "start_ts": 1766675040,
-      "end_ts": 1767212357,
-      "gap_days": 6.2,
+      "end_ts": 1768361969,
+      "gap_days": 19.5,
       "start_date": "2025-12-25",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 437.18,
-      "price_end": 527.84,
-      "change_pct": 20.7
+      "price_end": 406.56,
+      "change_pct": -7.0
     }
   ]
 }

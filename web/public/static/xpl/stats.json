@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:19:12.893413Z",
+  "generated_at": "2026-01-13T22:39:22.620633Z",
   "asset": "xpl",
   "asset_name": "XPL",
   "founder": "pauliepunt",
@@ -10,7 +10,7 @@
       "start": "2025-09-25",
       "end": "2025-12-11"
     },
-    "total_days_analyzed": 98
+    "total_days_analyzed": 111
   },
   "daily_comparison": {
     "tweet_day_count": 10,
@@ -28,36 +28,36 @@
       "positive_count": 4,
       "negative_count": 6
     },
-    "no_tweet_day_count": 87,
-    "no_tweet_day_avg_return": -1.73,
-    "no_tweet_day_win_rate": 40.2,
+    "no_tweet_day_count": 100,
+    "no_tweet_day_avg_return": -1.51,
+    "no_tweet_day_win_rate": 42.0,
     "no_tweet_day_distribution": {
-      "count": 87,
-      "mean": -1.73,
-      "median": -1.1,
-      "std_dev": 9.34,
+      "count": 100,
+      "mean": -1.51,
+      "median": -0.94,
+      "std_dev": 9.14,
       "min": -36.64,
       "max": 32.9,
-      "q1": -6.34,
-      "q3": 2.32,
-      "positive_count": 35,
-      "negative_count": 52
+      "q1": -6.23,
+      "q3": 2.38,
+      "positive_count": 42,
+      "negative_count": 58
     },
-    "t_statistic": 0.34,
-    "p_value": 0.735,
+    "t_statistic": 0.278,
+    "p_value": 0.7815,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": -0.003,
-    "p_value": 0.9794,
+    "correlation_7d": 0.03,
+    "p_value": 0.7511,
     "significant": false,
-    "sample_size": 98,
+    "sample_size": 111,
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 20,
-    "price_change_during_silence": 14.9,
+    "days_since_last_tweet": 33,
+    "price_change_during_silence": 9.8,
     "last_tweet_date": "2025-12-11"
   },
   "limitations": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 10 tweet-days analyzed",
-      "Limited history: 98 days may not capture full market cycles",
+      "Limited history: 111 days may not capture full market cycles",
       "Correlation does not imply causation"
     ]
   },
@@ -133,14 +133,14 @@
     },
     {
       "start_ts": 1765464238,
-      "end_ts": 1767212352,
-      "gap_days": 20.2,
+      "end_ts": 1768361962,
+      "gap_days": 33.5,
       "start_date": "2025-12-11",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.14842133,
-      "price_end": 0.17053312,
-      "change_pct": 14.9
+      "price_end": 0.16301841,
+      "change_pct": 9.8
     }
   ]
 }

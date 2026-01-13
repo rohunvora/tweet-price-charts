@@ -1,71 +1,71 @@
 {
-  "generated_at": "2025-12-31T15:17:47.576573Z",
+  "generated_at": "2026-01-13T22:37:32.994847Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "summary": {
-    "total_tweets": 1879,
-    "tweets_with_price": 1879,
+    "total_tweets": 1912,
+    "tweets_with_price": 1912,
     "date_range": {
       "start": "2024-10-24",
-      "end": "2025-12-30"
+      "end": "2026-01-13"
     },
-    "total_days_analyzed": 439
+    "total_days_analyzed": 452
   },
   "daily_comparison": {
-    "tweet_day_count": 288,
-    "tweet_day_avg_return": 1.14,
-    "tweet_day_win_rate": 49.3,
+    "tweet_day_count": 298,
+    "tweet_day_avg_return": 1.2,
+    "tweet_day_win_rate": 49.7,
     "tweet_day_distribution": {
-      "count": 288,
-      "mean": 1.14,
-      "median": -0.09,
-      "std_dev": 12.3,
+      "count": 298,
+      "mean": 1.2,
+      "median": -0.05,
+      "std_dev": 12.2,
       "min": -41.72,
       "max": 50.34,
-      "q1": -5.71,
-      "q3": 6.07,
-      "positive_count": 142,
-      "negative_count": 146
+      "q1": -5.7,
+      "q3": 6.2,
+      "positive_count": 148,
+      "negative_count": 150
     },
-    "no_tweet_day_count": 150,
-    "no_tweet_day_avg_return": 2.71,
-    "no_tweet_day_win_rate": 48.7,
+    "no_tweet_day_count": 153,
+    "no_tweet_day_avg_return": 2.75,
+    "no_tweet_day_win_rate": 49.0,
     "no_tweet_day_distribution": {
-      "count": 150,
-      "mean": 2.71,
-      "median": -0.4,
-      "std_dev": 17.63,
+      "count": 153,
+      "mean": 2.75,
+      "median": -0.25,
+      "std_dev": 17.48,
       "min": -38.15,
       "max": 81.43,
-      "q1": -8.46,
-      "q3": 10.35,
-      "positive_count": 73,
-      "negative_count": 77
+      "q1": -8.33,
+      "q3": 10.36,
+      "positive_count": 75,
+      "negative_count": 78
     },
-    "t_statistic": -1.082,
-    "p_value": 0.2797,
+    "t_statistic": -1.093,
+    "p_value": 0.275,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.344,
+    "correlation_7d": 0.361,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 439,
+    "sample_size": 452,
     "strength_label": "weak"
   },
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2025-12-30"
+    "last_tweet_date": "2026-01-13"
   },
   "limitations": {
     "sample_size_warning": false,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Win rate of 49.3% is near random (50%)",
+      "Win rate of 49.7% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
@@ -359,6 +359,16 @@
       "price_start": 0.24286291,
       "price_end": 0.24123771,
       "change_pct": -0.7
+    },
+    {
+      "start_ts": 1767074305,
+      "end_ts": 1767369132,
+      "gap_days": 3.4,
+      "start_date": "2025-12-30",
+      "end_date": "2026-01-02",
+      "price_start": 0.29017907,
+      "price_end": 0.3347201,
+      "change_pct": 15.3
     }
   ]
 }

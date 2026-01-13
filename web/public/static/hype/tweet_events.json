@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-31T15:18:01.620762Z",
+  "generated_at": "2026-01-13T22:37:52.167432Z",
   "asset": "hype",
   "asset_name": "HYPE",
   "founder": "chameleon_jeff",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 35,
+  "count": 36,
   "events": [
     {
       "tweet_id": "1862885996846805222",
@@ -706,6 +706,26 @@
       "change_1h_pct": 0.67,
       "change_24h_pct": 1.76,
       "market_cap_at_tweet": 6806369806.21
+    },
+    {
+      "tweet_id": "2006788242713227395",
+      "asset_id": "hype",
+      "asset_name": "HYPE",
+      "founder": "chameleon_jeff",
+      "asset_color": "#00D1FF",
+      "timestamp": 1767290576,
+      "timestamp_iso": "2026-01-01T13:02:56Z",
+      "text": "Integrity has always been one of Hyperliquid's core values.\n\nThe house of all finance must be credibly neutral. This means no private investors, no market maker deals, and no protocol fees to any company. \n\nThe initial state of any blockchain is a crucial part of its story that https://t.co/5Y4hKknJDP",
+      "likes": 4406,
+      "retweets": 820,
+      "replies": 710,
+      "impressions": 711861,
+      "price_at_tweet": 25.502,
+      "price_1h": 25.292,
+      "price_24h": 24.549,
+      "change_1h_pct": -0.82,
+      "change_24h_pct": -3.74,
+      "market_cap_at_tweet": 6080999257.21
     }
   ]
 }

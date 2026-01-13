@@ -1,71 +1,71 @@
 {
-  "generated_at": "2025-12-31T15:18:11.441424Z",
+  "generated_at": "2026-01-13T22:38:03.911168Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
   "summary": {
-    "total_tweets": 682,
-    "tweets_with_price": 682,
+    "total_tweets": 695,
+    "tweets_with_price": 695,
     "date_range": {
       "start": "2024-01-31",
-      "end": "2025-12-30"
+      "end": "2026-01-10"
     },
-    "total_days_analyzed": 701
+    "total_days_analyzed": 714
   },
   "daily_comparison": {
-    "tweet_day_count": 245,
-    "tweet_day_avg_return": 0.18,
-    "tweet_day_win_rate": 53.1,
+    "tweet_day_count": 253,
+    "tweet_day_avg_return": 0.23,
+    "tweet_day_win_rate": 53.8,
     "tweet_day_distribution": {
-      "count": 245,
-      "mean": 0.18,
-      "median": 0.3,
-      "std_dev": 5.74,
+      "count": 253,
+      "mean": 0.23,
+      "median": 0.34,
+      "std_dev": 5.68,
       "min": -17.07,
       "max": 28.11,
-      "q1": -3.54,
-      "q3": 3.38,
-      "positive_count": 130,
-      "negative_count": 115
+      "q1": -3.45,
+      "q3": 3.5,
+      "positive_count": 136,
+      "negative_count": 117
     },
-    "no_tweet_day_count": 455,
+    "no_tweet_day_count": 460,
     "no_tweet_day_avg_return": -0.1,
-    "no_tweet_day_win_rate": 46.2,
+    "no_tweet_day_win_rate": 46.1,
     "no_tweet_day_distribution": {
-      "count": 455,
+      "count": 460,
       "mean": -0.1,
-      "median": -0.47,
-      "std_dev": 5.98,
+      "median": -0.49,
+      "std_dev": 5.97,
       "min": -23.77,
       "max": 36.54,
-      "q1": -3.68,
-      "q3": 3.14,
-      "positive_count": 210,
-      "negative_count": 245
+      "q1": -3.66,
+      "q3": 3.17,
+      "positive_count": 212,
+      "negative_count": 248
     },
-    "t_statistic": 0.595,
-    "p_value": 0.5524,
+    "t_statistic": 0.721,
+    "p_value": 0.4711,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": -0.08,
-    "p_value": 0.0331,
+    "correlation_7d": -0.091,
+    "p_value": 0.0148,
     "significant": true,
-    "sample_size": 701,
+    "sample_size": 714,
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 0,
-    "price_change_during_silence": null,
-    "last_tweet_date": "2025-12-30"
+    "days_since_last_tweet": 3,
+    "price_change_during_silence": 6.2,
+    "last_tweet_date": "2026-01-10"
   },
   "limitations": {
     "sample_size_warning": false,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Win rate of 53.1% is near random (50%)",
+      "Win rate of 53.8% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
@@ -609,6 +609,27 @@
       "price_start": 0.19208186,
       "price_end": 0.195175,
       "change_pct": 1.6
+    },
+    {
+      "start_ts": 1767653761,
+      "end_ts": 1767957374,
+      "gap_days": 3.5,
+      "start_date": "2026-01-05",
+      "end_date": "2026-01-09",
+      "price_start": 0.23118283,
+      "price_end": 0.21371035,
+      "change_pct": -7.6
+    },
+    {
+      "start_ts": 1768066778,
+      "end_ts": 1768361883,
+      "gap_days": 3.4,
+      "start_date": "2026-01-10",
+      "end_date": "ongoing",
+      "is_current": true,
+      "price_start": 0.21264704,
+      "price_end": 0.2258254,
+      "change_pct": 6.2
     }
   ]
 }

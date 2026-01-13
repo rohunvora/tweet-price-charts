@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:19:27.612653Z",
+  "generated_at": "2026-01-13T22:39:40.691540Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
@@ -10,7 +10,7 @@
       "start": "2025-04-23",
       "end": "2025-12-12"
     },
-    "total_days_analyzed": 253
+    "total_days_analyzed": 266
   },
   "daily_comparison": {
     "tweet_day_count": 143,
@@ -28,36 +28,36 @@
       "positive_count": 66,
       "negative_count": 77
     },
-    "no_tweet_day_count": 109,
-    "no_tweet_day_avg_return": 0.03,
-    "no_tweet_day_win_rate": 44.0,
+    "no_tweet_day_count": 122,
+    "no_tweet_day_avg_return": 0.05,
+    "no_tweet_day_win_rate": 44.3,
     "no_tweet_day_distribution": {
-      "count": 109,
-      "mean": 0.03,
-      "median": -1.06,
-      "std_dev": 8.12,
+      "count": 122,
+      "mean": 0.05,
+      "median": -1.04,
+      "std_dev": 7.85,
       "min": -16.56,
       "max": 33.02,
-      "q1": -4.55,
-      "q3": 3.51,
-      "positive_count": 48,
-      "negative_count": 61
+      "q1": -4.36,
+      "q3": 3.46,
+      "positive_count": 54,
+      "negative_count": 68
     },
-    "t_statistic": 0.957,
-    "p_value": 0.3392,
+    "t_statistic": 0.994,
+    "p_value": 0.321,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.138,
-    "p_value": 0.0278,
+    "correlation_7d": 0.147,
+    "p_value": 0.0162,
     "significant": true,
-    "sample_size": 253,
+    "sample_size": 266,
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 19,
-    "price_change_during_silence": -22.4,
+    "days_since_last_tweet": 32,
+    "price_change_during_silence": -21.5,
     "last_tweet_date": "2025-12-12"
   },
   "limitations": {
@@ -65,7 +65,7 @@
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Limited history: 253 days may not capture full market cycles",
+      "Limited history: 266 days may not capture full market cycles",
       "Win rate of 46.2% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -203,14 +203,14 @@
     },
     {
       "start_ts": 1765550371,
-      "end_ts": 1767212367,
-      "gap_days": 19.2,
+      "end_ts": 1768361980,
+      "gap_days": 32.5,
       "start_date": "2025-12-12",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.04892157,
-      "price_end": 0.03796255,
-      "change_pct": -22.4
+      "price_end": 0.03840161,
+      "change_pct": -21.5
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:18:54.628118Z",
+  "generated_at": "2026-01-13T22:38:58.241202Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -10,7 +10,7 @@
       "start": "2025-05-23",
       "end": "2025-12-30"
     },
-    "total_days_analyzed": 222
+    "total_days_analyzed": 235
   },
   "daily_comparison": {
     "tweet_day_count": 162,
@@ -28,36 +28,36 @@
       "positive_count": 87,
       "negative_count": 75
     },
-    "no_tweet_day_count": 59,
-    "no_tweet_day_avg_return": -1.24,
-    "no_tweet_day_win_rate": 37.3,
+    "no_tweet_day_count": 72,
+    "no_tweet_day_avg_return": -0.04,
+    "no_tweet_day_win_rate": 43.1,
     "no_tweet_day_distribution": {
-      "count": 59,
-      "mean": -1.24,
-      "median": -4.15,
-      "std_dev": 12.91,
+      "count": 72,
+      "mean": -0.04,
+      "median": -2.45,
+      "std_dev": 13.02,
       "min": -21.68,
       "max": 61.52,
-      "q1": -8.05,
-      "q3": 3.79,
-      "positive_count": 22,
-      "negative_count": 37
+      "q1": -7.56,
+      "q3": 4.99,
+      "positive_count": 31,
+      "negative_count": 41
     },
-    "t_statistic": 1.511,
-    "p_value": 0.1322,
+    "t_statistic": 1.151,
+    "p_value": 0.2509,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.684,
+    "correlation_7d": 0.688,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 222,
+    "sample_size": 235,
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 0,
-    "price_change_during_silence": null,
+    "days_since_last_tweet": 14,
+    "price_change_during_silence": 82.5,
     "last_tweet_date": "2025-12-30"
   },
   "limitations": {
@@ -65,7 +65,7 @@
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Limited history: 222 days may not capture full market cycles",
+      "Limited history: 235 days may not capture full market cycles",
       "Win rate of 53.7% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -160,6 +160,17 @@
       "price_start": 0.06404475,
       "price_end": 0.05991554,
       "change_pct": -6.4
+    },
+    {
+      "start_ts": 1767126384,
+      "end_ts": 1768361938,
+      "gap_days": 14.3,
+      "start_date": "2025-12-30",
+      "end_date": "ongoing",
+      "is_current": true,
+      "price_start": 0.0654363,
+      "price_end": 0.11940863,
+      "change_pct": 82.5
     }
   ]
 }

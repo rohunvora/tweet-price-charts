@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-31T15:18:30.669609Z",
+  "generated_at": "2026-01-13T22:38:27.330157Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
@@ -10,7 +10,7 @@
       "start": "2025-10-06",
       "end": "2025-12-27"
     },
-    "total_days_analyzed": 86
+    "total_days_analyzed": 99
   },
   "daily_comparison": {
     "tweet_day_count": 54,
@@ -28,36 +28,36 @@
       "positive_count": 24,
       "negative_count": 30
     },
-    "no_tweet_day_count": 31,
-    "no_tweet_day_avg_return": -0.64,
-    "no_tweet_day_win_rate": 41.9,
+    "no_tweet_day_count": 44,
+    "no_tweet_day_avg_return": -0.54,
+    "no_tweet_day_win_rate": 43.2,
     "no_tweet_day_distribution": {
-      "count": 31,
-      "mean": -0.64,
-      "median": -1.0,
-      "std_dev": 6.42,
-      "min": -12.81,
-      "max": 16.51,
-      "q1": -4.42,
-      "q3": 2.38,
-      "positive_count": 13,
-      "negative_count": 18
+      "count": 44,
+      "mean": -0.54,
+      "median": -1.08,
+      "std_dev": 7.63,
+      "min": -13.19,
+      "max": 17.74,
+      "q1": -6.13,
+      "q3": 3.22,
+      "positive_count": 19,
+      "negative_count": 25
     },
-    "t_statistic": 1.102,
-    "p_value": 0.2736,
+    "t_statistic": 1.22,
+    "p_value": 0.2256,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.56,
-    "p_value": 0.0,
+    "correlation_7d": 0.241,
+    "p_value": 0.0162,
     "significant": true,
-    "sample_size": 86,
-    "strength_label": "moderate"
+    "sample_size": 99,
+    "strength_label": "weak"
   },
   "current_status": {
-    "days_since_last_tweet": 4,
-    "price_change_during_silence": 0.0,
+    "days_since_last_tweet": 17,
+    "price_change_during_silence": -9.6,
     "last_tweet_date": "2025-12-27"
   },
   "limitations": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 54 tweet-days analyzed",
-      "Limited history: 86 days may not capture full market cycles",
+      "Limited history: 99 days may not capture full market cycles",
       "Correlation does not imply causation"
     ]
   },
@@ -133,14 +133,14 @@
     },
     {
       "start_ts": 1766845315,
-      "end_ts": 1767212310,
-      "gap_days": 4.2,
+      "end_ts": 1768361907,
+      "gap_days": 17.6,
       "start_date": "2025-12-27",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 6.52668493,
-      "price_end": 6.52741632,
-      "change_pct": 0.0
+      "price_end": 5.8977054,
+      "change_pct": -9.6
     }
   ]
 }
