@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-13T22:55:44.588159Z",
+  "generated_at": "2026-01-13T23:13:20.783977Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
@@ -622,7 +622,7 @@
     },
     {
       "start_ts": 1768066778,
-      "end_ts": 1768362944,
+      "end_ts": 1768364000,
       "gap_days": 3.4,
       "start_date": "2026-01-10",
       "end_date": "ongoing",
