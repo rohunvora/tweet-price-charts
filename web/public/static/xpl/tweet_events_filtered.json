@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-13T23:14:19.567087Z",
+  "generated_at": "2026-01-13T23:35:47.980086Z",
   "asset": "xpl",
   "asset_name": "XPL",
   "founder": "pauliepunt",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 10,
+  "count": 11,
   "events": [
     {
       "tweet_id": "1971197418881663139",
@@ -206,6 +206,26 @@
       "change_1h_pct": -1.86,
       "change_24h_pct": -3.44,
       "market_cap_at_tweet": 18865810.24
+    },
+    {
+      "tweet_id": "2006049270873387105",
+      "asset_id": "xpl",
+      "asset_name": "XPL",
+      "founder": "pauliepunt",
+      "asset_color": "#7B3FE4",
+      "timestamp": 1767114391,
+      "timestamp_iso": "2025-12-30T12:06:31Z",
+      "text": "2025 has been a pivotal year. We scaled Plasma from zero to billions and laid the regulatory and technical groundwork for Plasma One. \n\nWe've made massive progress on the core value proposition we're building towards: Stablecoins should feel like money. \n\nI'm beyond excited for https://t.co/OcxIkZ5L9J",
+      "likes": 141,
+      "retweets": 7,
+      "replies": 39,
+      "impressions": 23994,
+      "price_at_tweet": 0.15191853,
+      "price_1h": 0.15159122,
+      "price_24h": 0.16543096,
+      "change_1h_pct": -0.22,
+      "change_24h_pct": 8.89,
+      "market_cap_at_tweet": 17450973.15
     }
   ],
   "keyword_filter": "xpl,plasma",

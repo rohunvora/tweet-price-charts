@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-13T23:13:10.240007Z",
+  "generated_at": "2026-01-13T23:34:32.586856Z",
   "asset": "hype",
   "asset_name": "HYPE",
   "founder": "chameleon_jeff",
@@ -312,7 +312,7 @@
     },
     {
       "start_ts": 1767290576,
-      "end_ts": 1768363990,
+      "end_ts": 1768365272,
       "gap_days": 12.4,
       "start_date": "2026-01-01",
       "end_date": "ongoing",

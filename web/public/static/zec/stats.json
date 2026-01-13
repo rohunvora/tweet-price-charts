@@ -1,38 +1,38 @@
 {
-  "generated_at": "2026-01-13T23:14:30.489697Z",
+  "generated_at": "2026-01-13T23:35:59.668876Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
   "summary": {
-    "total_tweets": 89,
-    "tweets_with_price": 89,
+    "total_tweets": 116,
+    "tweets_with_price": 116,
     "date_range": {
       "start": "2025-08-06",
-      "end": "2025-12-25"
+      "end": "2026-01-11"
     },
     "total_days_analyzed": 3362
   },
   "daily_comparison": {
-    "tweet_day_count": 38,
-    "tweet_day_avg_return": 1.31,
-    "tweet_day_win_rate": 47.4,
+    "tweet_day_count": 51,
+    "tweet_day_avg_return": 0.66,
+    "tweet_day_win_rate": 45.1,
     "tweet_day_distribution": {
-      "count": 38,
-      "mean": 1.31,
-      "median": -0.83,
-      "std_dev": 8.7,
+      "count": 51,
+      "mean": 0.66,
+      "median": -0.89,
+      "std_dev": 8.24,
       "min": -19.75,
       "max": 21.96,
-      "q1": -4.92,
-      "q3": 7.38,
-      "positive_count": 18,
-      "negative_count": 20
+      "q1": -5.22,
+      "q3": 4.5,
+      "positive_count": 23,
+      "negative_count": 28
     },
-    "no_tweet_day_count": 3323,
+    "no_tweet_day_count": 3310,
     "no_tweet_day_avg_return": 0.19,
     "no_tweet_day_win_rate": 49.5,
     "no_tweet_day_distribution": {
-      "count": 3323,
+      "count": 3310,
       "mean": 0.19,
       "median": -0.02,
       "std_dev": 7.77,
@@ -40,33 +40,33 @@
       "max": 249.76,
       "q1": -2.82,
       "q3": 2.82,
-      "positive_count": 1645,
-      "negative_count": 1670
+      "positive_count": 1640,
+      "negative_count": 1662
     },
-    "t_statistic": 0.881,
-    "p_value": 0.3786,
+    "t_statistic": 0.421,
+    "p_value": 0.674,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.233,
+    "correlation_7d": 0.266,
     "p_value": 0.0,
     "significant": true,
     "sample_size": 3362,
     "strength_label": "weak"
   },
   "current_status": {
-    "days_since_last_tweet": 19,
-    "price_change_during_silence": -7.0,
-    "last_tweet_date": "2025-12-25"
+    "days_since_last_tweet": 0,
+    "price_change_during_silence": null,
+    "last_tweet_date": "2026-01-11"
   },
   "limitations": {
     "sample_size_warning": true,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Small sample: only 38 tweet-days analyzed",
-      "Win rate of 47.4% is near random (50%)",
+      "Small sample: only 51 tweet-days analyzed",
+      "Win rate of 45.1% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
@@ -173,14 +173,13 @@
     },
     {
       "start_ts": 1766675040,
-      "end_ts": 1768364070,
-      "gap_days": 19.5,
+      "end_ts": 1766950389,
+      "gap_days": 3.2,
       "start_date": "2025-12-25",
-      "end_date": "ongoing",
-      "is_current": true,
+      "end_date": "2025-12-28",
       "price_start": 437.18,
-      "price_end": 406.56,
-      "change_pct": -7.0
+      "price_end": 515.05,
+      "change_pct": 17.8
     }
   ]
 }
