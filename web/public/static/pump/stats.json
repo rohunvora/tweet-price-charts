@@ -1,73 +1,74 @@
 {
-  "generated_at": "2026-01-13T22:38:52.602373Z",
+  "generated_at": "2026-01-13T22:53:00.276608Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
   "summary": {
-    "total_tweets": 102,
-    "tweets_with_price": 102,
+    "total_tweets": 106,
+    "tweets_with_price": 106,
     "date_range": {
       "start": "2025-07-14",
-      "end": "2025-11-05"
+      "end": "2026-01-13"
     },
     "total_days_analyzed": 184
   },
   "daily_comparison": {
-    "tweet_day_count": 67,
-    "tweet_day_avg_return": 1.26,
-    "tweet_day_win_rate": 50.7,
+    "tweet_day_count": 70,
+    "tweet_day_avg_return": 1.49,
+    "tweet_day_win_rate": 52.9,
     "tweet_day_distribution": {
-      "count": 67,
-      "mean": 1.26,
-      "median": 0.66,
-      "std_dev": 9.28,
+      "count": 70,
+      "mean": 1.49,
+      "median": 1.57,
+      "std_dev": 9.17,
       "min": -19.26,
       "max": 20.03,
-      "q1": -4.37,
-      "q3": 7.22,
-      "positive_count": 34,
+      "q1": -4.13,
+      "q3": 7.4,
+      "positive_count": 37,
       "negative_count": 33
     },
-    "no_tweet_day_count": 116,
-    "no_tweet_day_avg_return": -0.86,
-    "no_tweet_day_win_rate": 41.4,
+    "no_tweet_day_count": 113,
+    "no_tweet_day_avg_return": -1.06,
+    "no_tweet_day_win_rate": 39.8,
     "no_tweet_day_distribution": {
-      "count": 116,
-      "mean": -0.86,
-      "median": -1.19,
-      "std_dev": 7.33,
+      "count": 113,
+      "mean": -1.06,
+      "median": -1.66,
+      "std_dev": 7.3,
       "min": -27.46,
       "max": 16.38,
-      "q1": -5.83,
-      "q3": 3.67,
-      "positive_count": 48,
+      "q1": -6.21,
+      "q3": 3.31,
+      "positive_count": 45,
       "negative_count": 68
     },
-    "t_statistic": 1.698,
-    "p_value": 0.0913,
-    "significant": false,
-    "confidence_label": "none"
+    "t_statistic": 2.065,
+    "p_value": 0.0404,
+    "significant": true,
+    "confidence_label": "weak"
   },
   "correlation": {
-    "correlation_7d": 0.548,
+    "correlation_7d": 0.542,
     "p_value": 0.0,
     "significant": true,
     "sample_size": 184,
     "strength_label": "moderate"
   },
   "current_status": {
-    "days_since_last_tweet": 69,
-    "price_change_during_silence": -27.3,
-    "last_tweet_date": "2025-11-05"
+    "days_since_last_tweet": 0,
+    "price_change_during_silence": null,
+    "last_tweet_date": "2026-01-13"
   },
   "limitations": {
     "sample_size_warning": true,
-    "borderline_significance": false,
+    "borderline_significance": true,
     "short_history": true,
     "notes": [
-      "Small sample: only 67 tweet-days analyzed",
+      "Small sample: only 70 tweet-days analyzed",
+      "Borderline significance: p=0.0404 is very close to 0.05 threshold",
       "Limited history: 184 days may not capture full market cycles",
-      "Win rate of 50.7% is near random (50%)",
+      "Win rate of 52.9% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
@@ -124,14 +125,23 @@
     },
     {
       "start_ts": 1762360100,
-      "end_ts": 1768361932,
-      "gap_days": 69.5,
+      "end_ts": 1767979414,
+      "gap_days": 65.0,
       "start_date": "2025-11-05",
-      "end_date": "ongoing",
-      "is_current": true,
+      "end_date": "2026-01-09",
       "price_start": 0.00370517,
-      "price_end": 0.00269488,
-      "change_pct": -27.3
+      "price_end": 0.00235429,
+      "change_pct": -36.5
+    },
+    {
+      "start_ts": 1767979415,
+      "end_ts": 1768250803,
+      "gap_days": 3.1,
+      "start_date": "2026-01-09",
+      "end_date": "2026-01-12",
+      "price_start": 0.00228577,
+      "price_end": 0.00243567,
+      "change_pct": 6.6
     }
   ]
 }
