@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-01-14T15:14:27.905404Z",
+  "generated_at": "2026-01-14T16:17:04.218409Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "summary": {
-    "total_tweets": 1914,
-    "tweets_with_price": 1914,
+    "total_tweets": 1915,
+    "tweets_with_price": 1915,
     "date_range": {
       "start": "2024-10-24",
-      "end": "2026-01-13"
+      "end": "2026-01-14"
     },
     "total_days_analyzed": 453
   },
@@ -58,7 +58,7 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2026-01-13"
+    "last_tweet_date": "2026-01-14"
   },
   "limitations": {
     "sample_size_warning": false,

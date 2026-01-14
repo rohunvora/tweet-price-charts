@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T15:15:33.541232Z",
+  "generated_at": "2026-01-14T16:18:28.021476Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
   "founder_type": "adopter",
   "price_definition": "candle close at minute boundary",
-  "count": 462,
+  "count": 463,
   "events": [
     {
       "tweet_id": "1925945913421218034",
@@ -9242,10 +9242,30 @@
       "impressions": 16015,
       "price_at_tweet": 0.11568704,
       "price_1h": 0.11438585,
-      "price_24h": 0.11767511,
+      "price_24h": 0.12075975,
       "change_1h_pct": -1.12,
-      "change_24h_pct": 1.72,
+      "change_24h_pct": 4.38,
       "market_cap_at_tweet": 115581781.68
+    },
+    {
+      "tweet_id": "2011445418362642617",
+      "asset_id": "useless",
+      "asset_name": "USELESS",
+      "founder": "theunipcs",
+      "asset_color": "#FF4081",
+      "timestamp": 1768400933,
+      "timestamp_iso": "2026-01-14T09:28:53Z",
+      "text": "the thing with memecoins like $USELESS is that many people ignore them at lows like this, where it is easy to size in before the major move\n\nthen they FOMO into green candles later, even though they could have been early\n\nwith memecoins, you only really need to pay attention to https://t.co/lBhiT8nsYQ https://t.co/jdVVQLwwx7",
+      "likes": 175,
+      "retweets": 25,
+      "replies": 64,
+      "impressions": 14623,
+      "price_at_tweet": 0.11673811,
+      "price_1h": 0.117538,
+      "price_24h": 0.12075975,
+      "change_1h_pct": 0.69,
+      "change_24h_pct": 3.45,
+      "market_cap_at_tweet": 116631895.36
     }
   ],
   "keyword_filter": "useless",

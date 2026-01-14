@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T15:14:27.629848Z",
+  "generated_at": "2026-01-14T16:17:03.851627Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "founder_type": "adopter",
   "price_definition": "candle close at minute boundary",
-  "count": 1914,
+  "count": 1915,
   "events": [
     {
       "tweet_id": "1849598804791795967",
@@ -38242,9 +38242,9 @@
       "impressions": 4706,
       "price_at_tweet": 0.3977875,
       "price_1h": 0.39515962,
-      "price_24h": 0.4227585,
+      "price_24h": 0.43110391,
       "change_1h_pct": -0.66,
-      "change_24h_pct": 6.28,
+      "change_24h_pct": 8.38,
       "market_cap_at_tweet": 397779433.27
     },
     {
@@ -38262,9 +38262,9 @@
       "impressions": 7299,
       "price_at_tweet": 0.40374053,
       "price_1h": 0.40293612,
-      "price_24h": 0.4227585,
+      "price_24h": 0.43562442,
       "change_1h_pct": -0.2,
-      "change_24h_pct": 4.71,
+      "change_24h_pct": 7.9,
       "market_cap_at_tweet": 403732342.55
     },
     {
@@ -38282,10 +38282,30 @@
       "impressions": 10289,
       "price_at_tweet": 0.40293612,
       "price_1h": 0.42294268,
-      "price_24h": 0.4227585,
+      "price_24h": 0.43562442,
       "change_1h_pct": 4.97,
-      "change_24h_pct": 4.92,
+      "change_24h_pct": 8.11,
       "market_cap_at_tweet": 402927948.86
+    },
+    {
+      "tweet_id": "2011469196576596413",
+      "asset_id": "fartcoin",
+      "asset_name": "FARTCOIN",
+      "founder": "DipWheeler",
+      "asset_color": "#8B4513",
+      "timestamp": 1768406602,
+      "timestamp_iso": "2026-01-14T11:03:22Z",
+      "text": "fartcoin.",
+      "likes": 53,
+      "retweets": 3,
+      "replies": 30,
+      "impressions": 1129,
+      "price_at_tweet": 0.41966479,
+      "price_1h": 0.41863926,
+      "price_24h": 0.43562442,
+      "change_1h_pct": -0.24,
+      "change_24h_pct": 3.8,
+      "market_cap_at_tweet": 419656279.62
     }
   ],
   "keyword_filter": "fartcoin",

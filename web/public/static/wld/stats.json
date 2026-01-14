@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-14T15:15:41.844771Z",
+  "generated_at": "2026-01-14T16:18:39.055311Z",
   "asset": "wld",
   "asset_name": "WLD",
   "founder": "sama",
@@ -56,7 +56,7 @@
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 428,
+    "days_since_last_tweet": 429,
     "price_change_during_silence": -75.2,
     "last_tweet_date": "2024-11-11"
   },
@@ -82,8 +82,8 @@
     },
     {
       "start_ts": 1731361860,
-      "end_ts": 1768421741,
-      "gap_days": 428.9,
+      "end_ts": 1768425519,
+      "gap_days": 429.0,
       "start_date": "2024-11-11",
       "end_date": "ongoing",
       "is_current": true,
