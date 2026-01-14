@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-13T23:34:55.124616Z",
+  "generated_at": "2026-01-14T10:17:30.164560Z",
   "asset": "believe",
   "asset_name": "LAUNCHCOIN",
   "founder": "pasternak",
@@ -10,7 +10,7 @@
       "start": "2025-05-03",
       "end": "2025-10-20"
     },
-    "total_days_analyzed": 351
+    "total_days_analyzed": 352
   },
   "daily_comparison": {
     "tweet_day_count": 62,
@@ -28,23 +28,23 @@
       "positive_count": 34,
       "negative_count": 28
     },
-    "no_tweet_day_count": 288,
-    "no_tweet_day_avg_return": 3.86,
-    "no_tweet_day_win_rate": 39.6,
+    "no_tweet_day_count": 289,
+    "no_tweet_day_avg_return": 4.09,
+    "no_tweet_day_win_rate": 39.8,
     "no_tweet_day_distribution": {
-      "count": 288,
-      "mean": 3.86,
-      "median": -2.91,
-      "std_dev": 49.45,
+      "count": 289,
+      "mean": 4.09,
+      "median": -2.8,
+      "std_dev": 49.53,
       "min": -98.84,
       "max": 534.11,
-      "q1": -9.68,
-      "q3": 5.81,
-      "positive_count": 114,
+      "q1": -9.63,
+      "q3": 5.92,
+      "positive_count": 115,
       "negative_count": 174
     },
-    "t_statistic": 0.376,
-    "p_value": 0.7071,
+    "t_statistic": 0.34,
+    "p_value": 0.734,
     "significant": false,
     "confidence_label": "none"
   },
@@ -52,12 +52,12 @@
     "correlation_7d": 0.745,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 351,
+    "sample_size": 352,
     "strength_label": "strong"
   },
   "current_status": {
-    "days_since_last_tweet": 85,
-    "price_change_during_silence": -99.8,
+    "days_since_last_tweet": 86,
+    "price_change_during_silence": -99.7,
     "last_tweet_date": "2025-10-20"
   },
   "limitations": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 62 tweet-days analyzed",
-      "Limited history: 351 days may not capture full market cycles",
+      "Limited history: 352 days may not capture full market cycles",
       "Win rate of 54.8% is near random (50%)",
       "Correlation does not imply causation"
     ]
@@ -264,14 +264,14 @@
     },
     {
       "start_ts": 1760971171,
-      "end_ts": 1768365295,
-      "gap_days": 85.6,
+      "end_ts": 1768403850,
+      "gap_days": 86.0,
       "start_date": "2025-10-20",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 0.06595909,
-      "price_end": 0.00011989,
-      "change_pct": -99.8
+      "price_end": 0.0002055,
+      "change_pct": -99.7
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-13T23:34:43.707221Z",
+  "generated_at": "2026-01-14T10:17:20.843742Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 695,
+  "count": 696,
   "events": [
     {
       "tweet_id": "1752657292124905504",
@@ -13905,6 +13905,26 @@
       "price_24h": 0.21389594,
       "change_1h_pct": -0.52,
       "change_24h_pct": -0.02,
+      "market_cap_at_tweet": null
+    },
+    {
+      "tweet_id": "2011370010078584883",
+      "asset_id": "jup",
+      "asset_name": "JUP",
+      "founder": "weremeow",
+      "asset_color": "#19FB9B",
+      "timestamp": 1768382954,
+      "timestamp_iso": "2026-01-14T04:29:14Z",
+      "text": "just use jupiter (mobile)\n\nPS: thanks so much for the appreciation, team has been cooking insanely hard everyday since launch, and hyper glad to see it paying off \u2764\ufe0f https://t.co/VEMewuGOoM",
+      "likes": 80,
+      "retweets": 4,
+      "replies": 29,
+      "impressions": 4247,
+      "price_at_tweet": 0.2272625,
+      "price_1h": 0.22607537,
+      "price_24h": 0.2304612,
+      "change_1h_pct": -0.52,
+      "change_24h_pct": 1.41,
       "market_cap_at_tweet": null
     }
   ]

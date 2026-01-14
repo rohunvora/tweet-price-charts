@@ -1,31 +1,31 @@
 {
-  "generated_at": "2026-01-13T23:34:43.951442Z",
+  "generated_at": "2026-01-14T10:17:21.095576Z",
   "asset": "jup",
   "asset_name": "JUP",
   "founder": "weremeow",
   "summary": {
-    "total_tweets": 695,
-    "tweets_with_price": 695,
+    "total_tweets": 696,
+    "tweets_with_price": 696,
     "date_range": {
       "start": "2024-01-31",
-      "end": "2026-01-10"
+      "end": "2026-01-14"
     },
-    "total_days_analyzed": 714
+    "total_days_analyzed": 715
   },
   "daily_comparison": {
-    "tweet_day_count": 253,
-    "tweet_day_avg_return": 0.23,
-    "tweet_day_win_rate": 53.8,
+    "tweet_day_count": 254,
+    "tweet_day_avg_return": 0.24,
+    "tweet_day_win_rate": 53.9,
     "tweet_day_distribution": {
-      "count": 253,
-      "mean": 0.23,
+      "count": 254,
+      "mean": 0.24,
       "median": 0.34,
-      "std_dev": 5.68,
+      "std_dev": 5.67,
       "min": -17.07,
       "max": 28.11,
-      "q1": -3.45,
-      "q3": 3.5,
-      "positive_count": 136,
+      "q1": -3.44,
+      "q3": 3.47,
+      "positive_count": 137,
       "negative_count": 117
     },
     "no_tweet_day_count": 460,
@@ -43,29 +43,29 @@
       "positive_count": 212,
       "negative_count": 248
     },
-    "t_statistic": 0.721,
-    "p_value": 0.4711,
+    "t_statistic": 0.738,
+    "p_value": 0.4607,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": -0.091,
-    "p_value": 0.0148,
+    "correlation_7d": -0.09,
+    "p_value": 0.016,
     "significant": true,
-    "sample_size": 714,
+    "sample_size": 715,
     "strength_label": "negligible"
   },
   "current_status": {
-    "days_since_last_tweet": 3,
-    "price_change_during_silence": 6.2,
-    "last_tweet_date": "2026-01-10"
+    "days_since_last_tweet": 0,
+    "price_change_during_silence": null,
+    "last_tweet_date": "2026-01-14"
   },
   "limitations": {
     "sample_size_warning": false,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Win rate of 53.8% is near random (50%)",
+      "Win rate of 53.9% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
@@ -622,14 +622,13 @@
     },
     {
       "start_ts": 1768066778,
-      "end_ts": 1768365283,
-      "gap_days": 3.5,
+      "end_ts": 1768382954,
+      "gap_days": 3.7,
       "start_date": "2026-01-10",
-      "end_date": "ongoing",
-      "is_current": true,
+      "end_date": "2026-01-14",
       "price_start": 0.21264704,
-      "price_end": 0.2258254,
-      "change_pct": 6.2
+      "price_end": 0.2304612,
+      "change_pct": 8.4
     }
   ]
 }

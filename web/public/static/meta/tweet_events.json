@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-13T23:35:05.851488Z",
+  "generated_at": "2026-01-14T10:17:38.987950Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
@@ -2962,9 +2962,9 @@
       "impressions": 19447,
       "price_at_tweet": 6.01707575,
       "price_1h": 5.67930554,
-      "price_24h": 5.8977054,
+      "price_24h": 5.94209525,
       "change_1h_pct": -5.61,
-      "change_24h_pct": -1.98,
+      "change_24h_pct": -1.25,
       "market_cap_at_tweet": 133234050.49
     },
     {
@@ -2982,9 +2982,9 @@
       "impressions": 1001,
       "price_at_tweet": 6.01707575,
       "price_1h": 5.67930554,
-      "price_24h": 5.8977054,
+      "price_24h": 5.94209525,
       "change_1h_pct": -5.61,
-      "change_24h_pct": -1.98,
+      "change_24h_pct": -1.25,
       "market_cap_at_tweet": 133234050.49
     }
   ]

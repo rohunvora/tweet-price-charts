@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-13T23:34:05.894429Z",
+  "generated_at": "2026-01-14T10:16:53.243825Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 348,
+  "count": 349,
   "events": [
     {
       "tweet_id": "1968291567309115458",
@@ -6882,9 +6882,9 @@
       "impressions": 276667,
       "price_at_tweet": 0.68858692,
       "price_1h": 0.69102727,
-      "price_24h": 0.73613972,
+      "price_24h": 0.72778552,
       "change_1h_pct": 0.35,
-      "change_24h_pct": 6.91,
+      "change_24h_pct": 5.69,
       "market_cap_at_tweet": 5508695360.0
     },
     {
@@ -6902,9 +6902,9 @@
       "impressions": 348545,
       "price_at_tweet": 0.68858692,
       "price_1h": 0.69102727,
-      "price_24h": 0.73613972,
+      "price_24h": 0.72778552,
       "change_1h_pct": 0.35,
-      "change_24h_pct": 6.91,
+      "change_24h_pct": 5.69,
       "market_cap_at_tweet": 5508695360.0
     },
     {
@@ -6922,9 +6922,9 @@
       "impressions": 905766,
       "price_at_tweet": 0.68858692,
       "price_1h": 0.69102727,
-      "price_24h": 0.73613972,
+      "price_24h": 0.72778552,
       "change_1h_pct": 0.35,
-      "change_24h_pct": 6.91,
+      "change_24h_pct": 5.69,
       "market_cap_at_tweet": 5508695360.0
     },
     {
@@ -6942,9 +6942,9 @@
       "impressions": 227493,
       "price_at_tweet": 0.69938268,
       "price_1h": 0.70001787,
-      "price_24h": 0.73613972,
+      "price_24h": 0.77213825,
       "change_1h_pct": 0.09,
-      "change_24h_pct": 5.26,
+      "change_24h_pct": 10.4,
       "market_cap_at_tweet": 5595061440.0
     },
     {
@@ -6962,10 +6962,30 @@
       "impressions": 192746,
       "price_at_tweet": 0.70919464,
       "price_1h": 0.71300183,
-      "price_24h": 0.73613972,
+      "price_24h": 0.77022726,
       "change_1h_pct": 0.54,
-      "change_24h_pct": 3.8,
+      "change_24h_pct": 8.61,
       "market_cap_at_tweet": 5673557120.0
+    },
+    {
+      "tweet_id": "2011288857267094008",
+      "asset_id": "aster",
+      "asset_name": "ASTER",
+      "founder": "cz_binance",
+      "asset_color": "#F0B90B",
+      "timestamp": 1768363606,
+      "timestamp_iso": "2026-01-13T23:06:46Z",
+      "text": "Continue to Build! https://t.co/Bwz8QZHxvZ",
+      "likes": 1532,
+      "retweets": 182,
+      "replies": 775,
+      "impressions": 205328,
+      "price_at_tweet": 0.72916541,
+      "price_1h": 0.72795451,
+      "price_24h": 0.77022726,
+      "change_1h_pct": -0.17,
+      "change_24h_pct": 5.63,
+      "market_cap_at_tweet": 5833323280.0
     }
   ]
 }

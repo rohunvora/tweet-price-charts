@@ -1,31 +1,31 @@
 {
-  "generated_at": "2026-01-13T23:34:06.289449Z",
+  "generated_at": "2026-01-14T10:16:53.559181Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "summary": {
-    "total_tweets": 348,
-    "tweets_with_price": 348,
+    "total_tweets": 349,
+    "tweets_with_price": 349,
     "date_range": {
       "start": "2025-09-17",
       "end": "2026-01-13"
     },
-    "total_days_analyzed": 119
+    "total_days_analyzed": 120
   },
   "daily_comparison": {
-    "tweet_day_count": 98,
-    "tweet_day_avg_return": 1.41,
-    "tweet_day_win_rate": 44.9,
+    "tweet_day_count": 99,
+    "tweet_day_avg_return": 1.44,
+    "tweet_day_win_rate": 45.5,
     "tweet_day_distribution": {
-      "count": 98,
-      "mean": 1.41,
-      "median": -0.27,
-      "std_dev": 14.1,
+      "count": 99,
+      "mean": 1.44,
+      "median": -0.22,
+      "std_dev": 14.03,
       "min": -25.29,
       "max": 88.34,
-      "q1": -3.84,
-      "q3": 2.18,
-      "positive_count": 44,
+      "q1": -3.77,
+      "q3": 2.34,
+      "positive_count": 45,
       "negative_count": 54
     },
     "no_tweet_day_count": 20,
@@ -43,16 +43,16 @@
       "positive_count": 11,
       "negative_count": 9
     },
-    "t_statistic": 0.418,
-    "p_value": 0.6768,
+    "t_statistic": 0.43,
+    "p_value": 0.6678,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.466,
+    "correlation_7d": 0.464,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 119,
+    "sample_size": 120,
     "strength_label": "moderate"
   },
   "current_status": {
@@ -65,8 +65,9 @@
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Small sample: only 98 tweet-days analyzed",
-      "Limited history: 119 days may not capture full market cycles",
+      "Small sample: only 99 tweet-days analyzed",
+      "Limited history: 120 days may not capture full market cycles",
+      "Win rate of 45.5% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },

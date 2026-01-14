@@ -1,32 +1,32 @@
 {
-  "generated_at": "2026-01-13T23:35:59.668876Z",
+  "generated_at": "2026-01-14T10:18:25.915369Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
   "summary": {
-    "total_tweets": 116,
-    "tweets_with_price": 116,
+    "total_tweets": 118,
+    "tweets_with_price": 118,
     "date_range": {
       "start": "2025-08-06",
-      "end": "2026-01-11"
+      "end": "2026-01-14"
     },
-    "total_days_analyzed": 3362
+    "total_days_analyzed": 3363
   },
   "daily_comparison": {
-    "tweet_day_count": 51,
-    "tweet_day_avg_return": 0.66,
-    "tweet_day_win_rate": 45.1,
+    "tweet_day_count": 52,
+    "tweet_day_avg_return": 0.63,
+    "tweet_day_win_rate": 44.2,
     "tweet_day_distribution": {
-      "count": 51,
-      "mean": 0.66,
-      "median": -0.89,
-      "std_dev": 8.24,
+      "count": 52,
+      "mean": 0.63,
+      "median": -0.83,
+      "std_dev": 8.16,
       "min": -19.75,
       "max": 21.96,
-      "q1": -5.22,
-      "q3": 4.5,
+      "q1": -5.18,
+      "q3": 3.99,
       "positive_count": 23,
-      "negative_count": 28
+      "negative_count": 29
     },
     "no_tweet_day_count": 3310,
     "no_tweet_day_avg_return": 0.19,
@@ -43,30 +43,29 @@
       "positive_count": 1640,
       "negative_count": 1662
     },
-    "t_statistic": 0.421,
-    "p_value": 0.674,
+    "t_statistic": 0.405,
+    "p_value": 0.6853,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.266,
+    "correlation_7d": 0.269,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 3362,
+    "sample_size": 3363,
     "strength_label": "weak"
   },
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2026-01-11"
+    "last_tweet_date": "2026-01-14"
   },
   "limitations": {
     "sample_size_warning": true,
     "borderline_significance": false,
     "short_history": false,
     "notes": [
-      "Small sample: only 51 tweet-days analyzed",
-      "Win rate of 45.1% is near random (50%)",
+      "Small sample: only 52 tweet-days analyzed",
       "Correlation does not imply causation"
     ]
   },
