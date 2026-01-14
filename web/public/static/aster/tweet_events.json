@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T11:13:54.736036Z",
+  "generated_at": "2026-01-14T12:19:27.089913Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 349,
+  "count": 350,
   "events": [
     {
       "tweet_id": "1968291567309115458",
@@ -6962,9 +6962,9 @@
       "impressions": 192746,
       "price_at_tweet": 0.70919464,
       "price_1h": 0.71300183,
-      "price_24h": 0.77022726,
+      "price_24h": 0.75338733,
       "change_1h_pct": 0.54,
-      "change_24h_pct": 8.61,
+      "change_24h_pct": 6.23,
       "market_cap_at_tweet": 5673557120.0
     },
     {
@@ -6982,10 +6982,30 @@
       "impressions": 205328,
       "price_at_tweet": 0.72916541,
       "price_1h": 0.72795451,
-      "price_24h": 0.77022726,
+      "price_24h": 0.75338733,
       "change_1h_pct": -0.17,
-      "change_24h_pct": 5.63,
+      "change_24h_pct": 3.32,
       "market_cap_at_tweet": 5833323280.0
+    },
+    {
+      "tweet_id": "2011400178448965745",
+      "asset_id": "aster",
+      "asset_name": "ASTER",
+      "founder": "cz_binance",
+      "asset_color": "#F0B90B",
+      "timestamp": 1768390147,
+      "timestamp_iso": "2026-01-14T06:29:07Z",
+      "text": "Will host a Chinese (last one was English) AMA on Binance Square in a few minutes.",
+      "likes": 1389,
+      "retweets": 87,
+      "replies": 888,
+      "impressions": 108861,
+      "price_at_tweet": 0.73589319,
+      "price_1h": 0.73505665,
+      "price_24h": 0.75338733,
+      "change_1h_pct": -0.11,
+      "change_24h_pct": 2.38,
+      "market_cap_at_tweet": 5887145520.0
     }
   ]
 }

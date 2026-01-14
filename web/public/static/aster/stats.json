@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-01-14T11:13:55.056604Z",
+  "generated_at": "2026-01-14T12:19:27.415971Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "summary": {
-    "total_tweets": 349,
-    "tweets_with_price": 349,
+    "total_tweets": 350,
+    "tweets_with_price": 350,
     "date_range": {
       "start": "2025-09-17",
-      "end": "2026-01-13"
+      "end": "2026-01-14"
     },
     "total_days_analyzed": 120
   },
@@ -58,7 +58,7 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2026-01-13"
+    "last_tweet_date": "2026-01-14"
   },
   "limitations": {
     "sample_size_warning": true,
