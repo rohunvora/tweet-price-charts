@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-14T12:20:45.323938Z",
+  "generated_at": "2026-01-14T13:26:22.418298Z",
   "asset": "wld",
   "asset_name": "WLD",
   "founder": "sama",
@@ -82,8 +82,8 @@
     },
     {
       "start_ts": 1731361860,
-      "end_ts": 1768411245,
-      "gap_days": 428.8,
+      "end_ts": 1768415182,
+      "gap_days": 428.9,
       "start_date": "2024-11-11",
       "end_date": "ongoing",
       "is_current": true,
