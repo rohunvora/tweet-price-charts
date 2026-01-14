@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T13:26:36.444737Z",
+  "generated_at": "2026-01-14T14:18:22.180492Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
   "founder_type": "adopter",
   "price_definition": "candle close at minute boundary",
-  "count": 118,
+  "count": 119,
   "events": [
     {
       "tweet_id": "1953167961100898386",
@@ -2342,9 +2342,9 @@
       "impressions": 9549,
       "price_at_tweet": 411.84,
       "price_1h": 415.59,
-      "price_24h": 415.1,
+      "price_24h": 415.77,
       "change_1h_pct": 0.91,
-      "change_24h_pct": 0.79,
+      "change_24h_pct": 0.95,
       "market_cap_at_tweet": 6795360000.0
     },
     {
@@ -2362,10 +2362,30 @@
       "impressions": 7581,
       "price_at_tweet": 411.84,
       "price_1h": 415.59,
-      "price_24h": 415.1,
+      "price_24h": 415.77,
       "change_1h_pct": 0.91,
-      "change_24h_pct": 0.79,
+      "change_24h_pct": 0.95,
       "market_cap_at_tweet": 6795360000.0
+    },
+    {
+      "tweet_id": "2011428632796053864",
+      "asset_id": "zec",
+      "asset_name": "ZEC",
+      "founder": "mert",
+      "asset_color": "#F4B728",
+      "timestamp": 1768396931,
+      "timestamp_iso": "2026-01-14T08:22:11Z",
+      "text": "might mess around and ship an open-source desktop/terminal wallet for zcash \n\ncan't be deplatformed from app/chrome stores, internet-safe mode that requires hardware key for signing etc",
+      "likes": 117,
+      "retweets": 3,
+      "replies": 42,
+      "impressions": 3740,
+      "price_at_tweet": 411.81,
+      "price_1h": 412.36,
+      "price_24h": 415.77,
+      "change_1h_pct": 0.13,
+      "change_24h_pct": 0.96,
+      "market_cap_at_tweet": 6794865000.0
     }
   ],
   "keyword_filter": "zec,zcash",
