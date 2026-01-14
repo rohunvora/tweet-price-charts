@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-14T17:17:06.252134Z",
+  "generated_at": "2026-01-14T18:17:12.880943Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
@@ -38262,9 +38262,9 @@
       "impressions": 7299,
       "price_at_tweet": 0.40374053,
       "price_1h": 0.40293612,
-      "price_24h": 0.43562442,
+      "price_24h": 0.42061835,
       "change_1h_pct": -0.2,
-      "change_24h_pct": 7.9,
+      "change_24h_pct": 4.18,
       "market_cap_at_tweet": 403732342.55
     },
     {
@@ -38282,9 +38282,9 @@
       "impressions": 10289,
       "price_at_tweet": 0.40293612,
       "price_1h": 0.42294268,
-      "price_24h": 0.43562442,
+      "price_24h": 0.42061835,
       "change_1h_pct": 4.97,
-      "change_24h_pct": 8.11,
+      "change_24h_pct": 4.39,
       "market_cap_at_tweet": 402927948.86
     },
     {
@@ -38302,9 +38302,9 @@
       "impressions": 1129,
       "price_at_tweet": 0.41966479,
       "price_1h": 0.41863926,
-      "price_24h": 0.43562442,
+      "price_24h": 0.42061835,
       "change_1h_pct": -0.24,
-      "change_24h_pct": 3.8,
+      "change_24h_pct": 0.23,
       "market_cap_at_tweet": 419656279.62
     },
     {
@@ -38322,9 +38322,9 @@
       "impressions": 811,
       "price_at_tweet": 0.41863926,
       "price_1h": 0.41764496,
-      "price_24h": 0.43562442,
+      "price_24h": 0.42061835,
       "change_1h_pct": -0.24,
-      "change_24h_pct": 4.06,
+      "change_24h_pct": 0.47,
       "market_cap_at_tweet": 418630770.41
     }
   ],
