@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T16:17:04.218409Z",
+  "generated_at": "2026-01-14T17:17:06.558363Z",
   "asset": "fartcoin",
   "asset_name": "FARTCOIN",
   "founder": "DipWheeler",
   "summary": {
-    "total_tweets": 1915,
-    "tweets_with_price": 1915,
+    "total_tweets": 1916,
+    "tweets_with_price": 1916,
     "date_range": {
       "start": "2024-10-24",
       "end": "2026-01-14"

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T16:18:56.324588Z",
+  "generated_at": "2026-01-14T17:18:41.976809Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
   "summary": {
-    "total_tweets": 119,
-    "tweets_with_price": 119,
+    "total_tweets": 120,
+    "tweets_with_price": 120,
     "date_range": {
       "start": "2025-08-06",
       "end": "2026-01-14"
