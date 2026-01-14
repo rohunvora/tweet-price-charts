@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T19:12:45.622197Z",
+  "generated_at": "2026-01-14T20:12:41.387057Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 350,
+  "count": 351,
   "events": [
     {
       "tweet_id": "1968291567309115458",
@@ -6982,9 +6982,9 @@
       "impressions": 205328,
       "price_at_tweet": 0.72916541,
       "price_1h": 0.72795451,
-      "price_24h": 0.74273504,
+      "price_24h": 0.74507834,
       "change_1h_pct": -0.17,
-      "change_24h_pct": 1.86,
+      "change_24h_pct": 2.18,
       "market_cap_at_tweet": 5833323280.0
     },
     {
@@ -7002,10 +7002,30 @@
       "impressions": 108861,
       "price_at_tweet": 0.73589319,
       "price_1h": 0.73505665,
-      "price_24h": 0.74273504,
+      "price_24h": 0.74507834,
       "change_1h_pct": -0.11,
-      "change_24h_pct": 0.93,
+      "change_24h_pct": 1.25,
       "market_cap_at_tweet": 5887145520.0
+    },
+    {
+      "tweet_id": "2011521487942140162",
+      "asset_id": "aster",
+      "asset_name": "ASTER",
+      "founder": "cz_binance",
+      "asset_color": "#F0B90B",
+      "timestamp": 1768419069,
+      "timestamp_iso": "2026-01-14T14:31:09Z",
+      "text": "That's the most obvious thing in the world to me. \n\n(not financial advice) https://t.co/iy7qg4PpJN",
+      "likes": 1528,
+      "retweets": 152,
+      "replies": 540,
+      "impressions": 110082,
+      "price_at_tweet": 0.74648289,
+      "price_1h": 0.74459827,
+      "price_24h": 0.74507834,
+      "change_1h_pct": -0.25,
+      "change_24h_pct": -0.19,
+      "market_cap_at_tweet": 5971863120.0
     }
   ]
 }
