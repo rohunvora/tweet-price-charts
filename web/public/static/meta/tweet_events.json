@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T07:18:11.288167Z",
+  "generated_at": "2026-01-15T08:18:13.276742Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 149,
+  "count": 150,
   "events": [
     {
       "tweet_id": "1975223659758596572",
@@ -2986,6 +2986,26 @@
       "change_1h_pct": -5.61,
       "change_24h_pct": -1.25,
       "market_cap_at_tweet": 133234050.49
+    },
+    {
+      "tweet_id": "2011701518593056942",
+      "asset_id": "meta",
+      "asset_name": "META",
+      "founder": "metaproph3t",
+      "asset_color": "#3B82F6",
+      "timestamp": 1768461992,
+      "timestamp_iso": "2026-01-15T02:26:32Z",
+      "text": "would a 20 day grace period on proposals post-launch do any good?",
+      "likes": 9,
+      "retweets": 0,
+      "replies": 9,
+      "impressions": 853,
+      "price_at_tweet": 6.0564527,
+      "price_1h": 5.86870011,
+      "price_24h": 5.84984088,
+      "change_1h_pct": -3.1,
+      "change_24h_pct": -3.41,
+      "market_cap_at_tweet": 134105960.83
     }
   ]
 }
