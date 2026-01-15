@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T06:18:52.435464Z",
+  "generated_at": "2026-01-15T07:18:23.096974Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 80,
+  "count": 81,
   "events": [
     {
       "tweet_id": "1992934059283206194",
@@ -1582,9 +1582,9 @@
       "impressions": 1349,
       "price_at_tweet": 0.02410702,
       "price_1h": 0.02397738,
-      "price_24h": 0.02269792,
+      "price_24h": 0.02262913,
       "change_1h_pct": -0.54,
-      "change_24h_pct": -5.85,
+      "change_24h_pct": -6.13,
       "market_cap_at_tweet": 261093090.54
     },
     {
@@ -1602,10 +1602,30 @@
       "impressions": 1676,
       "price_at_tweet": 0.02394302,
       "price_1h": 0.02341319,
-      "price_24h": 0.02269792,
+      "price_24h": 0.02262913,
       "change_1h_pct": -2.21,
-      "change_24h_pct": -5.2,
+      "change_24h_pct": -5.49,
       "market_cap_at_tweet": 259316874.86
+    },
+    {
+      "tweet_id": "2011684873954881952",
+      "asset_id": "monad",
+      "asset_name": "MON",
+      "founder": "keoneHD",
+      "asset_color": "#836EF9",
+      "timestamp": 1768458023,
+      "timestamp_iso": "2026-01-15T01:20:23Z",
+      "text": "Tokenizing future earnings will be one of the big breakout apps. \n\nIncome smoothing creates immense value; not easy to solve all the hurdles, but some amazing founder is going to figure it out. It\u2019ll look so obvious in hindsight",
+      "likes": 88,
+      "retweets": 3,
+      "replies": 31,
+      "impressions": 1774,
+      "price_at_tweet": 0.02277186,
+      "price_1h": 0.02259377,
+      "price_24h": 0.02262913,
+      "change_1h_pct": -0.78,
+      "change_24h_pct": -0.63,
+      "market_cap_at_tweet": 246632528.81
     }
   ]
 }
