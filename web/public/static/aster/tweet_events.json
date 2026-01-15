@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T15:14:56.668484Z",
+  "generated_at": "2026-01-15T16:19:30.008949Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 353,
+  "count": 354,
   "events": [
     {
       "tweet_id": "1968291567309115458",
@@ -7066,6 +7066,26 @@
       "change_1h_pct": -0.24,
       "change_24h_pct": -1.16,
       "market_cap_at_tweet": 5982043040.0
+    },
+    {
+      "tweet_id": "2011832749867643368",
+      "asset_id": "aster",
+      "asset_name": "ASTER",
+      "founder": "cz_binance",
+      "asset_color": "#F0B90B",
+      "timestamp": 1768493280,
+      "timestamp_iso": "2026-01-15T11:08:00Z",
+      "text": "Not vs, just &amp;.\n\nBNB Chain vs Ethereum - 2025's EVM adoption trends are now giving way to... - AMBCrypto https://t.co/oYdYxHZgqK.",
+      "likes": 386,
+      "retweets": 28,
+      "replies": 302,
+      "impressions": 24764,
+      "price_at_tweet": 0.74672886,
+      "price_1h": 0.74089604,
+      "price_24h": 0.73904804,
+      "change_1h_pct": -0.78,
+      "change_24h_pct": -1.03,
+      "market_cap_at_tweet": 5973830880.0
     }
   ]
 }
