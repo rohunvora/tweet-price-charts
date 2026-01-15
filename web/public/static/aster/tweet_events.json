@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T16:19:30.008949Z",
+  "generated_at": "2026-01-15T17:20:04.895357Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 354,
+  "count": 355,
   "events": [
     {
       "tweet_id": "1968291567309115458",
@@ -7042,9 +7042,9 @@
       "impressions": 52474,
       "price_at_tweet": 0.74630223,
       "price_1h": 0.73720643,
-      "price_24h": 0.73904804,
+      "price_24h": 0.72253206,
       "change_1h_pct": -1.22,
-      "change_24h_pct": -0.97,
+      "change_24h_pct": -3.19,
       "market_cap_at_tweet": 5970417840.0
     },
     {
@@ -7062,9 +7062,9 @@
       "impressions": 68009,
       "price_at_tweet": 0.74775538,
       "price_1h": 0.74597987,
-      "price_24h": 0.73904804,
+      "price_24h": 0.72253206,
       "change_1h_pct": -0.24,
-      "change_24h_pct": -1.16,
+      "change_24h_pct": -3.37,
       "market_cap_at_tweet": 5982043040.0
     },
     {
@@ -7082,9 +7082,29 @@
       "impressions": 24764,
       "price_at_tweet": 0.74672886,
       "price_1h": 0.74089604,
-      "price_24h": 0.73904804,
+      "price_24h": 0.72253206,
       "change_1h_pct": -0.78,
-      "change_24h_pct": -1.03,
+      "change_24h_pct": -3.24,
+      "market_cap_at_tweet": 5973830880.0
+    },
+    {
+      "tweet_id": "2011840985085722926",
+      "asset_id": "aster",
+      "asset_name": "ASTER",
+      "founder": "cz_binance",
+      "asset_color": "#F0B90B",
+      "timestamp": 1768495243,
+      "timestamp_iso": "2026-01-15T11:40:43Z",
+      "text": "This 6 min video took about 7 min of my time to shoot. Not rehearsed, just answered a few questions, and that was it. Very well cut. https://t.co/QRDoncJ4op",
+      "likes": 669,
+      "retweets": 72,
+      "replies": 433,
+      "impressions": 96982,
+      "price_at_tweet": 0.74672886,
+      "price_1h": 0.74089604,
+      "price_24h": 0.72253206,
+      "change_1h_pct": -0.78,
+      "change_24h_pct": -3.24,
       "market_cap_at_tweet": 5973830880.0
     }
   ]

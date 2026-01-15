@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T16:20:23.563651Z",
+  "generated_at": "2026-01-15T17:21:00.704129Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
@@ -3002,9 +3002,9 @@
       "impressions": 853,
       "price_at_tweet": 6.0564527,
       "price_1h": 5.86870011,
-      "price_24h": 5.83451032,
+      "price_24h": 5.95466431,
       "change_1h_pct": -3.1,
-      "change_24h_pct": -3.66,
+      "change_24h_pct": -1.68,
       "market_cap_at_tweet": 134105960.83
     }
   ]
