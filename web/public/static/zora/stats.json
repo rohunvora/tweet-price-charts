@@ -1,50 +1,50 @@
 {
-  "generated_at": "2026-01-15T18:22:59.914641Z",
+  "generated_at": "2026-01-15T19:19:50.909762Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
   "summary": {
-    "total_tweets": 458,
-    "tweets_with_price": 458,
+    "total_tweets": 459,
+    "tweets_with_price": 459,
     "date_range": {
       "start": "2025-04-23",
-      "end": "2026-01-14"
+      "end": "2026-01-15"
     },
     "total_days_analyzed": 268
   },
   "daily_comparison": {
-    "tweet_day_count": 149,
-    "tweet_day_avg_return": 1.45,
-    "tweet_day_win_rate": 47.0,
+    "tweet_day_count": 150,
+    "tweet_day_avg_return": 1.4,
+    "tweet_day_win_rate": 46.7,
     "tweet_day_distribution": {
-      "count": 149,
-      "mean": 1.45,
-      "median": -0.77,
-      "std_dev": 13.17,
+      "count": 150,
+      "mean": 1.4,
+      "median": -0.84,
+      "std_dev": 13.14,
       "min": -21.69,
       "max": 77.31,
-      "q1": -5.78,
-      "q3": 5.46,
+      "q1": -5.75,
+      "q3": 5.45,
       "positive_count": 70,
-      "negative_count": 79
+      "negative_count": 80
     },
-    "no_tweet_day_count": 118,
-    "no_tweet_day_avg_return": -0.09,
-    "no_tweet_day_win_rate": 42.4,
+    "no_tweet_day_count": 117,
+    "no_tweet_day_avg_return": -0.05,
+    "no_tweet_day_win_rate": 42.7,
     "no_tweet_day_distribution": {
-      "count": 118,
-      "mean": -0.09,
-      "median": -1.28,
-      "std_dev": 7.96,
+      "count": 117,
+      "mean": -0.05,
+      "median": -1.17,
+      "std_dev": 7.97,
       "min": -16.56,
       "max": 33.02,
-      "q1": -4.57,
-      "q3": 3.23,
+      "q1": -4.55,
+      "q3": 3.4,
       "positive_count": 50,
-      "negative_count": 68
+      "negative_count": 67
     },
-    "t_statistic": 1.116,
-    "p_value": 0.2652,
+    "t_statistic": 1.049,
+    "p_value": 0.2952,
     "significant": false,
     "confidence_label": "none"
   },
@@ -58,7 +58,7 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2026-01-14"
+    "last_tweet_date": "2026-01-15"
   },
   "limitations": {
     "sample_size_warning": false,
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Limited history: 268 days may not capture full market cycles",
-      "Win rate of 47.0% is near random (50%)",
+      "Win rate of 46.7% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },

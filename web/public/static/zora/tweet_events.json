@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T18:22:59.545110Z",
+  "generated_at": "2026-01-15T19:19:50.556549Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 458,
+  "count": 459,
   "events": [
     {
       "tweet_id": "1915176536300310889",
@@ -9166,6 +9166,26 @@
       "change_1h_pct": 0.84,
       "change_24h_pct": -2.94,
       "market_cap_at_tweet": 376947100.0
+    },
+    {
+      "tweet_id": "2011828329897136260",
+      "asset_id": "zora",
+      "asset_name": "ZORA",
+      "founder": "js_horne",
+      "asset_color": "#5B5BD6",
+      "timestamp": 1768492226,
+      "timestamp_iso": "2026-01-15T10:50:26Z",
+      "text": "building with claude code https://t.co/hBEPpTAzfy",
+      "likes": 40,
+      "retweets": 1,
+      "replies": 7,
+      "impressions": 1709,
+      "price_at_tweet": 0.03677295,
+      "price_1h": 0.036683,
+      "price_24h": 0.03596991,
+      "change_1h_pct": -0.24,
+      "change_24h_pct": -2.18,
+      "market_cap_at_tweet": 367729500.0
     }
   ]
 }

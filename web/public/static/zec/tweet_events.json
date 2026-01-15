@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T18:22:46.257194Z",
+  "generated_at": "2026-01-15T19:19:38.059367Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
   "founder_type": "adopter",
   "price_definition": "candle close at minute boundary",
-  "count": 121,
+  "count": 122,
   "events": [
     {
       "tweet_id": "1953167961100898386",
@@ -2426,6 +2426,26 @@
       "change_1h_pct": 0.16,
       "change_24h_pct": 6.92,
       "market_cap_at_tweet": 6849150000.0
+    },
+    {
+      "tweet_id": "2011867368906277301",
+      "asset_id": "zec",
+      "asset_name": "ZEC",
+      "founder": "mert",
+      "asset_color": "#F4B728",
+      "timestamp": 1768501534,
+      "timestamp_iso": "2026-01-15T13:25:34Z",
+      "text": "encrypted money at planetary scale\n\nbrick by brick \n\nzcash had been sleeping for a long time, not anymore\n\nyou saw a glimpse of this recently, but we still have 99% of things left to ship \n\nthis will be a top 3 crypto pillar https://t.co/W9E59HlD21",
+      "likes": 117,
+      "retweets": 6,
+      "replies": 15,
+      "impressions": 5697,
+      "price_at_tweet": 443.82,
+      "price_1h": 438.02,
+      "price_24h": 414.16,
+      "change_1h_pct": -1.31,
+      "change_24h_pct": -6.68,
+      "market_cap_at_tweet": 7323030000.0
     }
   ],
   "keyword_filter": "zec,zcash",
