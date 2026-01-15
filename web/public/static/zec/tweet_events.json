@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T02:53:30.994795Z",
+  "generated_at": "2026-01-15T03:44:07.554247Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -2342,9 +2342,9 @@
       "impressions": 9549,
       "price_at_tweet": 411.84,
       "price_1h": 415.59,
-      "price_24h": 429.61,
+      "price_24h": 428.3,
       "change_1h_pct": 0.91,
-      "change_24h_pct": 4.31,
+      "change_24h_pct": 4.0,
       "market_cap_at_tweet": 6795360000.0
     },
     {
@@ -2362,9 +2362,9 @@
       "impressions": 7581,
       "price_at_tweet": 411.84,
       "price_1h": 415.59,
-      "price_24h": 429.61,
+      "price_24h": 428.3,
       "change_1h_pct": 0.91,
-      "change_24h_pct": 4.31,
+      "change_24h_pct": 4.0,
       "market_cap_at_tweet": 6795360000.0
     },
     {
@@ -2382,9 +2382,9 @@
       "impressions": 3740,
       "price_at_tweet": 411.81,
       "price_1h": 412.36,
-      "price_24h": 429.61,
+      "price_24h": 428.3,
       "change_1h_pct": 0.13,
-      "change_24h_pct": 4.32,
+      "change_24h_pct": 4.0,
       "market_cap_at_tweet": 6794865000.0
     },
     {
@@ -2402,9 +2402,9 @@
       "impressions": 1543,
       "price_at_tweet": 413.14,
       "price_1h": 415.1,
-      "price_24h": 429.61,
+      "price_24h": 428.3,
       "change_1h_pct": 0.47,
-      "change_24h_pct": 3.99,
+      "change_24h_pct": 3.67,
       "market_cap_at_tweet": 6816810000.0
     }
   ],

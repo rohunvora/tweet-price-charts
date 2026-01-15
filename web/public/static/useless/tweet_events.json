@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T02:53:00.410668Z",
+  "generated_at": "2026-01-15T03:43:39.141197Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -9242,9 +9242,9 @@
       "impressions": 16015,
       "price_at_tweet": 0.11568704,
       "price_1h": 0.11438585,
-      "price_24h": 0.10716261,
+      "price_24h": 0.10449078,
       "change_1h_pct": -1.12,
-      "change_24h_pct": -7.37,
+      "change_24h_pct": -9.68,
       "market_cap_at_tweet": 115581781.68
     },
     {
@@ -9262,9 +9262,9 @@
       "impressions": 14623,
       "price_at_tweet": 0.11673811,
       "price_1h": 0.117538,
-      "price_24h": 0.10716261,
+      "price_24h": 0.10449078,
       "change_1h_pct": 0.69,
-      "change_24h_pct": -8.2,
+      "change_24h_pct": -10.49,
       "market_cap_at_tweet": 116631895.36
     }
   ],
