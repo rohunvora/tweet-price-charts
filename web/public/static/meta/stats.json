@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T00:41:20.711697Z",
+  "generated_at": "2026-01-15T01:42:27.344350Z",
   "asset": "meta",
   "asset_name": "META",
   "founder": "metaproph3t",
@@ -10,7 +10,7 @@
       "start": "2025-10-06",
       "end": "2026-01-13"
     },
-    "total_days_analyzed": 100
+    "total_days_analyzed": 101
   },
   "daily_comparison": {
     "tweet_day_count": 59,
@@ -28,31 +28,31 @@
       "positive_count": 27,
       "negative_count": 32
     },
-    "no_tweet_day_count": 40,
-    "no_tweet_day_avg_return": -0.63,
-    "no_tweet_day_win_rate": 42.5,
+    "no_tweet_day_count": 41,
+    "no_tweet_day_avg_return": -0.55,
+    "no_tweet_day_win_rate": 43.9,
     "no_tweet_day_distribution": {
-      "count": 40,
-      "mean": -0.63,
-      "median": -1.08,
-      "std_dev": 7.3,
+      "count": 41,
+      "mean": -0.55,
+      "median": -1.0,
+      "std_dev": 7.23,
       "min": -12.81,
       "max": 17.74,
-      "q1": -6.13,
-      "q3": 3.1,
-      "positive_count": 17,
+      "q1": -5.97,
+      "q3": 3.07,
+      "positive_count": 18,
       "negative_count": 23
     },
-    "t_statistic": 1.176,
-    "p_value": 0.2423,
+    "t_statistic": 1.159,
+    "p_value": 0.2493,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.267,
-    "p_value": 0.0073,
+    "correlation_7d": 0.269,
+    "p_value": 0.0064,
     "significant": true,
-    "sample_size": 100,
+    "sample_size": 101,
     "strength_label": "weak"
   },
   "current_status": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 59 tweet-days analyzed",
-      "Limited history: 100 days may not capture full market cycles",
+      "Limited history: 101 days may not capture full market cycles",
       "Win rate of 45.8% is near random (50%)",
       "Correlation does not imply causation"
     ]

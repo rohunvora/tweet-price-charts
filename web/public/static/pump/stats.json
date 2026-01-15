@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T00:41:45.508937Z",
+  "generated_at": "2026-01-15T01:42:51.277969Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
@@ -10,7 +10,7 @@
       "start": "2025-07-14",
       "end": "2026-01-14"
     },
-    "total_days_analyzed": 185
+    "total_days_analyzed": 186
   },
   "daily_comparison": {
     "tweet_day_count": 71,
@@ -28,31 +28,31 @@
       "positive_count": 38,
       "negative_count": 33
     },
-    "no_tweet_day_count": 113,
-    "no_tweet_day_avg_return": -1.06,
-    "no_tweet_day_win_rate": 39.8,
+    "no_tweet_day_count": 114,
+    "no_tweet_day_avg_return": -1.05,
+    "no_tweet_day_win_rate": 40.4,
     "no_tweet_day_distribution": {
-      "count": 113,
-      "mean": -1.06,
-      "median": -1.66,
-      "std_dev": 7.3,
+      "count": 114,
+      "mean": -1.05,
+      "median": -1.44,
+      "std_dev": 7.27,
       "min": -27.46,
       "max": 16.38,
-      "q1": -6.21,
-      "q3": 3.31,
-      "positive_count": 45,
+      "q1": -6.08,
+      "q3": 3.27,
+      "positive_count": 46,
       "negative_count": 68
     },
-    "t_statistic": 2.117,
-    "p_value": 0.0356,
+    "t_statistic": 2.118,
+    "p_value": 0.0355,
     "significant": true,
     "confidence_label": "weak"
   },
   "correlation": {
-    "correlation_7d": 0.541,
+    "correlation_7d": 0.539,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 185,
+    "sample_size": 186,
     "strength_label": "moderate"
   },
   "current_status": {
@@ -66,7 +66,7 @@
     "short_history": true,
     "notes": [
       "Small sample: only 71 tweet-days analyzed",
-      "Limited history: 185 days may not capture full market cycles",
+      "Limited history: 186 days may not capture full market cycles",
       "Win rate of 53.5% is near random (50%)",
       "Correlation does not imply causation"
     ]
