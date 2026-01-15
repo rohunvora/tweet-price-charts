@@ -1,50 +1,50 @@
 {
-  "generated_at": "2026-01-15T05:17:15.751860Z",
+  "generated_at": "2026-01-15T06:17:45.362381Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "summary": {
-    "total_tweets": 351,
-    "tweets_with_price": 351,
+    "total_tweets": 352,
+    "tweets_with_price": 352,
     "date_range": {
       "start": "2025-09-17",
-      "end": "2026-01-14"
+      "end": "2026-01-15"
     },
     "total_days_analyzed": 121
   },
   "daily_comparison": {
-    "tweet_day_count": 99,
-    "tweet_day_avg_return": 1.44,
-    "tweet_day_win_rate": 45.5,
+    "tweet_day_count": 100,
+    "tweet_day_avg_return": 1.39,
+    "tweet_day_win_rate": 45.0,
     "tweet_day_distribution": {
-      "count": 99,
-      "mean": 1.44,
-      "median": -0.22,
-      "std_dev": 14.03,
+      "count": 100,
+      "mean": 1.39,
+      "median": -0.27,
+      "std_dev": 13.98,
       "min": -25.29,
       "max": 88.34,
-      "q1": -3.77,
-      "q3": 2.34,
+      "q1": -3.98,
+      "q3": 2.32,
       "positive_count": 45,
-      "negative_count": 54
+      "negative_count": 55
     },
-    "no_tweet_day_count": 21,
-    "no_tweet_day_avg_return": -0.13,
-    "no_tweet_day_win_rate": 52.4,
+    "no_tweet_day_count": 20,
+    "no_tweet_day_avg_return": 0.07,
+    "no_tweet_day_win_rate": 55.0,
     "no_tweet_day_distribution": {
-      "count": 21,
-      "mean": -0.13,
-      "median": 0.07,
-      "std_dev": 3.48,
+      "count": 20,
+      "mean": 0.07,
+      "median": 0.26,
+      "std_dev": 3.43,
       "min": -9.51,
       "max": 6.33,
-      "q1": -1.27,
-      "q3": 1.48,
+      "q1": -0.96,
+      "q3": 1.67,
       "positive_count": 11,
-      "negative_count": 10
+      "negative_count": 9
     },
-    "t_statistic": 0.507,
-    "p_value": 0.6128,
+    "t_statistic": 0.414,
+    "p_value": 0.6796,
     "significant": false,
     "confidence_label": "none"
   },
@@ -58,16 +58,15 @@
   "current_status": {
     "days_since_last_tweet": 0,
     "price_change_during_silence": null,
-    "last_tweet_date": "2026-01-14"
+    "last_tweet_date": "2026-01-15"
   },
   "limitations": {
-    "sample_size_warning": true,
+    "sample_size_warning": false,
     "borderline_significance": false,
     "short_history": true,
     "notes": [
-      "Small sample: only 99 tweet-days analyzed",
       "Limited history: 121 days may not capture full market cycles",
-      "Win rate of 45.5% is near random (50%)",
+      "Win rate of 45.0% is near random (50%)",
       "Correlation does not imply causation"
     ]
   },
