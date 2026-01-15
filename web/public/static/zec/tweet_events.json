@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T03:44:07.554247Z",
+  "generated_at": "2026-01-15T04:30:02.390463Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -2382,9 +2382,9 @@
       "impressions": 3740,
       "price_at_tweet": 411.81,
       "price_1h": 412.36,
-      "price_24h": 428.3,
+      "price_24h": 425.23,
       "change_1h_pct": 0.13,
-      "change_24h_pct": 4.0,
+      "change_24h_pct": 3.26,
       "market_cap_at_tweet": 6794865000.0
     },
     {
@@ -2402,9 +2402,9 @@
       "impressions": 1543,
       "price_at_tweet": 413.14,
       "price_1h": 415.1,
-      "price_24h": 428.3,
+      "price_24h": 425.23,
       "change_1h_pct": 0.47,
-      "change_24h_pct": 3.67,
+      "change_24h_pct": 2.93,
       "market_cap_at_tweet": 6816810000.0
     }
   ],
