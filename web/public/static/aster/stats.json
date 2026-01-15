@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T13:25:11.019916Z",
+  "generated_at": "2026-01-15T14:15:02.969063Z",
   "asset": "aster",
   "asset_name": "ASTER",
   "founder": "cz_binance",
   "summary": {
-    "total_tweets": 352,
-    "tweets_with_price": 352,
+    "total_tweets": 353,
+    "tweets_with_price": 353,
     "date_range": {
       "start": "2025-09-17",
       "end": "2026-01-15"
