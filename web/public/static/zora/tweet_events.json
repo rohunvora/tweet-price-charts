@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T12:21:54.525466Z",
+  "generated_at": "2026-01-15T13:27:14.457721Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
@@ -9162,9 +9162,9 @@
       "impressions": 8508,
       "price_at_tweet": 0.03769471,
       "price_1h": 0.03801207,
-      "price_24h": 0.036683,
+      "price_24h": 0.03660292,
       "change_1h_pct": 0.84,
-      "change_24h_pct": -2.68,
+      "change_24h_pct": -2.9,
       "market_cap_at_tweet": 376947100.0
     }
   ]

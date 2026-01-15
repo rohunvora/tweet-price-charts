@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T12:20:54.076914Z",
+  "generated_at": "2026-01-15T13:26:12.048272Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
@@ -662,9 +662,9 @@
       "impressions": 1349,
       "price_at_tweet": 0.02410702,
       "price_1h": 0.02397738,
-      "price_24h": 0.02286741,
+      "price_24h": 0.02311106,
       "change_1h_pct": -0.54,
-      "change_24h_pct": -5.14,
+      "change_24h_pct": -4.13,
       "market_cap_at_tweet": 261093090.54
     },
     {
@@ -682,9 +682,9 @@
       "impressions": 1676,
       "price_at_tweet": 0.02394302,
       "price_1h": 0.02341319,
-      "price_24h": 0.02286741,
+      "price_24h": 0.02311106,
       "change_1h_pct": -2.21,
-      "change_24h_pct": -4.49,
+      "change_24h_pct": -3.47,
       "market_cap_at_tweet": 259316874.86
     }
   ],
