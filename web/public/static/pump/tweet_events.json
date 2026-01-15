@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T08:18:36.009409Z",
+  "generated_at": "2026-01-15T09:18:37.015592Z",
   "asset": "pump",
   "asset_name": "PUMP",
   "founder": "a1lon9",
@@ -2142,7 +2142,7 @@
       "impressions": 23554,
       "price_at_tweet": 0.00274721,
       "price_1h": 0.00280381,
-      "price_24h": 0.00272578,
+      "price_24h": 0.00272565,
       "change_1h_pct": 2.06,
       "change_24h_pct": -0.78,
       "market_cap_at_tweet": 2747180466.31

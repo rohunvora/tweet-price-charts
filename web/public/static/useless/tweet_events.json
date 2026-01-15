@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-15T08:18:41.262205Z",
+  "generated_at": "2026-01-15T09:18:42.072970Z",
   "asset": "useless",
   "asset_name": "USELESS",
   "founder": "theunipcs",
@@ -9262,9 +9262,9 @@
       "impressions": 14623,
       "price_at_tweet": 0.11673811,
       "price_1h": 0.117538,
-      "price_24h": 0.10793483,
+      "price_24h": 0.10805909,
       "change_1h_pct": 0.69,
-      "change_24h_pct": -7.54,
+      "change_24h_pct": -7.43,
       "market_cap_at_tweet": 116631895.36
     }
   ],
