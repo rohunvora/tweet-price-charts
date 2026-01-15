@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-15T04:30:15.028637Z",
+  "generated_at": "2026-01-15T05:19:17.305829Z",
   "asset": "zora",
   "asset_name": "ZORA",
   "founder": "js_horne",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 457,
+  "count": 458,
   "events": [
     {
       "tweet_id": "1915176536300310889",
@@ -9146,6 +9146,26 @@
       "change_1h_pct": 0.91,
       "change_24h_pct": 0.81,
       "market_cap_at_tweet": 374514900.0
+    },
+    {
+      "tweet_id": "2011528283616403474",
+      "asset_id": "zora",
+      "asset_name": "ZORA",
+      "founder": "js_horne",
+      "asset_color": "#5B5BD6",
+      "timestamp": 1768420689,
+      "timestamp_iso": "2026-01-14T14:58:09Z",
+      "text": "More traders means more demand which means more market growth. \n\nThis is a great move for the Base app to plug into the ecosystem in a much more complimentary way and play to the core strengths of Coinbase. https://t.co/ysc76LXXyw",
+      "likes": 117,
+      "retweets": 9,
+      "replies": 23,
+      "impressions": 8508,
+      "price_at_tweet": 0.03769471,
+      "price_1h": 0.03801207,
+      "price_24h": 0.03591015,
+      "change_1h_pct": 0.84,
+      "change_24h_pct": -4.73,
+      "market_cap_at_tweet": 376947100.0
     }
   ]
 }
