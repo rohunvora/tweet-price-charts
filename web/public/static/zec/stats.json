@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-14T23:14:35.475963Z",
+  "generated_at": "2026-01-15T00:42:19.887441Z",
   "asset": "zec",
   "asset_name": "ZEC",
   "founder": "mert",
@@ -10,7 +10,7 @@
       "start": "2025-08-06",
       "end": "2026-01-14"
     },
-    "total_days_analyzed": 3363
+    "total_days_analyzed": 3364
   },
   "daily_comparison": {
     "tweet_day_count": 52,
@@ -28,31 +28,31 @@
       "positive_count": 23,
       "negative_count": 29
     },
-    "no_tweet_day_count": 3310,
-    "no_tweet_day_avg_return": 0.19,
-    "no_tweet_day_win_rate": 49.5,
+    "no_tweet_day_count": 3311,
+    "no_tweet_day_avg_return": 0.2,
+    "no_tweet_day_win_rate": 49.6,
     "no_tweet_day_distribution": {
-      "count": 3310,
-      "mean": 0.19,
+      "count": 3311,
+      "mean": 0.2,
       "median": -0.02,
-      "std_dev": 7.77,
+      "std_dev": 7.78,
       "min": -83.03,
       "max": 249.76,
-      "q1": -2.82,
+      "q1": -2.81,
       "q3": 2.82,
-      "positive_count": 1640,
+      "positive_count": 1641,
       "negative_count": 1662
     },
-    "t_statistic": 0.405,
-    "p_value": 0.6853,
+    "t_statistic": 0.402,
+    "p_value": 0.6874,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": 0.269,
+    "correlation_7d": 0.272,
     "p_value": 0.0,
     "significant": true,
-    "sample_size": 3363,
+    "sample_size": 3364,
     "strength_label": "weak"
   },
   "current_status": {

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-01-14T23:13:42.213360Z",
+  "generated_at": "2026-01-15T00:41:26.038575Z",
   "asset": "monad",
   "asset_name": "MON",
   "founder": "keoneHD",
   "founder_type": "founder",
   "price_definition": "candle close at minute boundary",
-  "count": 32,
+  "count": 33,
   "events": [
     {
       "tweet_id": "1992934059283206194",
@@ -646,6 +646,26 @@
       "change_1h_pct": -0.73,
       "change_24h_pct": 4.15,
       "market_cap_at_tweet": 251488095.96
+    },
+    {
+      "tweet_id": "2011585638190235885",
+      "asset_id": "monad",
+      "asset_name": "MON",
+      "founder": "keoneHD",
+      "asset_color": "#836EF9",
+      "timestamp": 1768434364,
+      "timestamp_iso": "2026-01-14T18:46:04Z",
+      "text": "Congrats @AccountableData , now up to $38M in TVL with the cap increase of the Yuzu vault\n\nMON by MON",
+      "likes": 54,
+      "retweets": 2,
+      "replies": 13,
+      "impressions": 1349,
+      "price_at_tweet": 0.02410702,
+      "price_1h": 0.02397738,
+      "price_24h": 0.02272315,
+      "change_1h_pct": -0.54,
+      "change_24h_pct": -5.74,
+      "market_cap_at_tweet": 261093090.54
     }
   ],
   "keyword_filter": "mon,monad",

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-14T23:13:01.774579Z",
+  "generated_at": "2026-01-15T00:40:44.504054Z",
   "asset": "hype",
   "asset_name": "HYPE",
   "founder": "chameleon_jeff",
@@ -10,7 +10,7 @@
       "start": "2024-11-30",
       "end": "2026-01-01"
     },
-    "total_days_analyzed": 411
+    "total_days_analyzed": 412
   },
   "daily_comparison": {
     "tweet_day_count": 30,
@@ -28,36 +28,36 @@
       "positive_count": 18,
       "negative_count": 12
     },
-    "no_tweet_day_count": 380,
-    "no_tweet_day_avg_return": 0.63,
-    "no_tweet_day_win_rate": 49.5,
+    "no_tweet_day_count": 381,
+    "no_tweet_day_avg_return": 0.62,
+    "no_tweet_day_win_rate": 49.3,
     "no_tweet_day_distribution": {
-      "count": 380,
-      "mean": 0.63,
+      "count": 381,
+      "mean": 0.62,
       "median": -0.05,
-      "std_dev": 6.36,
+      "std_dev": 6.35,
       "min": -14.7,
       "max": 32.72,
       "q1": -3.27,
-      "q3": 4.06,
+      "q3": 4.04,
       "positive_count": 188,
-      "negative_count": 192
+      "negative_count": 193
     },
-    "t_statistic": -1.116,
-    "p_value": 0.2651,
+    "t_statistic": -1.114,
+    "p_value": 0.2658,
     "significant": false,
     "confidence_label": "none"
   },
   "correlation": {
-    "correlation_7d": -0.091,
-    "p_value": 0.0644,
+    "correlation_7d": -0.09,
+    "p_value": 0.0667,
     "significant": false,
-    "sample_size": 411,
+    "sample_size": 412,
     "strength_label": "negligible"
   },
   "current_status": {
     "days_since_last_tweet": 13,
-    "price_change_during_silence": 5.3,
+    "price_change_during_silence": 4.6,
     "last_tweet_date": "2026-01-01"
   },
   "limitations": {
@@ -312,14 +312,14 @@
     },
     {
       "start_ts": 1767290576,
-      "end_ts": 1768450381,
-      "gap_days": 13.4,
+      "end_ts": 1768455644,
+      "gap_days": 13.5,
       "start_date": "2026-01-01",
       "end_date": "ongoing",
       "is_current": true,
       "price_start": 24.582,
-      "price_end": 25.897,
-      "change_pct": 5.3
+      "price_end": 25.712,
+      "change_pct": 4.6
     }
   ]
 }
